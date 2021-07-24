@@ -1,0 +1,96 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block content %}
+<script src="{% static 'js/tournament-view-align.js' %}"></script>
+<section class="standard-left-column-30">
+    <div class="tournament-view standard-border">
+        <h3 class="my-account-title">ROSTER</h3>
+
+
+    </div>
+</section><section class="standard-center-column-40">
+    <div class="tournament-view-image standard-border">
+        <img src="{% static 'img/recent-preview-template.png'%}" alt="">
+        <h2 class="tournament-view-header">{{ tournament.tournament_name }}</h2>
+        <h3 class="tournament-view-location">{{ tournament.tournament_center }}</h3>
+    </div>
+    <div class="tournament-view-info standard-border">
+        <div class="tournament-view-info-qualifying">
+            <div class="tournament-info-slide-selector">
+                <a href="">DETAILS</a><!--
+                --><a href="" class="selected">QUALIFYING</a><!--
+                --><a href="">MATCH PLAY</a><!--
+                --><a href="">OIL PATTERNS</a>
+            </div>
+            <div class="tournament-view-qualifying-slide-label">
+                <a class="place"></a><!--
+                --><a class="name"></a><!--
+                --><a class="score">1</a><!--
+                --><a class="score">2</a><!--
+                --><a class="score">3</a><!--
+                --><a class="score">4</a><!--
+                --> <a class="total">TOTAL</a>
+            </div>
+            <div class="tournament-info-slide-container">
+
+
+                {% for row in tournament|qualifying %}
+                <div class="tournament-view-qualifying-slide">
+                    <a class="place">{{ row.0 }}</a><!--
+                    --><a class="name" href="/account/view/{{ row.4 }}">{{ row.1|safe }}</a><!--
+                    {% for x in row.2 %}
+                    --><a class="score">{{ x }}</a><!--
+                    {% endfor %}
+                    --><a class="total">{{ row.3 }}</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</section><section class="standard-right-column-30">
+    <div class="tournament-view standard-border">
+        <h3 class="my-account-title">INFO</h3>
+        <a class="standard-button" href="/tournaments/modify/{{ tournament.tournament_id }}">MODIFY</a>
+    </div>
+    <div class="tournament-view standard-border">
+        <h3 class="my-account-title">PAYOUT CALCULATOR</h3>
+
+        <input class="tournament-view-payout" type="range" min="30" max="90" value="60" class="slider" id="myRange">
+        <div class="tournament-view-payout-label-container">
+            <a class="first">30</a>
+            <a class="second">60</a>
+            <a class="third">90</a>
+        </div>
+        <a class="tournament-view-payout-header">ENTRIES</a>
+        <div class="tournament-view-slide">
+            <a class="tournament-view-place">1st</a>
+            <a class="tournament-view-pay">${{ payout.first }}</a>
+        </div>
+        <div class="tournament-view-underline"></div>
+        <div class="tournament-view-slide">
+            <a class="tournament-view-place">2nd</a>
+            <a class="tournament-view-pay">${{ payout.second }}</a>
+        </div>
+        <div class="tournament-view-underline"></div>
+        <div class="tournament-view-slide">
+            <a class="tournament-view-place">3rd-4th</a>
+            <a class="tournament-view-pay">${{ payout.thirdfourth }}</a>
+        </div>
+        <div class="tournament-view-underline"></div>
+        <div class="tournament-view-slide">
+            <a class="tournament-view-place">5th-8th</a>
+            <a class="tournament-view-pay">${{ payout.fiftheigth }}</a>
+        </div>
+        <div class="tournament-view-underline"></div>
+        <div class="tournament-view-slide">
+            <a class="tournament-view-place">High Lady/Senior</a>
+            <a class="tournament-view-pay">${{ payout.high }}</a>
+        </div>
+        <div class="tournament-view-payout-breakdown">
+            <a>Prize: $30</a><a>Lineage: $10</a><a>Expenses: $5</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

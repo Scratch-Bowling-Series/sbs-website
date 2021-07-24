@@ -1,0 +1,8 @@
+{% autoescape off %}
+<img width=95 height=50 src="https://res.cloudinary.com/dm8kycbps/image/upload/v1624959087/SBS_Logo_zhnva1.png">
+Welcome, {{ user.first_name }}!
+
+<h4>Please click the link below to activate your Scratch Bowling Series account.</h4>
+http://{{ domain }}{% url 'accounts:activate' uidb64=uid token=token %}
+
+{% endautoescape %}

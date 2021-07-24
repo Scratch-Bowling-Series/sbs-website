@@ -1,0 +1,133 @@
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'sbs-icons' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-circle1:before {
+  content: "\e920";
+}
+.icon-angle-down:before {
+  content: "\e921";
+}
+.icon-angle-up:before {
+  content: "\e922";
+}
+.icon-arrow-right:before {
+  content: "\e900";
+}
+.icon-bars:before {
+  content: "\e923";
+}
+.icon-bowling-ball:before {
+  content: "\e901";
+}
+.icon-circle:before {
+  content: "\e902";
+}
+.icon-cog:before {
+  content: "\e903";
+}
+.icon-exclamation:before {
+  content: "\e924";
+}
+.icon-exclamation-circle:before {
+  content: "\e925";
+}
+.icon-exclamation-triangle:before {
+  content: "\e926";
+}
+.icon-hand-paper:before {
+  content: "\e904";
+}
+.icon-level-up-alt:before {
+  content: "\e905";
+}
+.icon-location-arrow:before {
+  content: "\e906";
+}
+.icon-map-marked:before {
+  content: "\e907";
+}
+.icon-mobile-alt:before {
+  content: "\e908";
+}
+.icon-moon:before {
+  content: "\e909";
+}
+.icon-parking:before {
+  content: "\e91d";
+}
+.icon-pause:before {
+  content: "\e90a";
+}
+.icon-play:before {
+  content: "\e90b";
+}
+.icon-share-square:before {
+  content: "\e90c";
+}
+.icon-suitcase-rolling:before {
+  content: "\e90d";
+}
+.icon-th-large:before {
+  content: "\e90e";
+}
+.icon-th-list:before {
+  content: "\e90f";
+}
+.icon-times:before {
+  content: "\e910";
+}
+.icon-trash-alt:before {
+  content: "\e911";
+}
+.icon-trophy:before {
+  content: "\e912";
+}
+.icon-tshirt:before {
+  content: "\e913";
+}
+.icon-undo:before {
+  content: "\e914";
+}
+.icon-user-alt:before {
+  content: "\e915";
+}
+.icon-user-check:before {
+  content: "\e916";
+}
+.icon-user-cog:before {
+  content: "\e917";
+}
+.icon-user-plus:before {
+  content: "\e918";
+}
+.icon-user-times:before {
+  content: "\e919";
+}
+.icon-utensils:before {
+  content: "\e91a";
+}
+.icon-wheelchair:before {
+  content: "\e91b";
+}
+.icon-wifi:before {
+  content: "\e91e";
+}
+.icon-window-maximize:before {
+  content: "\e91c";
+}
+.icon-wine-glass-alt:before {
+  content: "\e91f";
+}

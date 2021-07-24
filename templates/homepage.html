@@ -1,0 +1,233 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block content %}
+
+
+
+<section class="col col-20">
+  <section class="sec bkg-darkgreen">
+    <h2 class="text-white">TOURNAMENT WINNERS</h2>
+    {% for tournament in tournament_winners %}
+    {% if tournament|winner is not None %}
+      <div class="row-b">
+        <a class="row-b-c row-b-c1 text-white">{{ tournament.tournament_date|date:'m/d' }}</a>
+        <a class="row-b-c row-b-c2 text-white span-white">{{ tournament|winner|bowler_name:True|safe }}</a>
+        <a class="row-b-btn btn btn-small bkg-white text-lightgreen border-none" href="/tournaments/view/{{ tournament.tournament_id }}">RESULTS</a>
+      </div>
+     {% endif %}
+    {% endfor %}
+    <a class="btn btn-full bkg-white text-lightgreen border-none">ALL TOURNAMENT RESULTS</a>
+  </section>
+  <section class="sec">
+    <h2>TOP 10 SBS RANKING</h2>
+    {% for top in top_ten_ranks %}
+      <div class="row-b">
+        <a class="row-b-c row-b-c1 bold {%if top.rank < 4%}text-tan{%endif%}">{{ top.rank|ordinal }}</a>
+        <a class="row-b-c row-b-c2">{{ top.user_id|bowler_name:True|safe }}</a>
+        <a class="row-b-btn btn btn-small border-none" href="/account/view/{{ top.user_id }}">VIEW</a>
+      </div>
+    {% endfor %}
+    <a class="btn btn-full text-white bkg-darkgreen border-none">VIEW RANKINGS</a>
+  </section>
+</section>
+
+
+<section class="col col-60">
+    {% if notify or user.finish_profile == True %}
+      {% if notify == 'verify_email' %}
+        <section class="sec">
+        <section class="top-notify">
+            <i class="icon-exclamation-circle"></i><h3>Welcome {{ first }}! Please verify your email to finish setting up your account. Can't find it?</h3><a class="btn">RESEND</a>
+        </section>
+    </section>
+      {% elif notify == 'verify_email_done' %}
+        <section class="sec">
+        <section class="top-notify">
+            <i class="icon-exclamation-circle"></i><h3>Your email is now verified! Please take a moment to finish completing your profile.</h3><a href="{% url 'accounts:modify' %}" class="btn">VIEW</a>
+        </section>
+    </section>
+      {% elif notify == 'verify_email_error' %}
+        <section class="sec">
+        <section class="top-notify">
+            <i class="icon-exclamation-circle"></i><h3>That email verification link is invalid.</h3><a class="btn">SUPPORT</a>
+        </section>
+    </section>
+      {% elif user.finish_profile == True %}
+        <section class="sec">
+        <section class="top-notify">
+            <i class="icon-exclamation-circle"></i><h3>Please take a moment to update your profile information.</h3><a href="{% url 'accounts:modify' %}" class="btn">UPDATE</a>
+        </section>
+    </section>
+      {% endif %}
+    {% endif %}
+    {% if tournament_live.is_live == True or True == True %}
+    <section class="sec live-prev">
+        <a class="live-prev-title">LIVE <span class="prefix"><i class="icon-circle"></i></span><span class="content">{{ tournament_live.center.name}}<span class="location">({{ tournament_live.center.city}}, {{ tournament_live.center.state}})</span></span></a>
+        <a class="btn btn-small live-prev-watch border-none">WATCH NOW</a>
+        <br>
+        <a class="live-prev-status std-hover">{{ tournament_live.status}}</a>
+        <a class="live-prev-leader std-hover"><i class="icon-level-up-alt"></i>{{ tournament_live.leader }}<span>{{ tournament_live.score }}</span></a>
+    </section>
+    {% endif %}
+    <section class="sec">
+        <div id="homepage-tournament-recent-preview">
+            <div></div><img id="homepage-tournament-recent-preview-watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
+        </div>
+        <section id="homepage-tournament-recent-content">
+        <a id="homepage-tournament-recent-title" href="/tournaments/view/{{ tournament_recent.tournament_id }}">{{ tournament_recent.tournament_name }}</a>
+        <a id="homepage-tournament-recent-date" href="/tournaments/view/{{ tournament_recent.tournament_id }}">{{ tournament_recent.tournament_date|date:'m/d' }} - {{ tournament_recent.tournament_center|none_replace:'Center Unknown' }}</a>
+        <a id="homepage-tournament-recent-description" href="/tournaments/view/{{ tournament_recent.tournament_id }}">{{ tournament_recent.description|none_replace:"This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set." }}</a>
+        <a id="homepage-tournament-recent-results" href="tournaments/view/{{tournament_recent.tournament_id }}">Read More</a>
+        <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank top-rank">1st</a><a class="homepage-tournament-recent-player-name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent|get_bowler_from_place:1|bowler_name:True|safe }}</a></div>
+        <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank">2nd</a><a class="homepage-tournament-recent-player-name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent|get_bowler_from_place:2|bowler_name:True|safe }}</a></div>
+        <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank">3rd</a><a class="homepage-tournament-recent-player-name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent|get_bowler_from_place:3|bowler_name:True|safe }}</a></div>
+        <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank">4th</a><a class="homepage-tournament-recent-player-name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent|get_bowler_from_place:4|bowler_name:True|safe }}</a></div>
+      </section>
+    </section>
+    <section class="sec sec-half merch-prev">
+        <h2>HELP HIT OUR NEXT GOAL</h2>
+        <div class="goal-prev">
+            <div class="support-goals-slide">
+                <div class="support-goals-slide-bar">
+                <div class="support-goals-slide-bar-circle">
+
+                </div>
+                <div class="goal-1 support-goals-slide-bar-inner top" style="top:50px;">
+                </div>
+            </div>
+                <div class="support-goals-slide-content">
+                    <a>$85,000</a>
+                    <h2>TRAVELING VAN</h2>
+                    <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sec sec-half app-prev">
+        <h2>OUR NEW MOBILE APP</h2>
+        <p>Try the BETA release of our app!<br>Now available on IOS and Android.</p>
+        <a class="btn">LEARN MORE</a>
+        <div class="app-prev-phone">
+            <span class="app-prev-phone-n1"><i></i> <span></span></span>
+            <span class="app-prev-phone-n2"><div></div></span>
+            <span class="app-prev-phone-n3"><div></div></span>
+            <img src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
+        </div>
+    </section>
+    <section class="sec">
+        <h2>LIVE STREAM HIGHLIGHTS</h2>
+        <div class="homepage-broadcast-clips-container">
+            <div class="homepage-broadcast-clip">
+                <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
+                <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
+                <h2>02/25 @ Thunderbowl Lanes</h2>
+            </div>
+            <div class="homepage-broadcast-clip">
+                <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
+                <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
+                <h2>02/25 @ Thunderbowl Lanes</h2>
+            </div>
+            <div class="homepage-broadcast-clip">
+                <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
+                <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
+                <h2>02/25 @ Thunderbowl Lanes</h2>
+            </div>
+        </div>
+    </section>
+</section>
+
+
+<section class="col col-60 col-mobile">
+      <section class="sec">
+        <h2>LIMITED TIME MERCHANDISE</h2>
+      </section>
+      <section class="sec">
+        <h2>FREQUENTLY ASKED QUESTIONS</h2>
+      </section>
+      <section class="sec">
+            <h2>LIVE STREAM HIGHLIGHTS</h2>
+            <div class="homepage-broadcast-clips-container">
+                <div class="homepage-broadcast-clip">
+                    <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
+                    <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
+                    <h2>@ Thunderbowl Lanes</h2>
+                </div>
+                <div class="homepage-broadcast-clip">
+                    <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
+                    <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
+                    <h2>@ Thunderbowl Lanes</h2>
+                </div>
+                <div class="homepage-broadcast-clip">
+                    <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
+                    <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
+                    <h2>@ Thunderbowl Lanes</h2>
+                </div>
+            </div>
+        </section>
+</section>
+
+
+<section class="col col-20" >
+    <section class="sec">
+        <h2>UPCOMING TOURNAMENTS</h2>
+
+        {% for upcoming in tournaments_upcoming %}
+          <div class="row-b {% if for.last %}highlighted-row{% endif %}">
+            <a class="row-b-c row-b-c1">{{ upcoming.tournament_date|date:"m/d"}}</a>
+            <a class="row-b-c row-b-c2">{{ upcoming.tournament_name|truncatechars:18 }}</a>
+            <a class="row-b-btn btn btn-small border-none" href="/tournaments/view/{{ upcoming.tournament_id }}">VIEW</a>
+          </div>
+        {% endfor %}
+
+        <div class="row-b">
+            <a class="row-b-c row-b-c1">01/25</a>
+            <a class="row-b-c row-b-c2">CYBER SWEEPER 2077</a>
+            <a class="row-b-btn btn btn-small border-none" href="/tournaments/view/{{ upcoming.tournament_id }}">VIEW</a>
+         </div>
+        <div class="row-b">
+            <a class="row-b-c row-b-c1 ">01/25</a>
+            <a class="row-b-c row-b-c2">CYBER SWEEPER 2077</a>
+            <a class="row-b-btn btn btn-small border-none" href="/tournaments/view/{{ upcoming.tournament_id }}">VIEW</a>
+         </div>
+        <div class="row-b">
+            <a class="row-b-c row-b-c1 ">01/25</a>
+            <a class="row-b-c row-b-c2">CYBER SWEEPER 2077</a>
+            <a class="row-b-btn btn btn-small border-none" href="/tournaments/view/{{ upcoming.tournament_id }}">VIEW</a>
+         </div>
+        <div class="row-b">
+            <a class="row-b-c row-b-c1 ">01/25</a>
+            <a class="row-b-c row-b-c2">CYBER SWEEPER 2077</a>
+            <a class="row-b-btn btn btn-small border-none" href="/tournaments/view/{{ upcoming.tournament_id }}">VIEW</a>
+         </div>
+        <a class="btn btn-full text-white bkg-darkgreen border-none">UPCOMING TOURNAMENTS</a>
+      </section>
+      {% if bowler_of_month is not None %}
+    <section class="sec">
+        <h2>BOWLER OF THE MONTH</h2>
+        <div class="bom-pic-wrap">
+            <a class="bom-pic-rank">127th</a>
+            <div class="bom-pic">
+                <img src="{{ bowler_of_month.picture.url }}" alt="{{ bowler_of_month.first_name}}'s profile picture">
+            </div>
+        </div>
+        <a class="bom-name">{{ bowler_of_month.first_name}}&nbsp;{{ bowler_of_month.last_name }}</a>
+        <a class="bom-location">{{ bowler_of_month.location_city }}, {{ bowler_of_month.location_state }}</a>
+        <a class="btn btn-full text-white bkg-darkgreen border-none" href="account/view/{{ bowler_of_month.user_id }}">VISIT PROFILE</a>
+      </section>
+      {% endif %}
+    <section class="sec sitestat">
+        <div class="sitestat-half">
+          <h4>ACTIVE BOWLERS</h4>
+          <h2>{% if users_count is None %}0{% else %}{{ users_count }}{% endif %}</h2>
+        </div><div class="sitestat-half">
+          <h4>TOURNAMENTS</h4>
+          <h2>{% if tournaments_count is None %}0{% else %}{{ tournaments_count }}{% endif %}</h2>
+        </div>
+      </section>  
+    <section class="sec">
+        <h2>BECOME A SUPPORTER!</h2>
+        <a class="btn btn-full text-white bkg-darkgreen">VISIT DONOR PAGE</a>
+    </section>
+</section>
+
+{% endblock %}

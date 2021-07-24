@@ -1,0 +1,46 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+<div class="standard-form standard-border">
+  <h1>CREATE AN ACCOUNT</h1>
+  <form class="site-form" action="{% url 'accounts:signup' %}" method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+      {% for error in field.errors %}
+      <p><i class="icon-exclamation-circle"></i>{{ error }}</p>
+      {% endfor %}
+    {% endfor %}
+
+    <label class="standard-form-label">FIRST NAME</label>
+    {{ form.first_name }}
+    <span class="standard-form-span">Required. 30 characters or fewer.</span>
+
+    <label class="standard-form-label">LAST NAME</label>
+    {{ form.last_name }}
+    <span class="standard-form-span">Required. 30 characters or fewer.</span>
+
+    <label class="standard-form-label">EMAIL ADDRESS</label>
+    {{ form.email }}
+    <span class="standard-form-span">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+
+
+    <label class="standard-form-label">PASSWORD</label>
+    {{ form.password }}
+    <ul>
+      <li>• Your password can’t contain personal information.</li>
+      <li>• Your password must contain at least 8 characters.</li>
+      <li>• Your password must contain at least 8 characters.</li>
+      <li>• Your password can’t be entirely numeric.</li>
+    </ul>
+
+    <label class="standard-form-label">CONFIRM PASSWORD</label>
+    {{ form.password_2 }}
+    <span class="standard-form-span">Enter the same password as before, for verification.</span>
+    <label class="standard-form-terms" for="id_submit">By clicking SIGN-UP, you agree to our <a href="#">Terms</a> and that you have read our <a href="#">Privacy Policy</a>.</label>
+    <div class="standard-form-buttons">
+      <input class="standard-button" type="submit" id="id_submit" name="" value="SIGN-UP">
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block content %}
+<div class="standard-form-small standard-form standard-border">
+  <h3 class="standard-form-header">Create a Tournament</h3>
+  <form class="site-form" action="{% url 'tournaments:create' %}" method="POST" enctype='multipart-formdata'>
+    {% csrf_token %}
+    {% for field in form %}
+      {% for error in field.errors %}
+      <p><i class="icon-exclamation-circle"></i>{{ error }}</p>
+      {% endfor %}
+    {% endfor %}
+    <label class="standard-form-label"> NAME</label>
+    {{ form.tournament_name }}
+    <label class="standard-form-label">DATE / TIME</label>
+    <input type="date" name="tournament_date" id="id_date"><input type="time" name="tournament_time" id="id_time">
+    <label class="standard-form-label">DESCRIPTION</label>
+    <textarea name="" id="" cols="30" rows="10"></textarea>
+    <label class="standard-form-label">ENTRY FEE</label>
+    {{ form.entry_fee }}
+    <label class="standard-form-label">CENTER</label>
+    {{ form.center }}
+    <label class="standard-form-label">FORMAT</label>
+    {{ form.format }}
+    <label class="standard-form-label">OIL PATTERN</label>
+    <input type="text">
+
+    <input type="submit" id="id_submit" name="" value="CREATE">
+  </form>
+</div>
+{% endblock %}

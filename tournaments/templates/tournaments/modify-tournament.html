@@ -1,0 +1,232 @@
+
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block content %}
+<section class="standard-left-column-30">
+  <div class="tournament-modify-left standard-form standard-border">
+  <h3 class="standard-form-header">MODIFY TOURNAMENT</h3>
+  <form class="site-form" action="/tournaments/modify/{{ tournament.tournament_id }}" method="POST" enctype='multipart-formdata'>
+    {% csrf_token %}
+    {% for field in form %}
+      {% for error in field.errors %}
+      <p><i class="icon-exclamation-circle"></i>{{ error }}</p>
+      {% endfor %}
+    {% endfor %}
+    <label class="standard-form-label"> NAME</label>
+    {{ form.tournament_name }}
+    <label class="standard-form-label">DATE / TIME</label>
+    <input type="date" name="tournament_date" id="id_tournament_date" value="{{ tournament.tournament_date|date:'Y-m-d' }}"><input type="time" name="tournament_time" id="id_tournament_time" value="{{ tournament.tournament_time|time:'H:i' }}">
+    <label class="standard-form-label">DESCRIPTION</label>
+    {{ form.tournament_description }}
+    <label class="standard-form-label">PICTURE</label>
+    <label for="id_picture" class="standard-form-file-upload" >
+      <i class="icon-cloud-upload"></i>&nbsp;&nbsp;Select File to be Uploaded
+    </label>
+    {{ form.picture }}
+    <label class="standard-form-label">CENTER</label>
+    {{ form.center }}
+	<label class="standard-form-label">FORMAT</label>
+    {{ form.format }}
+	<label class="standard-form-label">ENTRY FEE</label>
+    {{ form.entry_fee}}
+    <label class="standard-form-label">OIL PATTERN</label>
+    {{ form.total_games }}
+    <input type="submit" id="id_submit" name="" value="SAVE ALL">
+  </form>
+</div>
+</section><section class="standard-center-column-70 align-left">
+  <div class="tournament-modify-right standard-form standard-border">
+    <h3 class="standard-form-header">PLACEMENTS</h3>
+    <form action="">
+      <div class="tournament-input-slide-topper">
+        <label class="tournament-input-label-name tournament-input-label standard-form-label">BOWLER NAME</label>
+        <label class="tournament-input-label standard-form-label">1</label>
+        <label class="tournament-input-label standard-form-label">2</label>
+        <label class="tournament-input-label standard-form-label">3</label>
+        <label class="tournament-input-label standard-form-label">4</label>
+        <label class="tournament-input-label standard-form-label">5</label>
+        <label class="tournament-input-label standard-form-label">6</label>
+        <label class="tournament-input-label standard-form-label">7</label>
+        <label class="tournament-input-label standard-form-label">8</label>
+        <label class="tournament-input-label standard-form-label">9</label>
+        <label class="tournament-input-label standard-form-label">TOTAL</label>
+
+      </div>
+      <div class="tournament-input-slide">
+        <input type="text" placeholder="NAME">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <span class="tournament-input-total">0</span>
+      </div>
+      <div class="tournament-input-divider tournament-underline"></div>
+      <div class="tournament-input-slide">
+        <input type="text" placeholder="NAME">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <span class="tournament-input-total">0</span>
+      </div><div class="tournament-input-divider tournament-underline"></div>
+      <div class="tournament-input-slide">
+        <input type="text" placeholder="NAME">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <span class="tournament-input-total">0</span>
+      </div><div class="tournament-input-divider tournament-underline"></div>
+      <div class="tournament-input-slide">
+        <input type="text" placeholder="NAME">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <span class="tournament-input-total">0</span>
+      </div><div class="tournament-input-divider tournament-underline"></div>
+      <div class="tournament-input-slide">
+        <input type="text" placeholder="NAME">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+        <span class="tournament-input-total">0</span>
+      </div>
+
+      <a href="" class="tournament-input-add-ten standard-button">ADD 10</a>
+      <a href="" class="tournament-input-add standard-button">ADD 1</a>
+
+    </form>
+  </div>
+  <div class="tournament-modify-left-bottom standard-form standard-border">
+    <h3 class="standard-form-header">MATCH PLAY</h3>
+    <form action="">
+      <div class="tournament-input-slide-topper half-width">
+        <label class="tournament-input-label-name tournament-input-label standard-form-label">BOWLER NAME</label>
+        <label class="tournament-input-label standard-form-label">1</label>
+        <label class="tournament-input-label standard-form-label">2</label>
+        <label class="tournament-input-label standard-form-label">3</label>
+      </div>
+      <div class="tournament-input-slide half-width">
+        <input type="text" placeholder="NAME">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+      </div>
+      <div class="tournament-input-divider tournament-underline"></div>
+      <div class="tournament-input-slide half-width">
+        <input type="text" placeholder="NAME">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+      </div>
+      <div class="tournament-input-divider tournament-underline"></div>
+      <div class="tournament-input-slide half-width">
+        <input type="text" placeholder="NAME">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+      </div>
+      <div class="tournament-input-divider tournament-underline"></div>
+      <div class="tournament-input-slide half-width">
+        <input type="text" placeholder="NAME">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+      </div>
+      <div class="tournament-input-divider tournament-underline"></div>
+      <div class="tournament-input-slide half-width">
+        {{ testform.bowler_name }}
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+      </div>
+      <div class="tournament-input-divider tournament-underline"></div>
+      <div class="tournament-input-slide half-width">
+        <input type="text" placeholder="NAME">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+      </div>
+      <div class="tournament-input-divider tournament-underline"></div>
+      <div class="tournament-input-slide half-width">
+        <input type="text" placeholder="NAME">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+      </div>
+      <div class="tournament-input-divider tournament-underline"></div>
+      <div class="tournament-input-slide half-width">
+        <input type="text" placeholder="NAME">
+        <input type="number" value="">
+        <input type="number" value="">
+        <input type="number" value="">
+      </div>
+
+      <span class="tournament-input-spacer"></span>
+    </form>
+  </div><!--
+  --><div class="tournament-modify-right-bottom standard-form standard-border">
+    <h3 class="standard-form-header">DISPLAY</h3>
+    <form action="">
+      <div class="tournament-modify-display">
+        <input type="checkbox">
+        <img src="/media/sponsors/sponsor-image-01.png" alt="">
+      </div>
+      <div class="tournament-modify-display selected">
+        <input type="checkbox">
+        <img src="/media/sponsors/sponsor-image-02.png" alt="">
+      </div>
+      <div class="tournament-modify-display">
+        <input type="checkbox">
+        <img src="/media/sponsors/sponsor-image-03.png" alt="">
+      </div>
+      <div class="tournament-modify-display">
+        <input type="checkbox">
+        <img src="/media/sponsors/sponsor-image-03.png" alt="">
+      </div>
+      <div class="tournament-modify-display">
+        <input type="checkbox">
+        <img src="/media/sponsors/sponsor-image-03.png" alt="">
+      </div>
+      <div class="tournament-modify-display">
+        <input type="checkbox">
+        <img src="/media/sponsors/sponsor-image-03.png" alt="">
+      </div>
+      <div class="tournament-input-spacer-30"></div>
+      <a class="tournament-modify-upload standard-button">UPLOAD</a>
+    </form>
+  </div>
+</section>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block content %}
+<section class="col col-20">
+</section>
+
+<section class="col col-60">
+    <section class="tournament-topbar">
+        <section class="tournament-view-selector std-radius">
+            {% if selected_upcoming == True %}
+            <a class="left" href="/tournaments/upcoming">UPCOMING<i>&nbsp;TOURNAMENTS</i></a>
+            <a class="right text-lightgrey" href="/tournaments/results">PAST<i class="text-lightgrey">&nbsp;TOURNAMENTS</i></a>
+            {% else %}
+            <a class="left text-lightgrey" href="/tournaments/upcoming">UPCOMING<i class="text-lightgrey">&nbsp;TOURNAMENTS</i></a>
+            <a class="right" href="/tournaments/results">PAST<i>&nbsp;TOURNAMENTS</i></a>
+            {% endif %}
+        </section>
+        <section class="tournament-sort std-radius">
+            <a>SORT BY <i class="icon-angle-down"></i></a>
+        </section>
+    </section>
+    {% if selected_upcoming == True %}
+    <section class="sec">
+        {% for tournament in tournaments_upcoming %}
+        <section class="tournament-preview">
+            <div class='tournament-image'><img src="{{ tournament.sponsor_image }}"></div>
+
+            <div class="tournament-container tournament-half-width">
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">{{ tournament.tournament_name }}</a><!--
+            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">{{ tournament.tournament_date|date:'m/d/y' }}<i class="tournament-arrow icon-arrow-right"></i>{{ tournament.tournament_time|time:'h:iA' }}</a><!--
+            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES - DETROIT, MI</a><!--
+            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">420 SPOTS RESERVED</a>
+            </div>
+            {% if not forloop.last %}<a class="btn tournament-button">RESERVE</a>{% else %}<a class="tournament-button-invert standard-button">RESERVED</a>
+            {% endif %}
+            {% if not forloop.last %}
+            <div class="standard-underline"></div>
+            {% endif %}
+        </section>
+        {% endfor %}
+        <section class="tournament-preview">
+            <div class='tournament-image'><img src="/media/sponsors/sponsor-image-02.png"></div>
+            <div class="tournament-container">
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
+            </div>
+            <a class="btn tournament-button">RESERVE</a>
+            <div class="std-underline"></div>
+        </section>
+        <section class="tournament-preview">
+            <div class='tournament-image'><img src="/media/sponsors/sponsor-image-02.png"></div>
+            <div class="tournament-container">
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
+            </div>
+            <a class="btn tournament-button">RESERVE</a>
+            <div class="std-underline"></div>
+        </section>
+        <section class="tournament-preview">
+            <div class='tournament-image'><img src="/media/sponsors/sponsor-image-02.png"></div>
+            <div class="tournament-container">
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
+            </div>
+            <a class="btn tournament-button">RESERVE</a>
+            <div class="std-underline"></div>
+        </section>
+        <section class="tournament-preview">
+            <div class='tournament-image'><img src="/media/sponsors/sponsor-image-02.png"></div>
+            <div class="tournament-container">
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
+            </div>
+            <a class="btn tournament-button">RESERVE</a>
+            <div class="std-underline"></div>
+        </section>
+        <section class="tournament-preview">
+            <div class='tournament-image'><img src="/media/sponsors/sponsor-image-02.png"></div>
+            <div class="tournament-container">
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
+            </div>
+            <a class="btn tournament-button">RESERVE</a>
+        </section>
+    </section>
+    {% endif %}
+    {% if selected_upcoming == False %}
+    <section class="sec">
+        {% for tournament in tournaments_past %}
+        <section class="tournament-preview">
+            <img class='tournament-image' src="{{ tournament.sponsor_image }}"><!--
+            --><div class="tournament-container tournament-full-width">
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">{{ tournament.tournament_name }}</a><!--
+            {% if tournament|winner == None %}
+            --><a class="tournament-date">{{ tournament.tournament_date|date:'m/d/y' }}</a><!--
+            {% else %}
+            --><a class="tournament-date">{{ tournament.tournament_date|date:'m/d/y' }}<p class="tournament-winner-name" href="/account/view/{{ tournament|winner }}"><i class="tournament-winner icon-trophy"></i>{{  tournament|winner|bowler_name:True }}<span>&nbsp;({{ tournament|winner|getaverage:tournament}} AVG)</span></p></a><!--
+            {% endif %}
+            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES - DETROIT, MI</a><!--
+            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">{{ tournament|participants }} PARTICIPANTS</a>
+            </div>
+            {% if not forloop.last %}
+            <div class="standard-underline"></div>
+            {% endif %}
+        </section>
+        {% endfor %}
+    </section>
+    {% endif %}
+</section>
+
+<section class="col col-20">
+    <section class="sec">
+        <h3 class="tournament-filter-header standard-title text-dark-green">FILTERS</h3>
+        <div class="tournament-filter-container">
+            <div class="tournament-filter-icon">
+                <i class="icon-circle"></i>
+            </div><div class="tournament-filter-section">
+                <a class="tournament-filter-title">ALL TOURNAMENTS</a>
+            </div>
+        </div>
+        <div class="tournament-filter-container">
+            <div class="tournament-filter-icon">
+                <i class="icon-circle1"></i>
+            </div><div class="tournament-filter-section">
+                <a class="tournament-filter-title">SEARCH BY ZIP</a>
+                <input type="zip" class="tournament-filter-zip" placeholder="ZIP CODE">
+            </div>
+        </div>
+        <div class="tournament-filter-container">
+            <div class="tournament-filter-icon">
+                <i class="icon-circle1"></i>
+            </div><div class="tournament-filter-section">
+                <a class="tournament-filter-title">MILE RADIUS</a>
+                <input class="tournament-filter-miles" type="range" min="10" max="250" value="125" class="slider" id="myRange">
+                <div class="tournament-filter-miles-label-container">
+                    <a class="first">10</a>
+                    <a class="second">125</a>
+                    <a class="third">250+</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="sec">
+        <h3 class="standard-title text-dark-green">ADMIN FUNCTIONS</h3>
+        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen">CREATE TOURNAMENT</a>
+        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen" style="margin-top:0;">VIEW DEEP STATS</a>
+    </section>
+</section>
+{% endblock %}

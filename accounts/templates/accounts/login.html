@@ -1,0 +1,19 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="standard-form standard-border">
+  <h1>ACCOUNT LOG IN</h1>
+  <form class="site-form" action="{% url 'accounts:login' %}" method="post">
+    {% csrf_token %}
+    <label class="standard-form-label">EMAIL ADDRESS</label>
+    {{ form.username }}
+    <label class="standard-form-label">PASSWORD</label>
+    {{ form.password }}
+    <a class="standard-form-forgot">Forgot Password?</a>
+    <div class="standard-form-buttons">
+      <a class="standard-button button-offset" href="/account/signup">SIGN-UP</a>
+      <input class="standard-button" type="submit" name="" value="LOG IN">
+    </div>
+  </form>
+</div>
+{% endblock %}

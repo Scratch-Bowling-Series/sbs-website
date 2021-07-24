@@ -1,0 +1,138 @@
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+      <!-- Page -->
+      <meta charset="utf-8">
+      <title>Scratch Bowling Series</title>
+      <meta name="identifier-url" content="https://scratchbowling.com" />
+      <meta name="title" content="Scratch Bowling Series" />
+      <meta name="description" content="Default Description" />
+      <meta name="abstract" content="Default Description" />
+      <meta name="keywords" content="bowliing, tournaments, scratch bowling" />
+      <meta name="author" content="Scratch Bowling Series" />
+      <meta http-equiv="pragma" content="no-cache" />
+      <meta name="revisit-after" content="15" />
+      <meta name="language" content="EN" />
+      <meta name="copyright" content="&copy; 2021 Scratch Bowling Series" />
+      <meta name="robots" content="All" />
+      <!-- Favicon -->
+      <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+      <!-- Device -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Reset -->
+      <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+      <!-- ICONS -->
+      <link rel="stylesheet" href="{% static 'css/sbs-icons.css' %}">
+      <!-- Master CSS -->
+      <link rel="stylesheet" href="{% static 'css/master.css' %}">
+      <!--JQuery -->
+      <script src="{% static 'js/jquery.min.js'%}"></script>
+      <script src="{% static 'js/footer-align.js' %}"></script>
+
+  </head>
+  <body>
+    <!-- Fonts -->
+  	<style type="text/css">
+  	    @font-face
+  		{
+  		  font-family:TTOctosquaresCond-Regular;
+  		  src:url({% static 'fonts/TTOctosquaresCond-Regular.ttf' %}) format("truetype");
+  		  font-weight:normal;
+  		  font-size:normal;
+  		}
+  		@font-face
+  		{
+  		  font-family:TTOctosquaresCond-Bold;
+  		  src:url({% static 'fonts/TTOctosquaresCond-Bold.ttf' %}) format("truetype");
+  		  font-weight:normal;
+  		  font-size:normal;
+  		}
+  		@font-face
+  		{
+  		  font-family:TTOctosquaresCond-Light;
+  		  src:url({% static 'fonts/TTOctosquaresCond-Medium.ttf' %}) format("truetype");
+  		  font-weight:normal;
+  		  font-size:normal;
+  		}
+      @font-face
+      {
+        font-family:TTOctosquaresCond-Italic;
+        src:url({% static 'fonts/TTOctosquaresCond-Italic.ttf' %}) format("truetype");
+        font-weight:normal;
+        font-size:normal;
+      }
+      @font-face
+      {
+        font-family: 'sbs-icons';
+        src: url({% static 'fonts/sbs-icons.ttf' %}) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: block;
+      }
+
+  	</style>
+
+    <!-- Nav Bar -->
+    <nav>
+        <div class="nav-logo">
+			<div class="nav-logo-f nav-logo-f1"></div>
+			<div class="nav-logo-f nav-logo-f2"></div>
+			<div class="nav-logo-f nav-logo-f3" style="margin-right:-20px;"></div>
+			<a class="nav-logo-wrap" href="/"><img src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series Logo"></a>
+    		<div class="nav-logo-f nav-logo-f3" style="margin-left:-20px;"></div>
+			<div class="nav-logo-f nav-logo-f2"></div>
+		    <div class="nav-logo-f nav-logo-f1"></div>
+        </div>
+
+        <ul class="nav-buttons">
+            <li class="nav-btn"><a href="/">HOME</a><span class="nav-btn-underline {% if nbar == 'home' %}active{% endif %}"></span></li>
+            <li class="nav-btn"><a href="/tournaments/">TOURNAMENTS</a><span class="nav-btn-underline {% if nbar == 'tournaments' %}active{% endif %}"></span></li>
+            <li class="nav-btn"><a href="/scoreboard/">RANKINGS</a><span class="nav-btn-underline {% if nbar == 'rankings' %}active{% endif %}"></span></li>
+            <li class="nav-btn hidden"><a href="/scoreboard/">BOWLERS</a><span class="nav-btn-underline {% if nbar == 'bowlers' %}active{% endif %}"></span></li>
+            <li class="nav-btn hidden"><a href="/scoreboard/">CENTERS</a><span class="nav-btn-underline {% if nbar == 'centers' %}active{% endif %}"></span></li>
+            <li class="nav-btn hidden"><a href="/scoreboard/">CONTACT</a><span class="nav-btn-underline {% if nbar == 'contact' %}active{% endif %}"></span></li>
+            <li class="nav-btn-drop"><i class="icon-circle"></i><i class="icon-circle"></i><i class="icon-circle"></i></li>
+        </ul>
+
+        <div class="nav-drop-button">
+            <i class="open icon-bars"></i>
+        </div>
+
+        <div class="nav-account">
+            <a href="/support" class="btn nav-account-donate border-tan bkg-tan text-grey">DONATE</a>
+            <form class="nav-search"><input type="text" name="Search" placeholder="BOWLERS / TOURNAMENTS / CENTERS ">
+                <input type="submit" name="SEARCH" value="SEARCH">
+            </form>
+            {% if user.is_authenticated %}
+            <a href="/account/view/{{ request.user.user_id }}" class="btn border-white text-white">MY PROFILE</a>
+            <a href="/account/view/{{ request.user.user_id }}" class="nav-account-photo">
+                 <img src="{{ request.user.picture.url }}" alt="{{ request.user.first_name }}'s profile picture">
+            </a>
+            {% else %}
+            <a href="/account/login" class="btn text-white border-white spacing-left-20">LOGIN</a>
+            <a href="/account/signup" class="btn bkg-white text-lightgreen border-white">SIGN-UP</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div id="content-wrapper">
+      {% block content%}
+
+      {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <img src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
+        <a>&copy 2021 ScratchBowling.com | Scratch Bowling Series</a>
+    </footer>
+  </body>
+</html>
+
+
+
+
+
+
+
