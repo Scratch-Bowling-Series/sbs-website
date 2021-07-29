@@ -13,7 +13,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.icon-exclamation:before {
+  content: "\e925";
+}
+.icon-paper-plane:before {
+  content: "\e924";
+}
 .icon-circle1:before {
   content: "\e920";
 }
@@ -37,15 +42,6 @@
 }
 .icon-cog:before {
   content: "\e903";
-}
-.icon-exclamation:before {
-  content: "\e924";
-}
-.icon-exclamation-circle:before {
-  content: "\e925";
-}
-.icon-exclamation-triangle:before {
-  content: "\e926";
 }
 .icon-hand-paper:before {
   content: "\e904";

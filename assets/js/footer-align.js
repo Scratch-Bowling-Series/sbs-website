@@ -23,5 +23,30 @@ $(document).ready(function() {
             $('#nav-drop-button i').css('text-shadow', 'none');
         }
     });
-
+    var msg_closed = true;
+    $('.msg-icon').click(function(){
+        if(msg_closed)
+        {
+            msg_closed = false;
+            $('.messenger').addClass('expand');
+        }
+        else
+        {
+            msg_closed = true;
+            $('.messenger').removeClass('expand');
+        }
+    });
+    $('#msg-close').click(function(){
+        if(msg_closed)
+        {
+            msg_closed = false;
+            $('.messenger').addClass('expand');
+        }
+        else
+        {
+            msg_closed = true;
+            console.log('close');
+            $('.messenger').removeClass('expand');
+        }
+    });
 });

@@ -5,8 +5,12 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 import random
+
+from django.views.decorators.clickjacking import xframe_options_exempt
+
 from accounts.forms import User
 from scoreboard.ranking import get_top_rankings
+from support.donation_count import get_count
 from tournaments.models import Tournament
 
 User = get_user_model()
@@ -23,6 +27,7 @@ def index(request):
                    'users_count': get_users_count(),
                    'tournaments_count': get_tournaments_count(),
                    'top_ten_ranks': get_top_ten_ranks(),
+                   'donation_count': get_count(),
                    })
 
 
@@ -70,4 +75,5 @@ def get_tournaments_count():
 
 def get_top_ten_ranks():
     return get_top_rankings(10)
+
 

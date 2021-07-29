@@ -10,7 +10,7 @@
 		<div class="profile-prev-pic">
 			<img src="{{ view_user.picture.url }}" alt="{{ view_user.first_name}}'s profile picture">
 		</div>
-		<h2>{{view_user.first_name|none_replace:'First Name '}}&nbsp;{{view_user.last_name|none_replace:'Last Name '}}</h2>
+		<h1>{{view_user.first_name|none_replace:'First Name '}}&nbsp;{{view_user.last_name|none_replace:'Last Name '}}</h1>
 		<a>{{ view_user.bio|none_replace:'Bio Empty' }}</a>
 		<span class="std-underline"></span>
 		<a>Member Since {{ view_user.date_joined.year}}</a>
@@ -18,13 +18,18 @@
 		<a>{{ view_user.location_city|none_replace:'City' }}, {{ view_user.location_state|none_replace:'State' }}</a>
 
 		<!-- HANDS -->
-		{% if view_user.left_handed == True and view_user.right_handed == False %}
-		<i class="my-account-hand my-account-left-hand icon-hand-paper"></i>&nbsp;<i class="my-account-hand icon-hand-paper hand-off"></i><a class="my-account-hand-label">LEFT HANDED</a><br>
-		{% elif view_user.left_handed == False and view_user.right_handed == True %}
-		<i class="my-account-hand my-account-left-hand icon-hand-paper hand-off"></i>&nbsp;<i class="my-account-hand icon-hand-paper"></i><a class="my-account-hand-label">RIGHT HANDED</a><br>
-		{% elif view_user.left_handed == True and view_user.right_handed == True %}
-		<i class="my-account-hand my-account-left-hand icon-hand-paper"></i>&nbsp;<i class="my-account-hand icon-hand-paper"></i><a class="my-account-hand-label">TWO HANDED</a><br>
-		{% endif %}
+		<div class="profile-hands">
+			{% if view_user.left_handed == True and view_user.right_handed == False %}
+			<span class="std-underline"></span>
+			<i class="profile-hand profile-left-hand icon-hand-paper"></i>&nbsp;<i class="profile-hand icon-hand-paper hand-off"></i><a class="profile-hand-label">LEFT HANDED</a><br>
+			{% elif view_user.left_handed == False and view_user.right_handed == True %}
+			<span class="std-underline"></span>
+			<i class="profile-hand profile-left-hand icon-hand-paper hand-off"></i>&nbsp;<i class="profile-hand icon-hand-paper"></i><a class="profile-hand-label">RIGHT HANDED</a><br>
+			{% elif view_user.left_handed == True and view_user.right_handed == True %}
+			<span class="std-underline"></span>
+			<i class="profile-hand profile-left-hand icon-hand-paper"></i>&nbsp;<i class="profile-hand icon-hand-paper"></i><a class="profile-hand-label">TWO HANDED</a><br>
+			{% endif %}
+		</div>
 
 		<!-- Buttons -->
 		{% if view_user.user_id == request.user.user_id %}
@@ -161,9 +166,9 @@
 	            {% for game in rank_data.top_five_career %}
 				{% if game is not None %}
 					{% if game.1 > 280 %}
-	            		<li>{{ game.0|tournament_date|date:'m/d/y' }}<a href="/tournaments/view/{{ game.0 }}">{{ game.0|tournament_name|truncatechars:45 }}</a></span><span class="gold-game">{{ game.1 }}</span></li>
+	            		<li><i>{{ game.0|tournament_date|date:'m/d/y' }}</i><a href="/tournaments/view/{{ game.0 }}">{{ game.0|tournament_name|truncatechars:45 }}</a></span><span class="gold-game">{{ game.1 }}</span></li>
 					{% else %}
-						<li>{{ game.0|tournament_date|date:'m/d/y' }}<a href="/tournaments/view/{{ game.0 }}">{{ game.0|tournament_name|truncatechars:45 }}</a></span><span>{{ game.1 }}</span></li>
+						<li><i>{{ game.0|tournament_date|date:'m/d/y' }}</i><a href="/tournaments/view/{{ game.0 }}">{{ game.0|tournament_name|truncatechars:45 }}</a></span><span>{{ game.1 }}</span></li>
 					{% endif %}
 				{% endif %}
 				{% endfor %}

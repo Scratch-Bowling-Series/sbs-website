@@ -35,3 +35,4 @@ class SeriesRanking(models.Model):
     total_bowlers = models.IntegerField()
     tournaments = models.JSONField()
     bowlers = models.JSONField()
+

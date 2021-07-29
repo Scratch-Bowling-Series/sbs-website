@@ -1,0 +1,49 @@
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SBS PROLINK - {{ page_name }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'prolink/css/main.css' %} ">
+    <link rel="stylesheet" type="text/css" href="{% static 'prolink/css/login.css' %} ">
+    <link rel="stylesheet" type="text/css" href="{% static 'prolink/css/all.css' %} ">
+  </head>
+  <body>
+
+    <div class="titlebar">
+      <a class="titlebar-title">SBS <span>PROLINK</span></a>
+      <div class="titlebar-drag"></div>
+      <div class="titlebar-buttons">
+        <a id="t-btn-close" class="titlebar-button titlebar-button-close">
+          <svg aria-hidden="false" width="12" height="12" viewBox="0 0 12 12"><polygon fill="currentColor" fill-rule="evenodd" points="11 1.576 6.583 6 11 10.424 10.424 11 6 6.583 1.576 11 1 10.424 5.417 6 1 1.576 1.576 1 6 5.417 10.424 1"></polygon></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="login-container">
+      <h2>ENTER LOGIN DETAILS</h2>
+      <form action="{% url 'prolink:login' %}" method="post">
+          {% csrf_token %}
+        {{ form.username }}
+        {{ form.password }}
+        <input type="checkbox" name="staylogged"><label class="checkbox-label">REMEMBER CREDENTIALS</label>
+        <input class="signup-button" type="submit" value="CREATE ACCOUNT">
+        <input id='login' class="login-button" type="submit" value="LOGIN">
+      </form>
+    </div>
+
+    {% if success is True %}
+    <script>
+        const { ipcRenderer } = require('electron');
+        ipcRenderer.send('newWindow');
+    </script>
+    {% endif %}
+
+    <script>
+        const remote = require('electron').remote;
+        document.getElementById("t-btn-close").addEventListener("click", function (e) {
+            var window = remote.getCurrentWindow();
+            window.close();
+        });
+    </script>
+  </body>
+</html>

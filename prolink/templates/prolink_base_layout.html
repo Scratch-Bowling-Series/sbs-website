@@ -1,0 +1,108 @@
+{% load static %}
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>SBS PROLINK - {{ page_name }}</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'prolink/css/main.css' %} ">
+    <link rel="stylesheet" type="text/css" href="{% static 'prolink/css/all.css' %} ">
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="{% static 'js/jquery.min.js'%}"></script>
+    <script src="{% static 'prolink/js/sidebar.js'%}"></script>
+    <script>if (window.module) module = window.module;</script>
+  </head>
+  <body>
+    <div class="titlebar">
+      <a class="titlebar-title">SBS <span>PROLINK</span></a>
+      <a class="titlebar-main">{{ page_name }}</a>
+      <div class="titlebar-drag"></div>
+      <a class="titlebar-login" href="{% url 'prolink:account' %}">Logged in as <span>{{ user.firstname|none_replace:'No User Name' }}</span><i id="con-ping-icon" class="fas fa-circle titlebar-connection-icon"></i><i class="titlebar-connection" id="con-ping">PING</i></a>
+
+      <div class="titlebar-buttons">
+        <a id="t-btn-min" class="titlebar-button">
+          <svg aria-hidden="false" width="12" height="12" viewBox="0 0 12 12"><rect fill="currentColor" width="10" height="1" x="1" y="6"></rect></svg>
+        </a>
+        <a id="t-btn-max" class="titlebar-button">
+          <svg aria-hidden="false" width="12" height="12" viewBox="0 0 12 12"><rect width="9" height="9" x="1.5" y="1.5" fill="none" stroke="currentColor"></rect></svg>
+        </a>
+        <a id="t-btn-close" class="titlebar-button titlebar-button-close">
+          <svg aria-hidden="false" width="12" height="12" viewBox="0 0 12 12"><polygon fill="currentColor" fill-rule="evenodd" points="11 1.576 6.583 6 11 10.424 10.424 11 6 6.583 1.576 11 1 10.424 5.417 6 1 1.576 1.576 1 6 5.417 10.424 1"></polygon></svg>
+        </a>
+      </div>
+    </div>
+    <div class="sidebar">
+      <div class="sidebar-icon">
+        <i class="fa fa-bars open-icon"></i>
+        <i class="fa fa-arrow-left close-icon"></i>
+      </div>
+      <div class="sidebar-expand-content">
+        <ul>
+          <a href="{% url 'prolink:create' %}"><li><span class="sidebar-list-icon"><i class="fa fa-plus"></i></span><h1>Create Tournament</h1></li></a>
+          <a href="{% url 'prolink:start' %}"><li><span class="sidebar-list-icon"><i class="far fa-play-circle"></i></span><h1>Start Tournament</h1></li></a>
+          <a href="{% url 'prolink:active' %}"><li><span class="sidebar-list-icon"><i class="fas fa-window-restore"></i></span><h1>Active Tournaments</h1></li></a>
+          <a href="{% url 'prolink:all' %}"><li><span class="sidebar-list-icon"><i class="far fa-chart-bar"></i></span><h1>All Tournaments</h1></li></a>
+          <a href="{% url 'prolink:formats' %}"><li><span class="sidebar-list-icon"><i class="fas fa-file-contract"></i></span><h1>View Formats</h1></li></a>
+          <a href="{% url 'prolink:bowlers' %}"><li><span class="sidebar-list-icon"><i class="fas fa-users"></i></span><h1>View Bowlers</h1></li></a>
+          <a href="{% url 'prolink:centers' %}"><li><span class="sidebar-list-icon"><i class="far fa-building"></i></span><h1>View Centers</h1></li></a>
+          <a href="{% url 'prolink:rankings' %}"><li><span class="sidebar-list-icon"><i class="fas fa-trophy"></i></span><h1>View Rankings</h1></li></a>
+          <a href="{% url 'prolink:account' %}"><li><span class="sidebar-list-icon"><i class="fas fa-user"></i></span><h1>My Account</h1></li></a>
+          <a href="{% url 'prolink:websettings' %}"><li><span class="sidebar-list-icon"><i class="fas fa-globe"></i></span><h1>Website Settings</h1></li></a>
+          <a href="{% url 'prolink:prosettings' %}"><li><span class="sidebar-list-icon"><i class="fas fa-cog"></i></span><h1>Program Settings</h1></li></a>
+        </ul>
+      </div>
+      <div class="sidebar-ver-text">
+        <h2>SBS PROLINK</h2>
+        <h3>v1.0.0 ALPHA</h3>
+      </div>
+    </div>
+    <div class="content-wrapper">
+      <div class="content">
+          {% block content%}
+
+          {% endblock %}
+      </div>
+    </div>
+    <script>
+      var ping = require('ping');
+
+      var host = 'scratchbowling.com';
+
+
+      const interval = setInterval(function()
+      {
+        ping.promise.probe(host)
+          .then(function (res) {
+            console.log(res.time);
+            document.getElementById("con-ping").innerHTML = res.time + 'ms';
+            if (res.time <= 60)
+            {
+              document.getElementById("con-ping-icon").style.color = 'white';
+            }
+            else
+            {
+              document.getElementById("con-ping-icon").style.color = 'red';
+            }
+        });
+      }, 1000);
+
+
+      const remote = require('electron').remote;
+        document.getElementById("t-btn-min").addEventListener("click", function (e) {
+            var window = remote.getCurrentWindow();
+            window.minimize();
+        });
+        document.getElementById("t-btn-max").addEventListener("click", function (e) {
+            var window = remote.getCurrentWindow();
+            if (!window.isMaximized()) {
+                window.maximize();
+            } else {
+                window.unmaximize();
+            }
+        });
+        document.getElementById("t-btn-close").addEventListener("click", function (e) {
+            var window = remote.getCurrentWindow();
+            window.close();
+        });
+    </script>
+  </body>
+</html>

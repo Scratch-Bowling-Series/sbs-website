@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'broadcasts',
     'support',
     'merch',
+    'prolink',
+    'oils',
     'accounts',
     'dal',
     'dal_select2',
@@ -132,7 +134,6 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'christianjstarr@icloud.com'
 EMAIL_HOST_PASSWORD = 'OFKjxIqkaYT14G6X'
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

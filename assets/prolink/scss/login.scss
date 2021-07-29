@@ -1,0 +1,162 @@
+@font-face
+    {
+      font-family:TTOctosquaresCond-Regular;
+      src:url('../fonts/TTOctosquaresCond-Regular.ttf') format("truetype");
+      font-weight:normal;
+    }
+    @font-face
+    {
+      font-family:TTOctosquaresCond-Bold;
+      src:url('../fonts/TTOctosquaresCond-Bold.ttf') format("truetype");
+      font-weight:normal;
+    }
+    @font-face
+    {
+      font-family:TTOctosquaresCond-Light;
+      src:url('../fonts/TTOctosquaresCond-Medium.ttf') format("truetype");
+      font-weight:normal;
+    }
+    @font-face
+    {
+        font-family:TTOctosquaresCond-Italic;
+        src:url('../fonts/TTOctosquaresCond-Italic.ttf') format("truetype");
+        font-weight:normal;
+    }
+
+$font-primary:TTOctosquaresCond-Regular;
+$font-primary-bold:TTOctosquaresCond-Bold;
+$font-primary-light:TTOctosquaresCond-Light;
+$font-primary-italic:TTOctosquaresCond-Italic;
+$font-secondary:helvetica;
+
+$color-0: white; /* White */
+$color-1: #171616; /* Dark Grey */
+$color-2: #214031; /* SBS DarkGreen */
+$color-3: #2e5945; /* SBS LightGreen */
+$color-4: #d9af62; /* SBS Golden Tan */
+$color-5: #2d2d2d; /* Grey */
+$color-6: #D45959; /* Red */
+$color-7: black; /* White */
+$color-8: #525252;
+$color-9: #3d3d3d;
+$color-10: lightgrey;
+
+
+
+body
+{
+	background:$color-5;
+	position:relative;
+	height:500px;
+	width:400px;
+	overflow:hidden;
+	margin:0;
+}
+h2
+{
+	width:100%;
+	height:auto;
+	text-align:center;
+	font-size:20px;;
+	margin:40px 0 30px 0;
+	font-family:$font-primary-light;
+	color:$color-10;
+}
+
+/* LOGIN */
+.login-container
+{
+	position:absolute;
+	right:0;left:0;top:50px;bottom:0;
+	text-align:left;
+	font-size:0;
+	width:100%;
+	input
+	{
+		border-radius:5px;
+		-webkit-appearance:none;
+		appearance:none;
+		background:$color-1;
+		border:none;
+		width:360px;
+		height:40px;
+		margin:20px 20px;
+		display:block;
+		box-sizing:border-box;
+		font-size:15px;
+		color:$color-10;
+		font-family:$font-primary-light;
+	}
+	input[type=text], input[type=password],input[type=email]
+	{
+		-webkit-appearance:none;
+		appearance:none;
+		background:$color-1;
+		border:none;
+		width:360px;
+		height:40px;
+		margin:20px 20px;
+		padding:0 0 0 10px;
+		display:block;
+		box-sizing:border-box;
+		font-size:15px;
+		color:$color-10;
+		&::placeholder
+		{
+			color:$color-8;
+		}
+		&:focus
+		{
+			outline:none;
+		}
+	}
+	input[type=checkbox]
+	{
+		width:40px;height:40px;
+		margin:0 20px;
+		background:$color-1;
+		display:inline-block;
+		box-sizing:border-box;
+		color:red;
+		&:checked
+		{
+			background:$color-8;
+			border:solid 10px $color-1;
+		}
+	}
+	.checkbox-label
+	{
+		font-family:$font-primary-light;
+		vertical-align:top;
+		color:$color-10;
+		font-size:18px;
+		line-height:18px;
+		display:inline-block;
+		padding:11px 0;
+	}
+
+
+
+	.login-button
+	{
+		position:absolute;
+		bottom:20px;right:20px;
+		width:calc(50% - 30px);
+		margin:0;
+		display:inline-block;
+		background:$color-1;
+		color:$color-10;
+		cursor:pointer;
+	}
+	.signup-button
+	{
+		position:absolute;
+		bottom:20px;left:20px;
+		width:calc(50% - 30px);
+		margin:0;
+		display:inline-block;
+		background:$color-7;
+		color:$color-5;
+		display:none;
+	}
+}

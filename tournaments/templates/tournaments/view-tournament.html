@@ -2,25 +2,121 @@
 {% load static %}
 {% block content %}
 <script src="{% static 'js/tournament-view-align.js' %}"></script>
-<section class="standard-left-column-30">
-    <div class="tournament-view standard-border">
-        <h3 class="my-account-title">ROSTER</h3>
 
 
+<section class="col col-30">
+    <div class="sec">
+        <h2>ROSTER</h2>
+        <div class="t-roster">
+            {% for row in tournament|qualifyings %}
+            <div class="t-roster-bowler">
+                <img src="/media/profile-pictures/default.jpg" alt="">
+                <a href="#">{{ row.user_id|bowler_name:False }}</a>
+                <span>{{ row.user_id|bowler_location }}</span>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-</section><section class="standard-center-column-40">
-    <div class="tournament-view-image standard-border">
-        <img src="{% static 'img/recent-preview-template.png'%}" alt="">
-        <h2 class="tournament-view-header">{{ tournament.tournament_name }}</h2>
-        <h3 class="tournament-view-location">{{ tournament.tournament_center }}</h3>
+</section>
+
+<section class="col col-45">
+    <div class="sec">
+        <img class="t-display-img" src="{% static 'img/recent-preview-template.png'%}" alt="">
+        <img class="t-watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
+        <h2 class="t-header">{{ tournament.tournament_name }}</h2>
+        <h3 class="t-location">{{ tournament.tournament_center|none_replace:'Thunderbowl Lanes' }}</h3>
+        <a class="btn t-modify" href="/tournaments/modify/{{ tournament.tournament_id }}">MODIFY</a>
     </div>
-    <div class="tournament-view-info standard-border">
+    <div class="sec">
+        <div class="t-details">
+            <div class="tournament-info-slide-selector">
+                <a href="">DETAILS</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="col col-25">
+    <div class="sec">
+        <h2>OIL PATTERN</h2>
+         <div class="t-oil">
+            <a href="#">2013 EBT 15 - Columbia 300 Vienna Open</a>
+            <div class="t-oil-stats">
+                <i>Length: 42ft</i>
+                <i>Volume: 25.30 mL</i>
+                <i>Forward: 14.95 mL</i>
+                <i>Backwards: 10.35 mL</i>
+                <i>Ratio: 1:3.33</i><br><br>
+                <span><a href="" class="btn btn-small t-oil-view">FORWARD</a><div style="background:{{ oil_colors.3 }};"></div></span>
+                <span><a href="" class="btn btn-small t-oil-view">REVERSE</a><div style="background:{{ oil_colors.4 }};"></div></span>
+                <span><a href="" class="btn btn-small t-oil-view">COMBINED</a><div style="background:{{ oil_colors.3 }};"></div></span>
+                <span><a href="" class="btn btn-small t-oil-view">BUFF AREA</a><div style="background:{{ oil_colors.1 }};"></div></span>
+
+            </div>
+             <a href="" class="btn btn-small t-oil-view-pdf">VIEW PDF</a>
+             <div class="t-oil-display-wrap">
+                 <div class="t-oil-display">
+                     {% for oil in oil_pattern %}
+                     <span class="t-oil-cell {% if forloop.last %} t-oil-cell-right {% endif %}">
+                    <span class="t-oil-row t-oil-row-top" style="background: {{ oil.0 }};"></span>
+                    <span class="t-oil-row" style="background: {{ oil.1 }};"></span>
+                    <span class="t-oil-row" style="background: {{ oil.2 }};"></span>
+                    <span class="t-oil-row" style="background: {{ oil.3 }};"></span>
+                    <span class="t-oil-row" style="background: {{ oil.4 }};"></span>
+                    <span class="t-oil-row" style="background: {{ oil.5 }};"></span>
+
+                    <span class="t-oil-row t-oil-row-bottom" style="background: {{ oil.6 }};"></span>
+                </span>
+                {% endfor %}
+                </div>
+             </div>
+         </div>
+    </div>
+    <div class="sec">
+        <h2>PAYOUT CALCULATOR</h2>
+
+        <input class="t-payout" type="range" min="30" max="90" value="60" class="slider" id="myRange">
+        <div class="t-payout-labels">
+            <a class="first">30</a>
+            <a class="second">60</a>
+            <a class="third">90</a>
+        </div>
+        <a class="t-payout-header">ENTRIES</a>
+        <div class="t-payout-row">
+            <a class="t-payout-place">1st</a>
+            <a class="t-payout-pay">${{ payout.first }}</a>
+        </div>
+        <div class="t-underline"></div>
+        <div class="t-payout-row">
+            <a class="t-payout-place">2nd</a>
+            <a class="t-payout-pay">${{ payout.second }}</a>
+        </div>
+        <div class="t-underline"></div>
+        <div class="t-payout-row">
+            <a class="t-payout-place">3rd-4th</a>
+            <a class="t-payout-pay">${{ payout.thirdfourth }}</a>
+        </div>
+        <div class="t-underline"></div>
+        <div class="t-payout-row">
+            <a class="t-payout-place">5th-8th</a>
+            <a class="t-payout-pay">${{ payout.fiftheigth }}</a>
+        </div>
+        <div class="t-underline"></div>
+        <div class="t-payout-row">
+            <a class="t-payout-place">High Lady/Senior</a>
+            <a class="t-payout-pay">${{ payout.high }}</a>
+        </div>
+        <div class="t-payout-breakdown">
+            <a>Prize: $30</a><a>Lineage: $10</a><a>Expenses: $5</a>
+        </div>
+    </div>
+</section>
+
+<section class="col col-35" >
+    <div class="sec">
         <div class="tournament-view-info-qualifying">
             <div class="tournament-info-slide-selector">
-                <a href="">DETAILS</a><!--
-                --><a href="" class="selected">QUALIFYING</a><!--
-                --><a href="">MATCH PLAY</a><!--
-                --><a href="">OIL PATTERNS</a>
+                <a href="">QUALIFYING</a>
             </div>
             <div class="tournament-view-qualifying-slide-label">
                 <a class="place"></a><!--
@@ -48,48 +144,38 @@
         </div>
 
     </div>
-</section><section class="standard-right-column-30">
-    <div class="tournament-view standard-border">
-        <h3 class="my-account-title">INFO</h3>
-        <a class="standard-button" href="/tournaments/modify/{{ tournament.tournament_id }}">MODIFY</a>
-    </div>
-    <div class="tournament-view standard-border">
-        <h3 class="my-account-title">PAYOUT CALCULATOR</h3>
+</section>
+<section class="col col-65">
+    <div class="sec">
+        <div class="tournament-view-info-qualifying">
+            <div class="tournament-info-slide-selector">
+                <a href="">MATCH PLAY</a>
+            </div>
+            <div class="tournament-view-qualifying-slide-label">
+                <a class="place"></a><!--
+                --><a class="name"></a><!--
+                --><a class="score">1</a><!--
+                --><a class="score">2</a><!--
+                --><a class="score">3</a><!--
+                --><a class="score">4</a><!--
+                --> <a class="total">TOTAL</a>
+            </div>
+            <div class="tournament-info-slide-container">
 
-        <input class="tournament-view-payout" type="range" min="30" max="90" value="60" class="slider" id="myRange">
-        <div class="tournament-view-payout-label-container">
-            <a class="first">30</a>
-            <a class="second">60</a>
-            <a class="third">90</a>
+
+                {% for row in tournament|qualifying %}
+                <div class="tournament-view-qualifying-slide">
+                    <a class="place">{{ row.0 }}</a><!--
+                    --><a class="name" href="/account/view/{{ row.4 }}">{{ row.1|safe }}</a><!--
+                    {% for x in row.2 %}
+                    --><a class="score">{{ x }}</a><!--
+                    {% endfor %}
+                    --><a class="total">{{ row.3 }}</a>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        <a class="tournament-view-payout-header">ENTRIES</a>
-        <div class="tournament-view-slide">
-            <a class="tournament-view-place">1st</a>
-            <a class="tournament-view-pay">${{ payout.first }}</a>
-        </div>
-        <div class="tournament-view-underline"></div>
-        <div class="tournament-view-slide">
-            <a class="tournament-view-place">2nd</a>
-            <a class="tournament-view-pay">${{ payout.second }}</a>
-        </div>
-        <div class="tournament-view-underline"></div>
-        <div class="tournament-view-slide">
-            <a class="tournament-view-place">3rd-4th</a>
-            <a class="tournament-view-pay">${{ payout.thirdfourth }}</a>
-        </div>
-        <div class="tournament-view-underline"></div>
-        <div class="tournament-view-slide">
-            <a class="tournament-view-place">5th-8th</a>
-            <a class="tournament-view-pay">${{ payout.fiftheigth }}</a>
-        </div>
-        <div class="tournament-view-underline"></div>
-        <div class="tournament-view-slide">
-            <a class="tournament-view-place">High Lady/Senior</a>
-            <a class="tournament-view-pay">${{ payout.high }}</a>
-        </div>
-        <div class="tournament-view-payout-breakdown">
-            <a>Prize: $30</a><a>Lineage: $10</a><a>Expenses: $5</a>
-        </div>
+
     </div>
 </section>
 {% endblock %}

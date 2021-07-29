@@ -15,8 +15,9 @@ urlpatterns = [
     path('broadcasts/', include('broadcasts.urls')),
     path('support/', include('support.urls')),
     path('merch/', include('merch.urls')),
+    path('oil-patterns/', include('oils.urls')),
     path('about/', views.about, name='about'),
-
+    path('prolink/', include('prolink.urls')),
     path('admin/', admin.site.urls),
     path('account/', include('accounts.urls')),
 ]

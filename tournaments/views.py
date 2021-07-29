@@ -10,8 +10,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaulttags import register
 from centers.models import Center
 from accounts.forms import User
+from oils.oil_pattern import update_oil_pattern_library, get_oil_display_data
 from tournaments.forms import CreateTournament, ModifyTournament, TournamentDataRow
 from tournaments.models import Tournament
+from oils.oil_pattern_scraper import get_oil_colors
 from tournaments.tournament_scraper import scrape_tournaments, scrape_bowlers
 
 
@@ -41,6 +43,11 @@ def get_bowler_from_place(tournament, place):
         if placement.place == place:
             return placement.user_id
     return None
+
+@register.filter
+def qualifyings(tournament):
+    qualifyings = get_qualifying_object(tournament)
+    return qualifyings
 
 @register.filter
 def qualifying(tournament):
@@ -129,6 +136,17 @@ def bowler_name(uuid, bold_last=False):
                 return name.first_name + '&nbsp;<span class="bold">' + name.last_name + '</span>'
             else:
                 return name.first_name + ' ' + name.last_name
+
+@register.filter
+def bowler_location(uuid):
+    uuid = is_valid_uuid(uuid)
+    if uuid is not None:
+        user = User.objects.get(user_id=uuid)
+        if user.location_city is '':
+            return ''
+        else:
+            return '(' + user.location_city + ' ' + user.location_state + ')'
+
 
 @register.filter
 def tournament_date(tournament_id):
@@ -300,7 +318,18 @@ def tournaments_upcoming_views(request):
 
 def tournaments_view_views(request, id):
     tournament = Tournament.objects.get(tournament_id=id)
-    return render(request, 'tournaments/view-tournament.html', {'nbar': 'tournaments', 'tournament': tournament})
+
+    oil_pattern = get_oil_display_data(879)
+    oil_colors = get_oil_colors()
+
+    return render(request, 'tournaments/view-tournament.html', {'nbar': 'tournaments', 'tournament': tournament, 'oil_pattern': oil_pattern, 'oil_colors': oil_colors})
+
+
+def get_oil():
+    return scrape_oil(1)
+
+
+
 
 
 def tournaments_modify_views(request, id):

@@ -1,0 +1,46 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block content %}
+<script src="{% static 'js/tournament-view-align.js' %}"></script>
+
+<section class="col col-100 oil-sec-wrap">
+    {% for oil_pattern in oil_patterns %}
+    <div class="sec oil-sec">
+        <h2>OIL PATTERN NAME</h2>
+         <div class="t-oil">
+            <div class="t-oil-stats">
+                <i>Length: 42ft</i>
+                <i>Volume: 25.30 mL</i>
+                <i>Forward: 14.95 mL</i>
+                <i>Backwards: 10.35 mL</i>
+                <i>Ratio: 1:3.33</i><br><br>
+                <span><a href="" class="btn btn-small t-oil-view">FORWARD</a><div style="background:{{ oil_colors.3 }};"></div></span>
+                <span><a href="" class="btn btn-small t-oil-view">REVERSE</a><div style="background:{{ oil_colors.4 }};"></div></span>
+                <span><a href="" class="btn btn-small t-oil-view">COMBINED</a><div style="background:{{ oil_colors.3 }};"></div></span>
+                <span><a href="" class="btn btn-small t-oil-view">BUFF AREA</a><div style="background:{{ oil_colors.1 }};"></div></span>
+
+            </div>
+             <a href="" class="btn btn-small t-oil-view-pdf">VIEW PDF</a>
+             <div class="t-oil-display-wrap">
+                 <div class="t-oil-display">
+                     {% for oil in oil_pattern|oil_pattern_filter %}
+                     <span class="t-oil-cell {% if forloop.last %} t-oil-cell-right {% endif %}">
+                    <span class="t-oil-row t-oil-row-top" style="background: {{ oil.0 }};"></span>
+                    <span class="t-oil-row" style="background: {{ oil.1 }};"></span>
+                    <span class="t-oil-row" style="background: {{ oil.2 }};"></span>
+                    <span class="t-oil-row" style="background: {{ oil.3 }};"></span>
+                    <span class="t-oil-row" style="background: {{ oil.4 }};"></span>
+                    <span class="t-oil-row" style="background: {{ oil.5 }};"></span>
+
+                    <span class="t-oil-row t-oil-row-bottom" style="background: {{ oil.6 }};"></span>
+                </span>
+                {% endfor %}
+                </div>
+             </div>
+         </div>
+    </div>
+    {% endfor %}
+</section>
+
+{% endblock %}
+
