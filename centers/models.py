@@ -10,5 +10,7 @@ class Center(models.Model):
     location_street = models.TextField()
     location_city = models.TextField()
     location_state = models.TextField()
-    location_zip = models.IntegerField()
-    tournaments = models.JSONField
+    location_zip = models.IntegerField(default=0)
+    phone_number = models.IntegerField(default=0)
+    oil_machine = models.TextField(default='')
+    tournaments = models.JSONField(default='')

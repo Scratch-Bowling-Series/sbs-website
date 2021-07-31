@@ -1,7 +1,45 @@
 {% extends 'prolink_base_layout.html' %}
 {% load static %}
 {% block content %}
-<div class="homepage-wrap">
-    <h2>ALL TOURNAMENTS</h2>
-</div>
+<section class="bs">
+    <div class="bs-col bs-col-15">
+        <h1>21,015</h1>
+        <h2>TOURNAMENTS</h2>
+    </div>
+    <div class="bs-col bs-col-15">
+        <h1>410<i class="fas fa-caret-up"></i></h1>
+        <h2>TOURNAMENTS THIS MONTH</h2>
+    </div>
+    <div class="bs-col bs-col-15">
+        <h1>298<i class="fas fa-caret-up"></i></h1>
+        <h2>STREAMS THIS MONTH</h2>
+    </div>
+    <div class="bs-col bs-col-55">
+        <div class="chart"></div>
+        <ul class="key">
+          <li>
+            <strong class="percent red">4%</strong>
+            <span class="choice">Active</span>
+          </li>
+          <li>
+            <strong class="percent gray">4%</strong>
+            <span class="choice">Inactive</span>
+          </li>
+          <li>
+            <strong class="percent purple">6%</strong>
+            <span class="choice">Shadow</span>
+          </li>
+          <li>
+            <strong class="percent blue">9%</strong>
+            <span class="choice">Banned</span>
+          </li>
+        </ul>
+    </div>
+</section>
+<section class="top-bar">
+    <input type="text" placeholder="SEARCH TOURNAMENTS">
+    <input type="submit" value="SEARCH">
+    <a class="filter">FILTERS</a>
+    <a class="sort">SORT <i class="fa fa-chevron-down"></i></a>
+</section>
 {% endblock %}
