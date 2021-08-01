@@ -1,4 +1,5 @@
 import json
+from time import sleep
 
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
@@ -9,7 +10,8 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from accounts.views import User
 from centers.center_web_scraper import scrape_centers
-from prolink.prolink_requests import get_list_of_all_bowlers, get_centers_from_auto_field
+from oils.oil_pattern_scraper import update_library
+from prolink.prolink_requests import get_list_of_all_bowlers, get_centers_from_auto_field, get_oils_from_auto_field
 
 
 def prolink_main_view(request):
@@ -31,27 +33,27 @@ def prolink_login_view(request):
 
 def prolink_create_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
-    return render(request, 'prolink-create.html', {'page_name':'CREATE TOURNAMENT'})
+    return render(request, 'prolink-create.html', {'page_name':'CREATE TOURNAMENT', 'nbar':'create'})
 
 
 def prolink_start_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
-    return render(request, 'prolink-start.html', {'page_name':'START TOURNAMENT'})
+    return render(request, 'prolink-start.html', {'page_name':'START TOURNAMENT', 'nbar':'start'})
 
 
 def prolink_active_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
-    return render(request, 'prolink-active.html', {'page_name':'ACTIVE TOURNAMENTS'})
+    return render(request, 'prolink-active.html', {'page_name':'ACTIVE TOURNAMENTS', 'nbar':'active'})
 
 
 def prolink_all_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
-    return render(request, 'prolink-all.html', {'page_name':'ALL TOURNAMENTS'})
+    return render(request, 'prolink-all.html', {'page_name':'ALL TOURNAMENTS', 'nbar':'all'})
 
 
 def prolink_formats_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
-    return render(request, 'prolink-formats.html', {'page_name':'TOURNAMENT FORMATS'})
+    return render(request, 'prolink-formats.html', {'page_name':'TOURNAMENT FORMATS', 'nbar':'formats'})
 
 
 def prolink_bowlers_view(request):
@@ -69,7 +71,7 @@ def prolink_bowlers_view(request):
         else:
             bowler = [str(data.first_name) + ' ' + str(data.last_name), str(data.location_city) + ', ' + str(data.location_state), data.date_joined]
         bowlers.append(bowler)
-    return render(request, 'prolink-bowlers.html', {'page_name':'BOWLERS DATABASE', 'bowlers': bowlers})
+    return render(request, 'prolink-bowlers.html', {'page_name':'BOWLERS DATABASE', 'nbar':'bowlers', 'bowlers': bowlers})
 
 def prolink_bowlers_request(request, page, amount, search_args = None, filter_args = None, sort_args = None):
     results = get_list_of_all_bowlers(request, page, amount, search_args, filter_args, sort_args)
@@ -79,35 +81,38 @@ def prolink_bowlers_request(request, page, amount, search_args = None, filter_ar
 
 def prolink_centers_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
-    return render(request, 'prolink-centers.html', {'page_name':'BOWLING CENTERS'})
+    return render(request, 'prolink-centers.html', {'page_name':'BOWLING CENTERS', 'nbar':'centers'})
 
 def prolink_centers_autofield(request, args):
     return HttpResponse(json.dumps(get_centers_from_auto_field(args)))
 
 def prolink_rankings_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
-    return render(request, 'prolink-rankings.html', {'page_name':'RANKINGS'})
+    return render(request, 'prolink-rankings.html', {'page_name':'RANKINGS', 'nbar':'rankings'})
 
 
 def prolink_account_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
-    return render(request, 'prolink-account.html', {'page_name':'MY ACCOUNT'})
+    return render(request, 'prolink-account.html', {'page_name':'MY ACCOUNT', 'nbar':'account'})
 
 
 def prolink_web_settings_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
-    return render(request, 'prolink-web-settings.html', {'page_name':'WEBSITE SETTINGS'})
+    return render(request, 'prolink-web-settings.html', {'page_name':'WEBSITE SETTINGS', 'nbar':'websettings'})
 
 
 def prolink_pro_settings_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
-    return render(request, 'prolink-pro-settings.html', {'page_name':'SOFTWARE SETTINGS'})
+    return render(request, 'prolink-pro-settings.html', {'page_name':'SOFTWARE SETTINGS', 'nbar':'prosettings'})
 
 
 def prolink_ping_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
     return HttpResponse('Ping Success')
 
+
+def prolink_oils_autofield(request, args):
+    return HttpResponse(json.dumps(get_oils_from_auto_field(args)))
 
 
 

@@ -49,8 +49,9 @@ $color-4:lighten($color-4, $lighten-percentage);
 $color-5:lighten($color-5, $lighten-percentage);
 $color-6:lighten($color-6, $lighten-percentage);
 $color-7:lighten($color-7, $lighten-percentage);
-body
-{
+
+
+body{
 	
 	background:$color-5;
 	font-size:0;
@@ -58,10 +59,7 @@ body
 	color:$color-1;
 }
 section,div{font-size:0;}
-
-
-h1,h2,h3,h4,a,p,li,i,img,svg
-{
+h1,h2,h3,h4,a,p,li,i,img,svg{
 	user-drag: none;
     -webkit-user-drag: none;
     user-select: none;
@@ -69,15 +67,25 @@ h1,h2,h3,h4,a,p,li,i,img,svg
     -webkit-user-select: none;
     -ms-user-select: none;
 }
-input
+input{
+}
+h1,h2,h3,h4,a,i,p,input,textarea,div,section
 {
+	&:focus
+	{
+		outline:none;
+	}
 }
 
 
-
-
-
 /* TITLE BAR */
+.titlebar
+{
+	a,i,span,h1,h2,h3,h4,p
+	{
+		user-select:none;
+	}
+}
 .titlebar{
 	position:fixed;
 	top:0;right:0;left:0;
@@ -109,8 +117,11 @@ input
 	font-family:$font-primary;
 	opacity:0.5;
 	text-decoration:none;
-	span
+	a
 	{
+		text-decoration:none;
+		color:$color-1;
+		display:inline-block;
 		font-size:12px;
 		font-family:$font-primary-bold;
 		vertical-align:top;
@@ -200,7 +211,6 @@ input
 .titlebar-button:hover{
 	background:$color-4;
 	i{color:$color-0;}
-
 }
 .titlebar-button-close:hover{
 
@@ -238,7 +248,7 @@ input
 	background:$color-5;
 	border-radius:33%;
 	display:inline-block;
-	margin:2px 5px 5px 5px;
+	margin:5px 5px 5px 5px;
 	vertical-align:top;
 	i
 	{
@@ -312,8 +322,7 @@ input
 	.sidebar-ver-text{opacity:0.5;}
 	a h1{opacity:0.6;}
 }
-.sidebar .active
-{
+.sidebar .active{
 	i
 	{
 		color:$color-1;
@@ -349,27 +358,28 @@ input
 		/* width */
 	&::-webkit-scrollbar {
 	  width: 10px;
+	  transition:background 1s;
 	}
 
 	/* Track */
 	&::-webkit-scrollbar-track {
 	  margin:10px 0;
-	  background: $color-4;
+	  background: $color-3;
 	  border-radius:7.5px;
 	  box-sizing:border-box;
+	  transition:background 1s;
 	}
 
 	/* Handle */
 	&::-webkit-scrollbar-thumb {
-	  background: $color-1;
+	  transition:background 1s;
+	  background-color: $color-2;
 	  border-radius:7.5px;
-	  opacity:0.2;
 	}
 
 	/* Handle on hover */
 	&::-webkit-scrollbar-thumb:hover {
-	  background:$color-1;
-		opacity:0.2;
+	  background-color:darken($color-2, 10%);
 	}
 }
 .test{
@@ -378,11 +388,14 @@ input
 	width:100px;
 }
 section{
+	opacity:0;
+	transition:opacity 1.5s;
 	width:calc(100% - 20px);
 	height:200px;
 	border-radius:10px;
 	margin:10px 0px 0 10px;
 	background:$color-3;
+	position:relative;
 	vertical-align:top;
 	overflow:hidden;
 }
@@ -391,7 +404,33 @@ section{
 	width:calc(33.3333% - 13px);
 	font-size:12px;
 	color:$color-0;
+	height:calc(25vh - 25px);
+}
+.grid-50-a
+{
+	display:inline-block;
+	width:calc(50% - 15px);
+	font-size:12px;
+	color:$color-0;
 	height:auto;
+	text-align:center;
+	.bs-col
+	{
+		padding-top:25px;
+	}
+}
+.grid-100-a
+{
+	display:inline-block;
+	width:calc(100% - 20px);
+	font-size:12px;
+	color:$color-0;
+	height:auto;
+	text-align:center;
+	.bs-col
+	{
+		padding-top:25px;
+	}
 }
 .top-bar{
 	height:40px;
@@ -477,41 +516,53 @@ section{
 		}
 	}
 }
+h1.title-left 
+{
+	position:absolute;
+	top:15px;left:20px;
+	font-size:20px;
+	color:$color-1;
+}
 
 
 /* HOMEPAGE */
-.homepage-wrap
-{
-	vertical-align:top;
-	margin:30vh auto 0 auto;
-	width:50%;height:30vh;
-	display:block;
+#homepage-wrap{
 	text-align:center;
-	color:$color-4;
-	opacity:0.8;
+	position:absolute;
+	vertical-align:top;
+	right:0;left:0;
+	margin:40vh auto 0 auto;
+	width:auto;height:auto;
+	display:block;
+	color:$color-1;
 	h2
 	{
+		opacity:0;
 		margin:0 auto;
 		font-size:35px;
 		span
 		{
 			display:inline-block;
-			vertical-align:top;
-			font-size:20px;
-			padding:3px 0 0 5px;
 		}
+		transition:opacity 1s;
 	}
 	h3
 	{
 		margin:20px 0 0 0;
-		font-size:18px;	
+		font-size:25px;	
+		span
+		{
+			font-size:12px;
+			vertical-align:top;
+			padding:0;
+		}
 	}
-	p
-	{
-		font-size:18px;
-		line-height:25px;
-		padding:5px 0;
-	}
+}
+#homepage-content
+{
+	display:block;
+	opacity:0;
+	transition:opacity linear 0.5s;
 }
 
 
@@ -546,7 +597,30 @@ section{
 		color:#6c9657;
 	}
 }
-.bs-col-15{width:30%;}
+.small-display
+{
+	min-width:200px;
+	h1{
+		font-size:30px;
+		padding:0;
+		margin:60px 0 0 0;
+	}
+	h2{
+		font-size:16px;
+		margin:20px 0 40px 0;
+		padding:0;
+	}
+	i
+	{
+		font-size:20px;
+		padding:5px 0 0 10px;
+	}
+	min-height:200px;
+}
+.bs-col-12{width:11.3%;}
+.bs-col-15{width:15%;}
+.bs-col-20{width:20%;}
+.bs-col-30{width:28%;}
 .bs-col-55{width:30%;}
 
 
@@ -598,8 +672,10 @@ section{
 	width:calc(100% - 20px);
 	margin:10px auto;
 	max-width:1000px;
-	min-height:800px;
+	min-height:400px;
 	position:relative;
+	box-sizing:content-box;
+	overflow:visible;
 }
 .sc-30{width:30%;}
 .sc-70{width:70%;}
@@ -983,6 +1059,29 @@ textarea{
 			border:none;
 			outline:none;
 		}
+		option
+		{
+			-webkit-appearance:none;
+			appearance:none;
+			background:$color-1;
+			color:$color-4;
+			font-size:16px;
+			padding:10px 15px;
+			border:none;
+			box-shadow:none;
+			outline:none;
+			&:focus
+			{
+				border:none;
+				outline:none;
+			}
+			&:hover
+			{
+				background:$color-1;
+				color:$color-4;
+			}
+		}
+
 	}
 }
 .sr-addabove{
@@ -1126,11 +1225,11 @@ textarea{
 }
 .sr-pie-graph
 {
-	$pie-1:$color-1;
-	$pie-2:$color-2;
-	$pie-3:$color-3;
-	$pie-4:$color-4;
-	$pie-5:$color-5;
+	$pie-1:#F4F1DE;
+	$pie-2:#E07A5F;
+	$pie-3:#3D405B;
+	$pie-4:#81B29A;
+	$pie-5:#F2CC8F;
 	margin-top:30px;
 	.chart
 	{
@@ -1209,17 +1308,17 @@ textarea{
 		background:$color-1;
 		padding-top:20px;
 		overflow:hidden;
-		max-height:0;
 		padding:0;
 		transition:max-height linear 0.5s;
 		.scroll-wrap
 		{
 
-			max-height:200px;
+			max-height:0px;
 			overflow-x:hidden;
 			overflow-y:auto;
 			width:calc(100% - 10px);
 			margin-right:10px;
+
 			&::-webkit-scrollbar {
 		  		width: 10px;
 			}
@@ -1248,20 +1347,27 @@ textarea{
 		a
 		{
 			cursor:pointer;
-			font-size:16px;
 			display:block;
 			width:100%;
-			padding:15px 0 15px 0;
-			color:$color-5;
-			padding-left:20px;
-
-			margin-bottom:10px;
+			padding:15px 0 5px 0;
+			margin-bottom:2px;
+			box-sizing:border-box;
+			min-height:50px;
 			span
 			{
 				display:inline-block;
-				font-size:14px;
-				padding-left:5px;
+				font-size:16px;
+				padding-left:15px;
 				color:$color-4;
+				max-width:50%;
+			}
+			i
+			{
+				display:inline-block;
+				float:right;
+				color:$color-4;
+				padding-right:10px;
+				font-size:14px;
 				&:before{content:'(';}
 				&:after{content:')';}
 			}

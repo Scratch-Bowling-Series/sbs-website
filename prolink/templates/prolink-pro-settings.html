@@ -2,55 +2,137 @@
 {% load static %}
 {% block content %}
 <script src="{% static 'prolink/js/vertical-center-sc.js' %}"></script>
+<script src="{% static 'prolink/js/sc-menus.js' %}"></script>
+
 <section class="sc center-vertically">
     <div class="sc-sidebar sc-30">
         <h2 class="sc-title-1">PROGRAM SETTINGS</h2>
         <a class="selected">GENERAL<i class="fa fa-chevron-left"></i></a>
-        <a>CACHE</a>
-        <a>UPDATE</a>
-        <a>REPORT BUG</a>
-        <a>ABOUT</a>
+        <a>CACHE<i class="fa fa-chevron-left"></i></a>
+        <a>UPDATE<i class="fa fa-chevron-left"></i></a>
+        <a>ABOUT<i class="fa fa-chevron-left"></i></a>
     </div>
     <div class="sc-content sc-70">
-        <h2 class="sc-title-2">GENERAL</h2>
-        <div class="sr sr-header">
-            <h1>Settings Menu Name</h1>
+        <div class="sc-content-page sc-p-1">
+            <h2 class="sc-title-2">GENERAL</h2>
+            <div class="sr sr-header">
+                <h1>Basic Information</h1>
+            </div>
+            <div class="sr sr-textfield">
+                <label>Tournament Name</label>
+                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
+                <input type="text" placeholder="">
+            </div>
+            <div class="sr sr-textarea">
+                <label>Tournament Description</label>
+                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
+                <div class="wrap">
+                    <textarea></textarea>
+                </div>
+            </div>
+            <div class="sr sr-datefield">
+                <label>Start Date</label>
+                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
+                <input type="date">
+            </div>
+            <div class="sr sr-timefield">
+                <label>Start Time</label>
+                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
+                <input type="time">
+            </div>
+            <div class="sr sr-header">
+                <h1>Options</h1>
+            </div>
+            <div class="sr sr-checkbox">
+                <label>Enable Stream Sync</label>
+                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
+                <input type="checkbox">
+            </div>
+            <div class="sc-submit-1">
+                <input type="submit" value="CONTINUE" class="sc-next">
+            </div>
         </div>
-        <div class="sr sr-checkbox">
-            <label>Settings Option</label>
-            <p>Settings Option Description</p>
-            <input type="checkbox" checked>
+        <div class="sc-content-page sc-p-2">
+            <h2 class="sc-title-2">CACHE</h2>
+            <div class="sr sr-header">
+                <h1>Select the Bowling Center</h1>
+            </div>
+            <div class="sr sr-autofield">
+                <label>Search</label>
+                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">Begin typing the name or location of the bowling center you wish to select.</span></a></p>
+                <input type="text" placeholder="" class="autofield-input" data="centers">
+                <div class="autofield-wrap">
+                    <div class="scroll-wrap">
+
+                    </div>
+                </div>
+            </div>
+            <div class="sr sr-header">
+                <h1>Event Specific Information</h1>
+            </div>
+            <div class="sr sr-textarea">
+                <label>Special Notes</label>
+                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
+                <div class="wrap">
+                    <textarea></textarea>
+                </div>
+            </div>
+            <div class="sr sr-checkbox">
+                <label>Cafe Available</label>
+                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
+                <input type="checkbox">
+            </div>
+            <div class="sr sr-checkbox">
+                <label>Bar Available</label>
+                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
+                <input type="checkbox">
+            </div>
+            <div class="sc-submit-1">
+                <input type="submit" value="PREVIOUS" class="sc-prev">
+                <input type="submit" value="CONTINUE" class="sc-next">
+            </div>
         </div>
-        <div class="sr sr-checkbox">
-            <label>Settings Option</label>
-            <p>Settings Option Description</p>
-            <input type="checkbox" checked>
+        <div class="sc-content-page sc-p-3">
+            <h2 class="sc-title-2">UPDATE</h2>
+            <div class="sr sr-header">
+                <h1>Select the Team Size</h1>
+            </div>
+            <div class="sr sr-dropfield">
+                <label>Team Size</label>
+                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
+                <select>
+                  <option value="volvo">Singles</option>
+                  <option value="saab">Doubles</option>
+                  <option value="fiat">Trios</option>
+                  <option value="audi">4 Man</option>
+                  <option value="audi">5 Man</option>
+                </select>
+            </div>
+            <div class="sr sr-header">
+                <h1>Team Options</h1>
+            </div>
+            <div class="sc-submit-1">
+                <input type="submit" value="PREVIOUS" class="sc-prev">
+                <input type="submit" value="CONTINUE" class="sc-next">
+            </div>
         </div>
-        <div class="sr sr-checkbox">
-            <label>Settings Option</label>
-            <p>Settings Option Description</p>
-            <input type="checkbox" checked>
-        </div>
-        <div class="sr sr-header">
-            <h1>Settings Menu Name</h1>
-        </div>
-        <div class="sr sr-checkbox">
-            <label>Settings Option</label>
-            <p>Settings Option Description</p>
-            <input type="checkbox" checked>
-        </div>
-        <div class="sr sr-checkbox">
-            <label>Settings Option</label>
-            <p>Settings Option Description</p>
-            <input type="checkbox" checked>
-        </div>
-        <div class="sr sr-checkbox">
-            <label>Settings Option</label>
-            <p>Settings Option Description</p>
-            <input type="checkbox" checked>
-        </div>
-        <div class="sc-submit-1">
-            <input type="submit" value="APPLY CHANGES">
+        <div class="sc-content-page sc-p-4">
+            <h2 class="sc-title-2">ABOUT</h2>
+            <div class="sr sr-header">
+                <h1>Select the Format</h1>
+            </div>
+            <div class="sr sr-textfield">
+                <label>Search</label>
+                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
+                <input type="text" placeholder="">
+            </div>
+            <div class="sr sr-header">
+                <h1>Format Options</h1>
+            </div>
+            <div class="sc-submit-1">
+                <input type="submit" value="PREVIOUS" class="sc-prev">
+                <input type="submit" value="CONTINUE" class="sc-next">
+            </div>
         </div>
     </div>
 </section>

@@ -20,17 +20,131 @@ lib = {"Imajlar/imBos.gif": oil_colors[0],
        }
 
 
-def update_library(full_update):
-    for index in range(510, 902):
-        oil_pattern = Oil_Pattern.objects.filter(pattern_db_id=index).first()
-        if oil_pattern is None:
-            display_data = scrape_oil_display(index)
+def update_library():
+    for pattern_id in range(510, 902):
+        update_oil_pattern(pattern_id)
+        print('Updating Library (' + str(pattern_id) + '/902)')
+    print('Done Updating Oil Pattern Library. Length: ' + str(len(Oil_Pattern.objects.all())))
+
+
+
+
+
+
+def update_oil_pattern(pattern_id):
+    with urlopen('http://patternlibrary.kegel.net/PatternLibraryPatternGraph.aspx?ID=' + str(pattern_id) + '&VIEW=COM') as response:
+        soup = BeautifulSoup(response, 'lxml')
+        if soup is not None:
+            oil_pattern = Oil_Pattern.objects.filter(pattern_db_id=pattern_id).first()
+            if oil_pattern is None:
+                oil_pattern = Oil_Pattern.create(pattern_id)
+
+            name = get_oil_name(soup)
+            if name is not None:
+                oil_pattern.pattern_name = str(name)
+
+            display_data = get_display_data(soup)
             if display_data is not None:
-                display_data = json.dumps(display_data)
-                oil_pattern = Oil_Pattern.create(index)
-                oil_pattern.pattern_cache = display_data
-                oil_pattern.save()
-        print('Updating Library (' + str(index) + '/902)')
+                oil_pattern.pattern_cache = json.dumps(display_data)
+
+            oil_pattern.save()
+
+    with urlopen('http://patternlibrary.kegel.net/PatternLibraryPatternLoadData.aspx?ID=' + str(pattern_id) + '&VIEW=COM') as response:
+        soup = BeautifulSoup(response, 'lxml')
+        if soup is not None:
+            oil_pattern = Oil_Pattern.objects.filter(pattern_db_id=pattern_id).first()
+            if oil_pattern is None:
+                oil_pattern = Oil_Pattern.create(pattern_id)
+
+            length = get_oil_length(soup)
+            if length is not None:
+                oil_pattern.pattern_length = str(length)
+
+            volume = get_oil_volume(soup)
+            if volume is not None:
+                oil_pattern.pattern_volume = str(volume)
+
+            forward = get_oil_forward(soup)
+            if forward is not None:
+                oil_pattern.pattern_forward = str(forward)
+
+            backward = get_oil_backward(soup)
+            if backward is not None:
+                oil_pattern.pattern_backward = str(backward)
+
+            ratio = get_oil_ratio(soup)
+            if ratio is not None:
+                oil_pattern.pattern_ratio = str(ratio)
+
+            oil_pattern.save()
+
+
+
+# oil_pattern.pattern_name #
+def get_oil_name(soup):
+    name = soup.find(id='ContentPlaceHolder1_sDescription')
+    if name is not None:
+        return name.text
+
+# oil_pattern.pattern_length #
+def get_oil_length(soup):
+    length = soup.find(id='ContentPlaceHolder1_bLength')
+    if length is not None:
+        return length.text
+
+# oil_pattern.pattern_volume #
+def get_oil_volume(soup):
+    volume = soup.find(id='ContentPlaceHolder1_fOilVolume')
+    if volume is not None:
+        return volume.text
+
+# oil_pattern.pattern_forward #
+def get_oil_forward(soup):
+    forward = soup.find(id='ContentPlaceHolder1_fForwardOil')
+    if forward is not None:
+        return forward.text
+
+# oil_pattern.pattern_backward #
+def get_oil_backward(soup):
+    backward = soup.find(id='ContentPlaceHolder1_fReverseOil')
+    if backward is not None:
+        return backward.text
+
+# oil_pattern.pattern_ratio #
+def get_oil_ratio(soup):
+    ratio = soup.find(id='ContentPlaceHolder1_sRatio')
+    if ratio is not None:
+        return ratio.text
+
+# oil_pattern.pattern_cache #
+def get_display_data(soup):
+    urls = []
+    patterns = soup.find_all(class_='clPatternHucre')
+    if patterns is not None:
+        for pattern in patterns:
+            urls.append(gradient_maker_two(pattern.find_all('img')))
+    oil_pattern = []
+    for x in range(0, 39):
+        am = []
+        for i in range(0, 7):
+            index = 39 * i + x
+            am.append(index)
+        try:
+            color_1 = urls[am[0]]
+            color_2 = urls[am[1]]
+            color_3 = urls[am[2]]
+            color_4 = urls[am[3]]
+            color_5 = urls[am[4]]
+            color_6 = urls[am[5]]
+            color_7 = urls[am[6]]
+            color_list = [color_1, color_2, color_3, color_4, color_5, color_6, color_7]
+            oil_pattern.append(color_list)
+        except IndexError:
+            continue
+    return oil_pattern
+
+
+
 
 
 def get_oil_colors():

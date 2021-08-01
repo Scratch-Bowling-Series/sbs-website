@@ -27,5 +27,6 @@ urlpatterns = [
 
 
     path('centers/autofield/<args>/', views.prolink_centers_autofield, name='centers_autofield'),
+    path('oils/autofield/<args>/', views.prolink_oils_autofield, name='oils_autofield'),
 
 ]
