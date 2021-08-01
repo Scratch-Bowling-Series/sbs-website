@@ -45,7 +45,7 @@
       </div>
       <div class="sidebar-expand-content">
         <ul>
-          <a href="{% url 'prolink:home' %}"><li><span class="sidebar-list-icon {% if 'dashboard' in nbar %} active{% endif %}"><i class="fas fa-chart-line"></i></span><h1>Dashboard</h1></li></a>
+          <a href="{% url 'prolink:home' %}"><li><span class="sidebar-list-icon {% if 'home' in nbar %} active{% endif %}"><i class="fas fa-chart-line"></i></span><h1>Dashboard</h1></li></a>
           <a href="{% url 'prolink:create' %}"><li><span class="sidebar-list-icon {% if 'create' in nbar %} active{% endif %}"><i class="fa fa-plus"></i></span><h1>Create Tournament</h1></li></a>
           <a href="{% url 'prolink:start' %}"><li><span class="sidebar-list-icon {% if 'start' in nbar %} active{% endif %}"><i class="far fa-play-circle"></i></span><h1>Start Tournament</h1></li></a>
           <a href="{% url 'prolink:active' %}"><li><span class="sidebar-list-icon {% if 'active' in nbar %} active{% endif %}"><i class="fas fa-window-restore"></i></span><h1>Active Tournaments</h1></li></a>

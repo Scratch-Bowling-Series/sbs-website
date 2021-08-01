@@ -28,7 +28,7 @@ $(document).ready(function()
             var totalTop = $('.sc').offset().top;
             sideHeight -= totalTop;
             console.log(sideHeight);
-            $('.sc').css('min-height', sideHeight + 100);
+            $('.sc').css('min-height', sideHeight + 400);
             var pageHeight = $('.sc-p-' + pageNumber).height();
             $('.sc').css('height', pageHeight + 100);
             $('.sc-content-page').css('display','none');

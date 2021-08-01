@@ -16,7 +16,7 @@ from prolink.prolink_requests import get_list_of_all_bowlers, get_centers_from_a
 
 def prolink_main_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
-    return render(request, 'prolink-home.html')
+    return render(request, 'prolink-home.html', {'page_name':'DASHBOARD', 'nbar':'home'})
 
 
 def prolink_login_view(request):

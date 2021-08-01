@@ -5,9 +5,8 @@ $(document).ready(function()
             {
                 Align();
             });
-            $('.sc').change(function()
+            $('.center-vertically').change(function()
             {
-                console.log('changed');
                 Align();
             });
             function Align()

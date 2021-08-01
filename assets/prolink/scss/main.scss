@@ -725,6 +725,7 @@ h1.title-left
 	background:$color-5;
 	position:absolute;
 	left:0;top:0;bottom:0;
+	min-height:400px;
 	a
 	{
 		display:block;
@@ -748,10 +749,13 @@ h1.title-left
 	{
 		color:$color-1;
 	}
+	border-radius:10px 0 0 10px
 }
 .sc-content{
 	position:absolute;
 	right:0;top:0;bottom:0;
+	min-height:400px;
+	border-radius:0 10px 10px 0;
 }
 .sc-content-page{
 	width:100%;
