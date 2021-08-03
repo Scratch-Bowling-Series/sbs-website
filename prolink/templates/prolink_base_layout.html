@@ -22,7 +22,7 @@
       <div class="titlebar-login">
         Logged in as <a href="{% url 'prolink:account' %}">{{ user.first_name|none_replace:'Unknown' }}</a>
         <i id="con-ping-icon" class="fas fa-circle titlebar-connection-icon"></i>
-        <i class="titlebar-connection" id="con-ping">PING</i>
+        <i class="titlebar-connection" id="con-ping">0ms</i>
       </div>
 
       <div class="titlebar-buttons">
@@ -51,6 +51,7 @@
           <a href="{% url 'prolink:active' %}"><li><span class="sidebar-list-icon {% if 'active' in nbar %} active{% endif %}"><i class="fas fa-window-restore"></i></span><h1>Active Tournaments</h1></li></a>
           <a href="{% url 'prolink:all' %}"><li><span class="sidebar-list-icon {% if 'all' in nbar %} active{% endif %}"><i class="far fa-chart-bar"></i></span><h1>All Tournaments</h1></li></a>
           <a href="{% url 'prolink:formats' %}"><li><span class="sidebar-list-icon {% if 'formats' in nbar %} active{% endif %}"><i class="fas fa-file-contract"></i></span><h1>View Formats</h1></li></a>
+          <a href="{% url 'prolink:oils' %}"><li><span class="sidebar-list-icon {% if 'oils' in nbar %} active{% endif %}"><i class="fas fa-oil-can"></i></span><h1>View Oil Patterns</h1></li></a>
           <a href="{% url 'prolink:bowlers' %}"><li><span class="sidebar-list-icon {% if 'bowlers' in nbar %} active{% endif %}"><i class="fas fa-users"></i></span><h1>View Bowlers</h1></li></a>
           <a href="{% url 'prolink:centers' %}"><li><span class="sidebar-list-icon {% if 'centers' in nbar %} active{% endif %}"><i class="far fa-building"></i></span><h1>View Centers</h1></li></a>
           <a href="{% url 'prolink:rankings' %}"><li><span class="sidebar-list-icon {% if 'rankings' in nbar %} active{% endif %}"><i class="fas fa-trophy"></i></span><h1>View Rankings</h1></li></a>
@@ -74,7 +75,11 @@
     <script>
             $(document).ready(function()
             {
-              $('section').css('opacity','1');
+              if(sessionStorage.allowedToFade == 'yes')
+              {
+                $('section').css('opacity','1');
+                console.log(sessionStorage.allowedToFade);
+              }
             });
     </script>
     <script src="{% static 'prolink/js/title/title-ping.js' %}"></script>

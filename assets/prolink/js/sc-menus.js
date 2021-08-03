@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-    var currentPage = 1;
+    var currentPage = 2;
     OpenPage(currentPage);
 
     $('.sc-next').click(function()

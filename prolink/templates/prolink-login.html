@@ -21,25 +21,25 @@
 
     <div class="login-container">
       <h2>ENTER LOGIN DETAILS</h2>
-      <form action="{% url 'prolink:login' %}" method="post">
+      <form action="{% url 'prolink:login' %}" method="post" name="login">
           {% csrf_token %}
         {{ form.username }}
         {{ form.password }}
-        <input type="checkbox" name="staylogged"><label class="checkbox-label">REMEMBER CREDENTIALS</label>
+        <input type="checkbox" name="remember"><label class="checkbox-label">REMEMBER CREDENTIALS</label>
         <input class="signup-button" type="submit" value="CREATE ACCOUNT">
         <input id='login' class="login-button" type="submit" value="LOGIN">
       </form>
     </div>
-
     {% if success is True %}
     <script>
-        const { ipcRenderer } = require('electron');
-        ipcRenderer.send('newWindow');
+      const { ipcRenderer } = require('electron');
+      ipcRenderer.send('loadWindow');
     </script>
+    {% else %}
+      <script src="{% static 'prolink/js/login/login.js' %}"></script>
     {% endif %}
 
     <script>
-        const remote = require('electron').remote;
         document.getElementById("t-btn-close").addEventListener("click", function (e) {
             var window = remote.getCurrentWindow();
             window.close();

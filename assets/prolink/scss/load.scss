@@ -71,104 +71,53 @@ h2
 	color:$color-1;
 }
 
-/* LOGIN */
-.login-container
+/* LOAD */
+#load-container
 {
-	position:absolute;
-	right:0;left:0;top:50px;bottom:0;
-	text-align:left;
-	font-size:0;
-	width:100%;
-	input
+	width:100%;height:200px;
+	margin:5px auto 0 auto;
+	padding-top:20px;
+	vertical-align:top;
+	box-sizing:border-box;
+	position:relative;
+	text-align:center;
+	a
 	{
-		border-radius:5px;
-		-webkit-appearance:none;
-		appearance:none;
-		background:$color-2;
-		border:none;
-		width:360px;
-		height:40px;
-		margin:20px 20px;
-		display:block;
-		box-sizing:border-box;
-		font-size:15px;
-		color:$color-1;
-		font-family:$font-primary-light;
-	}
-	input[type=text], input[type=password],input[type=email]
-	{
-		-webkit-appearance:none;
-		appearance:none;
-		background:$color-2;
-		border:none;
-		width:360px;
-		height:40px;
-		margin:20px 20px;
-		padding:0 0 0 10px;
-		display:block;
-		box-sizing:border-box;
-		font-size:18px;
-		color:$color-1;
-		&::placeholder
-		{
-			color:$color-2;
-		}
-		&:focus
-		{
-			outline:none;
-		}
-	}
-	input[type=checkbox]
-	{
-		width:30px;height:30px;
-		margin:0 20px;
-		background:$color-2;
-		display:inline-block;
-		box-sizing:border-box;
-		color:red;
-		&:checked
-		{
-			background:$color-4;
-			box-sizing:border-box;
-			border:solid 5px $color-2;
-		}
-	}
-	.checkbox-label
-	{
-		font-family:$font-primary-light;
-		vertical-align:top;
-		color:$color-1;
-		font-size:18px;
-		line-height:18px;
-		display:inline-block;
-		padding:5px 0;
-	}
-
-
-
-	.login-button
-	{
-		position:absolute;
-		bottom:20px;right:20px;
-		width:calc(50% - 30px);
-		margin:0;
-		display:inline-block;
-		background:$color-5;
-		color:$color-1;
-		cursor:pointer;
-	}
-	.signup-button
-	{
-		position:absolute;
-		bottom:20px;left:20px;
-		width:calc(50% - 30px);
-		margin:0;
-		display:inline-block;
-		background:$color-5;
-		color:$color-1;
-		display:none;
+		font-size:16px;
 	}
 }
+
+#load-bar
+{
+	position:absolute;
+	bottom:0;right:0;left:0;
+	box-sizing:border-box;
+	width:calc(100% - 40px);height:25px;
+	margin:20px;
+	background:$color-2;
+	border-radius:10px;
+	overflow:hidden;
+	#inner
+	{
+		position:absolute;
+		left:0;top:0;bottom:0;
+		width:0%;
+		background:$color-1;
+		transition:width ease 5s;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
 input, textarea, select{
 	-webkit-appearance:none;
 	appearance:none;

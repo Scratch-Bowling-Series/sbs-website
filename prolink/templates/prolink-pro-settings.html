@@ -19,38 +19,26 @@
         </div>
         <div class="sc-content-page sc-p-2">
             <h2 class="sc-title-2">CACHE</h2>
-            <div class="sr sr-header">
-                <h1>Select the Bowling Center</h1>
-            </div>
-            <div class="sr sr-autofield">
-                <label>Search</label>
-                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">Begin typing the name or location of the bowling center you wish to select.</span></a></p>
-                <input type="text" placeholder="" class="autofield-input" data="centers">
-                <div class="autofield-wrap">
-                    <div class="scroll-wrap">
+            <div class="sr sr-cache">
+                <div class="bar">
 
-                    </div>
                 </div>
-            </div>
-            <div class="sr sr-header">
-                <h1>Event Specific Information</h1>
-            </div>
-            <div class="sr sr-textarea">
-                <label>Special Notes</label>
-                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
-                <div class="wrap">
-                    <textarea></textarea>
+                <div class="type-row">
+                    <div class="type-color cache_color_1"></div>
+                    <label>Bowler Database</label>
                 </div>
-            </div>
-            <div class="sr sr-checkbox">
-                <label>Cafe Available</label>
-                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
-                <input type="checkbox">
-            </div>
-            <div class="sr sr-checkbox">
-                <label>Bar Available</label>
-                <p>What is this? <a><i class="fas fa-question-circle"></i><span class="sc-tip">This is the default tooltip text for this form field. Use this to describe something here i guess. </span></a></p>
-                <input type="checkbox">
+                <div class="type-row">
+                    <div class="type-color cache_color_2"></div>
+                    <label>Oil Pattern Database</label>
+                </div>
+                <div class="type-row">
+                    <div class="type-color cache_color_3"></div>
+                    <label>Tournament Database</label>
+                </div>
+                <div class="type-row">
+                    <div class="type-color cache_color_4"></div>
+                    <label>Center Database</label>
+                </div>
             </div>
             <div class="sc-submit-1">
                 <input type="submit" value="PREVIOUS" class="sc-prev">
@@ -101,5 +89,5 @@
         </div>
     </div>
 </section>
-
+<script src="{% static 'prolink/js/load/cache-display.js' %}"></script>
 {% endblock %}

@@ -1,44 +1,74 @@
+import json
+
 from django.db.models import Q
 from django.http import request
 
 from accounts.forms import User
 from centers.models import Center
 from oils.models import Oil_Pattern
+from tournaments.models import Tournament
 
 
-def get_list_of_all_bowlers(request, page, amount_per_page, search_args=None, filter_args=None, sort_args=None):
-    total = page * amount_per_page
-    start = total - amount_per_page
-    end = total - 1
-    temp = []
-    users = User.objects.all()[start:end]
-
+def get_list_of_all_bowlers():
+    users = User.objects.all()
+    temp = {}
     for user in users:
-        temp.append(bowler_to_list(user))
+        data = []
+        data.append(str(user.first_name))
+        data.append(str(user.last_name))
+        data.append(str(user.last_login))
+        data.append(str(user.location_city))
+        data.append(str(user.location_state))
+        data.append(str(user.picture))
+        data.append(str(user.email))
+        data.append(str(user.bio))
+        temp[str(user.user_id)] = data
     return  temp
 
 
-def bowler_to_list(user):
-    if (user.location_city is '' or user.location_city is None) and (user.location_state is '' or user.location_state is None):
-        bowler = [str(user.first_name) + ' ' + str(user.last_name),
-                  str(user.location_city) + ', ' + str(user.location_state), str(user.date_joined),
-                  str(user.user_id), str(user.picture)]
-        return bowler
-    elif user.location_city is '' or user.location_city is None:
-        bowler = [str(user.first_name) + ' ' + str(user.last_name),
-                  str(user.location_city) + ', ' + str(user.location_state), str(user.date_joined),
-                  str(user.user_id), str(user.picture)]
-        return bowler
-    elif user.location_state is '' or user.location_state is None:
-        bowler = [str(user.first_name) + ' ' + str(user.last_name),
-                  str(user.location_city) + ', ' + str(user.location_state), str(user.date_joined),
-                  str(user.user_id), str(user.picture)]
-        return bowler
-    else:
-        bowler = [str(user.first_name) + ' ' + str(user.last_name),
-              str(user.location_city) + ', ' + str(user.location_state), str(user.date_joined),
-              str(user.user_id), str(user.picture)]
-        return bowler
+def get_list_of_all_patterns():
+    oil_patterns = Oil_Pattern.objects.all()
+    temp = {}
+    for oil_pattern in oil_patterns:
+        pattern_cache = oil_pattern.pattern_cache
+        if pattern_cache is not None:
+            pattern_cache = json.loads(pattern_cache)
+            data = []
+            data.append(oil_pattern.pattern_name)
+            data.append(oil_pattern.pattern_db_id)
+            data.append(pattern_cache)
+            data.append(oil_pattern.pattern_forward)
+            data.append(oil_pattern.pattern_backward)
+            data.append(oil_pattern.pattern_length)
+            data.append(oil_pattern.pattern_volume)
+            data.append(oil_pattern.pattern_ratio)
+            temp[str(oil_pattern.pattern_id)] = data
+    return temp
+
+
+def get_list_of_all_tournaments():
+    tournaments = Tournament.objects.all()
+    temp = {}
+    for tournament in tournaments:
+        data = []
+        data.append(str(tournament.tournament_name))
+        data.append(str(tournament.tournament_description))
+        data.append(str(tournament.tournament_date))
+        data.append(str(tournament.tournament_time))
+        temp[str(tournament.tournament_id)] = data
+
+    return temp
+
+
+def get_list_of_all_centers():
+    centers = Center.objects.all()
+    temp = {}
+    for center in centers:
+        data = []
+        data.append(str(center.center_name))
+        data.append(str(center.center_description))
+        temp[str(center.center_id)] = data
+    return temp
 
 
 def get_centers_from_auto_field(search_args):

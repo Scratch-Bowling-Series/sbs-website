@@ -84,7 +84,9 @@ h1,h2,h3,h4,a,i,p,input,textarea,div,section
 	a,i,span,h1,h2,h3,h4,p
 	{
 		user-select:none;
+		box-sizing:border-box;
 	}
+	box-sizing:border-box;
 }
 .titlebar{
 	position:fixed;
@@ -103,6 +105,7 @@ h1,h2,h3,h4,a,i,p,input,textarea,div,section
 	-webkit-app-region: drag;
 	width:calc(100% - 240px);height:25px;
 	vertical-align:top;
+	min-width:370px;
 }
 .titlebar-login{
 	text-align:right;
@@ -111,7 +114,7 @@ h1,h2,h3,h4,a,i,p,input,textarea,div,section
 	width:auto;height:25px;
 	color:$color-1;
 	font-size:12px;
-	padding:6.5px 10px;
+	padding:7.5px 10px;
 	line-height:10px;
 	display:inline-block;
 	font-family:$font-primary;
@@ -132,7 +135,7 @@ h1,h2,h3,h4,a,i,p,input,textarea,div,section
 		color:$color-1;
 		font-size:12px;
 		line-height:10px;
-		padding-left:5px;
+		padding-left:0px;
 		display:inline-block;
 		font-family:$font-primary;
 		text-decoration:none;
@@ -141,14 +144,14 @@ h1,h2,h3,h4,a,i,p,input,textarea,div,section
 	}
 	.titlebar-connection-icon
 	{
-		font-size:10px;
+		font-size:6px;
 		vertical-align:top;
-		padding:1px;
+		padding:3px 1px 1px 1px;
 	}
 }
 .titlebar-title{
 	font-size:12px;
-	padding:6.5px 10px;
+	padding:7.5px 10px;
 	line-height:10px;
 	display:inline-block;
 	color:$color-1;
@@ -169,7 +172,7 @@ h1,h2,h3,h4,a,i,p,input,textarea,div,section
 	top:0;
 	margin:0 auto;
 	font-size:12px;
-	padding:6.5px 10px;
+	padding:7.5px 10px;
 	line-height:10px;
 	display:inline-block;
 	color:$color-1;
@@ -399,12 +402,13 @@ section{
 	vertical-align:top;
 	overflow:hidden;
 }
-.grid-2-33{
+.grid-2-25{
 	display:inline-block;
-	width:calc(33.3333% - 13px);
+	width:calc(25% - 12.5px);
 	font-size:12px;
 	color:$color-0;
-	height:calc(25vh - 25px);
+	transition:opacity 1.5s;
+	height:auto;
 }
 .grid-50-a
 {
@@ -561,12 +565,12 @@ h1.title-left
 #homepage-content
 {
 	display:block;
-	opacity:0;
+	opacity:1;
 	transition:opacity linear 0.5s;
 }
 
 
-/* BOWLER STATS */
+/* BLOCK STATS */
 .bs{
 	height:auto;
 	text-align:center;
@@ -576,38 +580,48 @@ h1.title-left
 	text-align:center;
 	vertical-align:top;
 	h1{
+		vertical-align:top;
 		display:block;
 		font-size:40px;
+		line-height:40px;
 		color:$color-0;
 		padding:0;
-		margin:40px 0 0 0;
+		margin:20px 0 0 0;
 	}
 	h2{
+		vertical-align:top;
 		display:block;
 		font-size:20px;
+		line-height:20px;
 		color:$color-0;
-		margin:20px 0 40px 0;
+		margin:10px 0 30px 0;
 		padding:0;
 	}
 	i
 	{
-		font-size:35px;
 		vertical-align:top;
-		padding:5px 0 0 10px;
+		font-size:25px;
+		vertical-align:top;
+		padding:3px 0 0 5px;
 		color:#6c9657;
 	}
+	min-height:50px;
+	margin:0;font-size:0;
 }
-.small-display
-{
-	min-width:200px;
+.bs-wrap{
+	display:inline-block;
+	font-size:0;
+	min-width:350px;
+}
+.small-display{
 	h1{
 		font-size:30px;
 		padding:0;
-		margin:60px 0 0 0;
+		margin:20px 0 0 0;
 	}
 	h2{
 		font-size:16px;
-		margin:20px 0 40px 0;
+		margin:20px 0 20px 0;
 		padding:0;
 	}
 	i
@@ -615,13 +629,15 @@ h1.title-left
 		font-size:20px;
 		padding:5px 0 0 10px;
 	}
-	min-height:200px;
+	min-height:140px;
 }
-.bs-col-12{width:11.3%;}
+.bs-col-12{width:50%;}
 .bs-col-15{width:15%;}
-.bs-col-20{width:20%;}
+.bs-col-25{width:50%;}
+.bs-col-20{width:23.5%;}
 .bs-col-30{width:28%;}
-.bs-col-55{width:30%;}
+.bs-col-50{width:44%;}
+.bs-col-55{width:55%;}
 
 
 /* BOWLER OBJECT */
@@ -1227,8 +1243,7 @@ textarea{
 		}
 	}
 }
-.sr-pie-graph
-{
+.sr-pie-graph{
 	$pie-1:#F4F1DE;
 	$pie-2:#E07A5F;
 	$pie-3:#3D405B;
@@ -1389,3 +1404,161 @@ textarea{
 .sr-autofield input:focus + .autofield-wrap{
 	max-height:500px;
 }
+
+
+.sr-cache
+{
+	$cache_color_1:#157A6E;
+    $cache_color_2:#499F68;
+    $cache_color_3:#77B28C;
+    $cache_color_4:#C2C5BB;
+	.bar
+	{		
+		height:30px;width:calc(100% - 20px);
+		vertical-align:top;
+		margin:50px 10px 20px 10px;
+		border:none;	
+		font-family:$font-primary-bold;
+		background:$color-5;
+		border-radius:10px;
+		
+	}
+	.cache_color_1{background:$cache_color_1}
+	.cache_color_2{background:$cache_color_2}
+	.cache_color_3{background:$cache_color_3}
+	.cache_color_4{background:$cache_color_4}
+
+	.type-row
+	{
+		display:block;
+		width:calc(100% - 20px);
+		margin:0 0 10px 10px;
+	}
+	.type-color
+	{
+		height:25px;
+		width:25px;
+		border-radius:10px;
+		display:inline-block;
+	}
+	.type-row label
+	{
+		font-size:18px;
+		padding:5px 0;
+		margin:0 0 0 10px;
+		vertical-align:top;
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.oil-obj-wrap{
+	width:auto;
+	height:250px;
+	display:inline-block;
+	vertical-align:top;
+	overflow:hidden;
+}
+.oil-name{
+	display:block;
+	font-size:18px;
+	padding:10px;
+	line-height:18px;
+	vertical-align:top;
+	width:calc(100% - 130px);
+	min-width:200px;
+	overflow:hidden;
+}
+.oil-location{
+	display:block;
+	font-size:14px;
+	padding:10px;
+	line-height:14px;
+	vertical-align:top;
+}
+.oil-date{
+	display:block;
+	font-size:12px;
+	line-height:12px;
+	padding-top:10px;
+	vertical-align:top;
+}
+.t-oil-display-wrap{
+	height:230px;width:100px;
+	position:absolute;
+	right:0;top:0;
+	max-width:200px;
+	display:inline-block;
+	border-radius:10px;
+	overflow:hidden;
+	box-sizing:border-box;
+	font-size:0;
+	margin:10px 10px 10px 0;
+	border:1px solid $color-1;
+}
+.t-oil-display{
+	width:100%;
+	vertical-align:top;
+	display:inline-block;
+	background:transparent;
+	height:230px;
+	border-radius:10px 10px 0 0;
+	box-sizing:border-box;
+	display:flex;
+	justify-content:center;
+	font-size:0;
+}
+.t-oil-cell{
+	vertical-align:top;
+	width:10px;height:215px;
+	display:flex;
+	justify-content:stretch;
+	align-content:stretch;
+	flex-direction:column;
+	border-right:solid 1px $color-1;
+}
+.t-oil-row{
+	vertical-align:top;
+	flex-grow:1;
+	width:100%;
+	display:inline-block;
+	position:relative;
+	border-bottom:solid 1px $color-1;
+	box-sizing:border-box;
+	label
+	{
+		position:absolute;
+		bottom:-5px;right:-35px;
+		width:30px;height:auto;
+		font-size:10px;
+		text-align:left;
+	}
+}
+.t-oil-cell-right{
+	border-right:none;
+}
+.t-oil-row-bottom{
+	flex:0 0;
+	border-bottom:none;
+	max-height:5px;
+	min-height:5px;
+}
+.t-oil-row-top{
+	flex:0 0;
+	border-top:none;
+	max-height:20px;
+	min-height:20px;
+}
+
+
+

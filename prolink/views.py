@@ -3,7 +3,7 @@ from time import sleep
 
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 
@@ -11,7 +11,8 @@ from django.shortcuts import render, redirect
 from accounts.views import User
 from centers.center_web_scraper import scrape_centers
 from oils.oil_pattern_scraper import update_library
-from prolink.prolink_requests import get_list_of_all_bowlers, get_centers_from_auto_field, get_oils_from_auto_field
+from prolink.prolink_requests import get_list_of_all_bowlers, get_centers_from_auto_field, get_oils_from_auto_field, \
+    get_list_of_all_patterns, get_list_of_all_tournaments, get_list_of_all_centers
 
 
 def prolink_main_view(request):
@@ -26,6 +27,8 @@ def prolink_login_view(request):
             user = form.get_user()
             login(request, user)
             return render(request, 'prolink-login.html', {'success': True})
+        else:
+            return render(request, 'prolink-login.html', {'form': form})
     else:
         form = AuthenticationForm()
     return render(request, 'prolink-login.html', {'form': form})
@@ -56,6 +59,11 @@ def prolink_formats_view(request):
     return render(request, 'prolink-formats.html', {'page_name':'TOURNAMENT FORMATS', 'nbar':'formats'})
 
 
+def prolink_oils_view(request):
+    if is_pro_auth(request): return render(request, 'prolink-error.html')
+    return render(request, 'prolink-oils.html', {'page_name':'OIL PATTERNS', 'nbar':'oils'})
+
+
 def prolink_bowlers_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
     bowlers = []
@@ -73,18 +81,15 @@ def prolink_bowlers_view(request):
         bowlers.append(bowler)
     return render(request, 'prolink-bowlers.html', {'page_name':'BOWLERS DATABASE', 'nbar':'bowlers', 'bowlers': bowlers})
 
-def prolink_bowlers_request(request, page, amount, search_args = None, filter_args = None, sort_args = None):
-    results = get_list_of_all_bowlers(request, page, amount, search_args, filter_args, sort_args)
-    results = json.dumps(results)
-    return HttpResponse(results)
-
 
 def prolink_centers_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
     return render(request, 'prolink-centers.html', {'page_name':'BOWLING CENTERS', 'nbar':'centers'})
 
+
 def prolink_centers_autofield(request, args):
     return HttpResponse(json.dumps(get_centers_from_auto_field(args)))
+
 
 def prolink_rankings_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')
@@ -114,6 +119,25 @@ def prolink_ping_view(request):
 def prolink_oils_autofield(request, args):
     return HttpResponse(json.dumps(get_oils_from_auto_field(args)))
 
+
+def prolink_load_view(request):
+    return render(request, 'prolink-load.html')
+
+
+def prolink_load_bowlers_request(request):
+    return JsonResponse(get_list_of_all_bowlers())
+
+
+def prolink_load_patterns_request(request):
+    return JsonResponse(get_list_of_all_patterns())
+
+
+def prolink_load_tournaments_request(request):
+    return JsonResponse(get_list_of_all_tournaments())
+
+
+def prolink_load_centers_request(request):
+    return JsonResponse(get_list_of_all_centers())
 
 
 def is_pro_auth(request):

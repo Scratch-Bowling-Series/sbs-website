@@ -1,0 +1,27 @@
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SBS PROLINK SYNC</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'prolink/css/main.css' %} ">
+    <link rel="stylesheet" type="text/css" href="{% static 'prolink/css/load.css' %} ">
+    <link rel="stylesheet" type="text/css" href="{% static 'prolink/css/all.css' %} ">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+  </head>
+  <body>
+    <div class="titlebar">
+      <a class="titlebar-title">SBS <span>PROLINK</span></a>
+      <div class="titlebar-drag"></div>
+    </div>
+    <div id="load-container">
+        <h2>PLEASE WAIT FOR MASTER SYNC</h2>
+        <a>Accessing Oil Patterns</a>
+        <div id="load-bar">
+            <div id="inner"></div>
+        </div>
+    </div>
+
+    <script src="{% static 'prolink/js/load/load.js'%}"></script>
+  </body>
+</html>

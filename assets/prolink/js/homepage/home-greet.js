@@ -1,37 +1,13 @@
 $(document).ready(function() {
-
-
     Greet();
+
+
+
     function Greet()
     {
         if(sessionStorage.hasGreeted != 'yes')
         {
-            var format="";
-            var ndate = new Date();
-            var hr = ndate.getHours();
-            var h = hr % 12;
-
-             if (hr < 12)
-             {
-                greet = 'Good Morning';
-                format='AM';
-                }
-            else if (hr >= 12 && hr <= 17)
-            {
-                greet = 'Good Afternoon';
-                format='PM';
-                }
-            else if (hr >= 17 && hr <= 24)
-                greet = 'Good Evening';
-
-            if (h < 12) {
-              h = "0" + h;
-              $("#homepage-wrap span.greeting").html(greet);
-            } else if (h < 18) {
-              $("#homepage-wrap span.greeting").html(greet);
-            } else {
-              $("#homepage-wrap span.greeting").html(greet);
-            }
+            SetGreeting();
             Transition();
             sessionStorage.hasGreeted = 'yes';
         }
@@ -39,7 +15,6 @@ $(document).ready(function() {
         {
             $('#homepage-wrap h2').css('display','none');
             $('#homepage-wrap').css('display','none');
-            $('#homepage-content').css('display','block');
             $('#homepage-content').css('opacity','1');
         }
     }
@@ -50,14 +25,40 @@ $(document).ready(function() {
         $('#homepage-wrap h2').css('transition','opacity 1s');
         setTimeout(function()
         {
+
+            sessionStorage.allowedToFade = 'yes';
             $('#homepage-wrap h2').css('opacity','0');
             setTimeout(function()
             {
                 $('#homepage-wrap h2').css('display','none');
                 $('#homepage-wrap').css('display','none');
-                $('#homepage-content').css('display','block');
-                $('#homepage-content').css('opacity','1');
+                $('section').css('opacity','1');
             }, 1000);
-        }, 1000);
+
+        }, 2000);
     }
+
+    function SetGreeting()
+    {
+        var format="";
+        var ndate = new Date();
+        var hr = ndate.getHours();
+        var h = hr % 12;
+
+        if (hr < 12)
+        {
+            greet = 'Good Morning';
+            format='AM';
+        }
+        else if (hr >= 12 && hr <= 17)
+        {
+            greet = 'Good Afternoon';
+            format='PM';
+        }
+        else if (hr >= 17 && hr <= 24)
+            greet = 'Good Evening';
+
+        $("#homepage-wrap span.greeting").html(greet);
+    }
+
 });

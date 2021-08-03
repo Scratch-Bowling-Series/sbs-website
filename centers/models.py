@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Center(models.Model):
-    center_id = models.CharField(max_length=30)
+    center_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     center_name = models.TextField()
     center_description = models.TextField()
     location_street = models.TextField()
@@ -14,3 +14,4 @@ class Center(models.Model):
     phone_number = models.IntegerField(default=0)
     oil_machine = models.TextField(default='')
     tournaments = models.JSONField(default='')
+#models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
