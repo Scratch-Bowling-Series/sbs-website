@@ -35,7 +35,7 @@ $(document).ready(function() {
           },
           error: function(err)
           {
-            Load();
+              ipcRenderer.send('syncError');
           }
         });
     }
@@ -61,7 +61,7 @@ $(document).ready(function() {
           },
           error: function(err)
           {
-            Load();
+              ipcRenderer.send('syncError');
           }
         });
     }
@@ -87,7 +87,7 @@ $(document).ready(function() {
           },
           error: function(err)
           {
-            Load();
+              ipcRenderer.send('syncError');
           }
         });
     }
@@ -117,7 +117,7 @@ $(document).ready(function() {
           },
           error: function(err)
           {
-            Load();
+              ipcRenderer.send('syncError');
           }
         });
     }
@@ -136,6 +136,7 @@ $(document).ready(function() {
     {
 
         ipcRenderer.send('mainWindow');
+        ipcRenderer.send('syncDone');
     }
 
     function GetCacheData(dataName)

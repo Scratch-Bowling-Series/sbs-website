@@ -21,8 +21,7 @@
 
       <div class="titlebar-login">
         Logged in as <a href="{% url 'prolink:account' %}">{{ user.first_name|none_replace:'Unknown' }}</a>
-        <i id="con-ping-icon" class="fas fa-circle titlebar-connection-icon"></i>
-        <i class="titlebar-connection" id="con-ping">0ms</i>
+        <i id="con-ping-icon" class="fas fa-circle titlebar-connection-icon"></i><i class="titlebar-connection" id="con-ping">SYNC</i>
       </div>
 
       <div class="titlebar-buttons">

@@ -29,6 +29,7 @@ urlpatterns = [
     path('oils/autofield/<args>/', views.prolink_oils_autofield, name='oils_autofield'),
 
     path('load/', views.prolink_load_view, name='load'),
+    path('load/background', views.prolink_load_bkg_view, name='load'),
     path('load/bowlers/', views.prolink_load_bowlers_request, name='load_bowlers'),
     path('load/patterns/', views.prolink_load_patterns_request, name='load_patterns'),
     path('load/tournaments/', views.prolink_load_tournaments_request, name='load_tournaments'),

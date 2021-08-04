@@ -123,6 +123,9 @@ def prolink_oils_autofield(request, args):
 def prolink_load_view(request):
     return render(request, 'prolink-load.html')
 
+def prolink_load_bkg_view(request):
+    return render(request, 'prolink-load-bkg.html')
+
 
 def prolink_load_bowlers_request(request):
     return JsonResponse(get_list_of_all_bowlers())
