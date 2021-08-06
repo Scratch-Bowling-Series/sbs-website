@@ -1,0 +1,24 @@
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>UPDATER</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'prolink/css/main.css' %} ">
+    <link rel="stylesheet" type="text/css" href="{% static 'prolink/css/login.css' %} ">
+    <link rel="stylesheet" type="text/css" href="{% static 'prolink/css/all.css' %} ">
+    <script src="{% static 'js/jquery.min.js'%}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'prolink/js/updater/updater.js' %}"></script>
+  </head>
+  <body>
+    <div class="titlebar">
+      <a class="titlebar-title">SBS <span>PROLINK</span></a>
+      <div class="titlebar-drag"></div>
+    </div>
+    <div id="updater-container">
+        <img id="updater-load" src="{% static 'prolink/img/loader-1.png' %}" alt="" width="100" height="100">
+        <div id="updater-done"><i class="fas fa-check"></i></div>
+        <h2 id="updater-text">CHECKING FOR UPDATES</h2>
+    </div>
+  </body>
+</html>

@@ -1,6 +1,5 @@
-const { remote } = require('electron');
-const fs = require('fs')
-
+const { remote, ipcRenderer } = require('electron');
+const fs = require('fs');
 const app = remote.app;
 
 
@@ -73,4 +72,5 @@ function UpdateRememberFile()
 function OpenMainWindow()
 {
 
+    ipcRenderer.send('loadWindow');
 }

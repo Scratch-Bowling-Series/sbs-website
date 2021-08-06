@@ -35,4 +35,8 @@ urlpatterns = [
     path('load/tournaments/', views.prolink_load_tournaments_request, name='load_tournaments'),
     path('load/centers/', views.prolink_load_centers_request, name='load_centers'),
 
+    path('updater/', views.prolink_updater_view, name='updater'),
+    path('update/', views.prolink_update, name='update'),
+
+    path('download/', views.prolink_download, name='download'),
 ]

@@ -88,8 +88,6 @@ $(document).ready(function()
     gradient = 'linear-gradient(90deg, ' + gradient + ')';
     $('.sr-cache .bar').css('background', gradient);
 
-    LoadMin();
-
     $.each(sortarr, function(index, value)
     {
         var amount = (value[0] / 100) * range;
@@ -98,8 +96,6 @@ $(document).ready(function()
         console.log(html);
         $('.sr-cache').append(html);
     });
-
-
 });
 
 function GetFileSize(fileName)

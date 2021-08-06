@@ -1,6 +1,8 @@
 import json
+import os
 from time import sleep
 
+from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse, JsonResponse
@@ -8,6 +10,8 @@ from django.shortcuts import render, redirect
 
 
 # Create your views here.
+from django.utils.encoding import smart_str
+
 from accounts.views import User
 from centers.center_web_scraper import scrape_centers
 from oils.oil_pattern_scraper import update_library
@@ -33,6 +37,22 @@ def prolink_login_view(request):
         form = AuthenticationForm()
     return render(request, 'prolink-login.html', {'form': form})
 
+
+def prolink_updater_view(request):
+    return render(request, 'prolink-updater.html')
+
+
+def prolink_update(request):
+    response = HttpResponse(content_type='application/force-download')
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str('latest.exe')
+    response['X-Sendfile'] = smart_str('media/prolink/update')
+    return response
+
+def prolink_download(request):
+    response = HttpResponse(content_type='application/force-download')
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str('SBS-ProLink Setup 1.0.151.exe')
+    response['X-Sendfile'] = smart_str('media/prolink/update')
+    return response
 
 def prolink_create_view(request):
     if is_pro_auth(request): return render(request, 'prolink-error.html')

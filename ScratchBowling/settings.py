@@ -24,7 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'a_-2se-n2)=*u0e$o80-v+3cm5odv)g4u34n!7vuafu(l03wo('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+
 
 ALLOWED_HOSTS = ['*','10.0.0.211']
 
@@ -47,10 +49,7 @@ INSTALLED_APPS = [
     'merch',
     'prolink',
     'oils',
-    'accounts',
-    'dal',
-    'dal_select2',
-
+    'accounts'
 ]
 
 MIDDLEWARE = [
