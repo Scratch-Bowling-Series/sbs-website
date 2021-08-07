@@ -50,8 +50,9 @@ def load_tournament_recent():
 def load_tournament_winners():
     tournaments = Tournament.objects.all()
     data = []
-    for x in range(0,10):
-        data.append(tournaments[x])
+    if len(tournaments) > 0:
+        for x in range(0,10):
+            data.append(tournaments[x])
     return data
 
 
