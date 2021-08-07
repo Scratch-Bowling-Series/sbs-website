@@ -1,6 +1,7 @@
 import json
 import uuid
 from urllib.request import urlopen
+
 from bs4 import BeautifulSoup
 from dal import autocomplete
 from datetime import datetime
@@ -323,13 +324,6 @@ def tournaments_view_views(request, id):
     oil_colors = get_oil_colors()
 
     return render(request, 'tournaments/view-tournament.html', {'nbar': 'tournaments', 'tournament': tournament, 'oil_pattern': oil_pattern, 'oil_colors': oil_colors})
-
-
-def get_oil():
-    return scrape_oil(1)
-
-
-
 
 
 def tournaments_modify_views(request, id):
