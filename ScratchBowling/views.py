@@ -44,8 +44,9 @@ def load_tournament_live():
 
 
 def load_tournament_recent():
-    return Tournament.objects.all()[4]
-
+    recent = Tournament.objects.all()
+    if len(recent) > 0:
+        return recent[4]
 
 def load_tournament_winners():
     tournaments = Tournament.objects.all()
