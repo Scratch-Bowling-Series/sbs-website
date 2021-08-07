@@ -5,6 +5,6 @@ def set_count(value):
     print('ran')
     f.close()
 
-def get_count():
+def get_donation_count():
     f = open("donation-count.dat", "r")
     return int(f.read())
