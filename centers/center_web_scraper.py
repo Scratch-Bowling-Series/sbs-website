@@ -1,6 +1,5 @@
 from urllib.request import urlopen
 
-from bs4 import BeautifulSoup
 
 from centers.models import Center
 
@@ -11,7 +10,8 @@ def scrape_centers():
     url = 'https://www.scratchbowling.com/bowling-centers?page='
     for x in range(0, 5):
         with urlopen(url + str(x)) as response:
-            soup = BeautifulSoup(response, 'lxml')
+            ##soup = BeautifulSoup(response, 'lxml')
+            soup = None
             rows = soup.find_all(class_="views-row")
             for row in rows:
                 name = row.find(class_="node__title")

@@ -49,8 +49,7 @@ INSTALLED_APPS = [
     'merch',
     'prolink',
     'oils',
-    'accounts',
-    'beautifulsoup4'
+    'accounts'
 ]
 
 MIDDLEWARE = [

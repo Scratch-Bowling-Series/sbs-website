@@ -4,7 +4,6 @@ import urllib
 from io import BytesIO
 from urllib.request import urlopen
 from PIL import Image, ImageColor
-from bs4 import BeautifulSoup
 
 from oils.models import Oil_Pattern
 

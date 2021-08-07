@@ -1,12 +1,10 @@
 from django.conf.urls import url
 from django.urls import include, path, re_path
 from . import views
-from .views import BowlerAutocomplete
 
 app_name = 'tournaments'
 
 urlpatterns = [
-    url(r'^bowler_autocomplete/?', BowlerAutocomplete.as_view(), name='bowler_autocomplete'),
     path('', views.tournaments_upcoming_views, name='tournaments'),
     path('upcoming', views.tournaments_upcoming_views, name='upcoming'),
     path('results', views.tournaments_results_views, name='results'),

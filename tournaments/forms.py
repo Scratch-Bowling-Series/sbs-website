@@ -1,7 +1,5 @@
-from dal import autocomplete
+
 from django import forms
-from dal import autocomplete
-from accounts.forms import User
 from tournaments.models import Tournament
 
 
@@ -39,12 +37,3 @@ class ModifyTournament(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         return cleaned_data
-
-
-class TournamentDataRow(forms.Form):
-    class Meta:
-        model = User
-        fields = ["__all__"]
-        widgets = {
-            "first_name":autocomplete.ModelSelect2(url='bowler_autocomplete')
-        }

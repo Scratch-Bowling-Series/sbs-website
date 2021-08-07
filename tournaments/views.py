@@ -2,8 +2,6 @@ import json
 import uuid
 from urllib.request import urlopen
 
-from bs4 import BeautifulSoup
-from dal import autocomplete
 from datetime import datetime
 from uuid import UUID
 from django.http import HttpResponse
@@ -12,7 +10,7 @@ from django.template.defaulttags import register
 from centers.models import Center
 from accounts.forms import User
 from oils.oil_pattern import update_oil_pattern_library, get_oil_display_data
-from tournaments.forms import CreateTournament, ModifyTournament, TournamentDataRow
+from tournaments.forms import CreateTournament, ModifyTournament
 from tournaments.models import Tournament
 from oils.oil_pattern_scraper import get_oil_colors
 from tournaments.tournament_scraper import scrape_tournaments, scrape_bowlers
@@ -334,7 +332,7 @@ def tournaments_modify_views(request, id):
         if request.method == 'POST':
             form = ModifyTournament(request.POST)
             if form.is_valid():
-                testform = TournamentDataRow(request.POST)
+                testform = None
 
                 tournament.tournament_name = form.cleaned_data.get('tournament_name')
                 tournament.tournament_description = form.cleaned_data.get('tournament_description')
@@ -348,7 +346,7 @@ def tournaments_modify_views(request, id):
                     return redirect('/')
                 return redirect('/tournaments/')
         else:
-            testform = TournamentDataRow()
+            testform = None
             form = ModifyTournament(initial={'tournament_name': tournament.tournament_name,'tournament_description': tournament.tournament_description,'entry_fee': tournament.entry_fee,'total_games': tournament.total_games, 'tournament_date': tournament.tournament_date.strftime('%d-%m-%Y'), 'tournament_time': tournament.tournament_time})
         return render(request, 'tournaments/modify-tournament.html', {'nbar': 'tournaments', 'form': form, 'tournament': tournament, 'testform':testform})
     else:
@@ -412,30 +410,10 @@ def get_tournament(uuid):
     return Tournament.objects.filter(tournament_id=uuid).first()
 
 
-class BowlerAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-        if not self.request.user.is_authenticated:
-            return User.objects.none()
-
-        qs = User.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__istartswith=self.q)
-
-        return qs
 
 
 def scrape_old_site():
-
-    names = []
-    page = 1
-    for x in range(1, 39):
-        with urlopen('https://www.scratchbowling.com/tournament-results?page=' + str(x)) as response:
-            soup = BeautifulSoup(response, 'html.parser')
-            names.extend(soup.find_all(class_='field field--name-title field--type-string field--label-hidden'))
-    return names
-
+    return None
 
 def scraper_views(request):
     return HttpResponse(scrape_tournaments())
