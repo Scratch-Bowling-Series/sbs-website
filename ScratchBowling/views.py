@@ -78,6 +78,7 @@ def get_tournaments_count():
 
 
 def get_top_ten_ranks():
+    return None
     return get_top_rankings(10)
 
 
