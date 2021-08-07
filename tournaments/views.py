@@ -197,6 +197,9 @@ def get_placements(tournament):
 
 
 def get_qualifying_object(tournament):
+    if tournament is None:
+        return None
+        
     import_data = tournament.qualifiers.replace("'", '"')
     try:
         import_data = json.loads(import_data)
