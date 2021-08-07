@@ -1,10 +1,14 @@
+import os
+
 
 def set_count(value):
-    f = open("donation-count.dat", "w")
+    pwd = os.path.dirname(__file__)
+    f = open(pwd + "/donation-count.dat", "w")
     f.write(str(value))
     print('ran')
     f.close()
 
 def get_donation_count():
-    f = open("donation-count.dat", "r")
+    pwd = os.path.dirname(__file__)
+    f = open(pwd + "/donation-count.dat", "r")
     return int(f.read())
