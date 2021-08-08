@@ -50,7 +50,7 @@ def prolink_update(request):
 
 def prolink_download(request):
     response = HttpResponse(content_type='application/force-download')
-    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str('SBS-ProLink Setup 1.0.151.exe')
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str('SBS-ProLink Setup 1.0.153.exe')
     response['X-Sendfile'] = smart_str('media/prolink/update')
     return response
 
