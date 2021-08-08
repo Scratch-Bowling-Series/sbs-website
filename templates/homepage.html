@@ -136,6 +136,7 @@ $(document).ready(function() {
         <a class="live-prev-leader std-hover">LEADER: {{ tournament_live.leader }}<span>{{ tournament_live.score }}</span></a>
     </section>
     {% endif %}
+    {% if tournament_recent is not None %}
     <section class="sec">
         <div id="homepage-tournament-recent-preview">
             <div></div><img id="homepage-tournament-recent-preview-watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
@@ -151,6 +152,7 @@ $(document).ready(function() {
         <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank">4th</a><a class="homepage-tournament-recent-player-name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent|get_bowler_from_place:4|bowler_name:True|safe }}</a></div>
       </section>
     </section>
+    {% endif %}
     <section class="sec sec-half merch-prev">
         <h2>HELP HIT OUR NEXT GOAL</h2>
         <div class="goal-prev">
