@@ -138,7 +138,7 @@ EMAIL_HOST = 'smtp-relay.sendinblue.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'christianjstarr@icloud.com'
-EMAIL_HOST_PASSWORD = 'Leona543'
+EMAIL_HOST_PASSWORD = 'OFKjxIqkaYT14G6X'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
