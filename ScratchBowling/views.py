@@ -58,7 +58,7 @@ def load_tournament_upcoming():
 def load_bowler_of_month():
     bowlers = User.objects.all()
     if len(bowlers) > 0:
-        return bowlers[222]
+        return bowlers[0]
 
 
 def get_users_count():
