@@ -6,7 +6,7 @@ $(document).ready(function()
         $.ajax(
         {
             type: "GET",
-            url: "https://scratchbowling.pythonanywhere.com/get-last-commit",
+            url: "http://scratchbowling.pythonanywhere.com/get-last-commit",
             contentType: "text/plain",
             dataType: "text",
             success: function (data) {
