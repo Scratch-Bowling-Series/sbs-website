@@ -8,7 +8,7 @@ $(document).ready(function()
             var proto = 'https';
 
             if (location.protocol !== 'https:') {
-                proto = 'http'
+                proto = 'http';
             }
             type: "GET",
             url: proto + "://scratchbowling.pythonanywhere.com/get-last-commit",
