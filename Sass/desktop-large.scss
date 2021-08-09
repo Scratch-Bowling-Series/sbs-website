@@ -1268,25 +1268,13 @@ footer
 .standard-form input[type=submit]
 {
   background: transparent;
-  cursor: pointer;
-  border: 3px solid $color-lightgreen;
-  border-radius: 20px;
-  font: inherit;
-  font-size: 16px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   appearance: none;
   color: $color-lightgreen;
-  display: inline-block;
-  transition: background ease .35s;
   -webkit-appearance:none;
-  padding:2px 20px 3px 20px;
   margin:30px 20px 20px 20px;
   float:right;
-  font-family: $font-primary;
-  &:focus {
-    outline: none;
-  }
 }
 .standard-form input[type=file]
 {
