@@ -1602,7 +1602,7 @@ textarea{
 	right:0;top:145px;left:0;
 	margin:0 auto;
 	display:block;
-	opacity:1;
+	opacity:0;
 	transition:opacity linear 0.5s;
 	overflow:hidden;
 }
@@ -1619,7 +1619,7 @@ textarea{
 	box-sizing:border-box;
 	text-align:center;
 	color:$color-1;
-	opacity:1;
+	opacity:0;
 	transition:opacity linear 0.5s;
 }
 #updater-text
