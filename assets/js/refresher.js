@@ -5,8 +5,13 @@ $(document).ready(function()
     {
         $.ajax(
         {
+            var proto = 'https';
+
+            if (location.protocol !== 'https:') {
+                proto = 'http'
+            }
             type: "GET",
-            url: "https://scratchbowling.pythonanywhere.com/get-last-commit",
+            url: proto + "://scratchbowling.pythonanywhere.com/get-last-commit",
             contentType: "text/plain",
             dataType: "text",
             success: function (data) {
