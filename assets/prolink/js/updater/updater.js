@@ -2,7 +2,7 @@ const { ipcRenderer } = require('electron');
 
 $(document).ready(function()
 {
-    //CheckForUpdate();
+    CheckForUpdate();
 });
 
 function CheckForUpdate() {
@@ -36,7 +36,7 @@ function NoUpdates() {
     $('#updater-text').text('VERSION IS CURRENT');
     setTimeout(function()
     {
-        //location.href = '/prolink/login/';
+        location.href = '/prolink/login/';
     }, 2000);
 }
 
