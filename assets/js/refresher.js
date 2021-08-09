@@ -1,15 +1,17 @@
 $(document).ready(function()
 {
     var prevData = '';
+    var proto = 'https';
+    if (location.protocol !== 'https:') {
+                proto = 'http';
+            }
     setInterval(function()
     {
         $.ajax(
         {
-            var proto = 'https';
 
-            if (location.protocol !== 'https:') {
-                proto = 'http';
-            }
+
+
             type: "GET",
             url: proto + "://scratchbowling.pythonanywhere.com/get-last-commit",
             contentType: "text/plain",
