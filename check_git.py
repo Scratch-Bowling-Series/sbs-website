@@ -1,6 +1,4 @@
-
-
-
+import datetime
 
 
 def get_last_commit():
@@ -8,7 +6,8 @@ def get_last_commit():
     return file.read()
 
 def main():
-    print('CHANGED FILE')
+    file = open('/home/scratchbowling/Scratch-Bowling-Series-Website/.git/COMMIT_EDITMSG', 'w')
+    file.write(str(datetime.datetime.now()))
 
 
 
