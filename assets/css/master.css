@@ -1,1 +1,1 @@
-@import url("desktop-large.css")
+@import url("desktop-large.css") only screen and (min-width: 1200px)
