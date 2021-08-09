@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.contrib.auth import get_user_model
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from accounts.forms import User
 from check_git import get_last_commit
@@ -79,6 +79,6 @@ def get_top_ten_ranks():
 
 def has_content_changed(request):
     data = get_last_commit()
-    return HttpResponse( data)
+    return JsonResponse(data)
 
 
