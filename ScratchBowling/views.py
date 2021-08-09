@@ -75,3 +75,7 @@ def get_top_ten_ranks():
     return get_top_rankings(10)
 
 
+def has_content_changed():
+    return
+
+
