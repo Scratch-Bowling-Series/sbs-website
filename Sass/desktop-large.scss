@@ -1329,11 +1329,12 @@ footer
 }
 .standard-form-forgot
 {
-  display: block;
-  margin:15px 0 0 30px;
   font-family: $font-primary-light;
   font-size:15px;
   color:$color-darkgreen;
+  margin:30px 20px 20px 20px;
+  float:left;
+  display:inline-block;
 }
 .standard-form textarea
 {
