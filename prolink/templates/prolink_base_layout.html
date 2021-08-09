@@ -61,11 +61,10 @@
       </div>
       <div class="sidebar-ver-text">
         <h2>SBS PROLINK</h2>
-        <h3 id="version-text">Version Unknown</h3>
+        <h3 id="version-text">Version Unknowns</h3>
         <script>
-          const remote = require('electron');
           $(document).ready(function(){
-            var version = remote.app.getVersion();
+            var version = require('electron').remote.app.getVersion();
             $('#version-text').text('v' + version + ' ALPHA');
           });
         </script>
