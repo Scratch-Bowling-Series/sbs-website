@@ -79,6 +79,6 @@ def get_top_ten_ranks():
 
 def has_content_changed(request):
     data = get_last_commit()
-    return HttpResponse(request, data)
+    return HttpResponse( data)
 
 
