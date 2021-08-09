@@ -40,15 +40,15 @@ $color-6: #121212;	/* Black */
 $color-7: #C9D8B6;  /* Specialty */
 
 
-$lighten-percentage:0%;
-$color-0:lighten($color-0, $lighten-percentage);
-$color-1:lighten($color-1, $lighten-percentage);
-$color-2:lighten($color-2, $lighten-percentage);
-$color-3:lighten($color-3, $lighten-percentage);
-$color-4:lighten($color-4, $lighten-percentage);
-$color-5:lighten($color-5, $lighten-percentage);
-$color-6:lighten($color-6, $lighten-percentage);
-$color-7:lighten($color-7, $lighten-percentage);
+$lighten-percentage:100%;
+$color-0:invert($color-0, $lighten-percentage);
+$color-1:invert($color-1, $lighten-percentage);
+$color-2:invert($color-2, $lighten-percentage);
+$color-3:invert($color-3, $lighten-percentage);
+$color-4:invert($color-4, $lighten-percentage);
+$color-5:invert($color-5, $lighten-percentage);
+$color-6:invert($color-6, $lighten-percentage);
+$color-7:invert($color-7, $lighten-percentage);
 
 
 body{
