@@ -1210,7 +1210,6 @@ footer
   background:white;
   position: relative;
   text-align: left;
-  background:red;
   overflow: hidden;
 
 } 
@@ -1251,7 +1250,7 @@ footer
   transition: background ease .35s;
   -webkit-appearance:none;
   padding:5px 19px;
-  margin:10px 20px 20px 20px;
+  margin:10px 20px 0px 20px;
   height:50px;
   font-family: $font-primary-light;
   &:focus {
@@ -1260,7 +1259,7 @@ footer
 }
 .standard-form-label
 {
-  margin:25px 0 0 30px;
+  margin:45px 0 0 30px;
   font-family: $font-primary-light;
   font-size:15px;
   color:$color-darkgreen;
