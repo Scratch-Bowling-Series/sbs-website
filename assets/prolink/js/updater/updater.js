@@ -9,7 +9,7 @@ function CheckForUpdate() {
     $('#updater-load').css('opacity', '1');
 }
 function UpdateFound() {
-    $('#updater-done').css('opacity', '1');
+    $('#updater-download').css('opacity', '1');
     $('#updater-load').css('opacity', '0');
     $('#updater-text').text('UPDATE FOUND');
     setTimeout(function()
@@ -19,6 +19,8 @@ function UpdateFound() {
 }
 function UpdateDownloaded() {
     $('#updater-text').text('UPDATE DOWNLOADED');
+    $('#updater-download').css('opacity', '0');
+    $('#updater-done').css('opacity', '1');
     setTimeout(function()
     {
         $('#updater-text').text('STARTING UPDATE');

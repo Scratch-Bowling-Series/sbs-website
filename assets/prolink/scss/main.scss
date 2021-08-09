@@ -1595,6 +1595,17 @@ textarea{
 	transition:opacity linear 0.5s;
 	overflow:hidden;
 }
+#updater-download
+{
+	position:absolute;
+	width:100px;height:100px;
+	right:0;top:120px;left:0;
+	margin:0 auto;
+	display:block;
+	opacity:0;
+	transition:opacity linear 0.5s;
+	overflow:hidden;
+}
 #updater-done
 {
 	position:absolute;
