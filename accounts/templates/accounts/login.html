@@ -4,7 +4,7 @@
 <div class="col col-30">
   <section class="sec">
     <h1>ACCOUNT LOG IN</h1>
-    <form class="site-form" action="{% url 'accounts:login' %}" method="post">
+    <form class="standard-form" action="{% url 'accounts:login' %}" method="post">
       {% csrf_token %}
       <label class="standard-form-label">EMAIL ADDRESS</label>
       {{ form.username }}
