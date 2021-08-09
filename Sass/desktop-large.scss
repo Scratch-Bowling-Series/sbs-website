@@ -1212,10 +1212,7 @@ footer
   text-align: left;
   background:red;
   overflow: hidden;
-  h1
-  {
-    text-align:left;
-  }
+
 } 
 .standard-form-small
 {
@@ -1254,7 +1251,7 @@ footer
   transition: background ease .35s;
   -webkit-appearance:none;
   padding:5px 19px;
-  margin:10px 20px 10px 20px;
+  margin:10px 20px 20px 20px;
   height:50px;
   font-family: $font-primary-light;
   &:focus {
