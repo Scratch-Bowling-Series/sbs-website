@@ -2,7 +2,7 @@ const { ipcRenderer } = require('electron');
 
 $(document).ready(function()
 {
-    CheckForUpdate();
+    //CheckForUpdate();
 });
 
 function CheckForUpdate() {
