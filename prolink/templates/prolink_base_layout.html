@@ -63,10 +63,10 @@
         <h2>SBS PROLINK</h2>
         <h3 id="version-text">Version Unknown</h3>
         <script>
+          const remote = require('electron');
           $(document).ready(function(){
-            const remote = require('electron');
             var version = remote.app.getVersion();
-            $('#version-text').text('v' + version +' ALPHA')
+            $('#version-text').text('v' + version + ' ALPHA');
           });
         </script>
       </div>
