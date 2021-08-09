@@ -20,6 +20,7 @@ urlpatterns = [
     path('prolink/', include('prolink.urls')),
     path('admin/', admin.site.urls),
     path('account/', include('accounts.urls')),
+    path('get-last-commit/', views.has_content_changed)
 ]
 
 urlpatterns += staticfiles_urlpatterns()
