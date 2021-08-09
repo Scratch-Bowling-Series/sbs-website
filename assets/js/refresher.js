@@ -24,6 +24,6 @@ $(document).ready(function()
 
     function Refresh()
     {
-        console.log("REFRESHING");
+        location.reload();
     }
 });
