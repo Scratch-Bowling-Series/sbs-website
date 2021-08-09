@@ -79,21 +79,18 @@ h1,h2,h3,h4,a,i,p,input,textarea,div,section
 
 
 /* TITLE BAR */
-.titlebar
-{
+.titlebar{
 	a,i,span,h1,h2,h3,h4,p
 	{
 		user-select:none;
 		box-sizing:border-box;
 	}
 	box-sizing:border-box;
-}
-.titlebar{
 	position:fixed;
 	top:0;right:0;left:0;
 	width:100%;
 	height:25px;
-	background:$color-5;
+	background:$color-1;
 	z-index:5000;
 	overflow:hidden;
 }
