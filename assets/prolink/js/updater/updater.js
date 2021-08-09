@@ -31,11 +31,13 @@ function UpdateDownloaded() {
     }, 1000);
 }
 function NoUpdates() {
+    $('#updater-done').css('opacity', '1');
+    $('#updater-load').css('opacity', '0');
     $('#updater-text').text('VERSION IS CURRENT');
     setTimeout(function()
     {
         location.href = '/prolink/login/';
-    }, 1000);
+    }, 2000);
 }
 
 ipcRenderer.on('UpdateFound', function()
