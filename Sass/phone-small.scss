@@ -225,7 +225,8 @@ nav
 .nav-account
 {
   position: absolute;
-  right: 0;top:65px;
+  right: 0;top:65px;left:0;
+  overflow:hidden;
   background:white;
   text-align: right;
   display:inline-block;
