@@ -159,7 +159,7 @@ nav
 {
   display: inline-block;
   height:65px;
-  margin:0px 0px;
+  margin:0px auto;
   vertical-align:top;
   position:relative;
   text-align:center;
@@ -276,7 +276,7 @@ nav
   text-align: left;
   font-size:14px;
   padding-left:20px;
-  border:solid 1px $color-lightgreen;
+  border:solid 2px $color-lightgreen;
   &::-webkit-input-placeholder
   {
     color:grey;
@@ -308,7 +308,7 @@ nav
   padding:10px 10px 12px 8px;
   background:white;
   line-height: 16px;
-  border:solid 1px $color-lightgreen;
+  border:solid 2px $color-lightgreen;
   font-family: $font-primary;
 }
 
