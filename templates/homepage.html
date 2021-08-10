@@ -486,7 +486,7 @@ $(document).ready(function() {
             </div>
         </div>
         <a class="bom-name">{{ bowler_of_month.first_name}}&nbsp;{{ bowler_of_month.last_name }}</a>
-        <a class="bom-location">{{ bowler_of_month.location_city }}, {{ bowler_of_month.location_state }}</a>
+        <a class="bom-location">{{ bowler_of_month.location_city|none_replace:'Flint' }}, {{ bowler_of_month.location_state|none_replace:', Michigan' }}</a>
         <a class="btn btn-full text-white bkg-darkgreen border-none" href="account/view/{{ bowler_of_month.user_id }}">VISIT PROFILE</a>
       </section>
       {% endif %}
