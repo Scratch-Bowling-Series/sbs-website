@@ -101,8 +101,12 @@ def accounts_modify_view(request):
 
 def accounts_login_view(request):
     current_site = get_current_site(request)
+    user = request.user
     message = render_to_string('acc_active_email.html', {
-        'user': request.user,
+
+        'user': user, 'domain': current_site.domain,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': account_activation_token.make_token(user),
     })
     mail_subject = 'Scratch Series Bowling, Activate Account'
     email = EmailMessage(mail_subject, message, to=['christianjstarr@icloud.com'])
