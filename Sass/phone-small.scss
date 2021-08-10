@@ -286,94 +286,7 @@ nav
   position: relative;
   background: $color-darkgreen;
 }
-.nav-logo-container
-{
-    box-sizing:content-box;
-    vertical-align: top;
-    margin:0;
-    display: inline-block;
-    height:65px;
-    width:150px;
-    text-align:center;
-    background:white;
-  }
-  #nav-logo 
-  {
-    height: 50px;
-    width:auto!important;
-    padding:8px 0 15px 0;
-  }
-  .nav-logo-flavor
-  {
-    padding-left:40px;
-    margin-left:-15px;
-    padding-right:15px;
-    display: inline-block;
-    width:auto;
-    height:65px;
-    vertical-align: top;
-    overflow:hidden;
-  }
-  .nav-logo-flavor-b1
-  {
-    width:18px;
-    height:85px;
-    margin-top:-10px;
-    background:$color-tan;
-    display: inline-block;
-    vertical-align: top;
-    transform:rotate(20deg);
-  }
-  .nav-logo-flavor-b2
-  {
-    width:18px;
-    height:85px;
-    margin-top:-10px;
-    background:#d6d6d6;
-    display: inline-block;
-    vertical-align: top;
-    transform:rotate(20deg);
-  }
-  .nav-logo-flavor-b3
-  {
-    width:18px;
-    height:85px;
-    margin-top:-10px;
-    background:white;
-    display: inline-block;
-    vertical-align: top;
-
-    transform:rotate(20deg);
-  }
-  .nav-broadcast-live
-  {
-    text-align: center;
-    margin:0;
-    max-width: 100px;
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 25px;
-    a
-    {
-      position: relative;
-      display:inline-block;
-      font-size:28px;
-      color:$color-tan;
-      vertical-align: top;
-      padding:11px 0;   
-    }
-    span
-    {
-      position: relative;
-      color:$color-tan;
-      font-size:12px;
-      height:65px;
-      padding:26px 0 26px 4px;
-      display: inline-block;
-      vertical-align: top;
-    } 
-  }
-  #nav-account 
+#nav-account 
   {
     position: absolute;
     right: 0;
@@ -397,7 +310,7 @@ nav
       background:white;
     }
   }
-  .nav-buttons 
+.nav-buttons 
   {
     width: auto;
     height:65px;
@@ -407,7 +320,7 @@ nav
     vertical-align:top;
     position:relative;
   }
-  .nav-button
+.nav-button
   {
     display: inline-block;
     height:65px;
@@ -444,7 +357,7 @@ nav
       display:none;
     }
   }
-  .nav-button-drop
+.nav-button-drop
   {
     display:none;
     border:solid 3px $color-darkgreen;
@@ -469,11 +382,11 @@ nav
       }
     }
   }
-  .nav-button:hover .nav-button-drop, .nav-button:hover span
+.nav-button:hover .nav-button-drop, .nav-button:hover span
   {
     display:block;
   }
-  .nav-dropdown
+.nav-dropdown
   {
     vertical-align: top;
     height:65px;
@@ -487,7 +400,7 @@ nav
       padding:33px 2px;
     }
   }
-  #nav-search
+#nav-search
   {
     height:65px;
     margin:0 5px 0 0;
@@ -497,7 +410,7 @@ nav
     width:auto;
     min-width: 350px;
   }
-  #nav-search input[type=text]
+#nav-search input[type=text]
   {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -526,7 +439,7 @@ nav
       outline: none;
     }
   }
-  #nav-search input[type=submit]
+#nav-search input[type=submit]
   {
     font-size:16px;
     box-sizing: border-box;
@@ -547,7 +460,7 @@ nav
     line-height: 16px;
     font-family: $font-primary;
   }
-  #nav-drop-buttons
+#nav-drop-buttons
   {
     position: absolute;
     right:0;top:0;
@@ -565,7 +478,7 @@ nav
       margin-bottom:6px;
     }
   }
-  .nav-account-donate
+.nav-account-donate
   {
     padding:11px 20px 13px 20px;
     border:none;
@@ -689,7 +602,7 @@ footer
   vertical-align: top;
   overflow:hidden;
 }
-.col-20{width:20%;}.col-25{width:25%;}.col-30{width:30%;}.col-35{width:35%;}.col-40{width:40%;}.col-45{width:45%;}.col-50{width:50%;}.col-55{width:55%;}.col-60{width:60%;}.col-65{width:65%;}.col-70{width:70%;}.col-75{width:75%;}.col-80{width:80%;}.col-85{width:85%;}.col-100{width:100%;}
+.col-20{width:20%;}.col-25{width:25%;}.col-30{width:30%;}.col-35{width:35%;}.col-40{width:40%;}.col-45{width:45%;}.col-50{width:100%;}.col-55{width:55%;}.col-60{width:60%;}.col-65{width:65%;}.col-70{width:70%;}.col-75{width:75%;}.col-80{width:80%;}.col-85{width:85%;}.col-100{width:100%;}
 .col-mobile{display:none;}
 .col-m-max-width
 {
