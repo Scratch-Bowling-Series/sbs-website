@@ -153,6 +153,7 @@ nav
   {
     display:none;
   }
+  box-shadow:0 0 20px #000;
 }
 .nav-btn
 {
@@ -231,7 +232,7 @@ nav
   height:130px;
   vertical-align: top;
   width:auto;
-  z-index:2000;
+  z-index:2001;
   display:none;
   a{
     margin:12.5px 10px 12.5px 0px;
