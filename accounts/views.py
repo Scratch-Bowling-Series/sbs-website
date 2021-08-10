@@ -109,7 +109,7 @@ def accounts_login_view(request):
         'token': account_activation_token.make_token(user),
     })
     mail_subject = 'Scratch Series Bowling, Activate Account'
-    email = EmailMessage(mail_subject, message, to=['christianjstarr@icloud.com'])
+    email = EmailMessage(mail_subject,' message', to=['christianjstarr@icloud.com'])
     email.send()
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
