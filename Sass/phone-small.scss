@@ -148,6 +148,7 @@ nav
   position:relative;
   z-index:2000;
   background:white;
+  display:none;
   .hidden
   {
     display:none;
@@ -230,6 +231,7 @@ nav
   height:65px;
   vertical-align: top;
   width:auto;
+  z-index:2000;
   a{
     margin:12.5px 10px 12.5px 0px;
   }
