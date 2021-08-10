@@ -1386,15 +1386,16 @@ footer
 }
 .homepage-broadcast-clip
 {
-  width:calc(100% - 20px);
+  width:calc(100% - 40px);
   height:auto;
   vertical-align:top;
   display:inline-block;
-  margin:10px 10px 20px 10px;
+  margin:0px 10px 30px 10px;
   img
   {
     width:100%;height:auto!important;
     background:#3d3d3d;
+    border-radius:5px;
   }
   h3
   {
