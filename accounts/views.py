@@ -45,7 +45,7 @@ def counter(value, ordinal=False):
 
 @register.filter
 def none_replace(value, output):
-    if value is None or value is '':
+    if value == None or value == '':
         return output
     return value
 
@@ -53,8 +53,8 @@ def none_replace(value, output):
 @register.filter
 def is_friend(user_id, user):
     user_id = is_valid_uuid(user_id)
-    if user_id is not None:
-        if user is not None:
+    if user_id != None:
+        if user != None:
             friends = json.loads(user.friends)
             if str(user_id) in friends:
                 return True
@@ -75,7 +75,7 @@ def accounts_modify_view(request):
             user.location_city = form.data.get('location_city')
             user.location_state = form.data.get('location_state')
             zip = form.data.get('location_zip')
-            if zip is not None and zip is not '':
+            if zip != None and zip != '':
                 user.location_zip = zip
             right_handed = form.data.get('right_handed')
             if right_handed == 'on':
@@ -147,7 +147,7 @@ def activate(request, uidb64, token):
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-    if user is not None and account_activation_token.check_token(user, token):
+    if user !=  None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
         login(request, user)
@@ -173,7 +173,7 @@ def accounts_account_view(request, id):
 
 def get_recent_tournaments(user):
     data = []
-    if user.tournaments is not None:
+    if user.tournaments !=  None:
         try:
             tournaments = json.loads(user.tournaments)
         except ValueError:
@@ -202,11 +202,11 @@ def update_users_tournaments():
         uuid = str(tournament.tournament_id)
         print(tournament.tournament_name)
         qualifying = get_qualifying(tournament)
-        if qualifying is None:
+        if qualifying==None:
             continue
         for qual in qualifying:
             uu = is_valid_uuid(qual[1])
-            if uu is not None:
+            if uu !=  None:
                 bowler = User.objects.get(user_id=uu)
                 b_tournaments = []
                 try:
@@ -224,9 +224,9 @@ def update_users_tournaments():
 
 def accounts_add_view(request, id):
     id = is_valid_uuid(id)
-    if id is not None:
+    if id !=  None:
         user = request.user
-        if user is not None:
+        if user !=  None:
             friends = []
             try:
                 friends = json.loads(user.friends)
@@ -241,9 +241,9 @@ def accounts_add_view(request, id):
 
 def accounts_remove_view(request, id):
     id = is_valid_uuid(id)
-    if id is not None:
+    if id !=  None:
         user = request.user
-        if user is not None:
+        if user !=  None:
             friends = []
             try:
                 friends = json.loads(user.friends)
