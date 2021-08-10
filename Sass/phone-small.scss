@@ -1205,11 +1205,11 @@ footer
 .app-prev-phone
 {
   position:absolute;
-  right:50px;bottom:-80px;
+  right:30px;bottom:-80px;
   border:solid 2px $color-lightgreen;
   border-radius:12px;
   width:100px;height:200px;
-  transform: rotate(10deg);
+  transform: rotate(10deg), scale(0.9);
 }
 .app-prev-phone-n1
 {
