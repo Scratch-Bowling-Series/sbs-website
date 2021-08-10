@@ -131,7 +131,7 @@ def accounts_signup_view(request):
                 'token': account_activation_token.make_token(user),
             })
             mail_subject = 'Scratch Series Bowling, Activate Account'
-            email = EmailMessage(mail_subject, message, to=[email])
+            email = EmailMessage(mail_subject, message, to=[email], from_email='christianjstarr@icloud.com')
             email.send()
             user.save()
             return render(request, 'homepage.html', {'nbar': 'home', 'notify': 'verify_email', 'first': user.first_name})
