@@ -31,10 +31,10 @@ def about(request):
 
 
 def load_tournament_live():
-    live_center = {'name': 'Center Name', 'city': 'City', 'state': 'State'}
+    live_center = {'name': '300 Bowl', 'city': 'Detroit', 'state': 'MI'}
     live_status = 'Qualifying (3/10)'
-    live_leader = 'Leader Name'
-    live_score = '(110)'
+    live_leader = 'Christian S.'
+    live_score = '(410)'
     return {'is_live': False, 'center': live_center, 'status': live_status, 'leader': live_leader, 'score': live_score}
 
 
