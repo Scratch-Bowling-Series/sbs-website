@@ -982,13 +982,10 @@ footer
   color:$color-darkgreen;
   font-family:$font-primary;
   display: inline-block;
-  padding:6px 15px 7px 15px;
   color:white;
-  margin:20px 20px 0 0;
-  font-size:14px;
-  float:right;
-  vertical-align: top;
-  max-height:30px;
+  position:absolute;
+  bottom:0;right:0;
+  margin:20px;
 }
 .live-prev-status
 {
@@ -1005,6 +1002,7 @@ footer
   padding:0 20px 20px 20px;
   display: block;
   font-size:18px;
+  margin-bottom:40px;
   span
   {
     font-size:16px;
