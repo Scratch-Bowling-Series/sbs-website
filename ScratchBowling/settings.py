@@ -88,13 +88,13 @@ WSGI_APPLICATION = 'ScratchBowling.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'scratchbowling$default',
-        'USER': 'scratchbowling',
-        'PASSWORD': 'dvSdd260*HXp',
-        'HOST': 'scratchbowling.mysql.pythonanywhere-services.com',
-    }
+   #'default': {
+  #      'ENGINE': 'django.db.backends.mysql',
+  #      'NAME': 'scratchbowling$default',
+  #      'USER': 'scratchbowling',
+  #      'PASSWORD': 'dvSdd260*HXp',
+ #       'HOST': 'scratchbowling.mysql.pythonanywhere-services.com',
+#   }
 }
 #dvSdd260*HXp db password
 
@@ -134,11 +134,14 @@ USE_L10N = True
 USE_TZ = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 EMAIL_HOST = 'smtp-relay.sendinblue.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'christianjstarr@icloud.com'
 EMAIL_HOST_PASSWORD = 'OFKjxIqkaYT14G6X'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
