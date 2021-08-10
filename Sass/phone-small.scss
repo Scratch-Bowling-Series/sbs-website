@@ -995,18 +995,16 @@ footer
   color:$color-darkgreen;
   font-family:$font-primary-bold;
   padding:0 20px 20px 20px;
-  display: inline-block;
+  display: block;
   font-size:18px;
 }
 .live-prev-leader
 {
   color:$color-darkgreen;
   font-family:$font-primary-bold;
-  padding:0px;
-  margin:0 20px 20px 0;
-  display: inline-block;
+  padding:0 20px 20px 20px;
+  display: block;
   font-size:18px;
-  float:right;
   span
   {
     font-size:16px;
