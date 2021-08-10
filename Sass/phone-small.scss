@@ -160,7 +160,6 @@ nav
 .nav-btn
 {
   display: inline-block;
-  background:red;
   height:65px;
   margin:0px auto;
   vertical-align:top;
@@ -231,7 +230,7 @@ nav
   right: 0;top:65px;left:0;
   overflow:hidden;
   background:white;
-  text-align: right;
+  text-align: center;
   display:inline-block;
   height:130px;
   vertical-align: top;
@@ -239,7 +238,8 @@ nav
   z-index:2001;
   display:none;
   a{
-    margin:12.5px 10px 12.5px 0px;
+    clear:both;
+    margin:12.5px 10px 12.5px 20px;
   }
 }
 .nav-account-photo
