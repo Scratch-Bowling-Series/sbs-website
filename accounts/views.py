@@ -101,7 +101,7 @@ def accounts_modify_view(request):
 
 def accounts_login_view(request):
 
-    
+
     email = EmailMessage(
         'Hello',
         'Body goes here',
