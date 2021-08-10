@@ -8,7 +8,7 @@ from django.contrib.auth import login, logout
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, send_mail
 
 from scoreboard.ranking import get_rank_data_from_json
 from tournaments.models import Tournament
@@ -101,10 +101,13 @@ def accounts_modify_view(request):
 
 def accounts_login_view(request):
 
-    mail_subject = 'Scratch Series Bowling, Activate Account'
-    email = EmailMessage(mail_subject,' message', to=['christianjstarr@icloud.com'])
-    print(str(email.message()))
-    email.send()
+    send_mail(
+        'Subject here',
+        'Here is the message.',
+        'christianjstarr@icloud.com',
+        ['christianjstarr@icloud.com'],
+        fail_silently=False,
+    )
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
