@@ -109,8 +109,8 @@
                  <img src="{{ request.user.picture.url }}" alt="{{ request.user.first_name }}'s profile picture">
             </a>
             {% else %}
-            <a href="/account/login" class="btn text-white border-white spacing-left-20">LOGIN</a>
-            <a href="/account/signup" class="btn bkg-white text-lightgreen border-white">SIGN-UP</a>
+            <a href="/account/login" class="btn text-white border-white spacing-left-20 login">LOGIN</a>
+            <a href="/account/signup" class="btn bkg-white text-lightgreen border-white signup">SIGN-UP</a>
             {% endif %}
         </div>
     </nav>
