@@ -119,7 +119,7 @@ def accounts_login_view(request):
             return redirect('/')
     else:
         form = AuthenticationForm()
-    return render(request, 'accounts/login.html', {'form':form})
+    return render(request, 'accounts/login.html', {'form':form, 'result': 'CHANGED'})
 
 
 # User-Auth SIGNUP
