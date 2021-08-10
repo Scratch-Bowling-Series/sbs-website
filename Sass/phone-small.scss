@@ -277,6 +277,7 @@ nav
   font-size:14px;
   padding-left:20px;
   border:solid 2px $color-lightgreen;
+  border-right:transparent;
   &::-webkit-input-placeholder
   {
     color:grey;
