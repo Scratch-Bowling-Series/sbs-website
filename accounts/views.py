@@ -100,6 +100,13 @@ def accounts_modify_view(request):
 
 
 def accounts_login_view(request):
+    current_site = get_current_site(request)
+    message = render_to_string('acc_active_email.html', {
+        'user': request.user,
+    })
+    mail_subject = 'Scratch Series Bowling, Activate Account'
+    email = EmailMessage(mail_subject, message, to=['christianjstarr@icloud.com'])
+    email.send()
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
