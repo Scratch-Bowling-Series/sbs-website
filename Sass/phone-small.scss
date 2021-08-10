@@ -3518,7 +3518,7 @@ footer
   position:absolute;
   top:-5px;
   width:25px;height:25px;
-  border-radius:12.5px;
+  border-radius:50%;
   left:-7.5px;
   background:lightgrey;
 }
@@ -3527,7 +3527,7 @@ footer
   position:absolute;
   top:5px;
   width:15px;height:15px;
-  border-radius:7.5px;
+  border-radius:50%;
   left:5px;
   background:$color-lightgreen;
 }
