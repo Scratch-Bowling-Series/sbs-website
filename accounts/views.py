@@ -101,13 +101,16 @@ def accounts_modify_view(request):
 
 def accounts_login_view(request):
 
-    send_mail(
-        'Subject here',
-        'Here is the message.',
-        'no-reply@scratchbowling.com',
+    
+    email = EmailMessage(
+        'Hello',
+        'Body goes here',
+        'christianjstarr@icloud.com',
         ['christianjstarr@icloud.com'],
-        fail_silently=False,
+        reply_to=['christianjstarr@icloud.com'],
+        headers={'Message-ID': '1'},
     )
+    email.send()
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
