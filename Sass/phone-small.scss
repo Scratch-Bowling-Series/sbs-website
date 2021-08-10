@@ -70,6 +70,10 @@ p
   font-size:16px;
 }
 
+.mobile-on
+{
+  display:block;
+}
 
 /*****************************
          NAV BAR
@@ -975,7 +979,7 @@ footer
   font-family: $font-primary-light;
   color:$color-darkgreen;
   display: block;
-  padding:0 0 0 10px;
+  padding:0 0 0 0px;
 }
 .live-prev-watch
 {
