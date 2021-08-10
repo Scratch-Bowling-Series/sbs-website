@@ -136,10 +136,11 @@ nav
 /* NAV BUTTONS */
 .nav-buttons
 {
-  width: auto;
-  height:65px;
-  margin: 0 0 0 10px;
-  text-align: left;
+  position:absolute;
+  right:0;top:65px;left:0;
+  height:auto;
+  margin:0;
+  text-align: center;
   display: inline-block;
   vertical-align:top;
   position:relative;
