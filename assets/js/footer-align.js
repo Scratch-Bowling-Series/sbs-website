@@ -6,21 +6,21 @@ $(document).ready(function() {
     }
 
     var closed = true;
-    $('#nav-drop-button').click(function(){
+    $('#nav-expand').click(function(){
         if(closed)
         {
             closed = false;
-            $('#nav-account').css('display', 'flex');
+            $('.nav-account').css('display', 'flex');
             $('.nav-buttons').css('display', 'block');
-            $('#nav-drop-button i').css('text-shadow', '-1px -1px 0 #d9af62,  1px -1px 0 #d9af62,-1px 1px 0 #d9af62,1px 1px 0 #d9af62');
+            $('.nav-drop-button i').css('text-shadow', '-1px -1px 0 #d9af62,  1px -1px 0 #d9af62,-1px 1px 0 #d9af62,1px 1px 0 #d9af62');
         }
         else
         {
             closed = true;
-            $('#nav-account').css('display', 'none');
+            $('.nav-account').css('display', 'none');
             $('.nav-buttons').css('display', 'none');
 
-            $('#nav-drop-button i').css('text-shadow', 'none');
+            $('.nav-drop-button i').css('text-shadow', 'none');
         }
     });
     var msg_closed = true;
