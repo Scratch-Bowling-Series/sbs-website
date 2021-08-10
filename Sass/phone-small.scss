@@ -137,7 +137,7 @@ nav
 .nav-buttons
 {
   position:absolute;
-  right:0;top:65px;left:0;
+  right:0;top:0;left:0;
   bottom:185px;height:120px;
   width:100%;
   height:auto;
@@ -223,7 +223,8 @@ nav
 .nav-account
 {
   position: absolute;
-  right: 0;
+  right: 0;top:65px;
+  background:white;
   text-align: right;
   display:inline-block;
   height:65px;
