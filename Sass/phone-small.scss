@@ -144,6 +144,8 @@ nav
   display: inline-block;
   vertical-align:top;
   position:relative;
+  z-index:2000;
+  background:white;
   .hidden
   {
     display:none;
