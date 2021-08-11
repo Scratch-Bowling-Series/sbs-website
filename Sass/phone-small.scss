@@ -216,11 +216,14 @@ nav
     overflow: hidden;
     i
     {
+      position:absolute;top:0;right;0;
       display:block;
       color:white;
       font-size:35px;
       padding:15px 2px;
     }
+    #close-btn{display:none;}
+    #drop-btn{display:block;}
 }
 /* NAV ACCOUNT */
 .nav-account
@@ -425,7 +428,6 @@ footer
 .btn-small
 {
   font-size:12px;
-  line-height:12px;
   color:white;
   border-radius:14px;
   display:inline-block;
