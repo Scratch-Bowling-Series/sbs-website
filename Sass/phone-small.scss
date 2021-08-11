@@ -371,7 +371,7 @@ footer
 *****************************/
 #content-wrapper 
 {
-  width:calc(100% - 0px);
+  width:100%;
   max-width:1700px;
   margin:0 auto;
   padding:0px;
@@ -475,7 +475,7 @@ footer
 .sec
 {
   width:calc(100% - 20px);
-  margin:10px;
+  margin:10px 10px 0 10px;
   background:white;
   border-radius:10px;
   position:relative;
