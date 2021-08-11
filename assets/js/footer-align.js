@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var height_diff = $(window).height() - ($('footer').offset().top + $('footer').height());
+    var height_diff = $(window).height() - ($('footer').offset().top + $('footer').height() - 20);
     if (height_diff > 0) {
         console.log(height_diff)
         $('footer').css('margin-top', height_diff);
