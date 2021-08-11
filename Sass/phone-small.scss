@@ -872,14 +872,13 @@ footer
 #homepage-tournament-recent-preview
 {
   position: absolute;
-  left:0;top:0;
-  bottom:0;
-  width:60%;
-  height:100%;
+  left:0;top:0;right:0;
+  width:100%;
+  height:auto!important;
   background:grey;
   border-radius:12px 0 0 12px;
   border:solid 1px lightgrey;
-  border-right:none;
+  border-bottom:none;
   margin:0;
   div
   {
