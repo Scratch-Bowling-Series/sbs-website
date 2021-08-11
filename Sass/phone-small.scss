@@ -1006,7 +1006,10 @@ footer
 }
 
 .t-recent-prev.image{
-
+  width:100%;background:red;
+  img{
+    width:100%;height:auto!important;
+  }
 }
 
 .t-recent-prev.watermark{

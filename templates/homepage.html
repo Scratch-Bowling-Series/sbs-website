@@ -137,7 +137,7 @@ $(document).ready(function() {
         <a class="live-prev-leader std-hover">LEADER: {{ tournament_live.leader }}<span>{{ tournament_live.score }}</span></a>
     </section>
     {% endif %}
-    {% if tournament_recent is not None %}
+    {% if tournament_recent is not None and False is True%}
     <section class="sec">
         <div id="homepage-tournament-recent-preview">
             <div></div><img id="homepage-tournament-recent-preview-watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">

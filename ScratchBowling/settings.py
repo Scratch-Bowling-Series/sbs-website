@@ -95,6 +95,10 @@ DATABASES = {
     #   'PASSWORD': 'dvSdd260*HXp',
     #   'HOST': 'scratchbowling.mysql.pythonanywhere-services.com',
     #}
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
