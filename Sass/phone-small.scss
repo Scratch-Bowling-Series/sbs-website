@@ -219,10 +219,11 @@ nav
       position:absolute;
       top:0;
       right:0;
+      left:0;
+      bottom:0;
       display:block;
       color:white;
       font-size:35px;
-      padding:15px 2px;
     }
     #close-btn{display:none;}
     #drop-btn{display:block;}
@@ -423,9 +424,7 @@ footer
 .btn-full
 {
   width:calc(100% - 40px);
-  border:none;
   margin: 10px auto 20px auto;
-  text-align:center;
 }
 .btn-small
 {
