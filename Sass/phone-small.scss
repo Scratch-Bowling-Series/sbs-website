@@ -402,7 +402,7 @@ footer
   display: inline-block;
   transition: background ease .35s;
   -webkit-appearance:none;
-  padding:8px 20px 10px 20px;
+  padding:10px 20px 10px 20px;
   max-height:40px;
   font-family: $font-primary;
   text-align:center;
@@ -433,15 +433,12 @@ footer
   color:white;
   border-radius:14px;
   display:inline-block;
-  padding:2px 10px 4px 10px;
+  padding:3px 10px 4px 10px;
   background:$color-darkgreen;
   float:right;
   margin:0 20px 0 0;
   font-family: $font-primary;
   max-height:19px;
-  box-sizing:border-box;
-  -webkit-box-sizing:border-box;
-  vertical-align:top;
 }
 
 
