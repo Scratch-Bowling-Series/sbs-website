@@ -3434,10 +3434,10 @@ footer
 
 
 #nav-icon1, #nav-icon2, #nav-icon3, #nav-icon4 {
-  width: 60px;
-  height: 45px;
+  width: 40px;
+  height: 35px;
   position: relative;
-  margin: 50px auto;
+  margin: 15px;
   -webkit-transform: rotate(0deg);
   -moz-transform: rotate(0deg);
   -o-transform: rotate(0deg);
@@ -3452,10 +3452,10 @@ footer
 #nav-icon1 span, #nav-icon3 span, #nav-icon4 span {
   display: block;
   position: absolute;
-  height: 9px;
+  height: 7px;
   width: 100%;
-  background: #d3531a;
-  border-radius: 9px;
+  background: white;
+  border-radius: 7px;
   opacity: 1;
   left: 0;
   -webkit-transform: rotate(0deg);
