@@ -437,6 +437,8 @@ footer
   margin:0 20px 0 0;
   font-family: $font-primary;
   max-height:19px;
+  box-sizing:border-box;
+  -webkit-box-sizing:border-box;
 }
 
 
