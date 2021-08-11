@@ -13,14 +13,17 @@ $(document).ready(function() {
             $('.nav-account').css('display', 'flex');
             $('.nav-buttons').css('display', 'block');
             $('.nav-drop-button i').css('text-shadow', '-1px -1px 0 #d9af62,  1px -1px 0 #d9af62,-1px 1px 0 #d9af62,1px 1px 0 #d9af62');
+            $('#close-btn-mobile-nav').show();
+            $('#open-btn-mobile-nav').hide();
         }
         else
         {
             closed = true;
             $('.nav-account').css('display', 'none');
             $('.nav-buttons').css('display', 'none');
-
             $('.nav-drop-button i').css('text-shadow', 'none');
+            $('#open-btn-mobile-nav').show();
+            $('#close-btn-mobile-nav').hide();
         }
     });
     var msg_closed = true;
