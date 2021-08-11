@@ -154,20 +154,25 @@ $(document).ready(function() {
       </section>
     </section>
     {% else %}
-    <section class="sec">
-        <div id="homepage-tournament-recent-preview">
-            <div></div><img id="homepage-tournament-recent-preview-watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
+    <section class="sec t-recent-prev">
+        <div class="image">
+            <img src="{{ static 'img/recent-preview-template.png' }}" ref="Tournament Name">
+            <img class="watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
         </div>
-        <section id="homepage-tournament-recent-content">
-        <a id="homepage-tournament-recent-title" href="/tournaments/view/1">2021 SBS SUPER SWEEPER</a>
-        <a id="homepage-tournament-recent-date" href="/tournaments/view/1">09/25 - Thunderbowl Lanes</a>
-        <a id="homepage-tournament-recent-description" href="/tournaments/view/1">This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set yet.</a>
-        <a id="homepage-tournament-recent-results" href="tournaments/view/1">Read More</a>
-        <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank top-rank">1st</a><a class="homepage-tournament-recent-player-name" href="/account/view/1">Christian <span>S.</span></a></div>
-        <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank">2nd</a><a class="homepage-tournament-recent-player-name" href="/account/view/1">Brian <span>R.</span></a></div>
-        <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank">3rd</a><a class="homepage-tournament-recent-player-name" href="/account/view/1">Daniel <span>H.</span></a></div>
-        <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank">4th</a><a class="homepage-tournament-recent-player-name" href="/account/view/1">John <span>C.</span></a></div>
-      </section>
+
+        <section class="content">
+            <a class="title" href="/tournaments/view/1">2021 SBS SUPER SWEEPER</a>
+            <a class="date" href="/tournaments/view/1">09/25 - Thunderbowl Lanes</a>
+            <a class="description" href="/tournaments/view/1">This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set yet.</a>
+            <a class="more" href="tournaments/view/1">Read More</a>
+
+            <div class="stats">
+                <div class="player"><a class="homepage-tournament-recent-player-rank top-rank">1st</a><a class="homepage-tournament-recent-player-name" href="/account/view/1">Christian <span>S.</span></a></div>
+                <div class="player"><a class="homepage-tournament-recent-player-rank">2nd</a><a class="homepage-tournament-recent-player-name" href="/account/view/1">Brian <span>R.</span></a></div>
+                <div class="player"><a class="homepage-tournament-recent-player-rank">3rd</a><a class="homepage-tournament-recent-player-name" href="/account/view/1">Daniel <span>H.</span></a></div>
+                <div class="player"><a class="homepage-tournament-recent-player-rank">4th</a><a class="homepage-tournament-recent-player-name" href="/account/view/1">John <span>C.</span></a></div>
+            </div>
+        </section>
     </section>
     {% endif %}
     <div class="col-desktop">
