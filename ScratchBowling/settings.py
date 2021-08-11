@@ -88,15 +88,14 @@ WSGI_APPLICATION = 'ScratchBowling.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-   'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'scratchbowling$default',
-        'USER': 'scratchbowling',
-        'PASSWORD': 'dvSdd260*HXp',
-        'HOST': 'scratchbowling.mysql.pythonanywhere-services.com',
-   }
+    #   'default': {
+    #   'ENGINE': 'django.db.backends.mysql',
+    #   'NAME': 'scratchbowling$default',
+    #   'USER': 'scratchbowling',
+    #   'PASSWORD': 'dvSdd260*HXp',
+    #   'HOST': 'scratchbowling.mysql.pythonanywhere-services.com',
+    #}
 }
-#dvSdd260*HXp db password
 
 
 AUTH_USER_MODEL = 'accounts.User'
