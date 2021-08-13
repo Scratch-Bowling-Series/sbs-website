@@ -81,61 +81,54 @@ p
 /*****************************
          NAV BAR
 *****************************/
-nav 
-{
+nav {
   width: 100%;height: 65px;
   margin: 0;
   position: relative;
   background: $color-darkgreen;
 }
+
 /* NAV LOGO */
-.nav-logo
-{
+.nav-logo{
   padding:0 15px 0 40px;
   margin-left:-15px;
   display: inline-block;
   width:auto;height:65px;
   vertical-align: top;
   overflow:hidden;
+  .nav-logo-wrap{
+    box-sizing:content-box;
+    display: inline-block;
+    height:65px;width:150px;
+    text-align:center;
+    background:white;
+  }
+  img{
+    height: 50px;width:auto!important;
+    padding:8px 0 15px 0;
+  }
+  .nav-logo-f{
+    width:18px;height:85px;
+    margin-top:-10px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .nav-logo-f1{
+    background:$color-tan;
+    transform:rotate(20deg);
+  }
+  .nav-logo-f2{
+    background:#d6d6d6;
+    transform:rotate(20deg);
+  }
+  .nav-logo-f3{
+    background:white;
+    transform:rotate(20deg);
+  }
 }
-.nav-logo-wrap
-{
-  box-sizing:content-box;
-  display: inline-block;
-  height:65px;width:150px;
-  text-align:center;
-  background:white;
-}
-.nav-logo img
-{
-  height: 50px;width:auto!important;
-  padding:8px 0 15px 0;
-}
-.nav-logo-f
-{
-  width:18px;height:85px;
-  margin-top:-10px;
-  display: inline-block;
-  vertical-align: top;
-}
-.nav-logo-f1
-{
-  background:$color-tan;
-  transform:rotate(20deg);
-}
-.nav-logo-f2
-{
-  background:#d6d6d6;
-  transform:rotate(20deg);
-}
-.nav-logo-f3
-{
-  background:white;
-  transform:rotate(20deg);
-}
+
 /* NAV BUTTONS */
-.nav-buttons
-{
+.nav-buttons{
   position:absolute;
   right:0;top:120px;left:0;
   height:110px;
@@ -150,64 +143,63 @@ nav
   display:none;
   justify-content:center;
   align-content:center;
-  .hidden
-  {
+  box-shadow:0 0 20px #000;
+  border-bottom:solid 2px $color-darkgreen;
+  
+  .hidden{
     display:inline-block;
   }
-  box-shadow:0 0 20px #000;
-}
-.nav-btn
-{
-  display: inline-block;
-  height:auto;
-  margin:0px auto;
-  vertical-align:top;
-  position:relative;
-  text-align:center;
-  a{
-    display: block;
-    font-size: 18px;
-    line-height:18px;
-    padding: 12px 10px 0 10px;
-    margin:12px 0 0 0;
-    color: black;
-    &:hover, &:focus 
+  .nav-btn{
+    display: inline-block;
+    height:auto;
+    margin:0px auto;
+    vertical-align:top;
+    position:relative;
+    text-align:center;
+    a{
+      display: block;
+      font-size: 18px;
+      line-height:18px;
+      padding: 12px 10px 0 10px;
+      margin:12px 0 0 0;
+      color: black;
+      &:hover, &:focus 
+      {
+        color: #3d3d3d;
+      }
+    }
+    .active{
+      text-decoration:underline;
+      background:white;
+      color:$color-tan;
+    }
+    span
     {
-      color: #3d3d3d;
+      position:absolute;
+      bottom:20px;
+      right:10px;left:10px;
+      width:calc(100% - 20px);height:1px;
+      display:none;
     }
   }
-  .active{
-    text-decoration:underline;
-    background:white;
-    color:$color-tan;
-  }
-  span
-  {
-    position:absolute;
-    bottom:20px;
-    right:10px;left:10px;
-    width:calc(100% - 20px);height:1px;
-    display:none;
-  }
-}
-.nav-btn-drop
-{
-  vertical-align: top;
-  height:65px;
-  display: none;
-  overflow: hidden;
-  margin-left:10px;
-  i{
-    display:inline-block;
-    color:white;
-    font-size:5px;
-    line-height:5px;
-    padding:30px 2px;
+  .nav-btn-drop{
+    vertical-align: top;
+    height:65px;
+    display: none;
+    overflow: hidden;
+    margin-left:10px;
+    i{
+      display:inline-block;
+      color:white;
+      font-size:5px;
+      line-height:5px;
+      padding:30px 2px;
+    }
   }
 }
+
 /* MOBILE NAV */
-.nav-drop-button
-{
+.nav-drop-button{
     position:absolute;
     right:0;top:0;bottom:0;
     vertical-align: top;
@@ -223,14 +215,13 @@ nav
       display:block;
       color:white;
       font-size:35px;
-    }
-    
+    }   
 }
 #close-btn-mobile-nav{display:none;}
 #drop-btn-mobile-nav{display:block;}
+
 /* NAV ACCOUNT */
-.nav-account
-{
+.nav-account{
   position: absolute;
   right: 0;top:65px;left:0;
   padding-top:10px;
@@ -243,9 +234,12 @@ nav
   width:auto;
   z-index:2001;
   display:none;
+  justify-content:center;
+  align-content:center;
+  border-top:solid 2px $color-darkgreen;
   a{
     clear:both;
-    margin:12.5px 10px 12.5px 20px;
+    margin:12.5px 10px;
   }
   .login
   {
@@ -258,17 +252,20 @@ nav
     color:white;
     border-color:$color-darkgreen;
   }
+  .myaccount
+  {
+    color:$color-darkgreen;
+    border-color:$color-darkgreen;
+  }
 }
-.nav-account-photo
-{
+.nav-account-photo{
   display:inline-block;
   height:40px;width:40px;
   border-radius:20px;
   overflow:hidden;
   img{height:40px;width:40px;}
 }
-.nav-search
-{
+.nav-search{
   height:65px;
   margin:0 0 0 0;
   display: inline-block;
@@ -279,8 +276,7 @@ nav
   position:absolute;
   top:65px;right:20px;left:20px;
 }
-.nav-search input[type=text]
-{
+.nav-search input[type=text]{
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   appearance: none;
@@ -310,8 +306,7 @@ nav
     outline: none;
   }
 }
-.nav-search input[type=submit]
-{
+.nav-search input[type=submit]{
   font-size:16px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -334,13 +329,10 @@ nav
   font-family: $font-primary;
 }
 
-
-
 /*****************************
          FOOTER
 *****************************/
-footer 
-{
+footer {
   width:100%;
   height:50px;
   background:$color-darkgreen;
@@ -366,12 +358,10 @@ footer
   }
 }
 
-
 /*****************************
          WRAPPERS
 *****************************/
-#content-wrapper 
-{
+#content-wrapper {
   width:100%;
   max-width:1700px;
   margin:0 auto;
@@ -387,8 +377,7 @@ footer
 /*****************************
          BUTTONS
 *****************************/
-.btn
-{
+.btn{
   background: transparent;
   cursor: pointer;
   border: 3px solid $color-lightgreen;
@@ -421,13 +410,11 @@ footer
     padding:1px 8px 1px 0;
   }
 }
-.btn-full
-{
+.btn-full{
   width:calc(100% - 40px);
   margin: 10px auto 20px auto;
 }
-.btn-small
-{
+.btn-small{
   font-size:12px;
   color:white;
   border-radius:14px;
@@ -440,12 +427,10 @@ footer
   max-height:19px;
 }
 
-
 /*****************************
          COLUMNS
 *****************************/
-.col
-{
+.col{
   display: inline-block;
   margin:0;
   vertical-align: top;
@@ -465,12 +450,10 @@ footer
 .m-order-6{order:6;}
 .m-order-7{order:7;}
 
-
 /*****************************
          SECTIONS
 *****************************/
-.sec
-{
+.sec{
   width:calc(100% - 20px);
   margin:10px 10px 0 10px;
   background:white;
@@ -483,29 +466,24 @@ footer
 }
 .sec-half{width:calc(100% - 20px);}
 
-
 /*****************************
            ROWS
 *****************************/
-.row-b
-{
+.row-b{
   width:calc(100% - 40px);
   height:30px;
   margin:5px 20px;
   text-align:left;
   font-size:0;
 }
-.row-b-c
-{
+.row-b-c{
   display:inline-block;
   height:25px;
   vertical-align:top;
   font-size:14px;
   margin-right:10px;
-
 }
-.row-b-c1
-{
+.row-b-c1{
   font-size:14px;
   line-height:14px;
   height:16px;
@@ -514,8 +492,7 @@ footer
   min-width:14%;
   text-align:center;
 }
-.row-b-c2
-{
+.row-b-c2{
   font-size:16px;
   line-height:16px;
   height:16px;
@@ -528,8 +505,7 @@ footer
   text-overflow:elipsis;
   color:$color-darkgreen;
 }
-.row-b-btn
-{
+.row-b-btn{
   float:right;
   margin:6px 0;
 }
@@ -537,8 +513,7 @@ footer
 /*****************************
          STANDARDS
 *****************************/
-.std-underline
-{
+.std-underline{
   display: block;
   width:100%;
   height:2px;
@@ -546,12 +521,10 @@ footer
   background: rgb(2,0,36);
   background: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(46,89,69,0.8435749299719888) 38%, rgba(46,89,69,1) 50%, rgba(46,89,69,0.84) 62%, rgba(0,212,255,0) 100%);
 }
-.std-radius
-{
+.std-radius{
   border-radius:10px;
 }
-.std-hover
-{
+.std-hover{
   &:hover{
     opacity:0.85;
     text-decoration:none;
@@ -562,9 +535,7 @@ footer
 /*****************************
   HOMEPAGE - NOTIFICATION BAR
 *****************************/
-
-.top-notify
-{
+.top-notify{
   width:100%;height:65px;
   vertical-align: top;
   h3
@@ -595,20 +566,17 @@ footer
   }
 }
 
-
 /*****************************
   HOMEPAGE - WINNERS PREV.
 *****************************/
-.homepage-tournament-winners-row
-{
+.homepage-tournament-winners-row{
   width:100%;
   vertical-align:top;
   text-align:left;
   margin:5px 0 10px 0;
   height:20px;
 }
-.homepage-tournament-winners-row-date
-{
+.homepage-tournament-winners-row-date{
   margin:2px 4px;
   font-size:12px;
   line-height:12px;
@@ -620,8 +588,7 @@ footer
   margin-left:20px;
   width:50px;
 }
-.homepage-tournament-winners-row-name
-{
+.homepage-tournament-winners-row-name{
   margin:0px 4px;;
   font-size:14px;
   line-height:14px;
@@ -632,12 +599,10 @@ footer
   vertical-align: top;
 }
 
-
 /*****************************
   HOMEPAGE - RANKS PREV.
 *****************************/
-#homepage-tournament-ranks
-{
+#homepage-tournament-ranks{
   background:white;
   text-decoration: none;
   vertical-align: top; 
@@ -647,16 +612,14 @@ footer
   text-align: center;
   margin-top:10px;
 }
-.homepage-tournament-ranks-row
-{
+.homepage-tournament-ranks-row{
   width:100%;
   vertical-align:top;
   text-align:left;
   margin:5px 0 10px 0;
   height:20px;
 }
-.homepage-tournament-ranks-row-name
-{
+.homepage-tournament-ranks-row-name{
   margin:0px 4px;
   font-size:14px;
   line-height:14px;
@@ -666,8 +629,7 @@ footer
   display:inline-block;
   vertical-align: top;
 }
-.homepage-tournament-ranks-row-rank
-{
+.homepage-tournament-ranks-row-rank{
   margin:0px 4px;
   font-size:12px;
   line-height:12px;
@@ -681,20 +643,17 @@ footer
   text-align:center;
 }
 
-
 /*****************************
   HOMEPAGE - DONATE
 *****************************/
-#homepage-donate
-{
+#homepage-donate{
   background:white;
   margin-top:20px;
   overflow: hidden;
   min-width:275px;
   text-align: center;
 }
-#homepage-donate-button
-{
+#homepage-donate-button{
   font-size:12px;
   max-width:80%;height:auto;
   display: block;
@@ -706,12 +665,10 @@ footer
   margin:0 auto 15px auto;
 }
 
-
 /*****************************
   HOMEPAGE - UPCOMING PREV.
 *****************************/
-#homepage-tournament-upcoming
-{
+#homepage-tournament-upcoming{
   background:white;
   text-decoration: none;
   vertical-align: top; 
@@ -720,19 +677,16 @@ footer
   min-width:275px;
   text-align: center;
 }
-.homepage-tournament-upcoming-row
-{
+.homepage-tournament-upcoming-row{
   width:100%;
   text-align:left;
   margin:5px 0 10px 0; 
 }
-.highlighted-row
-{
+.highlighted-row{
   background: rgb(217,175,98);
   background: linear-gradient(90deg, rgba(217,175,98,0.6979166666666667) 0%, rgba(217,175,98,0.6615021008403361) 27%, rgba(217,175,98,0) 66%);
 }
-.homepage-tournament-upcoming-row-date
-{
+.homepage-tournament-upcoming-row-date{
   font-size:14px;
   font-family: $font-primary-bold;
   color:black;
@@ -740,8 +694,7 @@ footer
   vertical-align: top;
   margin-left:20px;
 }
-.homepage-tournament-upcoming-row-name
-{
+.homepage-tournament-upcoming-row-name{
   margin:0 4px;
   font-size:14px;
   font-family: $font-primary;
@@ -749,8 +702,7 @@ footer
   display:inline-block;
   vertical-align: top;
 }
-.homepage-tournament-upcoming-row-results
-{
+.homepage-tournament-upcoming-row-results{
  vertical-align: center;
   font-size:12px;
   color:white;
@@ -762,8 +714,7 @@ footer
   margin:2px 15px 0 0;
   font-family: $font-primary-bold;
 }
-.homepage-tournament-upcoming-all
-{
+.homepage-tournament-upcoming-all{
   font-size:12px;
   max-width:80%;height:auto;
   display: block;
@@ -775,17 +726,14 @@ footer
   margin:25px auto 15px auto;
 }
 
-
 /*****************************
   HOMEPAGE - LIVE PREV.
 *****************************/
-.live-prev
-{
+.live-prev{
   
   text-align:left;
 }
-.live-prev-title
-{
+.live-prev-title{
   color:$color-tan;
   font-family:$font-primary-bold;
   padding:20px;
@@ -799,8 +747,7 @@ footer
     color:grey;
   }
 }
-.live-prev-title .prefix
-{
+.live-prev-title .prefix{
     position: relative;
     font-family: $font-secondary;
     color:$color-tan;
@@ -816,8 +763,7 @@ footer
       vertical-align:top;
     }
 }
-.live-prev-title .content
-{
+.live-prev-title .content{
   font-size:18px;
   position: relative;
   font-family: $font-primary-light;
@@ -825,8 +771,7 @@ footer
   display: block;
   padding:20px 0 0 0px;
 }
-.live-prev-watch
-{
+.live-prev-watch{
   color:$color-darkgreen;
   font-family:$font-primary;
   display: inline-block;
@@ -835,16 +780,14 @@ footer
   top:0;right:0;
   margin:20px;
 }
-.live-prev-status
-{
+.live-prev-status{
   color:$color-darkgreen;
   font-family:$font-primary-bold;
   padding:0 20px 20px 20px;
   display: block;
   font-size:18px;
 }
-.live-prev-leader
-{
+.live-prev-leader{
   color:$color-darkgreen;
   font-family:$font-primary-bold;
   padding:0 20px 20px 20px;
@@ -865,145 +808,9 @@ footer
   }
 }
 
-
 /*****************************
   HOMEPAGE - RECENT PREV.
 *****************************/
-#homepage-tournament-recent-preview
-{
-  position: absolute;
-  left:0;top:0;right:0;
-  width:100%;
-  height:auto!important;
-  background:grey;
-  border-radius:12px 0 0 12px;
-  border:solid 1px lightgrey;
-  border-bottom:none;
-  margin:0;
-  div
-  {
-    width: 100%;
-    height:100%;
-    position: relative;
-    background: url("/static/img/recent-preview-template.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-}
-#homepage-tournament-recent-content
-{
-  display: inline-block;
-  margin:0;
-  width:39%;height:auto;
-  vertical-align: top;
-  overflow: hidden;
-  float:right;
-  text-align:left;
-  padding-bottom:20px;
-}
-#homepage-tournament-recent-title
-{
-  color:$color-darkgreen;
-  font-family: $font-primary-bold;
-  font-size:22px;
-  display: block;
-  padding:10px 10px 0 10px;
-}
-#homepage-tournament-recent-date
-{
-  color:$color-lightgreen;
-  font-family: $font-primary-bold;
-  font-size:16px;
-  display: block;
-  padding:3px 10px 20px 10px;
-}
-#homepage-tournament-recent-description
-{
-  font-family: $font-primary-light;
-  font-size:18px;
-  display: block;
-  padding:0 20px 0 10px;
-  margin-bottom: 20px;
-}
-#homepage-tournament-recent-results
-{
-  position: absolute;
-  right:0;
-  bottom:0;
-  color:$color-darkgreen;
-  font-family: $font-primary-italic;
-  font-size:18px;
-  display: block;
-  padding:0 20px 20px 0;
-  &:hover
-  {
-    text-decoration:underline;
-  }
-}
-#homepage-tournament-recent-preview-watermark
-{
-  position: absolute;
-  left:15px;
-  bottom:15px;
-  width:15%;height:auto !important;
-  opacity: 0.5;
-}
-.homepage-tournament-recent-player
-{
-  height:35px;
-  width:auto;
-  margin:1px 0 0 0;
-  display: inline-block;
-  overflow: hidden;
-  color:white;
-  font-family: $font-primary;
-  color:$color-darkgreen;
-  width:100%;
-  img
-  {
-    margin-left:20px;
-    width:30px;height:30px;
-    border-radius: 15px;
-    box-sizing: content-box;
-    padding:5px;
-    display:inline-block;
-  }
-}
-.homepage-tournament-recent-player-name
-{
-  font-size:20px;
-  line-height:20px;
-  color:$color-darkgreen;
-  vertical-align: top;
-  padding:8px 10px;
-  display: inline-block;
-
-  font-family: $font-primary-light;
-  span{color:$color-darkgreen;}
-}
-.homepage-tournament-recent-player-rank
-{
-  width:40px;
-  height:22px;
-  text-align: center;
-  vertical-align: top;
-  font-size:16px;
-  line-height:16px;
-  color:$color-darkgreen;
-  border-radius:14px;
-  display:inline-block;
-  padding:4px 5px 0px 5px;
-  border: solid 2px lightgrey;
-  margin:4.5px 5px 4.5px 10px;
-}
-
-
-
-
-.t-recent-prev{
-}
-
 .t-recent-prev .image{
   width:100%;
   position:relative;
@@ -1019,7 +826,6 @@ footer
       opacity:0.5;
   }
 }
-
 .t-recent-prev .content{
   display:block;
   width:100%;
@@ -1034,6 +840,7 @@ footer
     padding-left:20px;
     font-size:16px;
     color:grey;
+    font-family:$font-primary-light;
   }
   .description{
     display:block;
@@ -1046,7 +853,6 @@ footer
 
   }
 }
-
 .t-recent-prev .stats{
     width:100%;
     display:block;
@@ -1072,31 +878,31 @@ footer
         vertical-align: top;
         font-size:16px;
         line-height:16px;
-        color:$color-darkgreen;
+        color:grey;
         border-radius:14px;
         display:inline-block;
         padding:4px 5px 0px 5px;
         border: solid 2px lightgrey;
         margin:4.5px 5px 4.5px 20px;
       }
+      .top-rank{
+        border-color:$color-tan;
+        color:$color-tan;
+      }
     }
 }
-
 
 /*****************************
   HOMEPAGE - MERCH PREV.
 *****************************/
-.merch-prev
-{
+.merch-prev{
   height:200px;
 }
-
 
 /*****************************
   HOMEPAGE - APP PREV.
 *****************************/
-.app-prev
-{
+.app-prev{
   text-align:left;
   height:200px;
   p
@@ -1113,8 +919,7 @@ footer
     bottom:0;left:0;
   }
 }
-.app-prev li
-{
+.app-prev li{
   width:100%;
   height:50px;
   display:block;
@@ -1129,8 +934,7 @@ footer
     padding:6px 3px 8px 0;
   }
 }
-.app-prev-phone
-{
+.app-prev-phone{
   position:absolute;
   right:20px;bottom:-80px;
   border:solid 2px $color-lightgreen;
@@ -1138,8 +942,7 @@ footer
   width:100px;height:200px;
   transform: scale(0.8) rotate(10deg);
 }
-.app-prev-phone-n1
-{
+.app-prev-phone-n1{
   position:absolute;
   top:0;right:25px;left:25px;
   height:10px;
@@ -1166,8 +969,7 @@ footer
     height:2px;
   }
 }
-.app-prev-phone-n2
-{
+.app-prev-phone-n2{
   position:absolute;
   top:0;
   right:75px;
@@ -1184,8 +986,7 @@ footer
     background:white;
   }
 }
-.app-prev-phone-n3
-{
+.app-prev-phone-n3{
   position:absolute;
   top:0;
   left:75px;
@@ -1202,8 +1003,7 @@ footer
     background:white;
   }
 }
-.app-prev-phone img
-{
+.app-prev-phone img{
   position:absolute;
   width:60%;
   height:auto!important;
@@ -1211,18 +1011,15 @@ footer
   right:20%;left:20%;
 }
 
-
 /*****************************
   HOMEPAGE - BOWLER OF MONTH
 *****************************/
-.bom-pic-wrap
-{
+.bom-pic-wrap{
   height:100px;width:100px;
   margin:10px auto 0 auto;
   position:relative;
 }
-.bom-pic-rank
-{
+.bom-pic-rank{
   position:absolute;
   right:-5px;top:0;
   padding:2px 10px;
@@ -1235,40 +1032,34 @@ footer
   vertical-align:top;
   color:white;
 }
-.bom-pic
-{
+.bom-pic{
   position:absolute;
   right:0;left:0;bottom:0;top:0;
   height:100px;width:100px;
   overflow:hidden;
   border-radius:50px;
 }
-.bom-pic img
-{
+.bom-pic img{
   position:absolute;
   right:0;left:0;bottom:0;top:0;
   width:100px;height:100px;
 }
-.bom-name
-{
+.bom-name{
   font-size:22px;
   display:block;
   margin:20px 0 10px 0;
 }
-.bom-location
-{
+.bom-location{
   font-size:16px;
   display:block;
   color:#3d3d3d;
   margin-bottom:10px;
 }
 
-
 /*****************************
   HOMEPAGE - SITE STATS
 *****************************/
-.sitestat
-{
+.sitestat{
   background:white;
   height:auto;
   display: inline-block;
@@ -1286,8 +1077,7 @@ footer
   }
   a{font-size:12px;padding-bottom:10px;}
 }
-.sitestat-half
-{
+.sitestat-half{
   width:40%;
   height:auto;
   vertical-align: top;
@@ -1295,25 +1085,21 @@ footer
   display: inline-block;
 }
 
-
 /*****************************
   HOMEPAGE - BROADCAST PREV.
 *****************************/
-.homepage-broadcast-clips
-{
+.homepage-broadcast-clips{
   width:100%;
   height:auto;
   background:white;
 }
-.homepage-broadcast-clips-container
-{
+.homepage-broadcast-clips-container{
   width:100%;
   height:auto;
   display:block;
   margin:0;
 }
-.homepage-broadcast-clip
-{
+.homepage-broadcast-clip{
   width:calc(100% - 40px);
   height:auto;
   vertical-align:top;
@@ -1344,27 +1130,22 @@ footer
   }
 }
 
-
 /*****************************
   STANDARDS - FORMS
 *****************************/
-.standard-form
-{
+.standard-form{
   height:auto;
   background:white;
   position: relative;
   text-align: left;
   overflow: hidden;
-
 } 
-.standard-form-small
-{
+.standard-form-small{
   width:25%;
   text-align: left;
   margin:20px auto 50px auto;
 }
-.standard-form-header
-{
+.standard-form-header{
   margin:20px 0 0 20px;
   font-family: $font-primary;
   color:$color-lightgreen;
@@ -1377,8 +1158,7 @@ footer
 .standard-form input[type=email],
 .standard-form input[type=date],
 .standard-form input[type=time],
-.standard-form textarea
-{
+.standard-form textarea{
   width:calc(100% - 40px);
   background: transparent;
   cursor: text;
@@ -1401,8 +1181,7 @@ footer
     outline: none;
   }
 }
-.standard-form-label
-{
+.standard-form-label{
   padding:30px 0 0 30px;
   display:block;
   font-family: $font-primary-light;
@@ -1411,8 +1190,7 @@ footer
   vertical-align:top;
   overflow:hidden;
 }
-.standard-form input[type=submit]
-{
+.standard-form input[type=submit]{
   background: transparent;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1422,43 +1200,36 @@ footer
   margin:30px 20px 20px 20px;
   float:right;
 }
-.standard-form input[type=file]
-{
+.standard-form input[type=file]{
 
     display: none;  
 }
-.standard-form input[type=date]
-{
+.standard-form input[type=date]{
   display: inline-block;
   width:calc(50% - 30px); 
   margin-right:0;  
 }
-.standard-form input[type=time]
-{
+.standard-form input[type=time]{
   display: inline-block;
   width:calc(50% - 30px); 
 }
-.standard-form-span
-{
+.standard-form-span{
   display:block;
   margin:5px 30px;
   font-family: $font-primary-light;
   font-size:14px;
 }
-.standard-form ul
-{
+.standard-form ul{
   margin:5px 30px;
   display: block;
 }
-.standard-form ul li
-{
+.standard-form ul li{
   font-family: $font-primary-light;
   font-size:14px;
   display: block;
   color:$color-lightgreen;
 }
-.standard-form-terms
-{
+.standard-form-terms{
   margin:30px 0 0px 30px;
   font-family: $font-primary-light;
   font-size:14px;
@@ -1472,8 +1243,7 @@ footer
     text-decoration: underline;
   }
 }
-.standard-form-forgot
-{
+.standard-form-forgot{
   font-family: $font-primary-light;
   font-size:15px;
   color:$color-darkgreen;
@@ -1483,13 +1253,11 @@ footer
   line-height:40px;
   display:inline-block;
 }
-.standard-form textarea
-{
+.standard-form textarea{
 
   height:150px;
 }
-.standard-form-file-upload 
-{
+.standard-form-file-upload {
   text-align: center;
   width:calc(100% - 40px);
   background: transparent;
@@ -1512,20 +1280,17 @@ footer
     outline: none;
   }
 }
-.standard-form p
-{
+.standard-form p{
   font-family: $font-primary-light;
   font-size:14px;
   margin:10px 30px;
   color:#d44444;
   i{padding:0px 5px;}
 } 
-.standard-form-dexterity-left, .standard-form-dexterity-right
-{
+.standard-form-dexterity-left, .standard-form-dexterity-right{
   margin:10px 0;
 }
-.standard-form-dexterity-left
-{
+.standard-form-dexterity-left{
   position: relative;
   width:50px;height:50px;
   display: inline-block;
@@ -1550,8 +1315,7 @@ footer
     vertical-align: top;
   }
 }
-.standard-form-dexterity-right
-{
+.standard-form-dexterity-right{
   position: relative;
   width:50px;height:50px;
   display: inline-block;
@@ -1576,8 +1340,7 @@ footer
     vertical-align: top;
   }
 }
-.standard-form-dexterity-text
-{
+.standard-form-dexterity-text{
   font-family: $font-primary-light;
   color:$color-tan;
   display: inline-block;
@@ -1588,22 +1351,17 @@ footer
   padding:18px 14px;
 }
 
-
 /*****************************
   BOWLER - PROFILE
 *****************************/
-.my-account-top-height
-{
+.my-account-top-height{
   height:548px;
 }
-
-.stats-grid
-{
+.stats-grid{
   font-size:0;
   text-align:center;
 }
-.stat-quad
-{
+.stat-quad{
   vertical-align:top;
   overflow:hidden;
   display:inline-block;
@@ -1611,20 +1369,15 @@ footer
   margin:0;
   box-sizing:border-box;
 }
-.stat-quad-20
-{
-  width:calc(20% - 30px);
-  margin-bottom:30px;
+.stat-quad-20{
+  width:calc(50% - 20px);
+  margin:0;
 }
-
-
-.profile-hands
-{
+.profile-hands{
   width:100%;
   vertical-align:top;
 }
-.profile-hand
-{
+.profile-hand{
   margin:0;
   font-size:18px;
   display: inline-block;
@@ -1633,25 +1386,20 @@ footer
   padding:0;
   line-height:18px;
 }
-.profile-left-hand
-{
+.profile-left-hand{
   transform:scaleX(-1);
 }
-.profile-hand-label
-{
+.profile-hand-label{
   font-family: $font-primary-light;
   color:$color-tan;
   display: inline-block;
   font-size:16px;
   padding:0 0 0 10px;
 }
-.hand-off
-{
+.hand-off{
   color:#3d3d3d;
 }
-
-.my-account-rank-label
-{
+.my-account-rank-label{
     font-family: $font-primary;
     font-size:22px;
     color:$color-lightgreen;
@@ -1659,8 +1407,7 @@ footer
     display: block;
     padding:10px 0 20px 0;
 }
-.my-account-best-games
-{
+.my-account-best-games{
   width:80%;
   margin:0 auto;
   height:auto;
@@ -1713,11 +1460,7 @@ footer
     width: 100%;
   }
 }
-
-
-
-.counter
-{
+.counter{
   border:solid 3px $color-lightgreen;
   margin:0px auto 30px auto;
   width:140px;height:140px;
@@ -1728,8 +1471,7 @@ footer
   color:$color-lightgreen; 
   overflow: hidden;
 }
-.counter ul
-{
+.counter ul{
   text-decoration: none;
   font-family: $font-primary;
   width:100%;
@@ -1743,8 +1485,7 @@ footer
   display: flex;
   flex-direction: column-reverse;
 }
-.counter li
-{
+.counter li{
   margin:0 auto;
   text-decoration: none;
   display: block;
@@ -1761,29 +1502,23 @@ footer
     display: inline-block;
   }
 }
-.counter .bottom
-{
+.counter .bottom{
   position: absolute;
   right:0;left:0;
   bottom:0;
   height:25px;
   background: $color-lightgreen;
 }
-.counter .inactive
-{
+.counter .inactive{
     transition:color ease .8s;
 }
-.counter-top
-{
+.counter-top{
   color:$color-tan;
 }
-
-.profile-prev
-{
+.profile-prev{
   font-size:14px;
 }
-.profile-prev-btns
-{
+.profile-prev-btns{
   position:absolute;
   bottom:20px;
   right:0;
@@ -1793,15 +1528,13 @@ footer
     margin:0 5px;
   }
 }
-.profile-prev span
-{
+.profile-prev span{
   opacity:0.3;
   margin:10px 60px;
   width:calc(100% - 120px);
   height:1px;
 }
-.profile-prev-pic
-{
+.profile-prev-pic{
   position: relative;
   width:200px;height:200px;
   background:lightgrey;
@@ -1810,37 +1543,33 @@ footer
   text-align: center;
   position: relative;
   overflow: hidden;
+  display:inline-block;
   img
   {
     width:100%;height:100%;
     padding-top:0px;
   }
 }
-.profile-results
-{
+.profile-results{
   font-size:0;
   width:calc(100% - 40px);
   margin:0 auto;
   text-align:left;
 }
-
-.profile-result-date
-{
+.profile-result-date{
   display:inline-block;
   padding:10px;  
   font-size:16px;
   margin:0 10px;
   min-width:70px;
 }
-.profile-result-name
-{
+.profile-result-name{
   display:inline-block;
   padding:10px 5px 10px 0;  
   font-size:16px;
   width:auto;
 }
-.profile-result-location
-{
+.profile-result-location{
   font-family:$font-primary-light;
   display:inline-block;
   padding:10px;  
@@ -1852,27 +1581,20 @@ footer
   &:before{content:"(";}
   &:after{content:")";}
 }
-.profile-result-place
-{
+.profile-result-place{
   display:inline-block;
   font-size:16px;
   float:right;
   padding:10px;
 }
-
-
-.profile-medals
-{
-  
+.profile-medals{
 }
-.profile-medal-none
-{
+.profile-medal-none{
   color:lightgrey;
   font-family:$font-primary-light;
   margin:50px auto 70px auto;
   font-size:24px;
 }
-
 
 /*****************************
   TOURNAMENTS - VIEW ALL

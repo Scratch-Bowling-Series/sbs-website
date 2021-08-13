@@ -172,8 +172,7 @@ def accounts_account_view(request, id):
     view_user = User.objects.get(user_id=id)
     tournaments = get_recent_tournaments(view_user)
     rank_data = get_rank_data_from_json(view_user.statistics)
-
-    return render(request, 'accounts/my-account.html', {'view_user': view_user, 'tournaments': tournaments, 'rank_data': rank_data})
+    return render(request, 'accounts/my-account.html', {'view_user': view_user, 'tournaments': tournaments, 'rank_data': rank_data, 'tournaments_length': len(tournaments)})
 
 
 def get_recent_tournaments(user):
