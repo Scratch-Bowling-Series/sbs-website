@@ -1,186 +1,195 @@
 {% extends 'base_layout.html' %}
 {% load static %}
 {% block content %}
+
 <script src="{% static 'js/profile-counters.js' %}"></script>
 <script src="{% static 'js/account-view-align.js' %}"></script>
 
 <section class="col col-20 col-m-max-width">
-	<section class="profile-prev sec my-account-top-height">
-		<!-- INFO -->
-		<div class="profile-prev-pic">
-			<img src="{{ view_user.picture.url }}" alt="{{ view_user.first_name}}'s profile picture">
-		</div>
-		<h1>{{view_user.first_name|none_replace:'First Name '}}&nbsp;{{view_user.last_name|none_replace:'Last Name '}}</h1>
-		<a>{{ view_user.bio|none_replace:'Bio Empty' }}</a>
-		<span class="std-underline"></span>
-		<a>Member Since {{ view_user.date_joined.year}}</a>
-		<span class="std-underline"></span>
-		<a>{{ view_user.location_city|none_replace:'City' }}, {{ view_user.location_state|none_replace:'State' }}</a>
-
-		<!-- HANDS -->
-		<div class="profile-hands">
-			{% if view_user.left_handed == True and view_user.right_handed == False %}
-			<span class="std-underline"></span>
-			<i class="profile-hand profile-left-hand icon-hand-paper"></i>&nbsp;<i class="profile-hand icon-hand-paper hand-off"></i><a class="profile-hand-label">LEFT HANDED</a><br>
-			{% elif view_user.left_handed == False and view_user.right_handed == True %}
-			<span class="std-underline"></span>
-			<i class="profile-hand profile-left-hand icon-hand-paper hand-off"></i>&nbsp;<i class="profile-hand icon-hand-paper"></i><a class="profile-hand-label">RIGHT HANDED</a><br>
-			{% elif view_user.left_handed == True and view_user.right_handed == True %}
-			<span class="std-underline"></span>
-			<i class="profile-hand profile-left-hand icon-hand-paper"></i>&nbsp;<i class="profile-hand icon-hand-paper"></i><a class="profile-hand-label">TWO HANDED</a><br>
-			{% endif %}
-		</div>
-
-		<!-- Buttons -->
-		{% if view_user.user_id == request.user.user_id %}
-		<div class="profile-prev-btns">
-			<a class="btn" href="{% url 'accounts:modify' %}">MODIFY</a>
-			<a class="btn" href="{% url 'accounts:logout' %}">LOG OUT</a>
-		</div>
-		{% elif view_user.user_id|is_friend:request.user is True %}
-		<div class="profile-prev-btns">
-			<a class="btn bkg-darkgreen text-white" href="{% url 'accounts:remove' id=view_user.user_id %}"><i class="icon-user-alt text-white"></i>FRIENDS</a>
-			<a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
-		</div>
-		{% elif view_user.user_id|is_friend:request.user is False %}
-		<div class="profile-prev-btns">
-			<a class="btn" href="{% url 'accounts:add' id=view_user.user_id %}"><i class="icon-user-plus"></i>REQUEST</a>
-			<a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
-		</div>
-		{% else %}
-		<div class="profile-prev-btns">
-			<a class="btn" href="{% url 'accounts:login' %}">PLEASE SIGN IN</a>
-		</div>
-		{% endif %}
-	</section>
+   <section class="profile-prev sec my-account-top-height">
+      <!-- INFO -->
+      <div class="profile-prev-pic">
+         <img src="{{ view_user.picture.url }}" alt="{{ view_user.first_name}}'s profile picture">
+      </div>
+      <h1>{{view_user.first_name|none_replace:'First Name '}}&nbsp;{{view_user.last_name|none_replace:'Last Name '}}</h1>
+      <a>{{ view_user.bio|none_replace:'Bio Empty' }}</a>
+      <span class="std-underline"></span>
+      <a>Member Since {{ view_user.date_joined.year}}</a>
+      <span class="std-underline"></span>
+      <a>{{ view_user.location_city|none_replace:'City' }}, {{ view_user.location_state|none_replace:'State' }}</a>
+      <!-- HANDS -->
+      <div class="profile-hands">
+         {% if view_user.left_handed == True and view_user.right_handed == False %}
+         <span class="std-underline"></span>
+         <i class="profile-hand profile-left-hand icon-hand-paper"></i>&nbsp;<i class="profile-hand icon-hand-paper hand-off"></i><a class="profile-hand-label">LEFT HANDED</a><br>
+         {% elif view_user.left_handed == False and view_user.right_handed == True %}
+         <span class="std-underline"></span>
+         <i class="profile-hand profile-left-hand icon-hand-paper hand-off"></i>&nbsp;<i class="profile-hand icon-hand-paper"></i><a class="profile-hand-label">RIGHT HANDED</a><br>
+         {% elif view_user.left_handed == True and view_user.right_handed == True %}
+         <span class="std-underline"></span>
+         <i class="profile-hand profile-left-hand icon-hand-paper"></i>&nbsp;<i class="profile-hand icon-hand-paper"></i><a class="profile-hand-label">TWO HANDED</a><br>
+         {% endif %}
+      </div>
+      <!-- Buttons -->
+      {% if view_user.user_id == request.user.user_id %}
+      <div class="profile-prev-btns">
+         <a class="btn" href="{% url 'accounts:modify' %}">MODIFY</a>
+         <a class="btn" href="{% url 'accounts:logout' %}">LOG OUT</a>
+      </div>
+      {% elif view_user.user_id|is_friend:request.user is True %}
+      <div class="profile-prev-btns">
+         <a class="btn bkg-darkgreen text-white" href="{% url 'accounts:remove' id=view_user.user_id %}"><i class="icon-user-alt text-white"></i>FRIENDS</a>
+         <a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
+      </div>
+      {% elif view_user.user_id|is_friend:request.user is False %}
+      <div class="profile-prev-btns">
+         <a class="btn" href="{% url 'accounts:add' id=view_user.user_id %}"><i class="icon-user-plus"></i>REQUEST</a>
+         <a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
+      </div>
+      {% else %}
+      <div class="profile-prev-btns">
+         <a class="btn" href="{% url 'accounts:login' %}">LOG IN FOR MORE</a>
+      </div>
+      {% endif %}
+   </section>
 </section>
 
-{% if tournaments_length > 0 %}
 <section class="col col-40 col-m-max-width" >
-	<section class="sec my-account-top-height">
-	      <h1>PAST TOURNAMENT RESULTS</h1>
-			<div class="profile-results">
-				{% for tournament in tournaments %}
-			<div class="profile-result">
-	          	<a class="profile-result-date">{{ tournament.0|date:"m/d"}}</a>
-	        	<a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">{{ tournament.1 }}</a>
-				<a class="profile-result-location text-lightgrey">{{ tournament.2 }}</a>
-				{% if tournament.3 == '1st' %}
-	          	<a class="profile-result-place firstplace">{{ tournament.3}}</a>
-				{% else %}
-				<a class="profile-result-place">{{ tournament.3}}</a>
-				{% endif %}
-	        </div>
-			{% endfor %}
-			</div>
-	  	</section>
+   <section class="sec my-account-top-height">
+      <h1>PAST TOURNAMENT RESULTS</h1>
+      <div class="profile-results">
+         {% if tournaments_length > 0 %}
+         {% for tournament in tournaments %}
+         <div class="profile-result">
+            <a class="profile-result-date">{{ tournament.0|date:"m/d"}}</a>
+            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">{{ tournament.1 }}</a>
+            <a class="profile-result-location text-lightgrey">{{ tournament.2 }}</a>
+            {% if tournament.3 == '1st' %}
+            <a class="profile-result-place firstplace">{{ tournament.3}}</a>
+            {% else %}
+            <a class="profile-result-place">{{ tournament.3}}</a>
+            {% endif %}
+         </div>
+         {% endfor %}
+         {% else %}
+         {% if view_user.user_id == request.user.user_id %}
+         <p class="profile-none">ATTEND YOUR FIRST TOURNAMENT TO SEE YOUR STATISTICS</p>
+         {% else %}
+         <p class="profile-none">{{ view_user.first_name|none_replace:'First Name'}} HAS YET TO ATTEND A TOURNAMENT</p>
+         {% endif %}
+      {% endif %}
+      </div>
+   </section>
+</section>
+
+{% if rank_data.total_games_year > 0 %}
+<section class="col col-40 col-m-max-width">
+   <div class="sec my-account-top-height stats-grid">
+      <h1>2021 SEASON STATS</h1>
+      <div class="stat-quad">
+         <h3 class="my-account-rank-label">2021 RANK</h3>
+         <div class="counter counter-1">
+            <ul class="counter-top">
+               {{ rank_data.rank|counter:True|safe }}
+            </ul>
+            <div class="bottom"></div>
+         </div>
+      </div>
+      <div class="stat-quad">
+         <h3 class="my-account-rank-label">AVG. SCORE</h3>
+         <div class="counter counter-2">
+            <ul>
+               {{ rank_data.avg_score_year|counter|safe }}
+            </ul>
+            <div class="bottom"></div>
+         </div>
+      </div>
+      <div class="stat-quad">
+         <h3 class="my-account-rank-label">TOTAL GAMES</h3>
+         <div class="counter counter-3">
+            <ul>
+               {{ rank_data.total_games_year|counter|safe }}
+            </ul>
+            <div class="bottom"></div>
+         </div>
+      </div>
+      <div class="stat-quad">
+         <h3 class="my-account-rank-label">WINS</h3>
+         <div class="counter counter-3">
+            <ul>
+               {{ rank_data.wins|counter|safe }}
+            </ul>
+            <div class="bottom"></div>
+         </div>
+      </div>
+   </div>
 </section>
 {% endif %}
-<section class="col col-40 col-m-max-width">
-	<div class="sec my-account-top-height stats-grid">
-		<h1>2021 SEASON STATS</h1>
-		<div class="stat-quad">
-	        <h3 class="my-account-rank-label">2021 RANK</h3>
-	        <div class="counter counter-1">
-	        	<ul class="counter-top">
-	          	{{ rank_data.rank|counter:True|safe }}
-	        	</ul>
-	        	<div class="bottom"></div>
-	      	</div>
-		</div>
 
-		<div class="stat-quad">
-	        <h3 class="my-account-rank-label">AVG. SCORE</h3>
-	        <div class="counter counter-2">
-	        	<ul>
-	          	{{ rank_data.avg_score_year|counter|safe }}
-	        	</ul>
-	        	<div class="bottom"></div>
-			</div>
-		</div>
-
-		<div class="stat-quad">
-	        <h3 class="my-account-rank-label">TOTAL GAMES</h3>
-			<div class="counter counter-3">
-	        	<ul>
-	         	 {{ rank_data.total_games_year|counter|safe }}
-	        	</ul>
-	        	<div class="bottom"></div>
-	      	</div>
-		</div>
-
-		<div class="stat-quad">
-	        <h3 class="my-account-rank-label">WINS</h3>
-	        <div class="counter counter-3">
-	        	<ul>
-	          	{{ rank_data.wins|counter|safe }}
-	        	</ul>
-	        	<div class="bottom"></div>
-			</div>
-	  	</div>
-	</div>>
-</section>
+{% if tournaments_length > 0  %}
 <section class="col col-100 col-m-max-width">
-	<section class="sec">
-		<h1>CAREER STATS</h1>
-		<div class="stat-quad stat-quad-20">
-	        <h3 class="my-account-rank-label">WINS</h3>
-	        <div class="counter counter-4">
-	        	<ul>
-	          	{{ rank_data.wins|counter|safe }}
-	        	</ul>
-	        	<div class="bottom"></div>
-	      	</div>
-		</div>
+   <section class="sec">
+      <h1>CAREER STATS</h1>
+      <div class="stat-quad stat-quad-20">
+         <h3 class="my-account-rank-label">WINS</h3>
+         <div class="counter counter-4">
+            <ul>
+               {{ rank_data.wins|counter|safe }}
+            </ul>
+            <div class="bottom"></div>
+         </div>
+      </div>
+      <div class="stat-quad stat-quad-20">
+         <h3 class="my-account-rank-label">ATTENDED</h3>
+         <div class="counter counter-5">
+            <ul>
+               {{ rank_data.attended|counter|safe }}
+            </ul>
+            <div class="bottom"></div>
+         </div>
+      </div>
+      <div class="stat-quad stat-quad-20">
+         <h3 class="my-account-rank-label">AVG. SCORE</h3>
+         <div class="counter counter-6">
+            <ul>
+               {{ rank_data.avg_score_career|counter|safe }}
+            </ul>
+            <div class="bottom"></div>
+         </div>
+      </div>
+      <div class="stat-quad stat-quad-20">
+         <h3 class="my-account-rank-label">TOTAL GAMES</h3>
+         <div class="counter counter-7">
+            <ul>
+               {{ rank_data.total_games_career|counter|safe }}
+            </ul>
+            <div class="bottom"></div>
+         </div>
+      </div>
+      <div class="stat-quad stat-quad-20">
+         <h3 class="my-account-rank-label best-games">BEST GAMES</h3>
+         <ul class="my-account-best-games">
+            {% for game in rank_data.top_five_career %}
+               {% if forloop.last %}
+               <style>.my-account-rank-label.best-games{display:block;}</style>
+               {% endif %}
+               {% if game is not None %}
+                  {% if game.1 > 280 %}
+                  <li><i>{{ game.0|tournament_date|date:'m/d/y' }}</i><a href="/tournaments/view/{{ game.0 }}">{{ game.0|tournament_name|truncatechars:45 }}</a></span><span class="gold-game">{{ game.1 }}</span></li>
+                  {% else %}
+                  <li><i>{{ game.0|tournament_date|date:'m/d/y' }}</i><a href="/tournaments/view/{{ game.0 }}">{{ game.0|tournament_name|truncatechars:45 }}</a></span><span>{{ game.1 }}</span></li>
+                  {% endif %}
+               {% endif %}
+            {% endfor %}
+         </ul>
+      </div>
+   </section>
+{% endif %}
 
-		<div class="stat-quad stat-quad-20">
-	        <h3 class="my-account-rank-label">ATTENDED</h3>
-	        <div class="counter counter-5">
-	        	<ul>
-	          	{{ rank_data.attended|counter|safe }}
-	        	</ul>
-	        	<div class="bottom"></div>
-	      	</div>
-		</div>
-
-		<div class="stat-quad stat-quad-20">
-	        <h3 class="my-account-rank-label">AVG. SCORE</h3>
-	        <div class="counter counter-6">
-	        <ul>
-	          {{ rank_data.avg_score_career|counter|safe }}
-	        </ul>
-	        <div class="bottom"></div>
-	      </div>
-		</div>
-
-		<div class="stat-quad stat-quad-20">
-	        <h3 class="my-account-rank-label">TOTAL GAMES</h3>
-	        <div class="counter counter-7">
-	        	<ul>
-					{{ rank_data.total_games_career|counter|safe }}
-	       	 	</ul>
-	        	<div class="bottom"></div>
-			</div>
-		</div>
-
-		<div class="stat-quad stat-quad-20">
-	        <h3 class="my-account-rank-label">BEST GAMES</h3>
-	        <ul class="my-account-best-games">
-	            {% for game in rank_data.top_five_career %}
-				{% if game is not None %}
-					{% if game.1 > 280 %}
-	            		<li><i>{{ game.0|tournament_date|date:'m/d/y' }}</i><a href="/tournaments/view/{{ game.0 }}">{{ game.0|tournament_name|truncatechars:45 }}</a></span><span class="gold-game">{{ game.1 }}</span></li>
-					{% else %}
-						<li><i>{{ game.0|tournament_date|date:'m/d/y' }}</i><a href="/tournaments/view/{{ game.0 }}">{{ game.0|tournament_name|truncatechars:45 }}</a></span><span>{{ game.1 }}</span></li>
-					{% endif %}
-				{% endif %}
-				{% endfor %}
-			</ul>
-		</div>
-	</section>
-	<section class="sec profile-medals">
-		<h1>MEDALS</h1>
-		<p class="profile-medal-none">NOT AVAILABLE IN ALPHA</p>
-	</section>
+   <section class="sec profile-medals">
+      <h1>MEDALS</h1>
+      <p class="profile-none">NOT AVAILABLE IN ALPHA</p>
+   </section>
 </section>
+
 {% endblock %}

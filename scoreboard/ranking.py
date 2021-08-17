@@ -42,14 +42,21 @@ class RankData:
             self.top_five_career
         ]
 
+class RankData_Series:
+    series_id = None
+
+    attended = 0
+    total = 0
+    wins = 0
+    rank = 0
+
+    rank_points = 0
+
+
 
 def get_top_rankings(amount):
     rank_datas = load_rank_data()
     return rank_datas[:amount]
-
-
-
-
 
 
 def get_rank_data_from_json(json_data):

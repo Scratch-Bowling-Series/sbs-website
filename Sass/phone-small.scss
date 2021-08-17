@@ -20,6 +20,7 @@ body
   overflow-x:hidden;
   width:100%;height:auto;
   background:#e8e8e8;
+  font-size:14px;
 }
 a,span,p,h1,h2,h3,h4,i
 {
@@ -27,6 +28,7 @@ a,span,p,h1,h2,h3,h4,i
   color:$color-lightgreen;
   text-decoration: none;
   user-select: none;
+  vertical-align:top;
 }
 h1
 {
@@ -70,18 +72,14 @@ p
   font-size:16px;
 }
 
-.mobile-on{
-  display:block;
-}
-.desktop-on{
-  display:none;
-}
+
 
 
 /*****************************
          NAV BAR
 *****************************/
 nav {
+  font-size:0;
   width: 100%;height: 65px;
   margin: 0;
   position: relative;
@@ -384,7 +382,7 @@ footer {
   border-radius: 20px;
   font: inherit;
   font-size: 16px;
-  line-height: 16px;
+  line-height: 1em;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   appearance: none;
@@ -392,7 +390,7 @@ footer {
   display: inline-block;
   transition: background ease .35s;
   -webkit-appearance:none;
-  padding:10px 20px 10px 20px;
+  padding:11px 20px 10px 20px;
   max-height:40px;
   font-family: $font-primary;
   text-align:center;
@@ -419,7 +417,7 @@ footer {
   color:white;
   border-radius:14px;
   display:inline-block;
-  padding:3px 10px 4px 10px;
+  padding:5px 10px 4px 10px;
   background:$color-darkgreen;
   float:right;
   margin:0 20px 0 0;
@@ -733,20 +731,7 @@ footer {
   
   text-align:left;
 }
-.live-prev-title{
-  color:$color-tan;
-  font-family:$font-primary-bold;
-  padding:20px;
-  display: inline-block;
-  font-size:18px;
-  .location
-  {
-    font-size:16px;
-    padding:0 0 0 5px;
-    vertical-align:top;
-    color:grey;
-  }
-}
+
 .live-prev-title .prefix{
     position: relative;
     font-family: $font-secondary;
@@ -763,27 +748,31 @@ footer {
       vertical-align:top;
     }
 }
-.live-prev-title .content{
+.live-prev .content{
   font-size:18px;
   position: relative;
-  font-family: $font-primary-light;
+  font-family: $font-primary-bold;
   color:$color-darkgreen;
   display: block;
-  padding:20px 0 0 0px;
+  padding:0 0 0 0;
+  margin-left:20px;
+  .location
+  {
+    font-size:16px;
+    padding:0 0 0 5px;
+    vertical-align:top;
+    color:grey;
+    font-family: $font-primary-light;
+  }
 }
 .live-prev-watch{
-  color:$color-darkgreen;
-  font-family:$font-primary;
-  display: inline-block;
-  color:white;
   position:absolute;
-  top:0;right:0;
-  margin:20px;
+  right:0;top:20px;
 }
 .live-prev-status{
   color:$color-darkgreen;
   font-family:$font-primary-bold;
-  padding:0 20px 20px 20px;
+  padding:0 20px 15px 20px;
   display: block;
   font-size:18px;
 }
@@ -800,11 +789,26 @@ footer {
     padding:2px 0px 2px 5px;
     vertical-align:top;
     color:grey;
+    font-family: $font-primary-light;
   }
   i
   {
     color:$color-tan;
     padding-right:5px;
+  }
+}
+.live-prev-title{
+  color:$color-tan;
+  font-family:$font-primary-bold;
+  padding:20px;
+  display: block;
+  font-size:18px;
+  
+  .mobile-on{
+    display:block;
+  }
+  .desktop-on{
+    display:none;
   }
 }
 
@@ -849,8 +853,11 @@ footer {
     line-height:18px;
   }
   .more{
-      margin-top:20px;
-
+    position:absolute;
+    right:0px;bottom:20px;
+    color:white;
+    font-family:$font-primary;
+    display: inline-block;
   }
 }
 .t-recent-prev .stats{
@@ -1355,7 +1362,7 @@ footer {
   BOWLER - PROFILE
 *****************************/
 .my-account-top-height{
-  height:548px;
+  height:auto;
 }
 .stats-grid{
   font-size:0;
@@ -1406,6 +1413,10 @@ footer {
     text-align: center;
     display: block;
     padding:10px 0 20px 0;
+    &.best-games
+    {
+      display:none;
+    }
 }
 .my-account-best-games{
   width:80%;
@@ -1517,6 +1528,7 @@ footer {
 }
 .profile-prev{
   font-size:14px;
+  padding-bottom:80px;
 }
 .profile-prev-btns{
   position:absolute;
@@ -1589,12 +1601,19 @@ footer {
 }
 .profile-medals{
 }
-.profile-medal-none{
+.profile-none{
   color:lightgrey;
   font-family:$font-primary-light;
-  margin:50px auto 70px auto;
-  font-size:24px;
+  margin:5px auto 30px auto;
+  font-size:20px;
+  line-height:30px;
+  text-align:center;
+  max-width:80%;
+  text-transform:uppercase;
 }
+
+
+
 
 /*****************************
   TOURNAMENTS - VIEW ALL
@@ -3313,4 +3332,24 @@ footer {
   top: 14px;
   width: 0%;
   left: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.mobile-on{
+  display:block;
+}
+.desktop-on{
+  display:none;
 }

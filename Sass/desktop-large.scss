@@ -734,12 +734,16 @@ footer
   padding:20px;
   display: inline-block;
   font-size:18px;
+  vertical-align:top;
   .location
   {
     font-size:16px;
     padding:0 0 0 5px;
+    margin:0;
     vertical-align:top;
     color:grey;
+    display:inline-block;
+    font-family:$font-primary-light;
   }
 }
 .live-prev-title .prefix
@@ -804,6 +808,7 @@ footer
     padding:2px 0px 2px 5px;
     vertical-align:top;
     color:grey;
+    font-family:$font-primary-light;
   }
   i
   {
@@ -816,134 +821,89 @@ footer
 /*****************************
   HOMEPAGE - RECENT PREV.
 *****************************/
-#homepage-tournament-recent-preview
-{
-  position: absolute;
-  left:0;top:0;
-  bottom:0;
+.t-recent-prev .image{
   width:60%;
-  height:100%;
-  background:grey;
-  border-radius:12px 0 0 12px;
-  border:solid 1px lightgrey;
-  border-right:none;
-  margin:0;
-  div
-  {
-    width: 100%;
-    height:100%;
-    position: relative;
-    background: url("/static/img/recent-preview-template.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-}
-#homepage-tournament-recent-content
-{
-  display: inline-block;
-  margin:0;
-  width:39%;height:auto;
-  vertical-align: top;
-  overflow: hidden;
-  float:right;
-  text-align:left;
-  padding-bottom:20px;
-}
-#homepage-tournament-recent-title
-{
-  color:$color-darkgreen;
-  font-family: $font-primary-bold;
-  font-size:22px;
-  display: block;
-  padding:10px 10px 0 10px;
-}
-#homepage-tournament-recent-date
-{
-  color:$color-lightgreen;
-  font-family: $font-primary-bold;
-  font-size:16px;
-  display: block;
-  padding:3px 10px 20px 10px;
-}
-#homepage-tournament-recent-description
-{
-  font-family: $font-primary-light;
-  font-size:18px;
-  display: block;
-  padding:0 20px 0 10px;
-  margin-bottom: 20px;
-}
-#homepage-tournament-recent-results
-{
-  position: absolute;
-  right:0;
-  bottom:0;
-  color:$color-darkgreen;
-  font-family: $font-primary-italic;
-  font-size:18px;
-  display: block;
-  padding:0 20px 20px 0;
-  &:hover
-  {
-    text-decoration:underline;
-  }
-}
-#homepage-tournament-recent-preview-watermark
-{
-  position: absolute;
-  left:15px;
-  bottom:15px;
-  width:15%;height:auto !important;
-  opacity: 0.5;
-}
-.homepage-tournament-recent-player
-{
-  height:35px;
-  width:auto;
-  margin:1px 0 0 0;
-  display: inline-block;
-  overflow: hidden;
-  color:white;
-  font-family: $font-primary;
-  color:$color-darkgreen;
-  width:100%;
-  img
-  {
-    margin-left:20px;
-    width:30px;height:30px;
-    border-radius: 15px;
-    box-sizing: content-box;
-    padding:5px;
-    display:inline-block;
-  }
-}
-.homepage-tournament-recent-player-name
-{
-  font-size:20px;
-  line-height:20px;
-  color:$color-darkgreen;
-  vertical-align: top;
-  padding:8px 10px;
-  display: inline-block;
-
-  font-family: $font-primary-light;
-  span{color:$color-darkgreen;}
-}
-.homepage-tournament-recent-player-rank
-{
-  width:40px;
-  height:22px;
-  text-align: center;
-  vertical-align: top;
-  font-size:16px;
-  line-height:16px;
-  color:$color-darkgreen;
-  border-radius:14px;
+  position:relative;
   display:inline-block;
-  padding:4px 5px 0px 5px;
-  border: solid 2px lightgrey;
-  margin:4.5px 5px 4.5px 10px;
+  .preview{
+    width:100%;height:auto!important;
+  }
+  .watermark{
+      position:absolute;
+      bottom:0;left:0;
+      width:15%;
+      padding:10px;
+      opacity:0.5;
+  }
+}
+.t-recent-prev .content{
+  display:inline-block;
+  width:40%;
+  text-align:left;
+  vertical-align:top;
+  .title{
+      font-size:24px;
+      display:block;
+      padding:20px 20px 5px 20px;
+  }
+  .date{
+    display:block;
+    padding-left:20px;
+    font-size:16px;
+    color:grey;
+    font-family:$font-primary-light;
+  }
+  .description{
+    display:block;
+    font-size:16px;
+    padding:10px 20px 20px 20px;
+    line-height:18px;
+  }
+  .more{
+    position:absolute;
+    right:0px;bottom:20px;
+    color:white;
+    font-family:$font-primary;
+    display: inline-block;
+  }
+}
+.t-recent-prev .stats{
+    width:100%;
+    display:block;
+    padding-bottom:15.5px;
+    .player{
+      width:100%;
+      .name{
+        font-size:20px;
+        line-height:20px;
+        color:$color-darkgreen;
+        vertical-align: top;
+        padding:8px 10px;
+        display: inline-block;
+        font-family: $font-primary-light;
+        span{
+          color:$color-darkgreen;
+        }
+      }
+      .rank{
+        width:40px;
+        height:22px;
+        text-align: center;
+        vertical-align: top;
+        font-size:16px;
+        line-height:16px;
+        color:grey;
+        border-radius:14px;
+        display:inline-block;
+        padding:4px 5px 0px 5px;
+        border: solid 2px lightgrey;
+        margin:4.5px 5px 4.5px 20px;
+      }
+      .top-rank{
+        border-color:$color-tan;
+        color:$color-tan;
+      }
+    }
 }
 
 

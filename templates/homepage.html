@@ -129,7 +129,7 @@ $(document).ready(function() {
     {% endif %}
     {% if tournament_live.is_live == True or True == True %}
     <section class="sec live-prev">
-        <a class="live-prev-title">LIVE <span class="prefix"><i class="icon-circle"></i></span><span class="content desktop-on">{{ tournament_live.center.name}}<span class="location">({{ tournament_live.center.city}}, {{ tournament_live.center.state}})</span></span></a>
+        <a class="live-prev-title">LIVE <span class="prefix"><i class="icon-circle"></i></span><span class="content desktop-on">{{ tournament_live.center.name}}<span class="location desktop-on">({{ tournament_live.center.city}}, {{ tournament_live.center.state}})</span></span></a>
         <span class="content mobile-on">{{ tournament_live.center.name}}<span class="location">({{ tournament_live.center.city}}, {{ tournament_live.center.state}})</span></span>
         <a class="btn btn-small live-prev-watch border-none">WATCH NOW</a>
         <br>
@@ -164,7 +164,7 @@ $(document).ready(function() {
             <a class="title" href="/tournaments/view/1">2021 SBS SUPER SWEEPER</a>
             <a class="date" href="/tournaments/view/1">09/25 - Thunderbowl Lanes</a>
             <a class="description" href="/tournaments/view/1">This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set yet.</a>
-            <a class="more" href="tournaments/view/1">Read More</a>
+            <a class="more btn btn-small border-none" href="tournaments/view/1">VIEW INFO</a>
 
             <div class="stats">
                 <div class="player"><a class="rank top-rank">1st</a><a class="name" href="/account/view/1">Christian <span>S.</span></a></div>

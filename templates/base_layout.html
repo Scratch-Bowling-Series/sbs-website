@@ -18,7 +18,7 @@
       <!-- Favicon -->
       <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
       <!-- Device -->
-      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <!-- Reset -->
       <link rel="stylesheet" href="{% static 'css/reset.css' %}">
       <!-- ICONS -->
@@ -33,42 +33,69 @@
   <body>
     <!-- Fonts -->
   	<style type="text/css">
-  	    @font-face
-  		{
-  		  font-family:TTOctosquaresCond-Regular;
-  		  src:url({% static 'fonts/TTOctosquaresCond-Regular.ttf' %}) format("truetype");
-  		  font-weight:normal;
-  		  font-size:normal;
-  		}
-  		@font-face
-  		{
-  		  font-family:TTOctosquaresCond-Bold;
-  		  src:url({% static 'fonts/TTOctosquaresCond-Bold.ttf' %}) format("truetype");
-  		  font-weight:normal;
-  		  font-size:normal;
-  		}
-  		@font-face
-  		{
-  		  font-family:TTOctosquaresCond-Light;
-  		  src:url({% static 'fonts/TTOctosquaresCond-Medium.ttf' %}) format("truetype");
-  		  font-weight:normal;
-  		  font-size:normal;
-  		}
-      @font-face
-      {
-        font-family:TTOctosquaresCond-Italic;
-        src:url({% static 'fonts/TTOctosquaresCond-Italic.ttf' %}) format("truetype");
-        font-weight:normal;
-        font-size:normal;
-      }
-      @font-face
-      {
-        font-family: 'sbs-icons';
-        src: url({% static 'fonts/sbs-icons.ttf' %}) format('truetype');
-        font-weight: normal;
-        font-style: normal;
-        font-display: block;
-      }
+  	    @font-face {
+            font-family: 'tt_octosquares_condensedblack';
+            src: url({% static 'fonts/ttoctosquarescond-black-webfont.woff2' %}) format('woff2'),
+                 url({% static 'fonts/ttoctosquarescond-black-webfont.woff' %}) format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'tt_octosquares_condensedbold';
+            src: url({% static 'fonts/ttoctosquarescond-bold-webfont.woff2' %}) format('woff2'),
+                 url({% static 'fonts/ttoctosquarescond-bold-webfont.woff' %}) format('woff');
+            font-weight: normal;
+            font-style: normal;
+
+        }
+        @font-face {
+            font-family: 'tt_octosquares_condensedIt';
+            src: url({% static 'fonts/ttoctosquarescond-italic-webfont.woff2' %}) format('woff2'),
+                 url({% static 'fonts/ttoctosquarescond-italic-webfont.woff' %}) format('woff');
+            font-weight: normal;
+            font-style: normal;
+
+        }
+        @font-face {
+            font-family: 'tt_octosquares_condensedlight';
+            src: url({% static 'fonts/ttoctosquarescond-light-webfont.woff2' %}) format('woff2'),
+                 url({% static 'fonts/ttoctosquarescond-light-webfont.woff' %}) format('woff');
+            font-weight: normal;
+            font-style: normal;
+
+        }
+        @font-face {
+            font-family: 'tt_octosquares_condensedMd';
+            src: url({% static 'fonts/ttoctosquarescond-medium-webfont.woff2' %}) format('woff2'),
+                 url({% static 'fonts/ttoctosquarescond-medium-webfont.woff' %}) format('woff');
+            font-weight: normal;
+            font-style: normal;
+
+        }
+        @font-face {
+            font-family: 'tt_octosquares_condensedRg';
+            src: url({% static 'fonts/ttoctosquarescond-regular-webfont.woff2' %}) format('woff2'),
+                 url({% static 'fonts/ttoctosquarescond-regular-webfont.woff' %}) format('woff');
+            font-weight: normal;
+            font-style: normal;
+
+        }
+        @font-face {
+            font-family: 'tt_octosquares_condensedthin';
+            src: url({% static 'fonts/ttoctosquarescond-thin-webfont.woff2' %}) format('woff2'),
+                 url({% static 'fonts/ttoctosquarescond-thin-webfont.woff' %}) format('woff');
+            font-weight: normal;
+            font-style: normal;
+
+        }
+          @font-face
+          {
+            font-family: 'sbs-icons';
+            src: url({% static 'fonts/sbs-icons.ttf' %}) format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: block;
+          }
 
   	</style>
 
