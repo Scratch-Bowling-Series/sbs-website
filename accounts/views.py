@@ -1,4 +1,6 @@
 import json
+
+from django.http import HttpRequest, HttpResponse
 from django.template.defaulttags import register
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
@@ -14,6 +16,7 @@ from scoreboard.ranking import get_rank_data_from_json
 from tournaments.models import Tournament
 from tournaments.views import get_tournament, is_valid_uuid, get_place, get_qualifying, make_ordinal
 from .forms import RegisterForm, ModifyAccountForm
+from .scraper import UpdateUsers
 from .tokens import account_activation_token
 
 User = get_user_model()
@@ -260,3 +263,7 @@ def accounts_remove_view(request, id):
             user.save()
     return redirect('/account/view/' + str(id))
 
+
+def accounts_scraper_view(request):
+    data = UpdateUsers()
+    return HttpResponse(str(data))
