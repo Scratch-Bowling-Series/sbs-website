@@ -76,6 +76,7 @@ def ReadJson():
     try:
         pwd = os.path.dirname(__file__)
         f = open(pwd + "/transfer_users.dat", "r")
+        print('Gathered')
         return f.read()
     except FileNotFoundError:
         return 0
