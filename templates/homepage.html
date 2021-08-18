@@ -71,6 +71,8 @@ $(document).ready(function() {
 });
 </script>
 
+
+
 <section class="col col-20 col-m-max-width m-order-2">
   <section class="sec bkg-darkgreen">
     <h2 class="text-white">TOURNAMENT WINNERS</h2>
@@ -88,89 +90,70 @@ $(document).ready(function() {
   <section class="sec">
     <h2>TOP 10 SBS RANKING</h2>
     {% for top in top_ten_ranks %}
+      {% if foreach.first %}
+      <style>.rankings-offline{display:block;}</style>
+      {% endif %}
       <div class="row-b">
         <a class="row-b-c row-b-c1 bold {%if top.rank < 4%}text-tan{%endif%}">{{ top.rank|ordinal }}</a>
         <a class="row-b-c row-b-c2">{{ top.user_id|bowler_name:True|safe }}</a>
         <a class="row-b-btn btn btn-small border-none" href="/account/view/{{ top.user_id }}">VIEW</a>
       </div>
     {% endfor %}
+    <div class="rankings-offline">
+        <h2 class="text-lightgrey">RANKING SYSTEM IS CURRENTLY OFFLINE</h2>
+    </div>
     <a class="btn btn-full text-white bkg-darkgreen border-none">VIEW RANKINGS</a>
   </section>
 </section>
 
 
 <section class="col col-60 col-m-max-width m-order-1">
+
     {% if notify or user.finish_profile == True %}
-      {% if notify == 'verify_email' %}
-        <section class="sec">
-        <section class="top-notify">
-            <i class="icon-exclamation-circle"></i><h3>Welcome {{ first }}! Please verify your email to finish setting up your account. Can't find it?</h3><a class="btn">RESEND</a>
+      {% if notify == 'verify_email'%}
+        <section class="sec top-notify">
+            <i class="icon-exclamation"></i><h2>Welcome {{ first }}! Please verify your email to finish setting up your account. <span class="desktop-on">Can't find it?</span></h2><a class="btn">RESEND<span class="mobile-on">&nbsp;EMAIL</span></a>
         </section>
-    </section>
       {% elif notify == 'verify_email_done' %}
-        <section class="sec">
-        <section class="top-notify">
-            <i class="icon-exclamation-circle"></i><h3>Your email is now verified! Please take a moment to finish completing your profile.</h3><a href="{% url 'accounts:modify' %}" class="btn">VIEW</a>
+        <section class="sec top-notify">
+            <i class="icon-exclamation"></i><h2>Your email is now verified! Please take a moment to finish completing your profile.</h2><a href="{% url 'accounts:modify' %}" class="btn">UPDATE PROFILE</a>
         </section>
-    </section>
       {% elif notify == 'verify_email_error' %}
-        <section class="sec">
-        <section class="top-notify">
-            <i class="icon-exclamation-circle"></i><h3>That email verification link is invalid.</h3><a class="btn">SUPPORT</a>
+        <section class="sec top-notify">
+            <i class="icon-exclamation"></i><h2>That email verification link is invalid.</h2><a class="btn">CONTACT SUPPORT</a>
         </section>
-    </section>
       {% elif user.finish_profile == True %}
-        <section class="sec">
-        <section class="top-notify">
-            <i class="icon-exclamation-circle"></i><h3>Please take a moment to update your profile information.</h3><a href="{% url 'accounts:modify' %}" class="btn">UPDATE</a>
+        <section class="sec top-notify">
+            <i class="icon-exclamation"></i><h2>Please take a moment to update your profile information.</h2><a href="{% url 'accounts:modify' %}" class="btn">UPDATE PROFILE</a>
         </section>
-    </section>
       {% endif %}
     {% endif %}
     {% if tournament_live.is_live == True or True == True %}
-    <section class="sec live-prev">
+    <section class="sec live-prev glow">
         <a class="live-prev-title">LIVE <span class="prefix"><i class="icon-circle"></i></span><span class="content desktop-on">{{ tournament_live.center.name}}<span class="location desktop-on">({{ tournament_live.center.city}}, {{ tournament_live.center.state}})</span></span></a>
         <span class="content mobile-on">{{ tournament_live.center.name}}<span class="location">({{ tournament_live.center.city}}, {{ tournament_live.center.state}})</span></span>
-        <a class="btn btn-small live-prev-watch border-none">WATCH NOW</a>
+        <div class="live-prev-q2"><a class="btn btn-medium bkg-darkgreen text-white live-prev-watch">WATCH NOW</a></div>
         <br>
         <a class="live-prev-status std-hover">{{ tournament_live.status}}</a>
         <a class="live-prev-leader std-hover">LEADER: {{ tournament_live.leader }}<span>{{ tournament_live.score }}</span></a>
     </section>
     {% endif %}
-    {% if tournament_recent is not None and False is True%}
-    <section class="sec">
-        <div id="homepage-tournament-recent-preview">
-            <div></div><img id="homepage-tournament-recent-preview-watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
-        </div>
-        <section id="homepage-tournament-recent-content">
-        <a id="homepage-tournament-recent-title" href="/tournaments/view/{{ tournament_recent.tournament_id }}">{{ tournament_recent.tournament_name }}</a>
-        <a id="homepage-tournament-recent-date" href="/tournaments/view/{{ tournament_recent.tournament_id }}">{{ tournament_recent.tournament_date|date:'m/d' }} - {{ tournament_recent.tournament_center|none_replace:'Center Unknown' }}</a>
-        <a id="homepage-tournament-recent-description" href="/tournaments/view/{{ tournament_recent.tournament_id }}">{{ tournament_recent.description|none_replace:"This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set." }}</a>
-        <a id="homepage-tournament-recent-results" href="tournaments/view/{{tournament_recent.tournament_id }}">Read More</a>
-        <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank top-rank">1st</a><a class="homepage-tournament-recent-player-name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent|get_bowler_from_place:1|bowler_name:True|safe }}</a></div>
-        <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank">2nd</a><a class="homepage-tournament-recent-player-name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent|get_bowler_from_place:2|bowler_name:True|safe }}</a></div>
-        <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank">3rd</a><a class="homepage-tournament-recent-player-name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent|get_bowler_from_place:3|bowler_name:True|safe }}</a></div>
-        <div class="homepage-tournament-recent-player"><a class="homepage-tournament-recent-player-rank">4th</a><a class="homepage-tournament-recent-player-name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent|get_bowler_from_place:4|bowler_name:True|safe }}</a></div>
-      </section>
-    </section>
-    {% else %}
+    {% if tournament_recent is not None %}
     <section class="sec t-recent-prev">
         <div class="image">
             <img class="preview" src="{% static 'img/recent-preview-template.png' %}" ref="Tournament Name">
             <img class="watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
         </div>
-
         <section class="content">
-            <a class="title" href="/tournaments/view/1">2021 SBS SUPER SWEEPER</a>
-            <a class="date" href="/tournaments/view/1">09/25 - Thunderbowl Lanes</a>
-            <a class="description" href="/tournaments/view/1">This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set yet.</a>
-            <a class="more btn btn-small border-none" href="tournaments/view/1">VIEW INFO</a>
-
+            <a class="title" href="tournaments/view/{{tournament_recent.tournament_id }}">{{ tournament_recent.tournament_name }}</a>
+            <a class="date" href="tournaments/view/{{tournament_recent.tournament_id }}">{{ tournament_recent.tournament_date|date:'m/d' }} - {{ tournament_recent.tournament_center|none_replace:'Center Unknown' }}</a>
+            <a class="description" href="tournaments/view/{{tournament_recent.tournament_id }}">{{ tournament_recent.description|none_replace:"This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set." }}</a>
+            <a class="btn btn-medium bkg-darkgreen text-white border-darkgreen more" href="tournaments/view/{{tournament_recent.tournament_id }}">VIEW INFO</a>
             <div class="stats">
-                <div class="player"><a class="rank top-rank">1st</a><a class="name" href="/account/view/1">Christian <span>S.</span></a></div>
-                <div class="player"><a class="rank">2nd</a><a class="name" href="/account/view/1">Brian <span>R.</span></a></div>
-                <div class="player"><a class="rank">3rd</a><a class="name" href="/account/view/1">Daniel <span>H.</span></a></div>
-                <div class="player"><a class="rank">4th</a><a class="name" href="/account/view/1">John <span>C.</span></a></div>
+                <div class="player"><a class="rank top-rank">1st</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent|get_bowler_from_place:1|bowler_name:True|safe }}</a></div>
+                <div class="player"><a class="rank">2nd</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:2 }}">{{ tournament_recent|get_bowler_from_place:2|bowler_name:True|safe }}</a></div>
+                <div class="player"><a class="rank">3rd</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:3 }}">{{ tournament_recent|get_bowler_from_place:3|bowler_name:True|safe }}</a></div>
+                <div class="player"><a class="rank">4th</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:4 }}">{{ tournament_recent|get_bowler_from_place:4|bowler_name:True|safe }}</a></div>
             </div>
         </section>
     </section>
@@ -502,7 +485,9 @@ $(document).ready(function() {
     <section class="sec">
         <h2>BOWLER OF THE MONTH</h2>
         <div class="bom-pic-wrap">
-            <a class="bom-pic-rank">127th</a>
+            <div class="bom-pic-rank-wrap">
+                <a class="bom-pic-rank">1st</a>
+            </div>
             <div class="bom-pic">
                 <img src="{{ bowler_of_month.picture.url }}" alt="{{ bowler_of_month.first_name}}'s profile picture">
             </div>
@@ -514,10 +499,10 @@ $(document).ready(function() {
       {% endif %}
     <section class="sec sitestat">
         <div class="sitestat-half">
-          <h4>ACTIVE BOWLERS</h4>
+          <a>ACTIVE BOWLERS</a>
           <h2>{% if users_count is None %}0{% else %}{{ users_count }}{% endif %}</h2>
         </div><div class="sitestat-half">
-          <h4>TOURNAMENTS</h4>
+          <a>TOURNAMENTS</a>
           <h2>{% if tournaments_count is None %}0{% else %}{{ tournaments_count }}{% endif %}</h2>
         </div>
       </section>

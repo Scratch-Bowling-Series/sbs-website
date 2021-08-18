@@ -1,18 +1,18 @@
 {% extends 'base_layout.html' %}
 {% load static %}
 {% block content %}
-<section class="col col-20">
-</section>
 
-<section class="col col-60">
+<section class="col col-20 col-m-max-width m-order-1">
+</section>
+<section class="col col-60 col-m-max-width m-order-3">
     <section class="tournament-topbar">
         <section class="tournament-view-selector std-radius">
             {% if selected_upcoming == True %}
             <a class="left" href="/tournaments/upcoming">UPCOMING<i>&nbsp;TOURNAMENTS</i></a>
-            <a class="right text-lightgrey" href="/tournaments/results">PAST<i class="text-lightgrey">&nbsp;TOURNAMENTS</i></a>
+            <a class="right text-lightgrey" href="/tournaments/results">RESULTS<i class="text-lightgrey">&nbsp;TOURNAMENTS</i></a>
             {% else %}
             <a class="left text-lightgrey" href="/tournaments/upcoming">UPCOMING<i class="text-lightgrey">&nbsp;TOURNAMENTS</i></a>
-            <a class="right" href="/tournaments/results">PAST<i>&nbsp;TOURNAMENTS</i></a>
+            <a class="right" href="/tournaments/results">RESULTS<i>&nbsp;TOURNAMENTS</i></a>
             {% endif %}
         </section>
         <section class="tournament-sort std-radius">
@@ -20,7 +20,7 @@
         </section>
     </section>
     {% if selected_upcoming == True %}
-    <section class="sec">
+    <section class="sec tournaments-list">
         {% for tournament in tournaments_upcoming %}
         <section class="tournament-preview">
             <div class='tournament-image'><img src="{{ tournament.sponsor_image }}"></div>
@@ -39,7 +39,7 @@
         </section>
         {% endfor %}
         <section class="tournament-preview">
-            <div class='tournament-image'><img src="/media/sponsors/sponsor-image-02.png"></div>
+            <div class='tournament-image'><img src="/media/sponsors/sponsor-image-02.png"></div> 
             <div class="tournament-container">
             <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
             <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
@@ -95,7 +95,7 @@
     </section>
     {% endif %}
     {% if selected_upcoming == False %}
-    <section class="sec">
+    <section class="sec tournaments-list">
         {% for tournament in tournaments_past %}
         <section class="tournament-preview">
             <img class='tournament-image' src="{{ tournament.sponsor_image }}"><!--
@@ -117,9 +117,8 @@
     </section>
     {% endif %}
 </section>
-
-<section class="col col-20">
-    <section class="sec">
+<section class="col col-20 col-m-max-width m-order-2">
+    <section class="sec desktop-on">
         <h3 class="tournament-filter-header standard-title text-dark-green">FILTERS</h3>
         <div class="tournament-filter-container">
             <div class="tournament-filter-icon">
@@ -150,10 +149,13 @@
             </div>
         </div>
     </section>
+    {% if request.user is not None and request.user.admin == True %}
     <section class="sec">
         <h3 class="standard-title text-dark-green">ADMIN FUNCTIONS</h3>
         <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen">CREATE TOURNAMENT</a>
         <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen" style="margin-top:0;">VIEW DEEP STATS</a>
     </section>
+    {% endif %}
 </section>
+
 {% endblock %}

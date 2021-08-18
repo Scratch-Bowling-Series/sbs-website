@@ -1,14 +1,17 @@
+
 $color-darkgreen: #214031;
+
 $color-lightgreen: #2e5945;
+
 $color-tan: #d9af62;
 
-$font-primary:  TTOctosquaresCond-Bold;
-$font-primary-bold: TTOctosquaresCond-Bold;
-$font-primary-light: TTOctosquaresCond-Light;
-$font-primary-italic: TTOctosquaresCond-Italic;
+$color-tan-light: lighten(#d9af62, 20%);
+
+$font-primary: tt_octosquares_condensedbold;
+$font-primary-bold: tt_octosquares_condensedbold;
+$font-primary-light: tt_octosquares_condensedMd;
+$font-primary-italic: tt_octosquares_condensedIt;
 $font-secondary: helvetica;
-
-
 
 /*****************************
          TAG PRESETS 
@@ -158,7 +161,7 @@ nav
   text-align:center;
   a{
     display: block;
-    font-size: 18px;
+    font-size: 17px;
     line-height:18px;
     padding: 12px 10px;
     margin:12px 0;
@@ -267,7 +270,7 @@ nav
 }
 .nav-search input[type=submit]
 {
-  font-size:16px;
+  font-size:17px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   appearance: none;
@@ -281,7 +284,7 @@ nav
   color:$color-lightgreen;
   overflow: hidden;
   vertical-align: top;
-  padding:10px 10px 12px 8px;
+  padding:12px 10px 12px 8px;
   background:white;
   line-height: 16px;
   font-family: $font-primary;
@@ -345,8 +348,8 @@ footer
   border: 3px solid $color-lightgreen;
   border-radius: 20px;
   font: inherit;
-  font-size: 16px;
-  line-height: 16px;
+  font-size: 17px;
+  line-height: 17px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   appearance: none;
@@ -354,7 +357,7 @@ footer
   display: inline-block;
   transition: background ease .35s;
   -webkit-appearance:none;
-  padding:8px 20px 10px 20px;
+  padding:9px 20px 10px 20px;
   max-height:40px;
   font-family: $font-primary;
   text-align:center;
@@ -378,22 +381,49 @@ footer
   border:none;
   margin: 10px auto 20px auto;
   text-align:center;
+  padding:12px 20px;
 }
 .btn-small
 {
-  font-size:12px;
-  line-height:12px;
+  font-size:13px;
+  line-height:1em;
   color:white;
   border-radius:14px;
   display:inline-block;
-  padding:3px 10px 4px 10px;
+  padding:4px 10px 5px 10px;
   background:$color-darkgreen;
   float:right;
   margin:0 20px 0 0;
-  font-family: $font-primary;
-  max-height:19px;
+  font-family: $font-primary-bold;
+  max-height:20px;
+}
+.btn-medium{
+  font-family:$font-primary;
+  background:$color-darkgreen;
+  border-color:$color-darkgreen;
+  padding:7px 15px 7px 15px;
+  color:white;
+  margin-bottom:20px;
+  font-size:14px;
+  line-height:1em;
+  vertical-align: top;
+  max-height:30px;
 }
 
+
+
+.glow
+{
+  box-sizing:border-box;
+  border:solid 2px $color-tan-light;
+  box-shadow:0 0 8px transparent;
+  transition: border 2s linear, box-shadow 2s linear;
+  &.active
+  {
+    border:solid 2px $color-tan;
+    box-shadow:0 0 8px $color-tan;
+  }
+}
 
 /*****************************
          COLUMNS
@@ -537,7 +567,44 @@ footer
     margin:13px 20px 13px 15px;
   }
 }
-
+.popup
+{
+  display:none;
+  position:fixed;
+  z-index:99999;
+  top:0;bottom:0;right:0;left:0;
+  background:rgba(0,0,0,0.5);
+  .pop-inner
+  {
+    max-width:500px;
+    background:white;
+    width:calc(100vw - 20px);height:auto;
+    margin:20vh auto 0 auto;
+    border-radius:10px;
+    position:relative;
+    .close
+    {
+      position:absolute;
+      right:0;top:0;
+      font-size:22px;
+      padding:10px;
+      width:22px;
+      text-align:center;
+    }
+    .more
+    {
+      position:absolute;
+      right:20px;bottom:20px;
+      margin:0;
+    }
+    p
+    {
+      padding:0 20px 100px 20px;
+      font-size:18px;
+      line-height:1.2em;
+    }
+  }
+}
 
 /*****************************
   HOMEPAGE - WINNERS PREV.
@@ -623,7 +690,15 @@ footer
   width:50px;
   text-align:center;
 }
-
+.rankings-offline
+{
+  h2
+  {
+    font-family:$font-primary-light;
+    font-size:21px;
+    line-height:26px;
+  }
+}
 
 /*****************************
   HOMEPAGE - DONATE
@@ -724,20 +799,22 @@ footer
 *****************************/
 .live-prev
 {
-  
   text-align:left;
 }
 .live-prev-title
 {
+  width:50%;height:60px;
   color:$color-tan;
   font-family:$font-primary-bold;
   padding:20px;
   display: inline-block;
-  font-size:18px;
+  font-size:21px;
+  box-sizing:border-box;
   vertical-align:top;
   .location
   {
-    font-size:16px;
+    font-size:17px;
+    line-height:21px;
     padding:0 0 0 5px;
     margin:0;
     vertical-align:top;
@@ -752,7 +829,7 @@ footer
     font-family: $font-secondary;
     color:$color-tan;
     font-size:8px;
-    height:18px;
+    height:21px;
     padding:0;
     display: inline-block;
     vertical-align: top;
@@ -765,19 +842,23 @@ footer
 }
 .live-prev-title .content
 {
-  font-size:18px;
+  font-size:21px;
   position: relative;
   font-family: $font-primary-light;
   color:$color-darkgreen;
   display: inline-block;
   padding:0 0 0 10px;
 }
-.live-prev-watch
-{
+.live-prev-q2{
+  width:50%;
+  height:60px;
+  display:inline-block;
+}
+.live-prev-watch{
   color:$color-darkgreen;
   font-family:$font-primary;
   display: inline-block;
-  padding:6px 15px 7px 15px;
+  padding:10px 15px 7px 15px;
   color:white;
   margin:20px 20px 0 0;
   font-size:14px;
@@ -787,28 +868,35 @@ footer
 }
 .live-prev-status
 {
+  box-sizing:border-box;
+  width:50%;height:60px;
   color:$color-darkgreen;
   font-family:$font-primary-bold;
-  padding:0 20px 20px 20px;
+  padding:20px;
   display: inline-block;
-  font-size:18px;
+  font-size:21px;
 }
 .live-prev-leader
 {
+  text-align:right;
+  width:50%;height:60px;
+  box-sizing:border-box;
   color:$color-darkgreen;
   font-family:$font-primary-bold;
-  padding:0px;
-  margin:0 20px 20px 0;
+  padding:20px;
+  margin:0;
   display: inline-block;
-  font-size:18px;
+  font-size:21px;
   float:right;
   span
   {
-    font-size:16px;
+    font-size:17px;
     padding:2px 0px 2px 5px;
     vertical-align:top;
     color:grey;
     font-family:$font-primary-light;
+    &:after{content:'pts)';}
+    &:before{content:'(';}
   }
   i
   {
@@ -861,7 +949,7 @@ footer
   }
   .more{
     position:absolute;
-    right:0px;bottom:20px;
+    right:20px;bottom:0px;
     color:white;
     font-family:$font-primary;
     display: inline-block;
@@ -878,7 +966,7 @@ footer
         line-height:20px;
         color:$color-darkgreen;
         vertical-align: top;
-        padding:8px 10px;
+        padding:12px 10px;
         display: inline-block;
         font-family: $font-primary-light;
         span{
@@ -895,7 +983,7 @@ footer
         color:grey;
         border-radius:14px;
         display:inline-block;
-        padding:4px 5px 0px 5px;
+        padding:6px 5px 0px 5px;
         border: solid 2px lightgrey;
         margin:4.5px 5px 4.5px 20px;
       }
@@ -1102,22 +1190,30 @@ footer
   font-size:0;
   h2
   {
-
     font-family: $font-primary-light;
     color:#3d3d3d;
     margin:0;padding: 0;
-    font-size:20px;
+    font-size:21px;
+    line-height:1em;
   }
-  a{font-size:12px;padding-bottom:10px;}
+  a{
+    color:$color-darkgreen;
+    padding:20px 0 10px 0;
+    display:block;
+    font-size:13px;
+    padding-bottom:10px;
+  }
+  
+  .sitestat-half
+  {
+    width:40%;
+    height:auto;
+    vertical-align: top;
+    text-align: center;
+    display: inline-block;
+  }
 }
-.sitestat-half
-{
-  width:40%;
-  height:auto;
-  vertical-align: top;
-  text-align: center;
-  display: inline-block;
-}
+
 
 
 /*****************************
@@ -1695,6 +1791,26 @@ footer
   margin:50px auto 70px auto;
   font-size:24px;
 }
+
+.profile-upcoming-left{
+  width:40%;
+  display:inline-block;
+  background:$color-darkgreen;
+  h2
+  {
+    font-size:21px;
+    color:white;
+    text-align:left;
+    padding:20px;
+    line-height:26px;
+  }
+}
+.profile-upcoming-right{
+  width:60%;
+  display:inline-block;
+  background:white;
+}
+
 
 
 /*****************************
