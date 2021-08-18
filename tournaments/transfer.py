@@ -51,7 +51,7 @@ def CreateTournamentFromList(data):
             tournament.tournament_date = data[1]
         tournament.tournament_description = data[2]
         if data[3] == None:
-            data[3] = datetime.datetime.now().time()
+            data[3] = '12:00'
         tournament.tournament_time = data[3]
         tournament.center = data[4]
         tournament.entry_fee = data[5]
