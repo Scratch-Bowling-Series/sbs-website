@@ -13,7 +13,9 @@ def Transfer():
     for user in users:
         x += 1
         print('User (' + str(x) + '/' + str(length) +')')
-        trans.append(UserToList(user))
+        usrlist = UserToList(user)
+        if usrlist != None:
+            trans.append(usrlist)
     export = json.dumps(trans)
     StoreJson(export)
 
