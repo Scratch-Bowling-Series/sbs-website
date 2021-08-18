@@ -1,3 +1,4 @@
+import datetime
 import json
 import os
 
@@ -49,8 +50,9 @@ def CreateTournamentFromList(data):
         if data[1] != None:
             tournament.tournament_date = data[1]
         tournament.tournament_description = data[2]
-        if data[3] != None:
-            tournament.tournament_time = data[3]
+        if data[3] == None:
+            data[3] = datetime.datetime.now().time()
+        tournament.tournament_time = data[3]
         tournament.center = data[4]
         tournament.entry_fee = data[5]
         tournament.qualifiers = data[6]
