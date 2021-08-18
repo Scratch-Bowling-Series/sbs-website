@@ -5,7 +5,7 @@ from accounts.views import User
 
 
 def Transfer():
-    return 
+    return
     trans = []
     users = User.objects.all()
     length = len(users)
