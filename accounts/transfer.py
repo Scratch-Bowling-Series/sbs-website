@@ -44,6 +44,7 @@ def UserToList(user):
 def CreateUserFromList(data):
     if data != None:
         user = User()
+        user.user_id = data[0]
         user.first_name = data[1]
         user.last_name = data[2]
         user.location_city = data[4]
