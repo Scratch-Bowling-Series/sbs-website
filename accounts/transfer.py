@@ -40,13 +40,14 @@ def UserToList(user):
         return usrlist
 
 def CreateUserFromList(data):
-    user = User()
-    user.first_name = data[1]
-    user.last_name = data[2]
-    user.location_city = data[4]
-    user.location_state = data[5]
-    user.statistics = data[6]
-    user.save()
+    if data != None:
+        user = User()
+        user.first_name = data[1]
+        user.last_name = data[2]
+        user.location_city = data[4]
+        user.location_state = data[5]
+        user.statistics = data[6]
+        user.save()
 
 def ValidateUserList(usrlist):
     if usrlist[1] == None or usrlist[1] == '':
