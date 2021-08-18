@@ -46,9 +46,11 @@ def CreateTournamentFromList(data):
     if data != None:
         tournament = Tournament()
         tournament.tournament_name = data[0]
-        tournament.tournament_date = data[1]
+        if data[1] != None:
+            tournament.tournament_date = data[1]
         tournament.tournament_description = data[2]
-        tournament.tournament_time = data[3]
+        if data[3] != None:
+            tournament.tournament_time = data[3]
         tournament.center = data[4]
         tournament.entry_fee = data[5]
         tournament.qualifiers = data[6]
