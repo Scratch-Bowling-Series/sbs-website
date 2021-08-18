@@ -124,7 +124,7 @@ def participants(tournament):
 def bowler_name(uuid, bold_last=False):
     uuid = is_valid_uuid(uuid)
     if uuid is not None:
-        name = User.objects.get(user_id=uuid)
+        name = User.objects.filter(user_id=uuid).first()
         truncate = False
         if truncate is True:
             if bold_last is True:
@@ -313,7 +313,7 @@ def tournaments_results_views(request):
 
 
 def tournaments_upcoming_views(request):
-    Gather()
+
     selected_upcoming = True
     tournaments_upcoming = Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time())
     return render(request, 'tournaments/main-tournaments.html', {'nbar': 'tournaments', 'tournaments_upcoming': tournaments_upcoming, 'selected_upcoming':selected_upcoming})
