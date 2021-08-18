@@ -30,9 +30,9 @@ def Gather():
 def TournamentToList(tournament):
     tournamentslist = [
         tournament.tournament_name,
-        tournament.tournament_date,
+        str(tournament.tournament_date),
         tournament.tournament_description,
-        tournament.tournament_time,
+        str(tournament.tournament_time),
         tournament.center,
         tournament.entry_fee,
         tournament.qualifiers,

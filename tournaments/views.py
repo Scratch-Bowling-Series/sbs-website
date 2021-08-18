@@ -14,6 +14,7 @@ from tournaments.forms import CreateTournament, ModifyTournament
 from tournaments.models import Tournament
 from oils.oil_pattern_scraper import get_oil_colors
 from tournaments.tournament_scraper import scrape_tournaments, scrape_bowlers
+from tournaments.transfer import TransferT, Gather
 
 
 @register.filter
@@ -312,7 +313,7 @@ def tournaments_results_views(request):
 
 
 def tournaments_upcoming_views(request):
-    TransferT()
+    Gather()
     selected_upcoming = True
     tournaments_upcoming = Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time())
     return render(request, 'tournaments/main-tournaments.html', {'nbar': 'tournaments', 'tournaments_upcoming': tournaments_upcoming, 'selected_upcoming':selected_upcoming})
