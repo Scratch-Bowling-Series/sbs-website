@@ -289,6 +289,10 @@ nav
   line-height: 16px;
   font-family: $font-primary;
 }
+.nav-scroll{
+  display:inline-block;
+  vertical-align:top;
+}
 
 
 /*****************************
@@ -855,16 +859,11 @@ footer
   display:inline-block;
 }
 .live-prev-watch{
-  color:$color-darkgreen;
-  font-family:$font-primary;
   display: inline-block;
-  padding:10px 15px 7px 15px;
   color:white;
-  margin:20px 20px 0 0;
-  font-size:14px;
   float:right;
   vertical-align: top;
-  max-height:30px;
+  margin:20px;
 }
 .live-prev-status
 {

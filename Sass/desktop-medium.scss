@@ -16,7 +16,9 @@ body
   width:100%;height:auto;
   background:#e8e8e8;
   background:blue;
+  display:none;
 }
+html{background:$color-darkgreen;}
 a,span,p,h1,h2,h3,h4,i
 {
   font-family: $font-primary;
