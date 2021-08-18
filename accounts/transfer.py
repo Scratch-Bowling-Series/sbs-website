@@ -22,6 +22,7 @@ def Transfer():
 
 
 def Gather():
+    User.objects.all().delete()
     datas = ReadJson()
     datas = json.loads(datas)
     for data in datas:
