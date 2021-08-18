@@ -58,7 +58,7 @@ def CreateTournamentFromList(data):
         tournament.qualifiers = data[6]
         tournament.matchplay = data[7]
         tournament.format = data[8]
-        tournament.save()
+        tournament.sa ve()
 
 def ValidateTournamentList(usrlist):
     if usrlist[0] == None or usrlist[0] == '':
