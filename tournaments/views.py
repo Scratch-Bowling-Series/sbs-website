@@ -125,6 +125,8 @@ def bowler_name(uuid, bold_last=False):
     uuid = is_valid_uuid(uuid)
     if uuid is not None:
         name = User.objects.filter(user_id=uuid).first()
+        if name == None:
+            return 'Unknown Name'
         truncate = False
         if truncate is True:
             if bold_last is True:
