@@ -10,7 +10,7 @@ from tournaments.tournament_scraper import convert_abr
 User = get_user_model()
 
 def UpdateUsers():
-    urls = get_account_urls(40)
+    urls = get_account_urls(5)
     bowlers = []
     count = 0
     waittime = 0
@@ -73,7 +73,7 @@ def UpdateUsers():
 
 def get_account_urls(pages):
     urls = []
-    for x in range(0, pages):
+    for x in range(35 - pages, 35):
         with urlopen('http://www.scratchbowling.com/bowler-bios?page=' + str(x)) as response:
             print('Scraping Bowler Page: (' + str(x) + '/' + str(pages) + ')')
             soup = BeautifulSoup(response, 'lxml')
