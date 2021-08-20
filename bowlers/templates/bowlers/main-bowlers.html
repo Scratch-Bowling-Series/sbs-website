@@ -1,5 +1,140 @@
 {% extends 'base_layout.html' %}
-
+{% load static %}
 {% block content %}
-<h3>Bowlers</h3>
+
+<section class="col col-20 col-m-max-width m-order-2">
+    <section class="sec">
+    <h2>TOP 10 SBS RANKING</h2>
+    {% for top in top_ten_ranks %}
+      {% if foreach.first %}
+      <style>.rankings-offline{display:block;}</style>
+      {% endif %}
+      <div class="row-b">
+        <a class="row-b-c row-b-c1 bold {%if top.rank < 4%}text-tan{%endif%}">{{ top.rank|ordinal }}</a>
+        <a class="row-b-c row-b-c2">{{ top.user_id|bowler_name:True|safe }}</a>
+        <a class="row-b-btn btn btn-small border-none" href="/account/view/{{ top.user_id }}">VIEW</a>
+      </div>
+    {% endfor %}
+    <div class="rankings-offline">
+        <h2 class="text-lightgrey">RANKING SYSTEM IS CURRENTLY OFFLINE</h2>
+    </div>
+    <a class="btn btn-full text-white bkg-darkgreen border-none">VIEW RANKINGS</a>
+  </section>
+    {% if bowler_of_month is not None %}
+    <section class="sec">
+        <h2>BOWLER OF THE MONTH</h2>
+        <div class="bom-pic-wrap">
+            <div class="bom-pic-rank-wrap">
+                <a class="bom-pic-rank">1st</a>
+            </div>
+            <div class="bom-pic">
+                <img src="{{ bowler_of_month.picture.url }}" alt="{{ bowler_of_month.first_name}}'s profile picture">
+            </div>
+        </div>
+        <a class="bom-name">{{ bowler_of_month.first_name}}&nbsp;{{ bowler_of_month.last_name }}</a>
+        <a class="bom-location">{{ bowler_of_month.location_city|none_replace:'Flint' }}, {{ bowler_of_month.location_state|none_replace:'Michigan' }}</a>
+        <a class="btn btn-full text-white bkg-darkgreen border-none" href="account/view/{{ bowler_of_month.user_id }}">VISIT PROFILE</a>
+    </section>
+    {% endif %}
+
+</section>
+<section class="col col-60 col-m-max-width m-order-1">
+    <section class="account-topbar">
+        <section class="account-sort std-radius">
+            <a>SORT BY <i class="icon-angle-down"></i></a>
+        </section>
+        <section class="account-page std-radius">
+            <a>50 / PAGE <i class="icon-angle-down"></i></a>
+        </section>
+        <section class="account-count std-radius">
+            <input type="checkbox" checked><a>SHOW STATS</a>
+        </section>
+    </section>
+    <section class="sec account-list">
+        {% for bowler in bowlers %}
+        <section class="account-preview">
+
+            <div class='account-image'><img src="/media/{{ bowler.5 }}"></div>
+            <div class="account-container account-half-width">
+                <a href="/account/view/{{ bowler.0 }}" class="account-name">{{ bowler.1 }} {{ bowler.2 }}</a>
+                <a href="/account/view/{{ bowler.0 }}" class="account-location">{{ bowler.3 }}, {{ bowler.4 }}</a>
+                <div class="account-stats">
+                    <div class="stat"><a>2,052nd</a><span>RANK</span></div>
+                    <div class="stat"><a>43</a><span>ATTEND</span></div>
+                    <div class="stat"><a>106</a><span>WINS</span></div>
+                    <div class="stat"><a>260</a><span>AVG</span></div>
+                </div>
+                <a href="/account/view/{{ bowler.0 }}" class="account-view btn btn-medium desktop-on">VIEW PROFILE</a>
+            </div>
+            {% if not forloop.last %}
+            <div class="standard-underline"></div>
+            {% endif %}
+        </section>
+        {% endfor %}
+    </section>
+    <section class="account-pagebar">
+        <section class="account-pages std-radius">
+            <a class="sep off">|<i class="icon-arrow-right left"></i></a>
+            <a class="sep"><i class="icon-arrow-right left"></i></a>
+            <a>1</a>
+            <a class="selected">2</a>
+            <a>3</a>
+            <a>4</a>
+            <a>5</a>
+            <a>6</a>
+            <a class="sep"><i class="icon-arrow-right"></i></a>
+            <a class="sep"><i class="icon-arrow-right"></i>|</a>
+        </section>
+    </section>
+</section>
+<section class="col col-20 col-m-max-width m-order-3">
+    <section class="sec desktop-on">
+        <h3 class="tournament-filter-header standard-title text-dark-green">FILTERS</h3>
+        <div class="tournament-filter-container">
+            <div class="tournament-filter-icon">
+                <i class="icon-circle"></i>
+            </div><div class="tournament-filter-section">
+                <a class="tournament-filter-title">ALL TOURNAMENTS</a>
+            </div>
+        </div>
+        <div class="tournament-filter-container">
+            <div class="tournament-filter-icon">
+                <i class="icon-circle1"></i>
+            </div><div class="tournament-filter-section">
+                <a class="tournament-filter-title">SEARCH BY ZIP</a>
+                <input type="zip" class="tournament-filter-zip" placeholder="ZIP CODE">
+            </div>
+        </div>
+        <div class="tournament-filter-container">
+            <div class="tournament-filter-icon">
+                <i class="icon-circle1"></i>
+            </div><div class="tournament-filter-section">
+                <a class="tournament-filter-title">MILE RADIUS</a>
+                <input class="tournament-filter-miles" type="range" min="10" max="250" value="125" class="slider" id="myRange">
+                <div class="tournament-filter-miles-label-container">
+                    <a class="first">10</a>
+                    <a class="second">125</a>
+                    <a class="third">250+</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% if request.user is not None and request.user.admin == True %}
+    <section class="sec">
+        <h3 class="standard-title text-dark-green">ADMIN FUNCTIONS</h3>
+        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen">CREATE TOURNAMENT</a>
+        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen" style="margin-top:0;">VIEW DEEP STATS</a>
+    </section>
+    {% endif %}
+    <section class="sec sitestat">
+        <div class="sitestat-half">
+          <a>BOWLERS</a>
+          <h2>{% if bowlers_count is None %}0{% else %}{{ bowlers_count }}{% endif %}</h2>
+        </div><div class="sitestat-half">
+          <a>ONLINE</a>
+          <h2>{% if online_count is None %}0{% else %}{{ online_count }}{% endif %}</h2>
+        </div>
+      </section>
+</section>
+
 {% endblock %}

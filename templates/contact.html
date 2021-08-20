@@ -1,0 +1,43 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block content %}
+
+<section class="col col-20 col-m-max-width m-order-2">
+
+</section>
+
+
+<section class="col col-30 col-m-max-width m-order-1">
+    <section class="sec contact">
+        <h1>CONTACT US</h1>
+        <form class="standard-form" action="POST">
+            {% if request.user.isAuthenticated %}
+            <div class="contact-preview">
+                <img src="/media/{{ request.user.picture }}">
+                <a>{{ request.user.first_name|none_replace:'John' }} {{ request.user.last_name|none_replace:'Smith' }}<span>we'll reply to '<i>{{ request.user.email|none_replace:'youremail@address.com' }}</i>'</span></a>
+            </div>
+            {% else %}
+            <label class="standard-form-label">FIRST & LAST NAME</label>
+            <input type="text">
+            <label class="standard-form-label">EMAIL ADDRESS</label>
+            <input type="text">
+            {% endif %}
+            <label class="standard-form-label">SUBJECT</label>
+            <input type="text">
+            <label class="standard-form-label">MESSAGE</label>
+            <textarea name="message" id="message" cols="30" rows="10"></textarea>
+            <input class="btn text-lightgreen" type="submit" value="SEND MESSAGE">
+        </form>
+    </section>
+</section>
+
+
+<section class="col col-20 col-m-max-width m-order-3" >
+    <section class="sec contact-help">
+        <h2>Need help with something?</h2>
+        <p>You might just find your answer here on the frequintly asked questions page.</p>
+        <a class="btn btn-full bkg-darkgreen text-white">VIEW FAQs</a>
+    </section>
+</section>
+
+{% endblock %}

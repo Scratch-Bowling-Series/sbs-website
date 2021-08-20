@@ -30,6 +30,9 @@ def about(request):
     return render(request, 'about.html', {'nbar': 'about'})
 
 
+def contact(request):
+    return render(request, 'contact.html', {'nbar': 'contact'})
+
 def load_tournament_live():
     live_center = {'name': '300 Bowl', 'city': 'Detroit', 'state': 'MI'}
     live_status = 'Qualifying (3/10)'
@@ -54,7 +57,6 @@ def load_tournament_winners():
 
 def load_tournament_upcoming():
     return Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time())
-
 
 
 def load_bowler_of_month():

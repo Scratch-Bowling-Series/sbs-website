@@ -126,10 +126,25 @@
             <li class="nav-btn"><a href="/">HOME</a><span class="nav-btn-underline {% if nbar == 'home' %}active{% endif %}"></span></li>
             <li class="nav-btn"><a href="/tournaments/">TOURNAMENTS</a><span class="nav-btn-underline {% if nbar == 'tournaments' %}active{% endif %}"></span></li>
             <li class="nav-btn"><a href="/scoreboard/">RANKINGS</a><span class="nav-btn-underline {% if nbar == 'rankings' %}active{% endif %}"></span></li>
-            <li class="nav-btn hidden"><a href="/scoreboard/">BOWLERS</a><span class="nav-btn-underline {% if nbar == 'bowlers' %}active{% endif %}"></span></li>
-            <li class="nav-btn hidden"><a href="/scoreboard/">CENTERS</a><span class="nav-btn-underline {% if nbar == 'centers' %}active{% endif %}"></span></li>
-            <li class="nav-btn hidden"><a href="/scoreboard/">CONTACT</a><span class="nav-btn-underline {% if nbar == 'contact' %}active{% endif %}"></span></li>
-            <li class="nav-btn-drop"><i class="icon-circle"></i><i class="icon-circle"></i><i class="icon-circle"></i></li>
+            <li class="nav-btn hidden"><a href="/bowlers/">BOWLERS</a><span class="nav-btn-underline {% if nbar == 'bowlers' %}active{% endif %}"></span></li>
+            <li class="nav-btn hidden"><a href="/centers/">CENTERS</a><span class="nav-btn-underline {% if nbar == 'centers' %}active{% endif %}"></span></li>
+            <li class="nav-btn hidden"><a href="/contact/">CONTACT</a><span class="nav-btn-underline {% if nbar == 'contact' %}active{% endif %}"></span></li>
+            <li class="nav-btn-drop">
+                <i class="icon-circle"></i><i class="icon-circle"></i><i class="icon-circle"></i>
+                <div class="drop-wrap">
+                    <div class="drop">
+                        <a href="/bowlers/">BOWLERS</a><span class="nav-btn-underline {% if nbar == 'bowlers' %}active{% endif %}"></span>
+                        <a href="/centers/">CENTERS</a><span class="nav-btn-underline {% if nbar == 'centers' %}active{% endif %}"></span>
+                        <a href="/contact/">CONTACT</a><span class="nav-btn-underline {% if nbar == 'contact' %}active{% endif %}"></span>
+                        {% if request.user != None and request.user.admin or True == True %}
+                        <a style="color:red;opacity:0.5;font-size:14px;width:100%;text-align:center;padding-left:0;padding-top:10px;cursor:default;">[ADMIN FUNCTIONS]</a>
+                        <a href="/bowlers/" style="color:red;opacity:0.5;">SCRAPE BOWLERS</a><span class="nav-btn-underline {% if nbar == 'bowlers' %}active{% endif %}"></span>
+                        <a href="/centers/" style="color:red;opacity:0.5;">SCRAPE TOURNAMENTS</a><span class="nav-btn-underline {% if nbar == 'centers' %}active{% endif %}"></span>
+                        <a href="/contact/" style="color:red;opacity:0.5;">SYSTEM STATUS</a><span class="nav-btn-underline {% if nbar == 'contact' %}active{% endif %}"></span>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
         </ul>
 
 
@@ -158,7 +173,7 @@
             <i class="icon-times close"></i>
             <h2>WElCOME TO SBS!</h2>
             <p>Things are changing. Something something like that. We are a new website now. This is where we are going to tell you what has changed. People will only see this on their first time visiting the site.<br><br>This is a very essential welcome message. We need to word things so people know exactly whats going on with SBS. Very friendly welcoming.<br><br>Whatever whatever some more things down here. Wordy wordy wordy.</p>
-            <a class="btn more" href="{% url 'support:support' %}">LEARN MORE</a>
+            <a class="btn more continue">LEARN MORE</a>
         </div>
     </div>
 

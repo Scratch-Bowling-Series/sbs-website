@@ -10,6 +10,13 @@ $(document).ready(function()
             $.cookie("viewedPopup-1", true);
             $('.popup').hide();
         });
+        $('.popup .continue').click(function ()
+        {
+            $.cookie("viewedPopup-1", true);
+            $('.popup').hide();
+            setTimeout(function (){window.location.href = "http://scratchbowling.pythonanywhere.com/support";},1000);
+
+        });
     }
     $(function() {
         var glower = $('.glow');

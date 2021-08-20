@@ -14,6 +14,7 @@ urlpatterns = [
     path('scoreboard/', include('scoreboard.urls')),
     path('broadcasts/', include('broadcasts.urls')),
     path('support/', include('support.urls')),
+    path('contact/', views.contact, name='contact'),
     path('merch/', include('merch.urls')),
     path('oil-patterns/', include('oils.urls')),
     path('about/', views.about, name='about'),
