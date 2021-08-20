@@ -1,5 +1,6 @@
 import json
 import os
+from itertools import islice
 
 from ScratchBowling.sbs_utils import is_valid_uuid
 from accounts.views import User
@@ -26,8 +27,17 @@ def Gather():
     User.objects.all().delete()
     datas = ReadJson()
     datas = json.loads(datas)
+    users = None
+    batch_size = 500
     for data in datas:
-        CreateUserFromList(data)
+        users.append(CreateUserFromList(data))
+
+    while True:
+        batch = list(islice(users, batch_size))
+        if not batch:
+            break
+        User.objects.bulk_create(batch, batch_size)
+
 
 def UserToList(user):
     usrlist = [
@@ -48,10 +58,11 @@ def CreateUserFromList(data):
         user.user_id = is_valid_uuid(data[0])
         user.first_name = data[1]
         user.last_name = data[2]
+        user.email = data[3]
         user.location_city = data[4]
         user.location_state = data[5]
         user.statistics = data[6]
-        user.save()
+        return user
 
 def ValidateUserList(usrlist):
     if usrlist[1] == None or usrlist[1] == '':
