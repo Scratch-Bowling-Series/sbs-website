@@ -25,7 +25,7 @@ def Transfer():
 
 def Gather():
     User.objects.all().delete()
-    return
+
     datas = ReadJson()
     datas = json.loads(datas)
     users = []
@@ -35,8 +35,11 @@ def Gather():
         if user:
             users.append(user)
 
+    count = 0
     while True:
-        batch = list(islice(users, batch_size))
+        count += 1
+        start = 0 + (batch_size * (count - 1))
+        batch = list(islice(users, start, batch_size * count))
         if not batch:
             break
         User.objects.bulk_create(batch, batch_size)
