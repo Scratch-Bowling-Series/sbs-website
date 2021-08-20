@@ -131,15 +131,15 @@ def accounts_signup_view(request):
                 'token': account_activation_token.make_token(user),
             })
             mail_subject = 'Scratch Series Bowling, Activate Account'
+            user.save()
             send_mail(
                 mail_subject,
                 ' ',
                 'christianjstarr@icloud.com',
                 [email],
-                fail_silently=False,
+                fail_silently=True,
                 html_message=message
             )
-            user.save()
             return render(request, 'homepage.html', {'nbar': 'home', 'notify': 'verify_email', 'first': user.first_name})
     else:
         form = RegisterForm()
