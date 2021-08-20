@@ -103,9 +103,6 @@ def accounts_modify_view(request):
 
 
 def accounts_login_view(request):
-    email = EmailMessage('Subject', 'Body', to=['cstarrfish27@gmail.com'], from_email='christianjstarr@icloud.com')
-    email.send()
-    print('Sent Email')
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
