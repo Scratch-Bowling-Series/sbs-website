@@ -28,22 +28,19 @@ def UpdateUsers():
         if not batch:
             break
         User.objects.bulk_create(batch, batch_size)
-    return 'Page # Queried: ' + page_number + 'Bowlers Added: ' + str(bowlers_added)
+    return 'Page # Queried: ' + str(page_number) + 'Bowlers Added: ' + str(bowlers_added)
 
 
-def get_account_urls(pages):
+def get_account_urls(page):
     urls = []
-    for x in range(0, pages):
-        with urlopen('http://www.scratchbowling.com/bowler-bios?page=' + str(x)) as response:
-            print('Scraping Bowler Page: (' + str(x) + '/' + str(pages) + ')')
-            soup = BeautifulSoup(response, 'lxml')
-            titles = soup.find_all(class_='views-field views-field-title')
-            if titles is not None:
-                for title in titles:
-                    title = title.find('a')
-                    if title is not None:
-                        urls.append('http://www.scratchbowling.com' + title.get('href'))
-    print('Fetched Urls. Amount: ' + str(len(urls)))
+    with urlopen('http://www.scratchbowling.com/bowler-bios?page=' + str(page)) as response:
+        soup = BeautifulSoup(response, 'lxml')
+        titles = soup.find_all(class_='views-field views-field-title')
+        if titles is not None:
+            for title in titles:
+                title = title.find('a')
+                if title is not None:
+                    urls.append('http://www.scratchbowling.com' + title.get('href'))
     return urls
 
 
