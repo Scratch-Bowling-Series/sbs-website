@@ -16,7 +16,7 @@ def UpdateUsers():
     bowlers_added = 0
     for url in urls:
         user = get_user_from_url(url)
-        if user:
+        if user and User.objects.filter(first_name=user.first_name, last_name=user.last_name, location_city=user.location_city, location_state=user.location_state).first() == None:
             bowlers_added += 1
             users.append(user)
 
