@@ -27,7 +27,7 @@ def Gather():
     User.objects.all().delete()
     datas = ReadJson()
     datas = json.loads(datas)
-    users = None
+    users = []
     batch_size = 500
     for data in datas:
         user = CreateUserFromList(data)
