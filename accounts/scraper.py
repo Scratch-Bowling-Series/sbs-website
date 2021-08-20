@@ -1,17 +1,17 @@
-import json
-import time
 from itertools import islice
+from random import randrange
 from urllib.request import urlopen
-
 from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
-
 from tournaments.tournament_scraper import convert_abr
+
+
 
 User = get_user_model()
 
 def UpdateUsers():
-    urls = get_account_urls(36)
+    page_number = randrange(34)
+    urls = get_account_urls(page_number)
     users = []
     bowlers_added = 0
     for url in urls:
@@ -19,7 +19,6 @@ def UpdateUsers():
         if user and User.objects.filter(first_name=user.first_name, last_name=user.last_name, location_city=user.location_city, location_state=user.location_state).first() == None:
             bowlers_added += 1
             users.append(user)
-
     batch_size = 500
     count = 0
     while True:
@@ -29,10 +28,7 @@ def UpdateUsers():
         if not batch:
             break
         User.objects.bulk_create(batch, batch_size)
-
-
-
-    return 'Bowlers Added: ' + str(bowlers_added)
+    return 'Page # Queried: ' + page_number + 'Bowlers Added: ' + str(bowlers_added)
 
 
 def get_account_urls(pages):
