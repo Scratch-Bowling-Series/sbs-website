@@ -30,7 +30,9 @@ def Gather():
     users = None
     batch_size = 500
     for data in datas:
-        users.append(CreateUserFromList(data))
+        user = CreateUserFromList(data)
+        if user:
+            users.append(user)
 
     while True:
         batch = list(islice(users, batch_size))
