@@ -60,7 +60,6 @@ def CreateUserFromList(data):
         user.user_id = is_valid_uuid(data[0])
         user.first_name = data[1]
         user.last_name = data[2]
-        user.email = data[3]
         user.location_city = data[4]
         user.location_state = data[5]
         user.statistics = data[6]
