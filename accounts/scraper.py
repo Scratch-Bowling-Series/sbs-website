@@ -33,6 +33,7 @@ def UpdateUsers():
 
 def get_account_urls(page):
     urls = []
+    page = 8
     with urlopen('http://www.scratchbowling.com/bowler-bios?page=' + str(page)) as response:
         soup = BeautifulSoup(response, 'lxml')
         titles = soup.find_all(class_='views-field views-field-title')
