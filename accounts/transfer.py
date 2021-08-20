@@ -25,6 +25,7 @@ def Transfer():
 
 def Gather():
     User.objects.all().delete()
+    return
     datas = ReadJson()
     datas = json.loads(datas)
     users = []
