@@ -32,7 +32,7 @@ def UpdateUsers():
 
 
 
-    return 'Bowlers Added: ' + str(bowlers_added) + '<br><br>' + 'Bowlers Skipped: ' + str(bowlers_skipped) + '<br><br>' + 'Total Bowlers: ' + str(total_bowlers)
+    return 'Bowlers Added: ' + str(bowlers_added)
 
 
 def get_account_urls(pages):
