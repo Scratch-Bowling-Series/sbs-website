@@ -24,6 +24,10 @@ body {
   font-size: 14px;
   position:relative;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
+  &.no-scroll{
+    position:fixed;
+    overflow:hidden;
+  }
 }
 a,
 span,
@@ -3177,33 +3181,50 @@ footer {
   }
 }
 
+
+
 .messenger {
   width: 70px;
   height: 70px;
   border-radius: 40px;
   position: fixed;
-  right: 30px;
-  bottom: 30px;
+  right:10px;bottom:10px;
   background: $color-darkgreen;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
   transition: width 0.5s, height 0.5s, background 0.25s, border-radius 0.5s;
-  display: none;
+  display: block;
 }
-.expand {
-  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  height: 400px;
-  width: 250px;
-  background: white;
-  .msg-icon {
-    opacity: 0;
+.expand-container{
+  display:none;
+  width:100%;height:calc(100vh - 140px);
+  min-width:calc(100vw - 60px);
+  .topbar{
+    height:55px;
+    position:absolute;
+    left:0;right:0;top:0;
+    background:$color-darkgreen;
+    border-radius:10px 10px 0 0;
+    .title{
+      font-size:20px;
+      line-height:1em;
+      padding:20px;
+      color:white;
+      display:block;
+    }
   }
-  .msg-notify {
-    display: none;
-  }
-  #msg-close {
-    display: block;
-    opacity: 1;
+  .scroll-content{
+    text-align:center;
+    .no-friends{
+      font-size:30px;
+      max-width:70%;
+      display:block;
+      opacity:0.5;
+      text-align:center;
+      margin:20vh auto 40px auto;
+    }
+    .add-friend{
+      text-align:center;
+    }
   }
 }
 .msg-icon {
@@ -3247,17 +3268,78 @@ footer {
   right: 0;
   top: 0;
   display: block;
-  font-size: 14px;
-  color: $color-lightgreen;
+  font-size: 20px;
+  color: white;
   display: none;
   opacity: 0;
   line-height: 15px;
-  width: 14px;
-  height: 14px;
-  padding: 2.5px;
+  width: 20px;
+  height: 20px;
+  padding: 20px;
   text-align: center;
-  margin: 10px;
 }
+.messenger-wrap{
+  position:fixed;
+  width:80px;
+  height:80px;
+  right:0;bottom:0;
+  overflow:hidden;
+  z-index:9000;
+  &.expand{
+    right:0px;left:0px;
+    bottom:0px;top:0px;
+    width:100%;
+    height:calc(100vh - 114px);
+    background:rgba(0,0,0,0.5);
+    user-select:default;
+    .messenger{
+      position:absolute;
+      width:calc(100% - 20px);
+      height:calc(100vh - 134px);
+      border-radius:10px;
+      overflow:hidden;
+      background:white;
+    }
+
+
+    .expand-container{
+      display:block;
+      position:absolute;
+      top:0;left:0;right:0;bottom:0;
+      z-index:9001;
+    }
+    .msg-icon {
+      opacity: 0;
+    }
+    .msg-notify {
+      display: none;
+    }
+    #msg-close {
+      display: block;
+      opacity: 1;
+      z-index:9002;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .oil-sec-wrap {
   width: 100%;

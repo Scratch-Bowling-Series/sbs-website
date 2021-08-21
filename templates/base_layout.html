@@ -185,13 +185,34 @@
     </div>
 
     <!-- Messenger -->
-    <div class="messenger">
-      <i class=" msg-icon icon-paper-plane"></i>
-      <div class="msg-notify">
-          <i class="msg-notify-icon">5</i>
-      </div>
-      <i id="msg-close" class="icon-times"></i>
-  </div><div style="background-color:#efefef;width:calc(100% - 40px);height:auto;margin:20px;border-radius:10px;"></div>
+    {% if request.user.is_authenticated %}
+    <div class="messenger-wrap expand">
+        <div class="messenger">
+          <i class=" msg-icon icon-paper-plane"></i>
+          <div class="msg-notify">
+              <i class="msg-notify-icon">5</i>
+          </div>
+          <div class="expand-container">
+            <div class="topbar">
+                <a class="title">MESSENGER</a>
+            </div>
+              <div class="scroll-content">
+                  {% if online_friends != None %}
+                  {% endif %}
+                  {% if offline_friends != None %}
+                  {% endif %}
+                  {% if offline_friends == None and online_friends == None %}
+                    <a class="no-friends">WE'RE SORRY...<br><br>YOU DON'T HAVE ANY FRIENDS</a>
+                  <a class="btn add-friend close-messenger" href="{% url 'bowlers:bowlers' %}">FIND FRIENDS</a>
+                  {% endif %}
+              </div>
+        </div>
+        <i id="msg-close" class="icon-times"></i>
+        </div>
+    </div>
+    {% endif %}
+
+    <script src="{% static 'js/messenger.js' %}"></script>
     <script src="{% static 'js/refresher.js' %}"></script>
 
     <!-- Footer -->

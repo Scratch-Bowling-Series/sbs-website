@@ -32,30 +32,7 @@ $(document).ready(function() {
             $('#nav-icon3').removeClass('open');
         }
     });
-    var msg_closed = true;
-    $('.msg-icon').click(function(){
-        if(msg_closed)
-        {
-            msg_closed = false;
-            $('.messenger').addClass('expand');
-        }
-        else
-        {
-            msg_closed = true;
-            $('.messenger').removeClass('expand');
-        }
-    });
-    $('#msg-close').click(function(){
-        if(msg_closed)
-        {
-            msg_closed = false;
-            $('.messenger').addClass('expand');
-        }
-        else
-        {
-            msg_closed = true;
-            console.log('close');
-            $('.messenger').removeClass('expand');
-        }
-    });
+
+
+
 });
