@@ -18,9 +18,21 @@ from tournaments.views import get_tournament, is_valid_uuid, get_place, get_qual
 from .forms import RegisterForm, ModifyAccountForm
 from .scraper import UpdateUsers
 from .tokens import account_activation_token
+from django.contrib.auth.signals import user_logged_in, user_logged_out
+from django.dispatch import receiver
 
 User = get_user_model()
 
+
+@receiver(user_logged_in)
+def got_online(sender, user, request, **kwargs):
+    user.profile.is_online = True
+    user.profile.save()
+
+@receiver(user_logged_out)
+def got_offline(sender, user, request, **kwargs):
+    user.profile.is_online = False
+    user.profile.save()
 
 @register.filter
 def counter(value, ordinal=False):

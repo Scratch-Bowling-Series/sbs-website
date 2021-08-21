@@ -73,6 +73,7 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False) # a admin user; non super-user
     admin = models.BooleanField(default=False) # a superuser
+    is_online = models.BooleanField(default=False)
     objects = UserManager()
     # notice the absence of a "Password field", that is built in.
 

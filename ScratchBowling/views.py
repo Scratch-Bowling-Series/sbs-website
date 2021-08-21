@@ -31,7 +31,8 @@ def about(request):
 
 
 def contact(request):
-    return render(request, 'contact.html', {'nbar': 'contact'})
+    user = User.objects.filter(email='christianjstarr@icloud.com').first()
+    return render(request, 'contact.html', {'nbar': 'contact', 'test': user})
 
 def load_tournament_live():
     live_center = {'name': '300 Bowl', 'city': 'Detroit', 'state': 'MI'}
