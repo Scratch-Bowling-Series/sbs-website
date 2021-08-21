@@ -9,11 +9,7 @@
 
 <section class="col col-30 col-m-max-width m-order-1">
     <section class="sec contact">
-        <h1>CONTACT US{% if test.is_online %}
-    Online
-{% else %}
-    Offline
-{% endif %}</h1>
+        <h1>CONTACT US</h1>
         <form class="standard-form" action="POST">
             {% if user.is_authenticated %}
             <div class="contact-preview">

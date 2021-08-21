@@ -4,7 +4,7 @@
 
 <section class="col col-20 col-m-max-width m-order-1">
 </section>
-<section class="col col-60 col-m-max-width m-order-3">
+<section class="col col-60 col-m-max-width m-order-2">
     <section class="tournament-topbar">
         <section class="tournament-view-selector std-radius">
             {% if selected_upcoming == True %}
@@ -117,7 +117,7 @@
     </section>
     {% endif %}
 </section>
-<section class="col col-20 col-m-max-width m-order-2">
+<section class="col col-20 col-m-max-width m-order-3">
     <section class="sec desktop-on">
         <h3 class="tournament-filter-header standard-title text-dark-green">FILTERS</h3>
         <div class="tournament-filter-container">
@@ -149,11 +149,15 @@
             </div>
         </div>
     </section>
-    {% if request.user is not None and request.user.admin == True %}
-    <section class="sec">
-        <h3 class="standard-title text-dark-green">ADMIN FUNCTIONS</h3>
-        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen">CREATE TOURNAMENT</a>
-        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen" style="margin-top:0;">VIEW DEEP STATS</a>
+    {% if selected_upcoming == True %}
+    <section class="sec sitestat">
+        <div class="sitestat-half">
+          <a>TOURNAMENTS</a>
+          <h2>{% if tournaments_count is None %}0{% else %}{{ tournaments_count }}{% endif %}</h2>
+        </div><div class="sitestat-half">
+          <a>UPCOMING</a>
+          <h2>{% if upcoming_count is None %}0{% else %}{{ upcoming_count }}{% endif %}</h2>
+        </div>
     </section>
     {% endif %}
 </section>

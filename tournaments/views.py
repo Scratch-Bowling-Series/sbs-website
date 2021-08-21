@@ -310,15 +310,27 @@ def make_ordinal(n):
 
 def tournaments_results_views(request):
     selected_upcoming = False
+    tournaments_count = Tournament.objects.all().count()
+    upcoming_count =Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time()).count()
     tournaments_past = Tournament.objects.filter(tournament_date__lte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__gt=datetime.now().time())
-    return render(request, 'tournaments/main-tournaments.html', {'nbar': 'tournaments', 'tournaments_past': tournaments_past, 'selected_upcoming':selected_upcoming})
+    return render(request, 'tournaments/main-tournaments.html', {'nbar': 'tournaments',
+                                                                 'tournaments_past': tournaments_past,
+                                                                 'selected_upcoming':selected_upcoming,
+                                                                 'tournaments_count': tournaments_count,
+                                                                 'upcoming_count': upcoming_count,
+                                                                 })
 
 
 def tournaments_upcoming_views(request):
-
     selected_upcoming = True
+    tournaments_count = Tournament.objects.all().count()
     tournaments_upcoming = Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time())
-    return render(request, 'tournaments/main-tournaments.html', {'nbar': 'tournaments', 'tournaments_upcoming': tournaments_upcoming, 'selected_upcoming':selected_upcoming})
+    return render(request, 'tournaments/main-tournaments.html', {'nbar': 'tournaments',
+                                                                 'tournaments_upcoming': tournaments_upcoming,
+                                                                 'selected_upcoming':selected_upcoming,
+                                                                 'upcoming_count': tournaments_upcoming.count(),
+                                                                 'tournaments_count': tournaments_count
+                                                                 })
 
 
 def tournaments_view_views(request, id):

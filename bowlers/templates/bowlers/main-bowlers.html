@@ -2,6 +2,9 @@
 {% load static %}
 {% block content %}
 
+
+
+
 <section class="col col-20 col-m-max-width m-order-2">
     <section class="sec">
     <h2>TOP 10 SBS RANKING</h2>
@@ -47,7 +50,7 @@
             <a>50 / PAGE <i class="icon-angle-down"></i></a>
         </section>
         <section class="account-count std-radius">
-            <input type="checkbox" checked><a>SHOW STATS</a>
+            <input id="bowlers-show-stats" type="checkbox"><a>SHOW STATS</a>
         </section>
     </section>
     <section class="sec account-list">
@@ -136,5 +139,23 @@
         </div>
       </section>
 </section>
+<script>
+    $(document).ready(function() {
+    //set initial state.
 
+    $('#bowlers-show-stats').change(function() {
+        console.log('checked');
+        if(this.checked) {
+            $('.account-stats').show();
+            $('.account-container').css('margin-top', '0px');
+            $('.account-preview').css('height', '120px');
+        }
+        else{
+            $('.account-stats').hide();
+            $('.account-container').css('margin-top', '20px');
+            $('.account-preview').css('height', '100px');
+        }
+    });
+});
+</script>
 {% endblock %}

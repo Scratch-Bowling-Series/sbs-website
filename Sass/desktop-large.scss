@@ -3618,7 +3618,13 @@ footer
     }
   }
 }
-
+.account-topbar {
+  width: calc(100% - 20px);
+  height: auto;
+  display: inline-block;
+  text-align: left;
+  margin: 10px 10px 10px 10px;
+}
 
 .contact{
   text-align:center;

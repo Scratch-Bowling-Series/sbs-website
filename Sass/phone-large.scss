@@ -3484,7 +3484,7 @@ footer {
 }
 .account-preview{
   display:inline-block;
-  width:calc(100% - 20px);height:120px;
+  width:calc(100% - 20px);height:100px;
   border-radius: 10px;
   vertical-align: top;
   position: relative;
@@ -3553,6 +3553,7 @@ footer {
       text-align:center;
     }
   }
+  display:none;
 }
 .account-view{
   position:absolute;
@@ -3565,6 +3566,7 @@ footer {
   margin:0;
   width:70%;
   font-size:0;
+  margin-top:20px;
 }
 .account-half-width{width:70.5%;}
 .account-full-width{width:85%;}
