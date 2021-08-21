@@ -276,3 +276,10 @@ def accounts_remove_view(request, id):
 def accounts_scraper_view(request):
     data = UpdateUsers()
     return HttpResponse(str(data))
+
+
+
+def get_amount_online():
+    return User.objects.filter(is_online=True).count()
+
+

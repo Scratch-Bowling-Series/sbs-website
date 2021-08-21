@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import render
 
 from ScratchBowling.views import load_bowler_of_month
+from accounts.views import get_amount_online
 
 User = get_user_model()
 
@@ -14,7 +15,7 @@ def bowlers_views(request):
         if bowler[1] != None:
             bowlers.append(bowler)
 
-    return render(request, 'bowlers/main-bowlers.html', {'nbar': 'bowlers', 'bowlers': bowlers, 'bowlers_count': bowlers_count,'bowler_of_month': load_bowler_of_month()})
+    return render(request, 'bowlers/main-bowlers.html', {'nbar': 'bowlers', 'bowlers': bowlers, 'bowlers_count': bowlers_count,'bowler_of_month': load_bowler_of_month(), 'online_count': get_amount_online()})
 
 
 
