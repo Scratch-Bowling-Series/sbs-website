@@ -55,6 +55,7 @@ h2 {
   font-family: $font-primary;
   font-size: 22px;
   color: $color-darkgreen;
+  text-transform:uppercase;
 }
 h3 {
   margin: 0;
@@ -74,9 +75,6 @@ h4 {
 }
 p {
   font-size: 16px;
-}
-a:first-letter {
-    text-transform: uppercase;
 }
 
 
@@ -1506,6 +1504,13 @@ footer {
 .standard-form-dexterity-left,
 .standard-form-dexterity-right {
   margin: 10px 0;
+  input{
+    appearance: none;
+    -webkit-appearance:none;
+    &:focus{outline:none;}
+    &:checked{outline:none;}
+    border:none;
+  }
 }
 .standard-form-dexterity-left {
   position: relative;
@@ -1523,7 +1528,7 @@ footer {
     bottom: 0;
     width: 100%;
     height: 100%;
-    appearance: none;
+    
   }
   i {
     position: absolute;
@@ -1535,6 +1540,10 @@ footer {
     padding: 7px;
     margin: 0;
     vertical-align: top;
+    color: $color-tan;
+  }
+  .hand-off {
+    color: #3d3d3d;
   }
 }
 .standard-form-dexterity-right {
@@ -1565,6 +1574,10 @@ footer {
     padding: 7px;
     margin: 0;
     vertical-align: top;
+    color: $color-tan;
+  }
+  .hand-off {
+    color: #3d3d3d;
   }
 }
 .standard-form-dexterity-text {
@@ -1577,6 +1590,7 @@ footer {
   vertical-align: top;
   padding: 18px 14px;
 }
+
 
 /*****************************
   BOWLER - PROFILE
@@ -1623,9 +1637,7 @@ footer {
   font-size: 16px;
   padding: 0 0 0 10px;
 }
-.hand-off {
-  color: #3d3d3d;
-}
+
 .my-account-rank-label {
   font-family: $font-primary;
   font-size: 22px;

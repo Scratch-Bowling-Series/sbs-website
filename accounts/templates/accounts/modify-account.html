@@ -2,41 +2,44 @@
 {% load static %}
 {% block content %}
 <script src="{% static 'js/account-modify-form.js' %}"></script>
-<div class="standard-form standard-border">
-  <h3 class="standard-form-header">Modify your Account</h3>
-  <form class="site-form" action="{% url 'accounts:modify' %}" method="POST" enctype='multipart-formdata'>
-    {% csrf_token %}
-    {% for field in form %}
-      {% for error in field.errors %}
-      <p><i class="icon-exclamation-circle"></i>{{ error }}</p>
-      {% endfor %}
-    {% endfor %}
-    <label class="standard-form-label">PROFILE BIO</label>
-    {{ form.bio }}
-    <label class="standard-form-label">PICTURE</label>
-    <label for="id_picture" class="standard-form-file-upload" >
-      <i class="icon-cloud-upload"></i>&nbsp;&nbsp;Select File to be Uploaded
-    </label>
-    {{ form.picture }}
-    <label class="standard-form-label">STREET</label>
-    {{ form.location_street }}
-	<label class="standard-form-label">CITY</label>
-    {{ form.location_city }}
-	<label class="standard-form-label">STATE</label>
-    {{ form.location_state }}
-    <label class="standard-form-label">ZIP CODE</label>
-    {{ form.location_zip }}
+<div class="col col-30 col-m-max-width">
+  <section class="sec">
+      <h2>Modify your Account</h2>
+      <form class="standard-form" action="{% url 'accounts:modify' %}" method="POST" enctype='multipart-formdata'>
+        {% csrf_token %}
+        {% for field in form %}
+          {% for error in field.errors %}
+          <p><i class="icon-exclamation-circle"></i>{{ error }}</p>
+          {% endfor %}
+        {% endfor %}
+        <label class="standard-form-label">PROFILE BIO</label>
+        {{ form.bio }}
+        <label class="standard-form-label">PICTURE</label>
+        <label for="id_picture" class="standard-form-file-upload" >
+          <i class="icon-cloud-upload"></i>&nbsp;&nbsp;Select File to be Uploaded
+        </label>
+        {{ form.picture }}
+        <label class="standard-form-label">STREET</label>
+        {{ form.location_street }}
+        <label class="standard-form-label">CITY</label>
+        {{ form.location_city }}
+        <label class="standard-form-label">STATE</label>
+        {{ form.location_state }}
+        <label class="standard-form-label">ZIP CODE</label>
+        {{ form.location_zip }}
 
-    <label class="standard-form-label">DEXTERITY</label>
-    <div class="standard-form-dexterity-left"><i class="my-account-hand my-account-left-hand icon-hand-paper"></i>
-      {{ form.left_handed }}
-    </div>
-    <div class="standard-form-dexterity-right"><i class="my-account-hand icon-hand-paper hand-off"></i>
-      {{ form.right_handed }}
-    </div>
-    <a class="standard-form-dexterity-text">LEFT HANDED</a><br>
-    &nbsp;
-    <input type="submit" id="id_submit" name="" value="UPDATE">
-  </form>
+        <label class="standard-form-label">DEXTERITY</label>
+        <div class="standard-form-dexterity-left"><i class="my-account-hand my-account-left-hand icon-hand-paper"></i>
+          {{ form.left_handed }}
+        </div>
+        <div class="standard-form-dexterity-right"><i class="my-account-hand icon-hand-paper hand-off"></i>
+          {{ form.right_handed }}
+        </div>
+        <a class="standard-form-dexterity-text">LEFT HANDED</a><br>
+        &nbsp;
+        <input class="btn" type="submit" id="id_submit" name="" value="UPDATE">
+      </form>
+  </section>
+
 </div>
 {% endblock %}
