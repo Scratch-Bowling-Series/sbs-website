@@ -13,7 +13,7 @@ class Page:
 def create_page_obj(current, per, total):
     next = current + 1
     prev = current - 1
-    last = total / per
+    last = int(total / per)
     first = 1
     group = round(current / 6) + 1
     group *= 6
