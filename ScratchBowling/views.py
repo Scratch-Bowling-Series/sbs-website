@@ -7,6 +7,7 @@ from check_git import get_last_commit
 from scoreboard.ranking import get_top_rankings
 from support.donation import get_donation_count
 from tournaments.models import Tournament
+from tournaments.tournament_scraper import scrape_tournaments_task
 
 User = get_user_model()
 
@@ -85,3 +86,11 @@ def has_content_changed(request):
     return HttpResponse(str(data))
 
 
+
+
+def scrape_tournaments(request):
+    output = scrape_tournaments_task()
+    return HttpResponse(output)
+
+def scrape_bowlers(request):
+    return None

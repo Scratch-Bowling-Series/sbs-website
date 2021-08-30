@@ -13,7 +13,7 @@ from oils.oil_pattern import update_oil_pattern_library, get_oil_display_data
 from tournaments.forms import CreateTournament, ModifyTournament
 from tournaments.models import Tournament
 from oils.oil_pattern_scraper import get_oil_colors
-from tournaments.tournament_scraper import scrape_tournaments, scrape_bowlers
+from tournaments.tournament_scraper import scrape_bowlers
 from tournaments.transfer import TransferT, Gather
 
 
@@ -433,8 +433,7 @@ def get_tournament(uuid):
 def scrape_old_site():
     return None
 
-def scraper_views(request):
-    return HttpResponse(scrape_tournaments())
+
 
 
 def scraper_bowlers_views(request):

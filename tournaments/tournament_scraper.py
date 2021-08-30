@@ -101,7 +101,7 @@ def convert_tournaments(jsonstr):
     return assign_players()
 
 
-def scrape_tournaments():
+def scrape_tournaments_task():
     urls = get_page_urls()
     tournaments = []
     amount = 0

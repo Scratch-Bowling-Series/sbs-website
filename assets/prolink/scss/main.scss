@@ -50,7 +50,212 @@ $color-5:invert($color-5, $lighten-percentage);
 $color-6:invert($color-6, $lighten-percentage);
 $color-7:invert($color-7, $lighten-percentage);
 
+nav 
+{
+  width: 100%;height: 65px;
+  margin: 25px auto 0 auto;
+  position: relative;
+  background: $color-darkgreen;
+}
+.nav-account 
+  {
+    position: absolute;
+    right: 0;
+    text-align: right;
+    display:inline-block;
+    height:65px;
+    vertical-align: top;
+    margin:0 10px;
+    width:auto;
+    a {
+      float:none;
+      display: inline-block;
+      margin:12.5px 5px 12.5px 0px;
+      border-color:white;
+      color:white;
 
+    }
+    .nav-account-offset
+    {
+    color:$color-lightgreen;
+      background:white;
+    }
+  }
+.nav-buttons 
+  {
+    width: auto;
+    height:65px;
+    margin: 0 auto;
+    text-align: left;
+    display: inline-block;
+    vertical-align:top;
+    position:relative;
+  }
+.nav-button
+  {
+    display: inline-block;
+    height:65px;
+    margin:0px 5px;
+    vertical-align:top;
+    position:relative;
+    a {
+      display: block;
+      font-size: 18px;
+      line-height:18px;
+      padding: 12px 10px;
+      margin:12px 0;
+      color: white;
+      &:hover, &:focus 
+      {
+        color: white;
+      }
+    }
+    .active {
+      color: white;
+    }
+    span
+    {
+      height:20px;
+      width:20px;
+      margin:0 auto;padding:0;
+      display:block;
+      color:white;
+      transform:rotate(45deg);
+      position:absolute;
+      right:0;left:0;
+      bottom:-10px;
+      background:white;
+      display:none;
+    }
+  }
+.nav-button-drop
+  {
+    display:none;
+    border:solid 3px $color-darkgreen;
+    border-top:none;
+    border-radius:0 0 10px 10px;
+    background:white;
+    position:absolute;
+    bottom:185px;top:65px;
+    height:120px;
+    right:-3px;left:-3px;
+    text-align:center;
+    z-index:1000;
+    a
+    {
+      width:100%;
+      display:inline-block;
+      padding:10px 0 0 0;
+      color:$color-lightgreen;
+      &:hover
+      {
+        color:$color-darkgreen;
+      }
+    }
+  }
+.nav-button:hover .nav-button-drop, .nav-button:hover span
+  {
+    display:block;
+  }
+.nav-dropdown
+  {
+    vertical-align: top;
+    height:65px;
+    display: inline-block;
+    overflow: hidden;
+    margin-left:30px;
+    i
+    {
+      color:white;
+      font-size:5px;
+      padding:33px 2px;
+    }
+  }
+.nav-search
+  {
+    height:65px;
+    margin:0 5px 0 0;
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+    width:auto;
+    min-width: 350px;
+  }
+.nav-search input[type=text]
+  {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    appearance: none;
+    border:none;
+    -webkit-appearance:none;
+    height:40px;
+    margin:12.5px 0;
+    width:69%;
+    display: inline-block;
+    border-radius:20px 0 0 20px;
+    vertical-align: top;
+    background:white;
+    text-align: left;
+    font-size:14px;
+    padding-left:20px;
+    &::-webkit-input-placeholder
+    {
+      color:grey;
+      font-size:12px;
+      font-family: $font-primary-light;
+    }
+    &:focus
+    {
+      appearance:none;
+      outline: none;
+    }
+  }
+.nav-search input[type=submit]
+  {
+    font-size:16px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    appearance: none;
+    border:none;
+    -webkit-appearance:none;
+    height:40px;
+    width:29%;
+    margin:12.5px 0;
+    display: inline-block;
+    border-radius:0 20px 20px 0;
+    color:$color-lightgreen;
+    overflow: hidden;
+    vertical-align: top;
+    padding:10px 10px 12px 8px;
+    background:white;
+    line-height: 16px;
+    font-family: $font-primary;
+  }
+#nav-drop-buttons
+  {
+    position: absolute;
+    right:0;top:0;
+    width:35px;height:25px;
+    margin:20px 20px;
+    vertical-align: top;
+    overflow: hidden;
+    display: none;
+    span
+    {
+      display:block;
+      width:100%;
+      height:4px;
+      background:white;
+      margin-bottom:6px;
+    }
+  }
+.nav-account-donate
+  {
+    padding:11px 20px 13px 20px;
+    border:none;
+    background:$color-tan;
+    color:#3d3d3d;
+  }
 
 
 body{

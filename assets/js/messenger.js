@@ -3,51 +3,41 @@ $(document).ready(function(){
 
 
     $('.msg-icon').click(function(){
-        if(msg_closed)
-        {
-            msg_closed = false;
-            $('.messenger-wrap').addClass('expand');
-            $('body').addClass('no-scroll');
-        }
-        else
-        {
-            msg_closed = true;
-            $('.messenger-wrap').removeClass('expand');
-            $('body').removeClass('no-scroll');
-        }
+        SetMessenger(!msg_closed);
     });
     $('#msg-close').click(function(){
-        if(msg_closed)
-        {
-            msg_closed = false;
-            $('.messenger-wrap').addClass('expand');
-            $('body').addClass('no-scroll');
-        }
-        else
-        {
-            msg_closed = true;
-            $('.messenger-wrap').removeClass('expand');
-            $('body').removeClass('no-scroll');
-        }
+        SetMessenger(!msg_closed);
     });
     $('.close-messenger').click(function(){
-        if(msg_closed)
-        {
-            msg_closed = false;
-            $('body').addClass('no-scroll');
-            $('.messenger-wrap').addClass('expand');
-        }
-        else
-        {
-            msg_closed = true;
-            $('body').removeClass('no-scroll');
-            $('.messenger-wrap').removeClass('expand');
-        }
+        SetMessenger(!msg_closed);
     });
+
+    function SetMessenger(activate) {
+        if (activate){
+            msg_closed = true;
+            $('.messenger-wrap').removeClass('expand');
+            $('body').removeClass('no-scroll');
+            $('.messenger-wrap').height(80);
+            $('.messenger-wrap .messenger').height(70);
+        }
+        else{
+            msg_closed = false;
+            $('.messenger-wrap').addClass('expand');
+            $('body').addClass('no-scroll');
+            var value = window.innerHeight;
+
+            $('.messenger-wrap').height(value);
+            $('.messenger-wrap .messenger').height(value - 20);
+        }
+    }
+
 
     UpdateMain();
     setInterval(UpdateMain(), 15000);
     function UpdateMain(){
         console.log('Updating Messenger');
     }
+
+
+
 });

@@ -10,7 +10,5 @@ urlpatterns = [
     path('results', views.tournaments_results_views, name='results'),
     path('create', views.tournaments_create_views, name='create'),
     path('view/<id>', views.tournaments_view_views, name='view'),
-    path('modify/<id>', views.tournaments_modify_views, name='modify'),
-    path('scraper', views.scraper_views, name='scraper'),
-    path('scraper/bowlers', views.scraper_bowlers_views, name='bowlers')
+    path('modify/<id>', views.tournaments_modify_views, name='modify')
 ]

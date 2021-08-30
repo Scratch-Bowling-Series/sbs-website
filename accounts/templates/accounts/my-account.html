@@ -4,6 +4,7 @@
 
 <script src="{% static 'js/profile-counters.js' %}"></script>
 <script src="{% static 'js/account-view-align.js' %}"></script>
+<script src="{% static 'js/three.js' %}"></script>
 
 <section class="col col-20 col-m-max-width">
    <section class="profile-prev sec my-account-top-height">
@@ -82,7 +83,7 @@
    </section>
 </section>
 
-{% if rank_data.total_games_year > 0 %}
+{% if rank_data.total_games_year > 0  or True == True%}
 <section class="col col-40 col-m-max-width">
    <div class="sec my-account-top-height stats-grid">
       <h1>2021 SEASON STATS</h1>
@@ -138,7 +139,7 @@
 
 {% endif %}
 
-{% if tournaments_length > 0  %}
+{% if tournaments_length > 0  or True == True%}
 <section class="col col-100 col-m-max-width">
    <section class="sec">
       <h1>CAREER STATS</h1>
@@ -201,6 +202,7 @@
    <section class="sec profile-medals">
       <h1>MEDALS</h1>
       <p class="profile-none">NOT AVAILABLE IN ALPHA</p>
+      <x-model src="{% static 'model.fbx' %}"></x-model>
    </section>
 </section>
 

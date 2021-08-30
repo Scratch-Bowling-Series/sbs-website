@@ -21,7 +21,9 @@ urlpatterns = [
     path('prolink/', include('prolink.urls')),
     path('admin/', admin.site.urls),
     path('account/', include('accounts.urls')),
-    path('get-last-commit/', views.has_content_changed)
+    path('get-last-commit/', views.has_content_changed),
+    path('scrape/tournaments/', views.scrape_tournaments, name='scrape_tournaments'),
+    path('scrape/bowlers/', views.scrape_bowlers, name='scrape_bowlers'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

@@ -32,6 +32,17 @@
       <script src="{% static 'js/popup.js' %}"></script>
 
   </head>
+  <script>
+    $(document).ready(function(){
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        //$('body').addClass('dark-mode');
+        console.log('dark-mode');
+      }
+      else{
+        $('body').removeClass('dark-mode');
+      }
+    });
+  </script>
   <body>
     <!-- Fonts -->
   	<style type="text/css">
@@ -136,10 +147,10 @@
                         <a href="/bowlers/">BOWLERS</a><span class="nav-btn-underline {% if nbar == 'bowlers' %}active{% endif %}"></span>
                         <a href="/centers/">CENTERS</a><span class="nav-btn-underline {% if nbar == 'centers' %}active{% endif %}"></span>
                         <a href="/contact/">CONTACT</a><span class="nav-btn-underline {% if nbar == 'contact' %}active{% endif %}"></span>
-                        {% if request.user != None and request.user.admin or True == True %}
+                        {% if request.user != None and request.user.admin %}
                         <a style="color:red;opacity:0.5;font-size:14px;width:100%;text-align:center;padding-left:0;padding-top:10px;cursor:default;">[ADMIN FUNCTIONS]</a>
-                        <a href="/bowlers/" style="color:red;opacity:0.5;">SCRAPE BOWLERS</a><span class="nav-btn-underline {% if nbar == 'bowlers' %}active{% endif %}"></span>
-                        <a href="/centers/" style="color:red;opacity:0.5;">SCRAPE TOURNAMENTS</a><span class="nav-btn-underline {% if nbar == 'centers' %}active{% endif %}"></span>
+                        <a href="/scrape/bowlers/" style="color:red;opacity:0.5;">SCRAPE BOWLERS</a><span class="nav-btn-underline {% if nbar == 'bowlers' %}active{% endif %}"></span>
+                        <a href="/scrape/tournaments/" style="color:red;opacity:0.5;">SCRAPE TOURNAMENTS</a><span class="nav-btn-underline {% if nbar == 'centers' %}active{% endif %}"></span>
                         <a href="/contact/" style="color:red;opacity:0.5;">SYSTEM STATUS</a><span class="nav-btn-underline {% if nbar == 'contact' %}active{% endif %}"></span>
                         {% endif %}
                     </div>
