@@ -98,7 +98,7 @@
     <section class="sec tournaments-list">
         {% for tournament in tournaments_past %}
         <section class="tournament-preview">
-            <img class='tournament-image' src="{{ tournament.sponsor_image }}"><!--
+            <img class='tournament-image' src="/media/{{ tournament.sponsor_image }}"><!--
             --><div class="tournament-container tournament-full-width">
             <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">{{ tournament.tournament_name }}</a><!--
             {% if tournament|winner == None %}

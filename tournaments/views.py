@@ -315,8 +315,7 @@ def tournaments_results_views(request):
     tournaments_past = Tournament.objects.filter(tournament_date__lte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__gt=datetime.now().time())
     reallist = []
     for tournament in tournaments_past:
-        tournament.sponsor_image = 'sponsors/cards/sbs-card.png'
-        tournament.save()
+        
         qualifying = get_qualifying_object(tournament)
         if qualifying != None and len(qualifying) > 0:
             reallist.append(tournament)
