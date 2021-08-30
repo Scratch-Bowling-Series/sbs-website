@@ -24,6 +24,8 @@ def create_page_obj(current, per, total):
     if group > last + 6:
         group = last + 6
 
+    group = int(group)
+
     pagelinks = [first, prev, group - 5, group - 4, group - 3, group - 2, group - 1, group, next, last]
 
     nextoff = ''
