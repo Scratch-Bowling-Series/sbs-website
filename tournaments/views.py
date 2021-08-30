@@ -313,6 +313,12 @@ def tournaments_results_views(request):
     tournaments_count = Tournament.objects.all().count()
     upcoming_count =Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time()).count()
     tournaments_past = Tournament.objects.filter(tournament_date__lte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__gt=datetime.now().time())
+    reallist = []
+    for tournament in tournaments_past:
+        qualifying = get_qualifying_object(tournament)
+        if qualifying != None and len(qualifying) > 0:
+            reallist.append(tournament)
+    tournaments_past = reallist
     return render(request, 'tournaments/main-tournaments.html', {'nbar': 'tournaments',
                                                                  'tournaments_past': tournaments_past,
                                                                  'selected_upcoming':selected_upcoming,

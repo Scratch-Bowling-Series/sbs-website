@@ -3,6 +3,8 @@ import time
 import uuid
 from datetime import datetime
 from urllib.request import urlopen
+
+from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
 from accounts.forms import User
 from tournaments.models import Tournament
