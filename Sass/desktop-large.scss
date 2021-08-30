@@ -1,17 +1,20 @@
-
 $color-darkgreen: #214031;
-
 $color-lightgreen: #2e5945;
-
 $color-tan: #d9af62;
-
-$color-tan-light: lighten(#d9af62, 20%);
+$color-tan-light: lighten($color-tan, 20%);
+$color-white: #fff;
+$color-grey: #d6d6d6;
+$color-lightgrey: #e8e8e8;
 
 $font-primary: tt_octosquares_condensedbold;
 $font-primary-bold: tt_octosquares_condensedbold;
 $font-primary-light: tt_octosquares_condensedMd;
 $font-primary-italic: tt_octosquares_condensedIt;
 $font-secondary: helvetica;
+
+$nav-logo-filter: invert(20%) sepia(19%) saturate(958%) hue-rotate(99deg) brightness(94%) contrast(90%);
+$footer-logo-filter: invert(99%) sepia(1%) saturate(2%) hue-rotate(307deg) brightness(110%) contrast(101%);
+
 
 /*****************************
          TAG PRESETS 
@@ -113,6 +116,7 @@ nav
 {
   height: 50px;width:auto!important;
   padding:8px 0 15px 0;
+  filter:$nav-logo-filter;
 }
 .nav-logo-f
 {
@@ -361,6 +365,7 @@ footer
     margin:12.5px 0;
     width:auto!important;
     display:inline-block;
+    filter:$footer-logo-filter;
   }
   a{
     display: inline-block;
@@ -1997,20 +2002,11 @@ footer
 .tournament-image
 {
   display: inline-block;
-  height:60px;width:13%;
-  margin:0;
+  height:auto!important;width:10%;
+  margin:5px 1.5%;
   vertical-align: top;
   position:relative;
-  img
-  {
-    position:absolute;
-    left:10px;
-    height:45px;
-    width:auto!important;
-    display:block;
-    top:0;
-    margin:7.5px auto;
-  }
+
 }
 .tournament-button
 {

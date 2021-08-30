@@ -7,6 +7,8 @@ from uuid import UUID
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaulttags import register
+
+from ScratchBowling.pages import create_page_obj
 from centers.models import Center
 from accounts.forms import User
 from oils.oil_pattern import update_oil_pattern_library, get_oil_display_data
@@ -308,23 +310,29 @@ def make_ordinal(n):
     return str(n) + suffix
 
 
-def tournaments_results_views(request):
+def tournaments_results_views(request, page=1):
+    per_page = 20
     selected_upcoming = False
     tournaments_count = Tournament.objects.all().count()
-    upcoming_count =Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time()).count()
+    upcoming_count = Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time()).count()
     tournaments_past = Tournament.objects.filter(tournament_date__lte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__gt=datetime.now().time())
     reallist = []
     for tournament in tournaments_past:
-        
+
         qualifying = get_qualifying_object(tournament)
         if qualifying != None and len(qualifying) > 0:
             reallist.append(tournament)
-    tournaments_past = reallist
+    start = (per_page * page) - per_page
+    end = per_page * page
+    total_count = len(reallist)
+    tournaments_past = reallist[start:end]
     return render(request, 'tournaments/main-tournaments.html', {'nbar': 'tournaments',
                                                                  'tournaments_past': tournaments_past,
                                                                  'selected_upcoming':selected_upcoming,
                                                                  'tournaments_count': tournaments_count,
                                                                  'upcoming_count': upcoming_count,
+                                                                 'search_type': 'tournaments_results',
+                                                                 'page': create_page_obj(page, per_page, total_count)
                                                                  })
 
 
@@ -336,7 +344,8 @@ def tournaments_upcoming_views(request):
                                                                  'tournaments_upcoming': tournaments_upcoming,
                                                                  'selected_upcoming':selected_upcoming,
                                                                  'upcoming_count': tournaments_upcoming.count(),
-                                                                 'tournaments_count': tournaments_count
+                                                                 'tournaments_count': tournaments_count,
+                                                                 'search_type': 'tournaments_upcoming'
                                                                  })
 
 
