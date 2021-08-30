@@ -63,12 +63,12 @@ def create_page_obj(current, per, total):
 
 def if_selected(value, current, last):
     if value == current:
-        if current > last:
+        if value > last:
             return 'selected off'
         else:
             return 'selected'
     else:
-        if current > last:
+        if value > last:
             return 'off'
         else:
             return ''
