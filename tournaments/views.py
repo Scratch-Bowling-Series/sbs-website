@@ -311,6 +311,7 @@ def make_ordinal(n):
 
 
 def tournaments_results_views(request, page=1):
+    page = int(page)
     per_page = 20
     selected_upcoming = False
     tournaments_count = Tournament.objects.all().count()
