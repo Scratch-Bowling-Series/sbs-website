@@ -15,7 +15,12 @@ def create_page_obj(current, per, total):
     prev = current - 1
     last = int(total / per)
     first = 1
-    group = int(current / 6) + 1
+    group = current / 6
+    if group > int(group):
+        group = int(group) + 1
+    else:
+        group = int(group)
+        
     group *= 6
 
     if group < 6:
