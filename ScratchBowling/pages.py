@@ -18,6 +18,12 @@ def create_page_obj(current, per, total):
     group = round(current / 6) + 1
     group *= 6
 
+    if group < 6:
+        group = 6
+
+    if group > last + 6:
+        group = last + 6
+
     pagelinks = [first, prev, group - 5, group - 4, group - 3, group - 2, group - 1, group, next, last]
 
     nextoff = ''
@@ -35,12 +41,12 @@ def create_page_obj(current, per, total):
 
 
     pagestyles = [firstoff, prevoff,
-                    if_selected(group - 5, current),
-                    if_selected(group - 4, current),
-                    if_selected(group - 3, current),
-                    if_selected(group - 2, current),
-                    if_selected(group - 1, current),
-                    if_selected(group, current),
+                    if_selected(group - 5, current, last),
+                    if_selected(group - 4, current, last),
+                    if_selected(group - 3, current, last),
+                    if_selected(group - 2, current, last),
+                    if_selected(group - 1, current, last),
+                    if_selected(group, current, last),
                   nextoff, lastoff]
 
     page = Page()
@@ -49,8 +55,14 @@ def create_page_obj(current, per, total):
     return page
 
 
-def if_selected(value, current):
+def if_selected(value, current, last):
     if value == current:
-        return 'selected'
+        if current > last:
+            return 'selected off'
+        else:
+            return 'selected'
     else:
-        return ''
+        if current > last:
+            return 'off'
+        else:
+            return ''
