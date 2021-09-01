@@ -218,7 +218,7 @@ def accounts_account_view(request, id):
 def accounts_socialcard_image(request, id):
     user = User.objects.filter(user_id=id).first()
     if user != None:
-        profile_pic = open('/media/' + str(user.picture), 'rb')
+        profile_pic = open('https://scratchbowling.pythonanywhere.com/media/' + str(user.picture), 'rb')
         profile_pic_size = (250, 250)
 
         card_pic = Image.new("RGB", (1200, 630), (255, 255, 255))
