@@ -229,7 +229,7 @@ def accounts_socialcard_image(request, id):
         mask_pic = Image.new("L", profile_pic.size, 0)
         draw = ImageDraw.Draw(mask_pic)
         draw.ellipse((140, 50, 260, 170), fill=255)
-        card_pic.paste(profile_pic, (0, 0), mask_pic)
+        card_pic.paste(profile_pic, (100, 100), mask_pic)
         response = HttpResponse(content_type='image/jpg')
         card_pic.save(response, "PNG")
         return response
