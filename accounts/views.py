@@ -227,7 +227,7 @@ def accounts_socialcard_image(request, id):
 
         profile_pic.thumbnail(profile_pic_size)
 
-        card_pic.paste(profile_pic, (0, 0))
+        card_pic.paste(profile_pic, (500, 500))
         response = HttpResponse(content_type='image/jpg')
         card_pic.save(response, "PNG")
         response['Content-Disposition'] = 'attachment; filename="social-card.jpg"'
