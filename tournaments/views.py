@@ -313,8 +313,7 @@ def make_ordinal(n):
     return str(n) + suffix
 
 
-def tournaments_results_views(request, page=1):
-    search = ''
+def tournaments_results_views(request, page=1, search=''):
     page = int(page)
     per_page = 20
     selected_upcoming = False
@@ -326,7 +325,8 @@ def tournaments_results_views(request, page=1):
         if form.is_valid():
             search = form.cleaned_data['search_args']
             tournaments_past = tournaments_past.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))
-
+    elif search != '':
+        tournaments_past = tournaments_past.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))
 
     reallist = []
     for tournament in tournaments_past:

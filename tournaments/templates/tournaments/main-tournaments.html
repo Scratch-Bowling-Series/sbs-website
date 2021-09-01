@@ -168,16 +168,16 @@
     {% if page != None %}
     <section class="account-pagebar">
         <section class="account-pages std-radius">
-            <a class="sep {{ page.pagestyles.0 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}page/{{ page.pagelinks.0 }}">|<i class="icon-arrow-right left"></i></a>
-            <a class="sep {{ page.pagestyles.1 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}page/{{ page.pagelinks.1 }}"><i class="icon-arrow-right left"></i></a>
-            <a class="{{ page.pagestyles.2 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}page/{{ page.pagelinks.2 }}">{{ page.pagelinks.2 }}</a>
-            <a class="{{ page.pagestyles.3 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}page/{{ page.pagelinks.3 }}">{{ page.pagelinks.3 }}</a>
-            <a class="{{ page.pagestyles.4 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}page/{{ page.pagelinks.4 }}">{{ page.pagelinks.4 }}</a>
-            <a class="{{ page.pagestyles.5 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}page/{{ page.pagelinks.5 }}">{{ page.pagelinks.5 }}</a>
-            <a class="{{ page.pagestyles.6 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}page/{{ page.pagelinks.6 }}">{{ page.pagelinks.6 }}</a>
-            <a class="{{ page.pagestyles.7 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}page/{{ page.pagelinks.7 }}">{{ page.pagelinks.7 }}</a>
-            <a class="sep {{ page.pagestyles.8 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}page/{{ page.pagelinks.8 }}"><i class="icon-arrow-right"></i></a>
-            <a class="sep {{ page.pagestyles.9 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}page/{{ page.pagelinks.9 }}"><i class="icon-arrow-right"></i>|</a>
+            <a class="sep {{ page.pagestyles.0 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.0 }}">|<i class="icon-arrow-right left"></i></a>
+            <a class="sep {{ page.pagestyles.1 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.1 }}"><i class="icon-arrow-right left"></i></a>
+            <a class="{{ page.pagestyles.2 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.2 }}">{{ page.pagelinks.2 }}</a>
+            <a class="{{ page.pagestyles.3 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.3 }}">{{ page.pagelinks.3 }}</a>
+            <a class="{{ page.pagestyles.4 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.4 }}">{{ page.pagelinks.4 }}</a>
+            <a class="{{ page.pagestyles.5 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.5 }}">{{ page.pagelinks.5 }}</a>
+            <a class="{{ page.pagestyles.6 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.6 }}">{{ page.pagelinks.6 }}</a>
+            <a class="{{ page.pagestyles.7 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.7 }}">{{ page.pagelinks.7 }}</a>
+            <a class="sep {{ page.pagestyles.8 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.8 }}"><i class="icon-arrow-right"></i></a>
+            <a class="sep {{ page.pagestyles.9 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.9 }}"><i class="icon-arrow-right"></i>|</a>
         </section>
     </section>
     {% endif %}
