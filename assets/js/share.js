@@ -4,7 +4,7 @@ $(document).ready(function(){
    });
    console.log('sharing loaded');
    $('.share-page').click(function(){
-        console.log('sharing');
+      $('#link-notify').css('opacity', 0);
       var pageUrl = window.location.href;
       pageUrl = pageUrl.replace('https://scratchbowling.pythonanywhere.com', '');
       pageUrl = pageUrl.replaceAll('/', '&sl');
@@ -23,11 +23,9 @@ $(document).ready(function(){
    });
 
    function CopyTo(url){
-       console.log('copy');
        $('#link-notify').css('opacity', 1);
        navigator.clipboard.writeText(url);
        setTimeout(function (){
-            console.log('done');
            $('#link-notify').css('opacity', 0);
        },2000);
    }
