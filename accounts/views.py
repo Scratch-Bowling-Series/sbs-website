@@ -224,10 +224,10 @@ def accounts_socialcard_image(request, id):
         profile_pic_size = (250, 250)
         card_pic = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/assets/img/social-card-template.png')
         profile_pic = create_profile_pic_circle(profile_pic, profile_pic_size)
-        card_pic.paste(profile_pic, (0, 0), profile_pic)
+        card_pic.paste(profile_pic, (0, 0))
         response = HttpResponse(content_type='image/jpg')
         response['Content-Disposition'] = 'filename="social-card.png"'
-        profile_pic.save(response, "PNG")
+        card_pic.save(response, "PNG")
         return response
     else:
         return Http404('This user does not exist.')
