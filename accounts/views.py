@@ -1,7 +1,7 @@
 import json
 import os
 
-from PIL import Image
+from PIL import Image, ImageDraw
 from django.http import HttpRequest, HttpResponse, Http404, FileResponse
 from django.template.defaulttags import register
 from django.contrib.auth import get_user_model
@@ -226,8 +226,10 @@ def accounts_socialcard_image(request, id):
         card_pic = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/assets/img/social-card-template.png')
 
         profile_pic.thumbnail(profile_pic_size)
-
-        card_pic.paste(profile_pic, (100, 100))
+        mask_pic = Image.new("L", card_pic.size, 0)
+        draw = ImageDraw.Draw(mask_pic)
+        draw.ellipse((140, 50, 260, 170), fill=255)
+        card_pic.paste(profile_pic, (0, 0), mask_pic)
         response = HttpResponse(content_type='image/jpg')
         card_pic.save(response, "PNG")
         return response
