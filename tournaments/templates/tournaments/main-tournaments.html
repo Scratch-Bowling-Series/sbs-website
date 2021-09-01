@@ -20,6 +20,9 @@
         </section>
     </section>
     {% if selected_upcoming == True %}
+    {% if results_count == 0 %}
+            <h2 class="no-results">NO RESULTS FOUND</h2>
+    {% else %}
     <section class="sec tournaments-list">
         {% for tournament in tournaments_upcoming %}
         <section class="tournament-preview">
@@ -38,105 +41,8 @@
             {% endif %}
         </section>
         {% endfor %}
-        <section class="tournament-preview">
-            <img class='tournament-image' src="/media/sponsors/cards/sbs-card.png">
-            <div class="tournament-container">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
-            </div>
-            <a class="btn tournament-button"><i class="icon-user-plus"></i>JOIN</a>
-            <div class="std-underline"></div>
-        </section>
-        <section class="tournament-preview">
-            <img class='tournament-image' src="/media/sponsors/cards/sbs-card.png">
-            <div class="tournament-container">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
-            </div>
-            <a class="btn tournament-button"><i class="icon-user-plus"></i>JOIN</a>
-            <div class="std-underline"></div>
-        </section>
-        <section class="tournament-preview">
-            <img class='tournament-image' src="/media/sponsors/cards/sbs-card.png">
-            <div class="tournament-container">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
-            </div>
-            <a class="btn tournament-button"><i class="icon-user-plus"></i>JOIN</a>
-            <div class="std-underline"></div>
-        </section>
-        <section class="tournament-preview">
-            <img class='tournament-image' src="/media/sponsors/cards/sbs-card.png">
-            <div class="tournament-container">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
-            </div>
-            <a class="btn tournament-button"><i class="icon-user-plus"></i>JOIN</a>
-            <div class="std-underline"></div>
-        </section>
-        <section class="tournament-preview">
-            <img class='tournament-image' src="/media/sponsors/cards/sbs-card.png">
-            <div class="tournament-container">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
-            </div>
-            <a class="btn tournament-button"><i class="icon-user-plus"></i>JOIN</a>
-            <div class="std-underline"></div>
-        </section>
-        <section class="tournament-preview">
-            <img class='tournament-image' src="/media/sponsors/cards/sbs-card.png">
-            <div class="tournament-container">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
-            </div>
-            <a class="btn tournament-button"><i class="icon-user-plus"></i>JOIN</a>
-            <div class="std-underline"></div>
-        </section>
-        <section class="tournament-preview">
-            <img class='tournament-image' src="/media/sponsors/cards/sbs-card.png">
-            <div class="tournament-container">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
-            </div>
-            <a class="btn tournament-button"><i class="icon-user-plus"></i>JOIN</a>
-            <div class="std-underline"></div>
-        </section>
-        <section class="tournament-preview">
-            <img class='tournament-image' src="/media/sponsors/cards/sbs-card.png">
-            <div class="tournament-container">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
-            </div>
-            <a class="btn tournament-button"><i class="icon-user-plus"></i>JOIN</a>
-            <div class="std-underline"></div>
-        </section>
-        <section class="tournament-preview">
-            <img class='tournament-image' src="/media/sponsors/cards/sbs-card.png">
-            <div class="tournament-container">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">2077 CYBER SWEEPER</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">01/27/77<i class="tournament-arrow icon-arrow-right"></i>5:00PM</a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES&nbsp;<i>DETROIT, MI</i></a>
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">24 SPOTS OPEN</a>
-            </div>
-            <a class="btn tournament-button"><i class="icon-user-plus"></i>JOIN</a>
-        </section>
     </section>
+    {% endif %}
     {% endif %}
 
     {% if selected_upcoming == False %}
