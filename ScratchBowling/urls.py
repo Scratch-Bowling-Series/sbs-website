@@ -25,8 +25,8 @@ urlpatterns = [
     path('scrape/tournaments/', views.scrape_tournaments, name='scrape_tournaments'),
     path('scrape/bowlers/', views.scrape_bowlers, name='scrape_bowlers'),
     path('search/', views.search, name='search'),
-    path('s/<code>', views.shortener, name='shortener'),
-    path('s/create/new/<url>', views.shortener_create, name='shortener')
+    path('s/<code>/', views.shortener, name='shortener'),
+    path('s/create/new/<url>/', views.shortener_create, name='shortener')
 ]
 
 urlpatterns += staticfiles_urlpatterns()
