@@ -100,11 +100,15 @@ def shortener(request, code):
         return redirect(shorten.url)
     return redirect('/')
 
-def shortener_create(request, url):
-    if url == '' or len(url) < 5:
-        return HttpResponse('')
+def shortener_create(request):
+    if request.method == 'POST':
+        url = request.POST.get('url')
+        if url == '' or len(url) < 5:
+            return HttpResponse('')
+        else:
+            return HttpResponse(create_link(url))
     else:
-        return HttpResponse(create_link(url))
+        return HttpResponse('')
 
 
 def user_to_display_list(user):
