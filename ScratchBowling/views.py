@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 
 from ScratchBowling.forms import BowlersSearch
@@ -94,11 +94,11 @@ def contact(request):
 
 def shortener(request, code):
     if code == '' or len(code) != 5:
-        return redirect('/')
+        return Http404('This link is broken...')
     shorten = Shorten.objects.filter(code=code).first()
     if shorten != None:
-        return redirect(shorten.url)
-    return redirect('/')
+        return HttpResponseRedirect(shorten.url)
+    return Http404('This link is broken...')
 
 def shortener_create(request, url):
     if url == '' or len(url) < 5:
