@@ -4,6 +4,7 @@ $(document).ready(function() {
         console.log(height_diff)
         $('footer').css('margin-top', height_diff);
     }
+    $('footer').css('opacity', '1');
 
     var closed = true;
     $('#nav-expand').click(function(){
