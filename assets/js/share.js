@@ -6,10 +6,11 @@ $(document).ready(function(){
    $('.share-page').click(function(){
         console.log('sharing');
       var pageUrl = window.location.href;
+      pageUrl = pageUrl.replace('https://scratchbowling.pythonanywhere.com', '');
+      pageUrl = pageUrl.replace('/', '&sl');
        $.ajax({
-           type: "POST",
-           url: "https://scratchbowling.pythonanywhere.com/s/create/new/",
-           data: { url: pageUrl },
+           type: "GET",
+           url: "https://scratchbowling.pythonanywhere.com/s/create/new/" + pageUrl,
            contentType: "text/plain",
            dataType: "text",
            success: function (data) {

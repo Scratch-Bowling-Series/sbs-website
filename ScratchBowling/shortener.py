@@ -5,6 +5,7 @@ from accounts.models import Shorten
 
 
 def create_link(link):
+    link = link.replace('&sl', '/')
     shorten = Shorten.objects.filter(url=link).first()
     if shorten != None:
         return 'https://scratchbowling.pythonanywhere.com/s/' + str(shorten.code) + '/'
