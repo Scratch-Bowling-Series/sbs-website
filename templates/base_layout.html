@@ -183,7 +183,7 @@
             {% elif search_type == 'bowlers_search' %}
             <form class="nav-search" method="post" action="{% url 'bowlers:bowlers' %}">
                 {% csrf_token %}
-                <input type="text" name="search_args" placeholder="ALL BOWLERS">
+                <input type="text" name="search_args" placeholder="ALL BOWLERS" value="{{ search }}">
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% elif search_type == 'centers_search' %}
@@ -195,7 +195,7 @@
             {% else %}
             <form class="nav-search">
                 {% csrf_token %}
-                <input type="text" name="Search" placeholder="BOWLERS / TOURNAMENTS / CENTERS " value="{{ search }}">
+                <input type="text" name="Search" placeholder="BOWLERS / TOURNAMENTS / CENTERS ">
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% endif %}
