@@ -163,28 +163,39 @@
         <div class="nav-account">
             <a href="/support" class="btn nav-account-donate border-tan bkg-tan text-grey">DONATE</a>
             {% if search_type == None %}
-            <form class="nav-search"><input type="text" name="Search" placeholder="BOWLERS / TOURNAMENTS / CENTERS ">
+            <form class="nav-search">
+                {% csrf_token %}
+                <input type="text" name="Search" placeholder="BOWLERS / TOURNAMENTS / CENTERS ">
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% elif search_type == 'tournaments_results' %}
-            <form class="nav-search"><input type="text" name="Search" placeholder="TOURNAMENT RESULTS">
+            <form class="nav-search">
+                {% csrf_token %}
+                <input type="text" name="Search" placeholder="TOURNAMENT RESULTS">
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% elif search_type == 'tournaments_upcoming' %}
-            <form class="nav-search"><input type="text" name="Search" placeholder="UPCOMING TOURNAMENTS">
+            <form class="nav-search">
+                {% csrf_token %}
+                <input type="text" name="Search" placeholder="UPCOMING TOURNAMENTS">
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% elif search_type == 'bowlers_search' %}
             <form class="nav-search" method="post" action="{% url 'bowlers:bowlers' %}">
+                {% csrf_token %}
                 <input type="text" name="search_args" placeholder="ALL BOWLERS">
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% elif search_type == 'centers_search' %}
-            <form class="nav-search"><input type="text" name="Search" placeholder="ALL CENTERS">
+            <form class="nav-search">
+                {% csrf_token %}
+                <input type="text" name="Search" placeholder="ALL CENTERS">
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% else %}
-            <form class="nav-search"><input type="text" name="Search" placeholder="BOWLERS / TOURNAMENTS / CENTERS ">
+            <form class="nav-search">
+                {% csrf_token %}
+                <input type="text" name="Search" placeholder="BOWLERS / TOURNAMENTS / CENTERS ">
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% endif %}
