@@ -17,7 +17,7 @@ def bowlers_views(request, page=1):
     if request.method == 'POST':
         form = BowlersSearch(request.POST)
         if form.is_valid():
-            search = form.cleaned_data
+            search = form.cleaned_data['search_args']
             users = User.objects.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search) | Q(
                 location_city__icontains=search) | Q(location_state__icontains=search))
         else:
