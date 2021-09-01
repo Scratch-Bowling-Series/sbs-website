@@ -237,11 +237,13 @@ def accounts_socialcard_image(request, id):
 
 def create_profile_pic_circle(profile_pic, profile_pic_size):
     profile_pic.thumbnail(profile_pic_size)
+    bkg = Image.new('RGBA', profile_pic_size, (255, 255, 255, 0))
     alpha_mask = Image.new("L", profile_pic_size, 0)
     draw = ImageDraw.Draw(alpha_mask)
     draw.ellipse([(0, 0), profile_pic_size], fill=255)
-    profile_pic.putalpha(alpha_mask)
-    return profile_pic
+
+    bkg.paste(profile_pic, (0,0), alpha_mask)
+    return bkg
 
 
 
