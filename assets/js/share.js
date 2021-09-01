@@ -15,7 +15,7 @@ $(document).ready(function(){
            dataType: "text",
            success: function (data) {
                         $('.sharebox').show();
-                        $('.share-link').text(data.toString());
+                        $('.share-link').text(data.toString().replace('.pythonanywhere', ''));
                         $('.share-link').click(function (){ CopyTo(data.toString()); });
                         $('.link-copy').click(function (){ CopyTo(data.toString()); });
            }
