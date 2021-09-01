@@ -226,7 +226,7 @@ def accounts_socialcard_image(request, id):
         card_pic = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/assets/img/social-card-template.png')
 
         profile_pic.thumbnail(profile_pic_size)
-        mask_pic = Image.new("L", profile_pic.size, 0)
+        mask_pic = Image.new("L", card_pic.size, 0)
         draw = ImageDraw.Draw(mask_pic)
         width = 250
         height = 250
