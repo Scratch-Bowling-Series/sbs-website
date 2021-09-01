@@ -10,7 +10,7 @@ from accounts.views import get_amount_online
 
 User = get_user_model()
 
-def bowlers_views(request, page=1):
+def bowlers_views(request, page=1, search=''):
     page = int(page)
     per_page = 40
 
@@ -22,6 +22,9 @@ def bowlers_views(request, page=1):
                 location_city__icontains=search) | Q(location_state__icontains=search))
         else:
             users = User.objects.all()
+    elif search != '':
+        users = User.objects.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search) | Q(
+            location_city__icontains=search) | Q(location_state__icontains=search))
     else:
         users = User.objects.all()
 
