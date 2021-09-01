@@ -19,7 +19,7 @@ def index(request):
                    'tournament_winners': load_tournament_winners(),
                    'tournaments_upcoming': load_tournament_upcoming(),
                    'tournament_recent': load_tournament_recent(),
-                   'bowler_of_month': None, ##load_bowler_of_month(),
+                   'bowler_of_month': load_bowler_of_month(),
                    'users_count': None, ##get_users_count(),
                    'tournaments_count': None, ##get_tournaments_count(),
                    'top_ten_ranks': None, ##get_top_ten_ranks(),
