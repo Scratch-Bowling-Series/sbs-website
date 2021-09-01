@@ -228,7 +228,10 @@ def accounts_socialcard_image(request, id):
         profile_pic.thumbnail(profile_pic_size)
 
         card_pic.paste(profile_pic, (0, 0))
-        return FileResponse(card_pic)
+        response = HttpResponse(content_type='image/jpg')
+        card_pic.save(response, "JPEG")
+        response['Content-Disposition'] = 'attachment; filename="social-card.jpg"'
+        return response
     else:
         return Http404('This user does not exist.')
 
