@@ -719,6 +719,16 @@ footer
       text-align:center;
       cursor:pointer;
       position:relative;
+      overflow:hidden;
+      .link-copy-notify{
+        position:absolute;
+        right:0;left:0;
+        top:0;bottom:0;
+        background:$color-grey;
+        color:white;
+        font-size:20px;
+        display:block;
+      }
     }
     .link-copy{
       vertical-align:top;
@@ -744,15 +754,7 @@ footer
         color:#3d3d3d;
       }
     }
-    .link-copy-notify{
-      position:absolute;
-      right:0;left:0;
-      top:0;bottom:0;
-      background:$color-grey;
-      color:white;
-      font-size:20px;
-      display:block;
-    }
+    
     .close
     {
       position:absolute;
