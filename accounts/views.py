@@ -247,7 +247,7 @@ def create_profile_pic_stroke(profile_pic_size, stroke_size, color):
 
     profile_pic_size = (profile_pic_size[0] + (stroke_size * 2),
                         profile_pic_size[1] + (stroke_size * 2))
-    bkg = Image.new('RGBA', profile_pic_size, (255, 255, 255, 255))
+    bkg = Image.new('RGBA', profile_pic_size, (255, 255, 255, 0))
     alpha_mask = Image.new("L", profile_pic_size, 0)
     draw = ImageDraw.Draw(alpha_mask)
     draw.ellipse([(0, 0), profile_pic_size], fill=255)
