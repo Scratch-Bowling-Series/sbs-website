@@ -228,9 +228,9 @@ def accounts_socialcard_image(request, id):
         profile_pic.thumbnail(profile_pic_size)
         mask_pic = Image.new("L", profile_pic.size, 0)
         draw = ImageDraw.Draw(mask_pic)
-        w = 250
-        h = 250
-        shape = [(40, 40), (w - 10, h - 10)]
+        width = 250
+        height = 250
+        shape = [(40, 40), (width, height)]
         draw.ellipse(shape, fill=255)
         card_pic.paste(profile_pic, (100, 100), mask_pic)
         response = HttpResponse(content_type='image/jpg')
