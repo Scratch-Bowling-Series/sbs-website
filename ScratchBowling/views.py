@@ -20,7 +20,7 @@ def index(request):
                    'tournaments_upcoming': load_tournament_upcoming(),
                    'tournament_recent': load_tournament_recent(),
                    'bowler_of_month': load_bowler_of_month(),
-                   'users_count': None, ##get_users_count(),
+                   'users_count': get_users_count(),
                    'tournaments_count': None, ##get_tournaments_count(),
                    'top_ten_ranks': None, ##get_top_ten_ranks(),
                    'donation_count': None, ##get_donation_count(),
