@@ -238,9 +238,9 @@ def accounts_socialcard_image(request, id):
         fnt = ImageFont.truetype("/home/scratchbowling/Scratch-Bowling-Series-Website/assets/fonts/TTOctosquaresCond-Black.ttf", 40)
         d = ImageDraw.Draw(card_pic)
 
-        d.text((10, 10), user.first_name + ' ' + user.last_name, font=fnt, fill=(0,0,0, 255), align="center", anchor="ms")
+        d.text((600, 315 + 100), user.first_name + ' ' + user.last_name, font=fnt, fill=(0,0,0, 255), align="center", anchor="ms")
 
-        d.text((10, 60), user.location_city + ', ' + user.location_state, font=fnt, fill=(0,0,0, 255), align="center", anchor="ms")
+        d.text((600, 315 + 140), user.location_city + ', ' + user.location_state, font=fnt, fill=(0,0,0, 255), align="center", anchor="ms")
 
         response = HttpResponse(content_type='image/png')
         response['Content-Disposition'] = 'filename="social-card.png"'
