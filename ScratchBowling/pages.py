@@ -11,6 +11,8 @@ class Page:
 
 
 def create_page_obj(current, per, total):
+    if total == 0:
+        return None
     next = current + 1
     prev = current - 1
     last = int(total / per)

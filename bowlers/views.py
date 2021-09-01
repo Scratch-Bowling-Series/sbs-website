@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django.shortcuts import render
 
 from ScratchBowling.pages import create_page_obj
@@ -7,10 +8,13 @@ from accounts.views import get_amount_online
 
 User = get_user_model()
 
-def bowlers_views(request, page=1):
+def bowlers_views(request, page=1, search=''):
     page = int(page)
     per_page = 40
-    users = User.objects.all()
+    if search != '':
+        users = User.objects.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))
+    else:
+        users = User.objects.all()
     bowlers = []
     bowlers_count = len(users)
     start = (per_page * page) - per_page
@@ -26,6 +30,7 @@ def bowlers_views(request, page=1):
                                                          'bowler_of_month': load_bowler_of_month(),
                                                          'online_count': get_amount_online(),
                                                          'search_type': 'bowlers_search',
+
                                                          'page': create_page_obj(page, per_page, bowlers_count)})
 
 
