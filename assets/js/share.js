@@ -6,7 +6,7 @@ $(document).ready(function(){
       var pageUrl = window.location.href;
        $.ajax({
            type: "GET",
-           url: "https://scratchbowling.pythonanywhere.com/s/create/new/" + pageUrl,
+           url: "https://scratchbowling.pythonanywhere.com/s/create/new/" + encodeURIComponent(pageUrl),
            contentType: "text/plain",
            dataType: "text",
            success: function (data) {
