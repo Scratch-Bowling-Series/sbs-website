@@ -225,7 +225,9 @@ def accounts_socialcard_image(request, id):
         card_pic = Image.new('RGBA', (1200, 630), (255, 255, 255, 255))
         bkg = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/assets/img/social-card-template.jpg')
         profile_pic = create_profile_pic_circle(profile_pic, profile_pic_size)
+        profile_pic_stroke = create_profile_pic_stroke(profile_pic_size)
         #card_pic.paste(bkg, (0,0))
+        card_pic.paste(profile_pic_stroke, (600 - 125, 315 - 185))
         card_pic.paste(profile_pic, (600 - 125, 315 - 185))
         response = HttpResponse(content_type='image/jpg')
         response['Content-Disposition'] = 'filename="social-card.png"'
@@ -235,6 +237,11 @@ def accounts_socialcard_image(request, id):
         return Http404('This user does not exist.')
 
 
+def create_profile_pic_stroke(profile_pic_size, stroke_size):
+    profile_pic_size[0] += stroke_size * 2
+    profile_pic_size[1] += stroke_size * 2
+    stroke = Image.new('RGBA', profile_pic_size, (255, 255, 255, 255))
+    return stroke
 
 def create_profile_pic_circle(profile_pic, profile_pic_size):
     profile_pic.thumbnail(profile_pic_size)
@@ -244,7 +251,7 @@ def create_profile_pic_circle(profile_pic, profile_pic_size):
     draw.ellipse([(0, 0), profile_pic_size], fill=255)
 
     bkg.paste(profile_pic, (0,0), alpha_mask)
-    return ImageOps.expand(bkg,border=300,fill='black')
+    return bkg
 
 
 
