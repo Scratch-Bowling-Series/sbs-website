@@ -1,8 +1,12 @@
 from datetime import datetime
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from ScratchBowling.forms import BowlersSearch
 from accounts.forms import User
+from centers.models import Center
 from check_git import get_last_commit
 from scoreboard.ranking import get_top_rankings
 from support.donation import get_donation_count
@@ -27,16 +31,25 @@ def index(request):
                    })
 
 def search(request):
-    tournaments = []
-    bowlers = []
-    centers = []
+    if request.method == 'POST':
+        form = BowlersSearch(request.POST)
+        if form.is_valid():
+            search = form.cleaned_data['search_args']
 
-    return render(request, 'search-main.html', {'tournaments': tournaments,
-                                                'tournaments_count': len(tournaments),
-                                                'bowlers': bowlers,
-                                                'bowlers_count': len(bowlers),
-                                                'centers': centers,
-                                                'centers_count': len(centers)})
+            bowlers = User.objects.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))
+            tournaments = Tournament.objects.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))
+            centers = Center.objects.filter(Q(center_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))
+            return render(request, 'search-main.html', {'tournaments': tournaments,
+                                                        'tournaments_count': len(tournaments),
+                                                        'bowlers': bowlers,
+                                                        'bowlers_count': len(bowlers),
+                                                        'centers': centers,
+                                                        'centers_count': len(centers),
+                                                        'search': search})
+    else:
+        return redirect('/')
+
+
 
 
 def about(request):

@@ -161,13 +161,8 @@
 
         <div class="nav-account">
             <a href="/support" class="btn nav-account-donate border-tan bkg-tan text-grey">DONATE</a>
-            {% if search_type == None %}
-            <form class="nav-search">
-                {% csrf_token %}
-                <input type="text" name="search_args" placeholder="BOWLERS / TOURNAMENTS / CENTERS ">
-                <input type="submit" name="SEARCH" value="SEARCH">
-            </form>
-            {% elif search_type == 'tournaments_results' %}
+
+            {% if search_type == 'tournaments_results' %}
             <form class="nav-search" method="post" action="{% url 'tournaments:results' %}">
                 {% csrf_token %}
                 <input type="text" name="search_args" placeholder="TOURNAMENT RESULTS" value="{{ search }}">
@@ -192,9 +187,9 @@
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% else %}
-            <form class="nav-search">
+            <form class="nav-search" method="post" action="{% url 'search' %}">
                 {% csrf_token %}
-                <input type="text" name="search_args" placeholder="BOWLERS / TOURNAMENTS / CENTERS ">
+                <input type="text" name="search_args" placeholder="BOWLERS / TOURNAMENTS / CENTERS " value="{{ search }}">
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% endif %}
