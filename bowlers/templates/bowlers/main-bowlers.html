@@ -54,6 +54,9 @@
         </section>
     </section>
     <section class="sec account-list">
+        {% if bowlers_count == 0 %}
+            <h2 class="rankings-offline">NO RESULTS</h2>
+        {% else %}
         {% for bowler in bowlers %}
         <section class="account-preview">
 
@@ -74,6 +77,7 @@
             {% endif %}
         </section>
         {% endfor %}
+        {% endif %}
     </section>
     {% if page != None %}
     <section class="account-pagebar">
