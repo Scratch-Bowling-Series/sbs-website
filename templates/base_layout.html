@@ -195,7 +195,7 @@
             {% else %}
             <form class="nav-search">
                 {% csrf_token %}
-                <input type="text" name="Search" placeholder="BOWLERS / TOURNAMENTS / CENTERS ">
+                <input type="text" name="Search" placeholder="BOWLERS / TOURNAMENTS / CENTERS " value="{{ search }}">
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% endif %}

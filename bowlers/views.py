@@ -40,7 +40,7 @@ def bowlers_views(request, page=1):
                                                          'bowler_of_month': load_bowler_of_month(),
                                                          'online_count': get_amount_online(),
                                                          'search_type': 'bowlers_search',
-
+                                                         'search': search,
                                                          'page': create_page_obj(page, per_page, bowlers_count)})
 
 
