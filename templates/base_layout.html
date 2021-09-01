@@ -4,16 +4,31 @@
       <!-- Page -->
       <meta charset="utf-8">
       <title>{% if page_title != '' %}{{ page_title }} | {% endif %}Scratch Bowling Series</title>
+
       <meta name="identifier-url" content="https://scratchbowling.com" />
-      <meta name="title" content="{% if page_title != 'none' %}{{ page_title }} | {% endif %}Scratch Bowling Series" />
-      <meta name="description" content="{{ page_description }}" />
-      <meta name="abstract" content="{{ page_description }}" />
-      <meta name="keywords" content="bowliing, tournaments, scratch bowling, {{ page_keywords }}" />
       <meta name="author" content="Scratch Bowling Series" />
       <meta name="revisit-after" content="15" />
       <meta name="language" content="EN" />
       <meta name="copyright" content="&copy; 2021 Scratch Bowling Series" />
       <meta name="robots" content="All" />
+
+      <meta name="title" content="{% if page_title != 'none' %}{{ page_title }} | {% endif %}Scratch Bowling Series" />
+      <meta name="description" content="{{ page_description }}" />
+      <meta name="abstract" content="{{ page_description }}" />
+      <meta name="keywords" content="bowliing, tournaments, scratch bowling, {{ page_keywords }}" />
+
+      <meta property="og:title" content="{% if page_title != 'none' %}{{ page_title }} | {% endif %}Scratch Bowling Series">
+      <meta property="og:description" content="{{ page_description }}">
+      <meta property="og:image" content="{{ social_image }}">
+
+      <meta name="twitter:title" content="{% if page_title != 'none' %}{{ page_title }} | {% endif %}Scratch Bowling Series">
+      <meta name="twitter:description" content="{{ page_description }}">
+      <meta name="twitter:image" content="{{ social_image }}">
+      <meta name="twitter:card" content="summary_large_image">
+
+
+
+
       <!-- Favicon -->
       <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
       <!-- Device -->

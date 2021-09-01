@@ -1,6 +1,7 @@
 import json
 
-from django.http import HttpRequest, HttpResponse
+from PIL.Image import Image
+from django.http import HttpRequest, HttpResponse, Http404, FileResponse
 from django.template.defaulttags import register
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
@@ -193,21 +194,42 @@ def accounts_logout_view(request):
 
 # User-Auth MY Account
 def accounts_account_view(request, id):
-    view_user = User.objects.get(user_id=id)
-    tournaments = get_recent_tournaments(view_user)
-    rank_data = get_rank_data_from_json(view_user.statistics)
-    if rank_data != None:
-        description = 'Current Rank: ' + str(make_ordinal(rank_data.rank)) + ' Attended: ' + str(rank_data.attended) + ' Wins: ' + str(rank_data.wins) + ' Career Avg. Score: ' + str(rank_data.avg_score_career) + ' Career Total Games: ' + str(rank_data.total_games_career)
+    view_user = User.objects.filter(user_id=id).first()
+    if view_user != None:
+        tournaments = get_recent_tournaments(view_user)
+        rank_data = get_rank_data_from_json(view_user.statistics)
+        if rank_data != None:
+            description = 'Current Rank: ' + str(make_ordinal(rank_data.rank)) + ' Attended: ' + str(rank_data.attended) + ' Wins: ' + str(rank_data.wins) + ' Career Avg. Score: ' + str(rank_data.avg_score_career) + ' Career Total Games: ' + str(rank_data.total_games_career)
+        else:
+            description = 'This bowler has yet to attend a tournament.'
+        return render(request, 'accounts/my-account.html', {'view_user': view_user,
+                                                            'tournaments': tournaments,
+                                                            'rank_data': rank_data,
+                                                            'tournaments_length': len(tournaments),
+                                                            'page_title': str(view_user.first_name) + ' ' + str(view_user.last_name),
+                                                            'page_description': description,
+                                                            'page_keywords': 'user, bowler, account, rank, data, scores, tournaments, stats, statistics',
+                                                            'social_image' : '/account/socialcard/image/' + str(view_user.user_id)
+                                                            })
     else:
-        description = 'This bowler has yet to attend a tournament.'
-    return render(request, 'accounts/my-account.html', {'view_user': view_user,
-                                                        'tournaments': tournaments,
-                                                        'rank_data': rank_data,
-                                                        'tournaments_length': len(tournaments),
-                                                        'page_title': str(view_user.first_name) + ' ' + str(view_user.last_name),
-                                                        'page_description': description,
-                                                        'page_keywords': 'user, bowler, account, rank, data, scores, tournaments, stats, statistics'
-                                                        })
+        return Http404('This user does not exist.')
+
+
+def accounts_socialcard_image(request, id):
+    user = User.objects.filter(user_id=id).first()
+    if user != None:
+        profile_pic = open(user.picture, 'rb')
+        profile_pic_size = (250, 250)
+
+        card_pic = Image.new("RGB", (1200, 630), (255, 255, 255))
+
+        profile_pic.thumbnail(profile_pic_size)
+
+        card_pic.paste(profile_pic, (0, 0))
+        return FileResponse(card_pic)
+    else:
+        return Http404('This user does not exist.')
+
 
 
 def get_recent_tournaments(user):
