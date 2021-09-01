@@ -40,51 +40,34 @@ def load_tournament_live():
     live_status = 'Qualifying (3/10)'
     live_leader = 'Christian S.'
     live_score = '410'
-    return {'is_live': False, 'center': live_center, 'status': live_status, 'leader': live_leader, 'score': live_score}
+    return {'is_live': True, 'center': live_center, 'status': live_status, 'leader': live_leader, 'score': live_score}
 
 
 def load_tournament_recent():
-    recent = Tournament.objects.all()[0]
+    return Tournament.objects.all().first()
 
 def load_tournament_winners():
-    tournaments = Tournament.objects.all()
-    data = []
-    if len(tournaments) > 0:
-        for x in range(0,10):
-            data.append(tournaments[x])
-    return data
-
+    return Tournament.objects.all()[:10]
 
 def load_tournament_upcoming():
     return Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time())
 
-
 def load_bowler_of_month():
-    bowlers = User.objects.all()
-    if len(bowlers) > 0:
-        return bowlers[0]
-
+    return User.objects.all().first()
 
 def get_users_count():
-    users = User.objects.all()
-    return users.count()
-
+    return User.objects.all().count()
 
 def get_tournaments_count():
     return Tournament.objects.all().count()
 
-
 def get_top_ten_ranks():
     return None
-    return get_top_rankings(10)
-
+    ##return get_top_rankings(10)
 
 def has_content_changed(request):
     data = get_last_commit()
     return HttpResponse(str(data))
-
-
-
 
 def scrape_tournaments(request):
     output = scrape_tournaments_task()

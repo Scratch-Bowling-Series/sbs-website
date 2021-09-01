@@ -128,7 +128,7 @@ $(document).ready(function() {
         </section>
       {% endif %}
     {% endif %}
-    {% if tournament_live.is_live == True or True == True %}
+    {% if tournament_live.is_live == True %}
     <section class="sec live-prev glow">
         <a class="live-prev-title">LIVE <span class="prefix"><i class="icon-circle"></i></span><span class="content desktop-on">{{ tournament_live.center.name}}<span class="location desktop-on">({{ tournament_live.center.city}}, {{ tournament_live.center.state}})</span></span></a>
         <span class="content mobile-on">{{ tournament_live.center.name}}<span class="location">({{ tournament_live.center.city}}, {{ tournament_live.center.state}})</span></span>
