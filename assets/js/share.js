@@ -7,7 +7,7 @@ $(document).ready(function(){
         console.log('sharing');
       var pageUrl = window.location.href;
       pageUrl = pageUrl.replace('https://scratchbowling.pythonanywhere.com', '');
-      pageUrl = pageUrl.replace('/', '&sl');
+      pageUrl = pageUrl.replaceAll('/', '&sl');
        $.ajax({
            type: "GET",
            url: "https://scratchbowling.pythonanywhere.com/s/create/new/" + pageUrl,
