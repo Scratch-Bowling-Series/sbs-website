@@ -223,11 +223,12 @@ def accounts_socialcard_image(request, id):
         profile_pic = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/' + str(user.picture))
         profile_pic_size = (250, 250)
         profile_pic_alignment = (600 - 125, 315 - 185)
-        stroke_size = 5
+        stroke_size = 30
+        stroke_color = (33, 64, 49)
         card_pic = Image.new('RGBA', (1200, 630), (255, 255, 255, 255))
         bkg = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/assets/img/social-card-template.jpg')
         profile_pic = create_profile_pic_circle(profile_pic, profile_pic_size)
-        profile_pic_stroke = create_profile_pic_stroke(profile_pic_size, stroke_size)
+        profile_pic_stroke = create_profile_pic_stroke(profile_pic_size, stroke_size, stroke_color)
         #card_pic.paste(bkg, (0,0))
         card_pic.paste(profile_pic_stroke, (profile_pic_alignment[0] - stroke_size, profile_pic_alignment[1] - stroke_size))
         card_pic.paste(profile_pic, profile_pic_alignment)
@@ -239,13 +240,13 @@ def accounts_socialcard_image(request, id):
         return Http404('This user does not exist.')
 
 
-def create_profile_pic_stroke(profile_pic_size, stroke_size):
+def create_profile_pic_stroke(profile_pic_size, stroke_size, color):
 
     profile_pic_size = (profile_pic_size[0] + (stroke_size * 2),
                         profile_pic_size[1] + (stroke_size * 2))
 
 
-    stroke = Image.new('RGBA', profile_pic_size, (255, 255, 255, 255))
+    stroke = Image.new('RGBA', profile_pic_size, color)
     return stroke
 
 def create_profile_pic_circle(profile_pic, profile_pic_size):
