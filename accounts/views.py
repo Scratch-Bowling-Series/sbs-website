@@ -226,12 +226,12 @@ def accounts_socialcard_image(request, id):
         card_pic = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/assets/img/social-card-template.png')
 
         profile_pic.thumbnail(profile_pic_size)
-        mask_pic = Image.new("L", card_pic.size, 0)
+        mask_pic = Image.new("L", card_pic.size, 255)
         draw = ImageDraw.Draw(mask_pic)
         width = 250
         height = 250
         shape = [(0, 0), (width, height)]
-        draw.ellipse(shape, fill=255)
+        draw.ellipse(shape, fill=0)
         card_pic = Image.composite(card_pic, profile_pic, mask_pic)
         ##card_pic.paste(profile_pic, (100, 100), mask_pic)
         response = HttpResponse(content_type='image/jpg')
