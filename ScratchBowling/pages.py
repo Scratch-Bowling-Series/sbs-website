@@ -28,6 +28,8 @@ def create_page_obj(current, per, total):
     if group < 6:
         group = 6
 
+    if last == 0:
+        return None
 
 
     group = int(group)
