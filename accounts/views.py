@@ -1,7 +1,7 @@
 import json
 import os
 
-from PIL.Image import Image
+from PIL import Image
 from django.http import HttpRequest, HttpResponse, Http404, FileResponse
 from django.template.defaulttags import register
 from django.contrib.auth import get_user_model
