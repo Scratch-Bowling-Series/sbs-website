@@ -23,10 +23,10 @@ $(document).ready(function(){
    });
 
    function CopyTo(url){
-       $('.link-copy-notify').show();
-       setTimeout(function (){
-           //$('.link-copy-notify').hide();
-       },2000);
+       $('.link-copy-notify').css('opacity', '1');
        navigator.clipboard.writeText(url);
+       setTimeout(function (){
+           $('.link-copy-notify').css('opacity', '0');
+       },2000);
    }
 });
