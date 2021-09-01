@@ -717,6 +717,7 @@ footer
       box-sizing:border-box;
       vertical-align:top;
       text-align:center;
+      cursor:pointer;
     }
     .link-copy{
       vertical-align:top;
@@ -731,6 +732,7 @@ footer
       border:solid 2px $color-grey;
       background:$color-grey;
       overflow:hidden;
+      cursor:pointer;
       i{
         display:block;
         font-size:30px;
@@ -1774,8 +1776,8 @@ footer
   }
 }
 
-
-
+https://scratchbowling.pythonanywhere.com/s/B3JNJ/
+https://scratchbowling.com/s/B3JNJ/
 .counter
 {
   border:solid 3px $color-lightgreen;
