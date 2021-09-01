@@ -223,7 +223,7 @@ def accounts_socialcard_image(request, id):
         profile_pic = open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/' + str(user.picture), 'rb')
         profile_pic_size = (250, 250)
 
-        card_pic = Image.new("RGB", (1200, 630), (255, 255, 255))
+        card_pic = open('/home/scratchbowling/Scratch-Bowling-Series-Website/static/img/social-card-template.png', 'rb')
 
         profile_pic.thumbnail(profile_pic_size)
 
