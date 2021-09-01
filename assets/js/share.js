@@ -3,6 +3,7 @@ $(document).ready(function(){
        $('.sharebox').hide();
    });
    $('.share-page').click(function(){
+        console.log('sharing');
       var pageUrl = window.location.href;
        $.ajax({
            type: "POST",
