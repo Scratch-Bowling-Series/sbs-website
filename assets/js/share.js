@@ -2,7 +2,6 @@ $(document).ready(function(){
    $('.sharebox .close').click(function (){
        $('.sharebox').hide();
    });
-   console.log('sharing loaded');
    $('.share-page').click(function(){
       $('#link-notify').css('opacity', 0);
       var pageUrl = window.location.href;
