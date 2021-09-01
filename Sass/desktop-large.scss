@@ -357,7 +357,11 @@ nav
   font-size:20px;
   margin:30px 0;
   display:block;
-
+}
+.no-results-link{
+  font-size:18px;
+  text-align:center;
+  color:$color-darkgreen;
 }
 /*****************************
          FOOTER
