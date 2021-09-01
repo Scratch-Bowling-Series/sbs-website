@@ -25,7 +25,7 @@ $(document).ready(function(){
    function CopyTo(url){
        $('.link-copy-notify').show();
        setTimeout(function (){
-           $('.link-copy-notify').hide();
+           //$('.link-copy-notify').hide();
        },2000);
        navigator.clipboard.writeText(url);
    }
