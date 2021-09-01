@@ -24,6 +24,7 @@ $(document).ready(function(){
 
    function CopyTo(url){
        $('#link-notify').css('opacity', 1);
+       console.log('opacity 1' + $('#link-notify').css('opacity'));
        navigator.clipboard.writeText(url);
        setTimeout(function (){
            $('#link-notify').css('opacity', 0);
