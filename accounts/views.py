@@ -1,7 +1,7 @@
 import json
 import os
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageOps
 from django.http import HttpRequest, HttpResponse, Http404, FileResponse
 from django.template.defaulttags import register
 from django.contrib.auth import get_user_model
@@ -235,6 +235,7 @@ def accounts_socialcard_image(request, id):
         return Http404('This user does not exist.')
 
 
+
 def create_profile_pic_circle(profile_pic, profile_pic_size):
     profile_pic.thumbnail(profile_pic_size)
     bkg = Image.new('RGBA', profile_pic_size, (255, 255, 255, 255))
@@ -243,7 +244,7 @@ def create_profile_pic_circle(profile_pic, profile_pic_size):
     draw.ellipse([(0, 0), profile_pic_size], fill=255)
 
     bkg.paste(profile_pic, (0,0), alpha_mask)
-    return bkg
+    return ImageOps.expand(bkg,border=300,fill='black')
 
 
 
