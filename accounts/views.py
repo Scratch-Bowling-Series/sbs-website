@@ -241,7 +241,7 @@ def accounts_socialcard_image(request, id):
 
         d.text((600, 315 + 140), user.first_name + ' ' + user.last_name, font=fnt, fill=(0,0,0, 255), align="center", anchor="ms")
 
-        d.text((600, 315 + 200), user.location_city + ', ' + user.location_state, font=fnt2, fill=(0,0,0, 255), align="center", anchor="ms")
+        d.text((600, 315 + 180), user.location_city + ', ' + user.location_state, font=fnt2, fill=(0,0,0, 255), align="center", anchor="ms")
 
         response = HttpResponse(content_type='image/png')
         response['Content-Disposition'] = 'filename="social-card.png"'
