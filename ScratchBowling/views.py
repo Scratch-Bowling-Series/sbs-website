@@ -17,7 +17,7 @@ def index(request):
                   {'nbar': 'home',
                    'tournament_live': load_tournament_live(),
                    'tournament_winners': load_tournament_winners(),
-                   'tournaments_upcoming': None, ##load_tournament_upcoming(),
+                   'tournaments_upcoming': load_tournament_upcoming(),
                    'tournament_recent': None, ##oad_tournament_recent(),
                    'bowler_of_month': None, ##load_bowler_of_month(),
                    'users_count': None, ##get_users_count(),
