@@ -307,8 +307,9 @@ nav
   vertical-align: top;
   background:white;
   text-align: left;
-  font-size:14px;
+  font-size:16px;
   padding-left:20px;
+  font-family: $font-primary-light;
   &::-webkit-input-placeholder
   {
     color:grey;

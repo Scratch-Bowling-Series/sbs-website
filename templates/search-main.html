@@ -28,7 +28,12 @@
             </div>
         </section>
         {% endfor %}
-        <a href="" class="btn btn-medium search-more">MORE RESULTS</a>
+
+        {% if more_results_bowlers > 1 %}
+        <a href="{% url 'bowlers:bowlers' %}search/{{ search }}/page/1" class="btn btn-medium search-more">SEE {{ more_results_bowlers }} MORE RESULTS</a>
+        {% elif more_results_bowlers == 1 %}
+        <a href="{% url 'bowlers:bowlers' %}search/{{ search }}/page/1" class="btn btn-medium search-more">SEE {{ more_results_bowlers }} MORE RESULT</a>
+        {% endif %}
     </section>
     {% endif %}
 
@@ -51,7 +56,11 @@
             {% endif %}
         </section>
         {% endfor %}
-        <a href="" class="btn btn-medium search-more">MORE RESULTS</a>
+        {% if more_results_upcoming > 1 %}
+        <a href="{% url 'bowlers:bowlers' %}search/{{ search }}/page/1" class="btn btn-medium search-more">SEE {{ more_results_upcoming }} MORE RESULTS</a>
+        {% elif more_results_upcoming == 1 %}
+        <a href="{% url 'bowlers:bowlers' %}search/{{ search }}/page/1" class="btn btn-medium search-more">SEE {{ more_results_upcoming }} MORE RESULT</a>
+        {% endif %}
     </section>
     {% endif %}
 
@@ -76,7 +85,11 @@
             {% endif %}
         </section>
         {% endfor %}
-        <a href="" class="btn btn-medium search-more">MORE RESULTS</a>
+        {% if more_results_results > 1 %}
+        <a href="{% url 'bowlers:bowlers' %}search/{{ search }}/page/1" class="btn btn-medium search-more">SEE {{ more_results_results }} MORE RESULTS</a>
+        {% elif more_results_results == 1 %}
+        <a href="{% url 'bowlers:bowlers' %}search/{{ search }}/page/1" class="btn btn-medium search-more">SEE {{ more_results_results }} MORE RESULT</a>
+        {% endif %}
     </section>
     {% endif %}
 
@@ -99,7 +112,11 @@
             </div>
         </section>
         {% endfor %}
-        <a href="" class="btn btn-medium search-more">MORE RESULTS</a>
+        {% if more_results_centers > 1 %}
+        <a href="{% url 'bowlers:bowlers' %}search/{{ search }}/page/1" class="btn btn-medium search-more">SEE {{ more_results_centers }} MORE RESULTS</a>
+        {% elif more_results_centers == 1 %}
+        <a href="{% url 'bowlers:bowlers' %}search/{{ search }}/page/1" class="btn btn-medium search-more">SEE {{ more_results_centers }} MORE RESULT</a>
+        {% endif %}
     </section>
     {% endif %}
 
