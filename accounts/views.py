@@ -236,11 +236,12 @@ def accounts_socialcard_image(request, id):
         card_pic.paste(profile_pic_stroke,(profile_pic_alignment[0] - stroke_size, profile_pic_alignment[1] - stroke_size), profile_pic_stroke)
 
         fnt = ImageFont.truetype("/home/scratchbowling/Scratch-Bowling-Series-Website/assets/fonts/TTOctosquaresCond-Black.ttf", 40)
+        fnt2 = ImageFont.truetype("/home/scratchbowling/Scratch-Bowling-Series-Website/assets/fonts/TTOctosquaresCond-Black.ttf", 30)
         d = ImageDraw.Draw(card_pic)
 
-        d.text((600, 315 + 120), user.first_name + ' ' + user.last_name, font=fnt, fill=(0,0,0, 255), align="center", anchor="ms")
+        d.text((600, 315 + 140), user.first_name + ' ' + user.last_name, font=fnt, fill=(0,0,0, 255), align="center", anchor="ms")
 
-        d.text((600, 315 + 180), user.location_city + ', ' + user.location_state, font=fnt, fill=(0,0,0, 255), align="center", anchor="ms")
+        d.text((600, 315 + 200), user.location_city + ', ' + user.location_state, font=fnt2, fill=(0,0,0, 255), align="center", anchor="ms")
 
         response = HttpResponse(content_type='image/png')
         response['Content-Disposition'] = 'filename="social-card.png"'
