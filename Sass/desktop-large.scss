@@ -352,7 +352,13 @@ nav
   font-size:30px;
   margin:50px 0 70px 0;
 }
+.no-results-bottom{
+  color:$color-lightgreen;
+  font-size:20px;
+  margin:30px 0;
+  display:block;
 
+}
 /*****************************
          FOOTER
 *****************************/
@@ -3378,6 +3384,7 @@ footer
   overflow: hidden;
   margin-bottom:10px;
   position: relative;
+  padding-top:20px;
 }
 .account-preview{
   display:inline-block;

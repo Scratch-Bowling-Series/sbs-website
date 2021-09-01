@@ -11,7 +11,7 @@
 <section class="col col-60 col-m-max-width m-order-1">
     {% if bowlers_count > 0  %}
     <section class="sec account-list">
-        <h2 class="align-left">BOWLERS</h2>
+        <h2 class="align-left" style="margin-top:-20px;">BOWLERS</h2>
         {% for bowler in bowlers %}
         <section class="account-preview">
             <div class='account-image'><img src="/media/{{ bowler.5 }}"></div>
@@ -39,7 +39,7 @@
 
     {% if tournament_upcoming_count > 0  %}
     <section class="sec account-list">
-        <h2 class="align-left">UPCOMING TOURNAMENTS</h2>
+        <h2 class="align-left" style="margin-top:-20px;">UPCOMING TOURNAMENTS</h2>
         {% for tournament in tournament_upcoming %}
         <section class="tournament-preview">
             <div class='tournament-image'><img src="{{ tournament.sponsor_image }}"></div>
@@ -66,7 +66,7 @@
 
     {% if tournament_results_count > 0 %}
     <section class="sec account-list">
-        <h2 class="align-left">TOURNAMENT RESULTS</h2>
+        <h2 class="align-left" style="margin-top:-20px;">TOURNAMENT RESULTS</h2>
         {% for tournament in tournament_results %}
         <section class="tournament-preview">
             <img class='tournament-image' src="/media/{{ tournament.sponsor_image }}"><!--
@@ -95,7 +95,7 @@
 
     {% if centers_count > 0  %}
     <section class="sec account-list">
-        <h2 class="align-left">CENTERS</h2>
+        <h2 class="align-left" style="margin-top:-20px;">CENTERS</h2>
         {% for bowler in bowlers %}
         <section class="account-preview">
             <div class='account-image'><img src="/media/{{ bowler.5 }}"></div>
@@ -120,12 +120,29 @@
     </section>
     {% endif %}
 
-    {% if tournaments_count == 0 and bowlers_count == 0 and centers_count == 0%}
+    {% if tournament_results_count == 0 and tournament_upcoming_count == 0 and bowlers_count == 0 and centers_count == 0%}
     <section class="sec account-list">
         <h2 class="no-results">NO RESULTS FOUND</h2>
     </section>
+    {% else %}
+        {% if tournament_results_count == 0 and tournament_upcoming_count != 0 and bowlers_count != 0 and centers_count != 0 %}
+        <a class="no-results-bottom"> NO RESULTS IN TOURNAMENT RESULTS</a>
+        {% elif tournament_results_count != 0 and tournament_upcoming_count == 0 and bowlers_count != 0 and centers_count != 0 %}
+        <a class="no-results-bottom"> NO RESULTS IN UPCOMING TOURNAMENTS</a>
+        {% elif tournament_results_count != 0 and tournament_upcoming_count != 0 and bowlers_count == 0 and centers_count != 0 %}
+        <a class="no-results-bottom"> NO RESULTS IN BOWLERS</a>
+        {% elif tournament_results_count != 0 and tournament_upcoming_count != 0 and bowlers_count != 0 and centers_count == 0 %}
+        <a class="no-results-bottom"> NO RESULTS IN CENTERS</a>
+        {% elif tournament_results_count == 0 and tournament_upcoming_count == 0 and bowlers_count != 0 and centers_count != 0 %}
+        <a class="no-results-bottom"> NO RESULTS IN TOURNAMENTS</a>
+        {% elif tournament_results_count == 0 and tournament_upcoming_count == 0 and bowlers_count == 0 and centers_count != 0 %}
+        <a class="no-results-bottom"> NO RESULTS IN BOWLERS AND TOURNAMENTS</a>
+        {% elif tournament_results_count == 0 and tournament_upcoming_count == 0 and bowlers_count != 0 and centers_count == 0 %}
+        <a class="no-results-bottom"> NO RESULTS IN CENTERS AND TOURNAMENTS</a>
+        {% elif tournament_results_count != 0 and tournament_upcoming_count != 0 and bowlers_count == 0 and centers_count == 0 %}
+        <a class="no-results-bottom"> NO RESULTS IN CENTERS AND BOWLERS</a>
+        {% endif %}
     {% endif %}
-
 </section>
 <section class="col col-20 col-m-max-width m-order-3">
 

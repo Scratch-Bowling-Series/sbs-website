@@ -130,7 +130,11 @@
               <span></span>
             </div>
         </div>
-
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
         <div class="nav-scroll">
         <ul class="nav-buttons">
             <li class="nav-btn"><a href="/">HOME</a><span class="nav-btn-underline {% if nbar == 'home' %}active{% endif %}"></span></li>
