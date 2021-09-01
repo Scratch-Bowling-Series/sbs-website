@@ -141,6 +141,9 @@
 
     {% if selected_upcoming == False %}
     <section class="sec tournaments-list">
+        {% if results_count == 0 %}
+            <h2 class="no-results">NO RESULTS FOUND</h2>
+        {% else %}
         {% for tournament in tournaments_past %}
         <section class="tournament-preview">
             <img class='tournament-image' src="/media/{{ tournament.sponsor_image }}"><!--
@@ -159,7 +162,7 @@
             {% endif %}
         </section>
         {% endfor %}
-
+        {% endif %}
     </section>
     {% endif %}
     {% if page != None %}
