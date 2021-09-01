@@ -239,7 +239,7 @@ def create_profile_pic_circle(profile_pic, profile_pic_size):
     draw = ImageDraw.Draw(alpha_mask)
     draw.ellipse([(0, 0), profile_pic_size], fill=255)
     profile_pic.putalpha(alpha_mask)
-    return profile_pic
+    return alpha_mask
 
 
 
