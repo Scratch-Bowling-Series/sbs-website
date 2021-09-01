@@ -232,7 +232,7 @@ def accounts_socialcard_image(request, id):
         h = 250
         shape = [(40, 40), (w - 10, h - 10)]
         draw.ellipse(shape, fill=255)
-        card_pic.paste(profile_pic, (100, 100), mask_pic)
+        card_pic.paste(mask_pic, (100, 100))
         response = HttpResponse(content_type='image/jpg')
         card_pic.save(response, "PNG")
         return response
