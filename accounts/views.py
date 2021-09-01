@@ -223,7 +223,8 @@ def accounts_socialcard_image(request, id):
         profile_pic = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/' + str(user.picture))
         profile_pic_size = (250, 250)
         card_pic = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/assets/img/social-card-template.png')
-        card_pic.paste(create_profile_pic_circle(profile_pic, profile_pic_size), (0, 0))
+        profile_pic = create_profile_pic_circle(profile_pic, profile_pic_size)
+        card_pic.paste(profile_pic, (0, 0), profile_pic)
         response = HttpResponse(content_type='image/jpg')
         response['Content-Disposition'] = 'filename="social-card.png"'
         card_pic.save(response, "PNG")
