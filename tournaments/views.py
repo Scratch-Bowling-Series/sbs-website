@@ -346,7 +346,10 @@ def tournaments_results_views(request, page=1, search=''):
                                                                  'results_count': total_count,
                                                                  'search_type': 'tournaments_results',
                                                                  'search': search,
-                                                                 'page': create_page_obj(page, per_page, total_count)
+                                                                 'page': create_page_obj(page, per_page, total_count),
+                                                                 'page_title': 'Tournament Results',
+                                                                 'page_description': 'Check our list of Tournament Results and view info about a Tournament.',
+                                                                 'page_keywords': 'Tournament, Results, Scores, Information, Statistics, Bowlers, Checking, Reserve, Roster, Bowl, Entry'
                                                                  })
 
 
@@ -359,7 +362,11 @@ def tournaments_upcoming_views(request):
                                                                  'selected_upcoming':selected_upcoming,
                                                                  'upcoming_count': tournaments_upcoming.count(),
                                                                  'tournaments_count': tournaments_count,
-                                                                 'search_type': 'tournaments_upcoming'
+                                                                 'search_type': 'tournaments_upcoming',
+                                                                 'page_title': 'Upcoming Tournaments',
+                                                                 'page_description': 'View all of our Upcoming Tournaments. Join a Roster. Bowl Today!',
+                                                                 'page_keywords': 'Bowl, Upcoming, Tournaments, Roster, Join, View, Reserver, Entry, Results, Scores'
+
                                                                  })
 
 

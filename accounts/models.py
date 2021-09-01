@@ -110,3 +110,9 @@ class User(AbstractBaseUser):
     def is_admin(self):
         "Is the user a admin member?"
         return self.admin
+
+
+
+class Shorten(models.Model):
+    code = models.CharField(max_length=5)
+    url = models.CharField(max_length=300)

@@ -44,7 +44,11 @@ def bowlers_views(request, page=1, search=''):
                                                          'online_count': get_amount_online(),
                                                          'search_type': 'bowlers_search',
                                                          'search': search,
-                                                         'page': create_page_obj(page, per_page, bowlers_count)})
+                                                         'page': create_page_obj(page, per_page, bowlers_count),
+                                                         'page_title': 'Bowlers',
+                                                         'page_description': 'Search, Filter, and Sort through over ' + str(bowlers_count) + ' bowlers.',
+                                                         'page_keywords': 'all, bowlers, accounts, pages, profiles, users, statistics, scores, stats'
+                                                         })
 
 
 

@@ -111,7 +111,10 @@ def accounts_modify_view(request):
     else:
         user = request.user
         form = ModifyAccountForm(initial={'bio': user.bio, 'location_street': user.location_street, 'location_city': user.location_city, 'location_state': user.location_state, 'location_zip': user.location_zip, 'left_handed': user.left_handed, 'right_handed': user.right_handed })
-    return render(request, 'accounts/modify-account.html', {'form': form})
+    return render(request, 'accounts/modify-account.html', {'form': form,
+                                                            'page_title': 'Modify Account',
+                                                            'page_description': 'Modify your Scratch Bowling Series account.',
+                                                            'page_keywords': 'Modify, Account, Edit, Change, Update, Information, Settings, Help'})
 
 
 def accounts_login_view(request):
@@ -123,7 +126,12 @@ def accounts_login_view(request):
             return redirect('/')
     else:
         form = AuthenticationForm()
-    return render(request, 'accounts/login.html', {'form':form, 'result': 'CHANGED'})
+    return render(request, 'accounts/login.html', {'form':form,
+                                                   'result': 'CHANGED',
+                                                   'page_title': 'Log In',
+                                                   'page_description': 'Log into your Scratch Bowling Series account.',
+                                                   'page_keywords': 'Login, Log In, Account, User, Add, Signup',
+                                                   })
 
 
 # User-Auth SIGNUP
@@ -155,7 +163,11 @@ def accounts_signup_view(request):
             return render(request, 'homepage.html', {'nbar': 'home', 'notify': 'verify_email', 'first': user.first_name})
     else:
         form = RegisterForm()
-    return render(request, 'accounts/signup.html', {'form':form})
+    return render(request, 'accounts/signup.html', {'form':form,
+                                                    'page_title': 'Sign Up',
+                                                    'page_description': 'Create your Scratch Bowling Series account.',
+                                                    'page_keywords': 'Sign Up, Create, Account, Login, Log In',
+                                                    })
 
 
 def activate(request, uidb64, token):
@@ -184,7 +196,18 @@ def accounts_account_view(request, id):
     view_user = User.objects.get(user_id=id)
     tournaments = get_recent_tournaments(view_user)
     rank_data = get_rank_data_from_json(view_user.statistics)
-    return render(request, 'accounts/my-account.html', {'view_user': view_user, 'tournaments': tournaments, 'rank_data': rank_data, 'tournaments_length': len(tournaments)})
+    if rank_data != None:
+        description = 'Current Rank: ' + str(make_ordinal(rank_data.rank)) + ' Attended: ' + str(rank_data.attended) + ' Wins: ' + str(rank_data.wins) + ' Career Avg. Score: ' + str(rank_data.avg_score_career) + ' Career Total Games: ' + str(rank_data.total_games_career)
+    else:
+        description = 'This bowler has yet to attend a tournament.'
+    return render(request, 'accounts/my-account.html', {'view_user': view_user,
+                                                        'tournaments': tournaments,
+                                                        'rank_data': rank_data,
+                                                        'tournaments_length': len(tournaments),
+                                                        'page_title': str(view_user.first_name) + ' ' + str(view_user.last_name),
+                                                        'page_description': description,
+                                                        'page_keywords': 'user, bowler, account, rank, data, scores, tournaments, stats, statistics'
+                                                        })
 
 
 def get_recent_tournaments(user):

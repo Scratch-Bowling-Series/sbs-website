@@ -686,6 +686,72 @@ footer
   }
 }
 
+.sharebox{
+  position:fixed;
+  z-index:9999999;
+  right:0;left:0;top:0;bottom:0;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  .sharebox-inner{
+    position:absolute;
+    right:0;left:0;
+    margin:0 auto;
+    top:calc(50vh - 150px);
+    bottom:calc(50vh + 150px);
+    height:300px;
+    width:30%;
+    max-width:700px;
+    background:white;
+    border-radius:10px;
+    .share-link{
+      width:calc(100% - 100px);
+      margin:20px 0 20px 20px;
+      border-radius:10px 0 0 10px;
+      border:solid 2px $color-grey;
+      color:darken($color-grey, 30%);
+      padding:17px 20px;
+      font-size:25px;
+      line-height:1em;
+      height:60px;
+      display:inline-block;
+      box-sizing:border-box;
+      vertical-align:top;
+      text-align:center;
+    }
+    .link-copy{
+      vertical-align:top;
+      display:inline-block;
+      font-size:25px;
+      height:60px;
+      width:60px;
+      margin-top:20px;
+      box-sizing:border-box; 
+      color:white;
+      border-radius:0 10px 10px 0;
+      border:solid 2px $color-grey;
+      background:$color-grey;
+      overflow:hidden;
+      i{
+        display:block;
+        font-size:30px;
+        width:30px;
+        padding:14px;
+        vertical-align:top;
+        text-align:center;
+        color:#3d3d3d;
+      }
+    }
+    .close
+    {
+      position:absolute;
+      right:0;top:0;
+      font-size:22px;
+      padding:10px;
+      width:22px;
+      text-align:center;
+    }
+  }
+}
 /*****************************
   HOMEPAGE - WINNERS PREV.
 *****************************/
@@ -1810,6 +1876,16 @@ footer
     padding-top:0px;
   }
 }
+.profile-share{
+  position:absolute;
+  right:15px;
+  top:15px;
+  width:24px;height:24px;
+  font-size:24px;
+  color:$color-darkgreen;
+  cursor:pointer;
+}
+
 .profile-results
 {
   font-size:0;
@@ -3666,6 +3742,16 @@ footer
     padding:0 20px 20px 20px;
   }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

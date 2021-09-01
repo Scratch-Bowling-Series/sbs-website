@@ -19,7 +19,11 @@ def centers_views(request, page=1):
                                                          'centers': centers_to_list(centers),
                                                          'total_centers': total_count,
                                                          'search_type': 'centers_search',
-                                                         'page': create_page_obj(page, per_page, total_count)})
+                                                         'page': create_page_obj(page, per_page, total_count),
+                                                         'page_title': 'Centers',
+                                                         'page_description': 'View information about all ' + str(total_count) + ' bowling centers we have held events at.',
+                                                         'page_keywords': 'bowling center, business, events, hosting, tournaments, center, lanes'
+                                                         })
 
 
 

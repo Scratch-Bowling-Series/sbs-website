@@ -13,6 +13,24 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.icon-link:before {
+  content: "\e926";
+}
+.icon-chain:before {
+  content: "\e926";
+}
+.icon-url:before {
+  content: "\e926";
+}
+.icon-uri:before {
+  content: "\e926";
+}
+.icon-anchor:before {
+  content: "\e926";
+}
+.icon-share-alt:before {
+  content: "\f1e0";
+}
 .icon-exclamation:before {
   content: "\e925";
 }

@@ -5,7 +5,9 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from ScratchBowling.forms import BowlersSearch
+from ScratchBowling.shortener import create_link
 from accounts.forms import User
+from accounts.models import Shorten
 from centers.models import Center
 from check_git import get_last_commit
 from scoreboard.ranking import get_top_rankings
@@ -28,6 +30,9 @@ def index(request):
                    'tournaments_count': get_tournaments_count(),
                    'top_ten_ranks': get_top_ten_ranks(),
                    'donation_count': get_donation_count(),
+                   'page_title': '',
+                   'page_description': 'Bowling Tournaments Done Better. Welcome to the Scratch Bowling Series. Come bowl today!',
+                   'page_keywords': 'scratchbowling, bowling, tournaments, events, competitive, sports, gaming, live, rankings, scores, points, elo, statistics, bowlers, professional'
                    })
 
 def search(request):
@@ -75,6 +80,32 @@ def search(request):
     else:
         return redirect('/')
 
+def about(request):
+    return render(request, 'about.html', {'nbar': 'about'})
+
+def contact(request):
+    user = User.objects.filter(email='christianjstarr@icloud.com').first()
+    return render(request, 'contact.html', {'nbar': 'contact',
+                                            'test': user,
+                                            'page_title': 'Contact',
+                                            'page_description': 'If you have any questions or need help with something. Please contact us here and we will get back with you as soon as possible.',
+                                            'page_keywords': 'Contact, Message, Help, Email, Faqs, Support, Call, Maintenance'
+                                            })
+
+def shortener(request, code):
+    if code == '' or len(code) != 5:
+        return redirect('/')
+    shorten = Shorten.objects.filter(code=code).first()
+    if shorten != None:
+        return redirect(shorten.url)
+    return redirect('/')
+
+def shortener_create(request, url):
+    if url == '' or len(url) < 5:
+        return HttpResponse('')
+    else:
+        return HttpResponse(create_link(url))
+
 
 def user_to_display_list(user):
     return [user.user_id,
@@ -86,21 +117,12 @@ def user_to_display_list(user):
             user.statistics
             ]
 
-def about(request):
-    return render(request, 'about.html', {'nbar': 'about'})
-
-
-def contact(request):
-    user = User.objects.filter(email='christianjstarr@icloud.com').first()
-    return render(request, 'contact.html', {'nbar': 'contact', 'test': user})
-
 def load_tournament_live():
     live_center = {'name': '300 Bowl', 'city': 'Detroit', 'state': 'MI'}
     live_status = 'Qualifying (3/10)'
     live_leader = 'Christian S.'
     live_score = '410'
     return {'is_live': True, 'center': live_center, 'status': live_status, 'leader': live_leader, 'score': live_score}
-
 
 def load_tournament_recent():
     return Tournament.objects.all().first()

@@ -3,12 +3,12 @@
   <head>
       <!-- Page -->
       <meta charset="utf-8">
-      <title>Scratch Bowling Series</title>
+      <title>{% if page_title != '' %}{{ page_title }} | {% endif %}Scratch Bowling Series</title>
       <meta name="identifier-url" content="https://scratchbowling.com" />
-      <meta name="title" content="Scratch Bowling Series" />
-      <meta name="description" content="Default Description" />
-      <meta name="abstract" content="Default Description" />
-      <meta name="keywords" content="bowliing, tournaments, scratch bowling" />
+      <meta name="title" content="{% if page_title != 'none' %}{{ page_title }} | {% endif %}Scratch Bowling Series" />
+      <meta name="description" content="{{ page_description }}" />
+      <meta name="abstract" content="{{ page_description }}" />
+      <meta name="keywords" content="bowliing, tournaments, scratch bowling, {{ page_keywords }}" />
       <meta name="author" content="Scratch Bowling Series" />
       <meta name="revisit-after" content="15" />
       <meta name="language" content="EN" />
@@ -237,6 +237,15 @@
       {% endblock %}
     </div>
 
+    <!-- Share Box -->
+    <div class="sharebox">
+        <div class="sharebox-inner">
+            <i class="icon-times close"></i>
+            <h2>SHARING OPTIONS</h2>
+            <a class="share-link">https://scratchbowling.com/s/EA4J9</a><a class="link-copy"><i class="icon-link text-white"></i></a>
+        </div>
+    </div>
+
     <!-- Messenger -->
     {% if user.is_authenticated or True == True %}
     <div class="messenger-wrap">
@@ -266,7 +275,7 @@
     {% endif %}
 
     <script src="{% static 'js/messenger.js' %}"></script>
-    <script src="{% static 'js/refresher.js' %}"></script>
+    <script src="{% static 'js/share.js' %}"></script>
 
     <!-- Footer -->
     <footer>
