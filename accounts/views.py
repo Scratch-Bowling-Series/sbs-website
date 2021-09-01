@@ -231,7 +231,7 @@ def accounts_socialcard_image(request, id):
         bkg.convert('RGBA')
         profile_pic = create_profile_pic_circle(profile_pic, profile_pic_size)
         profile_pic_stroke = create_profile_pic_stroke(profile_pic_size, stroke_size, stroke_color)
-        
+
         card_pic.paste(profile_pic_stroke,(profile_pic_alignment[0] - stroke_size, profile_pic_alignment[1] - stroke_size))
         card_pic.paste(profile_pic, profile_pic_alignment)
 
@@ -259,7 +259,7 @@ def create_profile_pic_stroke(profile_pic_size, stroke_size, color):
 
 def create_profile_pic_circle(profile_pic, profile_pic_size):
     profile_pic.thumbnail(profile_pic_size)
-    bkg = Image.new('RGBA', profile_pic_size, (255, 255, 255, 255))
+    bkg = Image.new('RGBA', profile_pic_size, (255, 255, 255, 0))
     alpha_mask = Image.new("L", profile_pic_size, 0)
     draw = ImageDraw.Draw(alpha_mask)
     draw.ellipse([(0, 0), profile_pic_size], fill=255)
