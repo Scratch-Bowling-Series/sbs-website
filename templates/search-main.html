@@ -141,6 +141,14 @@
         <a class="no-results-bottom"> NO RESULTS IN CENTERS AND TOURNAMENTS</a>
         {% elif tournament_results_count != 0 and tournament_upcoming_count != 0 and bowlers_count == 0 and centers_count == 0 %}
         <a class="no-results-bottom"> NO RESULTS IN CENTERS AND BOWLERS</a>
+        {% elif tournament_results_count == 0 and tournament_upcoming_count != 0 and bowlers_count != 0 and centers_count == 0 %}
+        <a class="no-results-bottom"> NO RESULTS IN CENTERS AND TOURNAMENT RESULTS</a>
+        {% elif tournament_results_count == 0 and tournament_upcoming_count != 0 and bowlers_count == 0 and centers_count != 0 %}
+        <a class="no-results-bottom"> NO RESULTS IN BOWLERS AND TOURNAMENT RESULTS</a>
+        {% elif tournament_results_count != 0 and tournament_upcoming_count == 0 and bowlers_count != 0 and centers_count == 0 %}
+        <a class="no-results-bottom"> NO RESULTS IN CENTERS AND UPCOMING TOURNAMENTS</a>
+        {% elif tournament_results_count != 0 and tournament_upcoming_count == 0 and bowlers_count == 0 and centers_count != 0 %}
+        <a class="no-results-bottom"> NO RESULTS IN BOWLERS AND UPCOMING TOURNAMENTS</a>
         {% endif %}
     {% endif %}
 </section>
