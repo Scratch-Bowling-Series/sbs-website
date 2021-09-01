@@ -225,6 +225,7 @@ def accounts_socialcard_image(request, id):
         card_pic = Image.new('RGBA', (1200, 630), (255, 255, 255, 255))
         bkg = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/assets/img/social-card-template.jpg')
         profile_pic = create_profile_pic_circle(profile_pic, profile_pic_size)
+        card_pic.paste(bkg, (0,0))
         card_pic.paste(profile_pic, (0, 0))
         response = HttpResponse(content_type='image/jpg')
         response['Content-Disposition'] = 'filename="social-card.png"'
