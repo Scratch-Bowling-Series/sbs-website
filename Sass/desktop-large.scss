@@ -52,6 +52,7 @@ h2
   font-family: $font-primary;
   font-size:20px;
   color:$color-darkgreen;
+  vertical-align:top;
 }
 h3
 {
@@ -348,7 +349,7 @@ nav
 .no-results{
   color:$color-lightgrey;
   font-size:30px;
-  margin:50px 0;
+  margin:50px 0 70px 0;
 }
 
 /*****************************
@@ -3376,7 +3377,6 @@ footer
   overflow: hidden;
   margin-bottom:10px;
   position: relative;
-  padding-top:20px;
 }
 .account-preview{
   display:inline-block;
@@ -3650,6 +3650,21 @@ footer
   }
 }
 
+
+
+
+.looking-for-centers{
+  p{
+    font-size:20px;
+    margin:0 20px 20px 30px;
+  }
+  a{margin-bottom:20px;}
+}
+
+.search-more{
+  float:right;margin:20px;
+}
+
 /*****************************
         COLOR PRESETS
 *****************************/
@@ -3675,3 +3690,4 @@ footer
 .bold{font-family:$font-primary-bold;}
 
 .span-white i{color:white;}
+.align-left{text-align:left;}

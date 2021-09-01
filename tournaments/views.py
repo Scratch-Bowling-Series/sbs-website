@@ -342,6 +342,7 @@ def tournaments_results_views(request, page=1, search=''):
                                                                  'tournaments_past': tournaments_past,
                                                                  'selected_upcoming':selected_upcoming,
                                                                  'tournaments_count': tournaments_count,
+                                                                 'upcoming_count': Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time()).count(),
                                                                  'results_count': total_count,
                                                                  'search_type': 'tournaments_results',
                                                                  'search': search,

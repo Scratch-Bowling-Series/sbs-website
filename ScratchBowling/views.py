@@ -26,6 +26,18 @@ def index(request):
                    'donation_count': get_donation_count(),
                    })
 
+def search(request):
+    tournaments = []
+    bowlers = []
+    centers = []
+
+    return render(request, 'search-main.html', {'tournaments': tournaments,
+                                                'tournaments_count': len(tournaments),
+                                                'bowlers': bowlers,
+                                                'bowlers_count': len(bowlers),
+                                                'centers': centers,
+                                                'centers_count': len(centers)})
+
 
 def about(request):
     return render(request, 'about.html', {'nbar': 'about'})

@@ -24,6 +24,7 @@ urlpatterns = [
     path('get-last-commit/', views.has_content_changed),
     path('scrape/tournaments/', views.scrape_tournaments, name='scrape_tournaments'),
     path('scrape/bowlers/', views.scrape_bowlers, name='scrape_bowlers'),
+    path('search/', views.search, name='search')
 ]
 
 urlpatterns += staticfiles_urlpatterns()

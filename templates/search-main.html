@@ -1,0 +1,121 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+<section class="col col-20 col-m-max-width m-order-2">
+
+</section>
+<section class="col col-60 col-m-max-width m-order-1">
+
+    {% if tournaments_count > 0 or True == True %}
+    <section class="sec account-list">
+        <h2 class="align-left">TOURNAMENTS</h2>
+        {% for bowler in bowlers %}
+        <section class="account-preview">
+
+            <div class='account-image'><img src="/media/{{ bowler.5 }}"></div>
+            <div class="account-container account-half-width">
+                <a href="/account/view/{{ bowler.0 }}" class="account-name">{{ bowler.1 }} {{ bowler.2 }}</a>
+                <a href="/account/view/{{ bowler.0 }}" class="account-location">{{ bowler.3 }}, {{ bowler.4 }}</a>
+                <div class="account-stats">
+                    <div class="stat"><a>2,052nd</a><span>RANK</span></div>
+                    <div class="stat"><a>43</a><span>ATTEND</span></div>
+                    <div class="stat"><a>106</a><span>WINS</span></div>
+                    <div class="stat"><a>260</a><span>AVG</span></div>
+                </div>
+                <a href="/account/view/{{ bowler.0 }}" class="account-view btn btn-medium desktop-on">VIEW PROFILE</a>
+            </div>
+            {% if not forloop.last %}
+            <div class="standard-underline"></div>
+            {% endif %}
+        </section>
+        {% endfor %}
+        <a href="" class="btn search-more">MORE RESULTS</a>
+    </section>
+    {% endif %}
+
+    {% if bowlers_count > 0 or True == True %}
+    <section class="sec account-list">
+        <h2 class="align-left">BOWLERS</h2>
+        {% for bowler in bowlers %}
+        <section class="account-preview">
+
+            <div class='account-image'><img src="/media/{{ bowler.5 }}"></div>
+            <div class="account-container account-half-width">
+                <a href="/account/view/{{ bowler.0 }}" class="account-name">{{ bowler.1 }} {{ bowler.2 }}</a>
+                <a href="/account/view/{{ bowler.0 }}" class="account-location">{{ bowler.3 }}, {{ bowler.4 }}</a>
+                <div class="account-stats">
+                    <div class="stat"><a>2,052nd</a><span>RANK</span></div>
+                    <div class="stat"><a>43</a><span>ATTEND</span></div>
+                    <div class="stat"><a>106</a><span>WINS</span></div>
+                    <div class="stat"><a>260</a><span>AVG</span></div>
+                </div>
+                <a href="/account/view/{{ bowler.0 }}" class="account-view btn btn-medium desktop-on">VIEW PROFILE</a>
+            </div>
+            {% if not forloop.last %}
+            <div class="standard-underline"></div>
+            {% endif %}
+        </section>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if centers_count > 0 or True == True %}
+    <section class="sec account-list">
+        <h2 class="align-left">CENTERS</h2>
+        {% for bowler in bowlers %}
+        <section class="account-preview">
+
+            <div class='account-image'><img src="/media/{{ bowler.5 }}"></div>
+            <div class="account-container account-half-width">
+                <a href="/account/view/{{ bowler.0 }}" class="account-name">{{ bowler.1 }} {{ bowler.2 }}</a>
+                <a href="/account/view/{{ bowler.0 }}" class="account-location">{{ bowler.3 }}, {{ bowler.4 }}</a>
+                <div class="account-stats">
+                    <div class="stat"><a>2,052nd</a><span>RANK</span></div>
+                    <div class="stat"><a>43</a><span>ATTEND</span></div>
+                    <div class="stat"><a>106</a><span>WINS</span></div>
+                    <div class="stat"><a>260</a><span>AVG</span></div>
+                </div>
+                <a href="/account/view/{{ bowler.0 }}" class="account-view btn btn-medium desktop-on">VIEW PROFILE</a>
+            </div>
+            {% if not forloop.last %}
+            <div class="standard-underline"></div>
+            {% endif %}
+        </section>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    {% if tournaments_count == 0 and bowlers_count == 0 and centers_count == 0%}
+    <section class="sec account-list">
+        <h2 class="no-results">NO RESULTS FOUND</h2>
+    </section>
+    {% endif %}
+
+</section>
+<section class="col col-20 col-m-max-width m-order-3">
+
+</section>
+<script>
+    $(document).ready(function() {
+    //set initial state.
+
+    $('#bowlers-show-stats').change(function() {
+        console.log('checked');
+        if(this.checked) {
+            $('.account-stats').show();
+            $('.account-container').css('margin-top', '0px');
+            $('.account-preview').css('height', '120px');
+        }
+        else{
+            $('.account-stats').hide();
+            $('.account-container').css('margin-top', '20px');
+            $('.account-preview').css('height', '100px');
+        }
+    });
+});
+</script>
+{% endblock %}
