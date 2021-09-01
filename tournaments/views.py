@@ -320,7 +320,7 @@ def tournaments_results_views(request, page=1):
     selected_upcoming = False
     tournaments_count = Tournament.objects.all().count()
     tournaments_past = Tournament.objects.filter(tournament_date__lte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__gt=datetime.now().time())
-    results_count = len(tournaments_past)
+
     if request.method == 'POST':
         form = TournamentsSearch(request.POST)
         if form.is_valid():
@@ -342,7 +342,7 @@ def tournaments_results_views(request, page=1):
                                                                  'tournaments_past': tournaments_past,
                                                                  'selected_upcoming':selected_upcoming,
                                                                  'tournaments_count': tournaments_count,
-                                                                 'results_count': results_count,
+                                                                 'results_count': total_count,
                                                                  'search_type': 'tournaments_results',
                                                                  'search': search,
                                                                  'page': create_page_obj(page, per_page, total_count)
