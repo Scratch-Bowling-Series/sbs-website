@@ -16,13 +16,13 @@
         </section>
     </section>
     <section class="sec account-list">
-        {% for bowler in bowlers %}
+        {% for center in centers %}
         <section class="account-preview">
 
             <div class='account-image'><img src="/media/{{ bowler.5 }}"></div>
             <div class="account-container account-half-width">
-                <a href="/account/view/{{ bowler.0 }}" class="account-name">{{ bowler.1 }} {{ bowler.2 }}</a>
-                <a href="/account/view/{{ bowler.0 }}" class="account-location">{{ bowler.3 }}, {{ bowler.4 }}</a>
+                <a href="/account/view/{{ bowler.0 }}" class="account-name">{{ center.1 }}</a>
+                <a href="/account/view/{{ bowler.0 }}" class="account-location">{{ center.2 }}, {{ center.3 }}</a>
                 <div class="account-stats">
                     <div class="stat"><a>2,052nd</a><span>RANK</span></div>
                     <div class="stat"><a>43</a><span>ATTEND</span></div>
@@ -37,20 +37,22 @@
         </section>
         {% endfor %}
     </section>
+    {% if page != None %}
     <section class="account-pagebar">
         <section class="account-pages std-radius">
-            <a class="sep off">|<i class="icon-arrow-right left"></i></a>
-            <a class="sep"><i class="icon-arrow-right left"></i></a>
-            <a>1</a>
-            <a class="selected">2</a>
-            <a>3</a>
-            <a>4</a>
-            <a>5</a>
-            <a>6</a>
-            <a class="sep"><i class="icon-arrow-right"></i></a>
-            <a class="sep"><i class="icon-arrow-right"></i>|</a>
+            <a class="sep {{ page.pagestyles.0 }}" href="/centers/page/{{ page.pagelinks.0 }}">|<i class="icon-arrow-right left"></i></a>
+            <a class="sep {{ page.pagestyles.1 }}" href="/centers/page/{{ page.pagelinks.1 }}"><i class="icon-arrow-right left"></i></a>
+            <a class="{{ page.pagestyles.2 }}" href="/centers/page/{{ page.pagelinks.2 }}">{{ page.pagelinks.2 }}</a>
+            <a class="{{ page.pagestyles.3 }}" href="/centers/page/{{ page.pagelinks.3 }}">{{ page.pagelinks.3 }}</a>
+            <a class="{{ page.pagestyles.4 }}" href="/centers/page/{{ page.pagelinks.4 }}">{{ page.pagelinks.4 }}</a>
+            <a class="{{ page.pagestyles.5 }}" href="/centers/page/{{ page.pagelinks.5 }}">{{ page.pagelinks.5 }}</a>
+            <a class="{{ page.pagestyles.6 }}" href="/centers/page/{{ page.pagelinks.6 }}">{{ page.pagelinks.6 }}</a>
+            <a class="{{ page.pagestyles.7 }}" href="/centers/page/{{ page.pagelinks.7 }}">{{ page.pagelinks.7 }}</a>
+            <a class="sep {{ page.pagestyles.8 }}" href="/centers/page/{{ page.pagelinks.8 }}"><i class="icon-arrow-right"></i></a>
+            <a class="sep {{ page.pagestyles.9 }}" href="/centers/page/{{ page.pagelinks.9 }}"><i class="icon-arrow-right"></i>|</a>
         </section>
     </section>
+    {% endif %}
 </section>
 <section class="col col-20 col-m-max-width m-order-3">
     <section class="sec desktop-on">
@@ -94,7 +96,7 @@
     <section class="sec sitestat">
         <div class="sitestat-half">
           <a>CENTERS</a>
-          <h2>{% if bowlers_count is None %}0{% else %}{{ bowlers_count }}{% endif %}</h2>
+          <h2>{% if total_centers is None %}0{% else %}{{ total_centers }}{% endif %}</h2>
         </div>
       </section>
 </section>
