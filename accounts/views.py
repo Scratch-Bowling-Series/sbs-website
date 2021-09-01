@@ -222,23 +222,22 @@ def accounts_socialcard_image(request, id):
         pwd = os.path.dirname(__file__)
         profile_pic = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/' + str(user.picture))
         profile_pic_size = (250, 250)
-
         card_pic = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/assets/img/social-card-template.png')
-
-        profile_pic.thumbnail(profile_pic_size)
-        mask_pic = Image.new("L", profile_pic.size, 0)
-        draw = ImageDraw.Draw(mask_pic)
-        width = 250
-        height = 250
-        shape = [(0, 0), (width, height)]
-        draw.ellipse(shape, fill=255)
-        profile_pic.crop(shape)
-        card_pic.paste(profile_pic, (0, 0))
+        card_pic.paste(create_profile_pic_circle(profile_pic, profile_pic_size), (0, 0))
         response = HttpResponse(content_type='image/jpg')
         card_pic.save(response, "PNG")
         return response
     else:
         return Http404('This user does not exist.')
+
+
+def create_profile_pic_circle(profile_pic, profile_pic_size):
+    profile_pic.thumbnail(profile_pic_size)
+    alpha_mask = Image.new("L", profile_pic_size, 0)
+    draw = ImageDraw.Draw(alpha_mask)
+    draw.ellipse([(0, 0), profile_pic_size], fill=255)
+    profile_pic.putalpha(alpha_mask)
+    return profile_pic
 
 
 
