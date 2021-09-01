@@ -1,6 +1,5 @@
-from accounts import forms
-from accounts.forms import User
+from django import forms
 
 
 class BowlersSearch(forms.Form):
-    search_args = forms.CharField()
+    search_args = forms.CharField(max_length=100)
