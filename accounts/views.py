@@ -1,7 +1,7 @@
 import json
 import os
 
-from PIL import Image, ImageDraw, ImageOps
+from PIL import Image, ImageDraw, ImageOps, ImageFont
 from django.http import HttpRequest, HttpResponse, Http404, FileResponse
 from django.template.defaulttags import register
 from django.contrib.auth import get_user_model
@@ -234,6 +234,13 @@ def accounts_socialcard_image(request, id):
 
         card_pic.paste(profile_pic, profile_pic_alignment, profile_pic)
         card_pic.paste(profile_pic_stroke,(profile_pic_alignment[0] - stroke_size, profile_pic_alignment[1] - stroke_size), profile_pic_stroke)
+
+        fnt = ImageFont.truetype("/home/scratchbowling/Scratch-Bowling-Series-Website/assets/fonts/TTOctosquaresCond-Black.ttf", 40)
+        d = ImageDraw.Draw(card_pic)
+
+        d.text((10, 10), user.first_name + ' ' + user.last_name, font=fnt, fill=(0,0,0, 255))
+
+        d.text((10, 60), user.location_city + ', ' + user.location_state, font=fnt, fill=(0,0,0, 255))
 
         response = HttpResponse(content_type='image/png')
         response['Content-Disposition'] = 'filename="social-card.png"'
