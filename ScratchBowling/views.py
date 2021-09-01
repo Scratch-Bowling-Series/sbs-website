@@ -36,9 +36,9 @@ def search(request):
         if form.is_valid():
             search = form.cleaned_data['search_args']
 
-            bowlers = User.objects.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))
-            tournaments = Tournament.objects.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))
-            centers = Center.objects.filter(Q(center_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))
+            bowlers = User.objects.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))[:10]
+            tournaments = Tournament.objects.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))[:10]
+            centers = Center.objects.filter(Q(center_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))[:10]
             return render(request, 'search-main.html', {'tournaments': tournaments,
                                                         'tournaments_count': len(tournaments),
                                                         'bowlers': bowlers,
