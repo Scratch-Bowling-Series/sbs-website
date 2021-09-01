@@ -36,11 +36,28 @@ def search(request):
         if form.is_valid():
             search = form.cleaned_data['search_args']
 
-            bowlers = User.objects.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))[:10]
-            tournaments = Tournament.objects.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))[:10]
-            centers = Center.objects.filter(Q(center_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))[:10]
-            return render(request, 'search-main.html', {'tournaments': tournaments,
-                                                        'tournaments_count': len(tournaments),
+            bowlers = User.objects.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))[:4]
+            temp_bowlers = []
+            for bowler in bowlers:
+                temp_bowlers.append(user_to_display_list(bowler))
+            bowlers = temp_bowlers
+
+
+            tournaments_upcoming = Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time())
+            tournaments_results = Tournament.objects.filter(tournament_date__lte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__gt=datetime.now().time())
+
+            tournaments_upcoming = tournaments_upcoming.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))[:4]
+            ##tournaments_results = tournaments_results.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))[:4]
+
+
+
+
+
+            centers = Center.objects.filter(Q(center_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))[:4]
+            return render(request, 'search-main.html', {'tournament_upcoming': tournaments_upcoming,
+                                                        'tournament_upcoming_count': len(tournaments_upcoming),
+                                                        'tournament_results': tournaments_results,
+                                                        'tournament_results_count': len(tournaments_results),
                                                         'bowlers': bowlers,
                                                         'bowlers_count': len(bowlers),
                                                         'centers': centers,
@@ -50,7 +67,15 @@ def search(request):
         return redirect('/')
 
 
-
+def user_to_display_list(user):
+    return [user.user_id,
+            user.first_name,
+            user.last_name,
+            user.location_city,
+            user.location_state,
+            user.picture,
+            user.statistics
+            ]
 
 def about(request):
     return render(request, 'about.html', {'nbar': 'about'})
