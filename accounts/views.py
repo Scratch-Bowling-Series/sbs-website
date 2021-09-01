@@ -210,7 +210,7 @@ def accounts_account_view(request, id):
                                                             'page_title': str(view_user.first_name) + ' ' + str(view_user.last_name),
                                                             'page_description': description,
                                                             'page_keywords': 'user, bowler, account, rank, data, scores, tournaments, stats, statistics',
-                                                            'social_image' : '/account/socialcard/image/' + str(view_user.user_id)
+                                                            'social_image' : 'https://scratchbowling.pythonanywhere.com/account/socialcard/image/' + str(view_user.user_id)
                                                             })
     else:
         return Http404('This user does not exist.')
