@@ -252,12 +252,12 @@ def create_profile_pic_stroke(profile_pic_size, stroke_size, color):
     draw.ellipse([(stroke_size, stroke_size), (profile_pic_size[0] - stroke_size, profile_pic_size[1] - stroke_size)], fill=0)
     stroke = Image.new('RGBA', profile_pic_size, color)
     bkg.paste(stroke, (0,0), alpha_mask)
-    bkg.putalpha(alpha_mask)
+    bkg.convert('RGBA')
     return bkg
 
 def create_profile_pic_circle(profile_pic, profile_pic_size):
     profile_pic.thumbnail(profile_pic_size)
-    bkg = Image.new('RGBA', profile_pic_size, (255, 255, 255, 255))
+    bkg = Image.new('RGBA', profile_pic_size, (255, 255, 255, 0))
     alpha_mask = Image.new("L", profile_pic_size, 0)
     draw = ImageDraw.Draw(alpha_mask)
     draw.ellipse([(0, 0), profile_pic_size], fill=255)
