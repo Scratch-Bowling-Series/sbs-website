@@ -240,8 +240,11 @@ def accounts_socialcard_image(request, id):
 
 
 def create_profile_pic_stroke(profile_pic_size, stroke_size):
-    profile_pic_size[0] += stroke_size * 2
-    profile_pic_size[1] += stroke_size * 2
+
+    profile_pic_size = (profile_pic_size[0] + (stroke_size * 2),
+                        profile_pic_size[1] + (stroke_size * 2))
+
+
     stroke = Image.new('RGBA', profile_pic_size, (255, 255, 255, 255))
     return stroke
 
