@@ -25,6 +25,7 @@
     <section class="sec tournaments-list">
         {% if upcoming_count == 0 %}
             <h2 class="no-results">NO UPCOMING TOURNAMENTS</h2>
+            <a href="/tournaments/results" class="btn">VIEW PREVIOUS TOURNAMENTS</a>
         {% else %}
         {% for tournament in tournaments_upcoming %}
         <section class="tournament-preview">
