@@ -221,19 +221,21 @@ def accounts_socialcard_image(request, id):
     if user != None:
         pwd = os.path.dirname(__file__)
         profile_pic = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/' + str(user.picture))
+        profile_pic.convert('RGBA')
         profile_pic_size = (250, 250)
         profile_pic_alignment = (600 - 125, 315 - 185)
         stroke_size = 5
         stroke_color = (33, 64, 49)
         card_pic = Image.new('RGBA', (1200, 630), (255, 255, 255, 255))
         bkg = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/assets/img/social-card-template.jpg')
+        bkg.convert('RGBA')
         profile_pic = create_profile_pic_circle(profile_pic, profile_pic_size)
         profile_pic_stroke = create_profile_pic_stroke(profile_pic_size, stroke_size, stroke_color)
         #card_pic.paste(bkg, (0,0))
 
         card_pic.paste(profile_pic, profile_pic_alignment)
         card_pic.paste(profile_pic_stroke,(profile_pic_alignment[0] - stroke_size, profile_pic_alignment[1] - stroke_size))
-        response = HttpResponse(content_type='image/jpg')
+        response = HttpResponse(content_type='image/png')
         response['Content-Disposition'] = 'filename="social-card.png"'
         card_pic.save(response, "PNG")
         return response
