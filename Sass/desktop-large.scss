@@ -181,14 +181,6 @@ nav
     background:white;
     color:$color-tan;
   }
-  span
-  {
-    position:absolute;
-    bottom:20px;
-    right:10px;left:10px;
-    width:calc(100% - 20px);height:1px;
-    display:none;
-  }
 }
 .nav-btn-drop
 {
@@ -252,6 +244,12 @@ nav
   &:hover .drop-wrap{
     display:block;
   }
+}
+.nav-btn-underline{
+  position:absolute;
+  bottom:20px;
+  right:9px;left:9px;
+  width:calc(100% - 18px);height:2px;
 }
 /* MOBILE NAV */
 .nav-drop-button
@@ -359,9 +357,12 @@ nav
   display:block;
 }
 .no-results-link{
-  font-size:18px;
-  text-align:center;
+  display:block;
+  font-size:16px;
+  margin: -60px 0 70px 0;
   color:$color-darkgreen;
+  vertical-align:top;
+  text-align:center;
 }
 /*****************************
          FOOTER
@@ -484,7 +485,11 @@ footer
   vertical-align: top;
   max-height:30px;
 }
-
+.hover-effect{
+  &:hover{
+    opacity:0.85;
+  }
+}
 
 
 .glow
