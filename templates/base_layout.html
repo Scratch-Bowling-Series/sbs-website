@@ -169,15 +169,15 @@
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% elif search_type == 'tournaments_results' %}
-            <form class="nav-search">
+            <form class="nav-search" method="post" action="{% url 'tournaments:results' %}">
                 {% csrf_token %}
-                <input type="text" name="Search" placeholder="TOURNAMENT RESULTS">
+                <input type="text" name="Search" placeholder="TOURNAMENT RESULTS" value="{{ search }}">
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% elif search_type == 'tournaments_upcoming' %}
-            <form class="nav-search">
+            <form class="nav-search" method="post" action="{% url 'tournaments:upcoming' %}">
                 {% csrf_token %}
-                <input type="text" name="Search" placeholder="UPCOMING TOURNAMENTS">
+                <input type="text" name="Search" placeholder="UPCOMING TOURNAMENTS" value="{{ search }}">
                 <input type="submit" name="SEARCH" value="SEARCH">
             </form>
             {% elif search_type == 'bowlers_search' %}

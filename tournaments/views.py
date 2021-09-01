@@ -4,10 +4,13 @@ from urllib.request import urlopen
 
 from datetime import datetime
 from uuid import UUID
+
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaulttags import register
 
+from ScratchBowling.forms import TournamentsSearch
 from ScratchBowling.pages import create_page_obj
 from centers.models import Center
 from accounts.forms import User
@@ -317,6 +320,13 @@ def tournaments_results_views(request, page=1):
     tournaments_count = Tournament.objects.all().count()
     upcoming_count = Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time()).count()
     tournaments_past = Tournament.objects.filter(tournament_date__lte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__gt=datetime.now().time())
+    if request.method == 'POST':
+        form = TournamentsSearch(request.POST)
+        if form.is_valid():
+            search = form.cleaned_data['search_args']
+            tournaments_past = tournaments_past.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))
+
+
     reallist = []
     for tournament in tournaments_past:
 
@@ -333,6 +343,7 @@ def tournaments_results_views(request, page=1):
                                                                  'tournaments_count': tournaments_count,
                                                                  'upcoming_count': upcoming_count,
                                                                  'search_type': 'tournaments_results',
+                                                                 'search': search,
                                                                  'page': create_page_obj(page, per_page, total_count)
                                                                  })
 
