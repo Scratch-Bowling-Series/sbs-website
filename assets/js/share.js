@@ -2,13 +2,14 @@ $(document).ready(function(){
    $('.sharebox .close').click(function (){
        $('.sharebox').hide();
    });
+   console.log('sharing loaded');
    $('.share-page').click(function(){
         console.log('sharing');
       var pageUrl = window.location.href;
        $.ajax({
            type: "POST",
            url: "https://scratchbowling.pythonanywhere.com/s/create/new/",
-           data: { url: pageUrl }
+           data: { url: pageUrl },
            contentType: "text/plain",
            dataType: "text",
            success: function (data) {
