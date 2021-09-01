@@ -235,7 +235,7 @@ def accounts_socialcard_image(request, id):
         profile_pic.putalpha(mask_pic)
         card_pic.paste(profile_pic, (100, 100))
         response = HttpResponse(content_type='image/jpg')
-        card_pic.save(response, "PNG")
+        profile_pic.save(response, "PNG")
         return response
     else:
         return Http404('This user does not exist.')
