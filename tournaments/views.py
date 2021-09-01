@@ -314,6 +314,7 @@ def make_ordinal(n):
 
 
 def tournaments_results_views(request, page=1):
+    search = ''
     page = int(page)
     per_page = 20
     selected_upcoming = False
