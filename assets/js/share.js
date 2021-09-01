@@ -23,7 +23,7 @@ $(document).ready(function(){
    });
 
    function CopyTo(url){
-       $('.link-copy-notify').css('opacity', '1');
+       $('.link-copy-notify').css('opacity', 1);
        navigator.clipboard.writeText(url);
        setTimeout(function (){
            $('.link-copy-notify').css('opacity', '0');
