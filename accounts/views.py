@@ -1,3 +1,4 @@
+import io
 import json
 import os
 
@@ -109,6 +110,7 @@ def accounts_modify_view(request):
             user.finish_profile = False
             form.save()
             user.save()
+            handle_uploaded_file(request.FILES['file'])
             return redirect('/account/view/' + str(user.user_id))
     else:
         user = request.user
@@ -118,6 +120,10 @@ def accounts_modify_view(request):
                                                             'page_description': 'Modify your Scratch Bowling Series account.',
                                                             'page_keywords': 'Modify, Account, Edit, Change, Update, Information, Settings, Help'})
 
+def handle_uploaded_file(file):
+    image = Image.open(io.BytesIO(file.read()))
+    image.thumbnail((500,500))
+    image.save()
 
 def accounts_login_view(request):
     if request.method == 'POST':
