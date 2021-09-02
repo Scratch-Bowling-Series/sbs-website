@@ -13,7 +13,8 @@ $(document).ready(function(){
            contentType: "text/plain",
            dataType: "text",
            success: function (data) {
-                        $('.sharebox').show();
+                        $('.sharebox').css('display', 'block');
+                        $('.link-copy-notify').css('opacity', '0');
                         $('.share-link').text(data.toString().replace('.pythonanywhere', ''));
                         $('.share-link').click(function (){ CopyTo(data.toString()); });
                         $('.link-copy').click(function (){ CopyTo(data.toString()); });
