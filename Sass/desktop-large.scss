@@ -1050,7 +1050,8 @@ footer
     color:white;
     font-size:15px;
     width:15px;
-    background:red;
+    box-sizing:border-box;
+    padding:0;
     text-align:center;
   }
 }
