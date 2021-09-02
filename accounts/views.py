@@ -110,7 +110,7 @@ def accounts_modify_view(request):
             user.finish_profile = False
             form.save()
             user.save()
-            handle_uploaded_file(request.FILES['file'].stream)
+            handle_uploaded_file(user)
             return redirect('/account/view/' + str(user.user_id))
     else:
         user = request.user
@@ -120,10 +120,11 @@ def accounts_modify_view(request):
                                                             'page_description': 'Modify your Scratch Bowling Series account.',
                                                             'page_keywords': 'Modify, Account, Edit, Change, Update, Information, Settings, Help'})
 
-def handle_uploaded_file(file):
-    image = Image.open(io.BytesIO(file.read()))
+def handle_uploaded_file(user):
+    image = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/' + str(user.picture))
     image.thumbnail((500,500))
-    image.save()
+    user.picture = 'profile-pictures/main-' + str(user.user_id) + '.jpg'
+    image.save('/home/scratchbowling/Scratch-Bowling-Series-Website/media/profile-pictures/main-' + str(user.user_id) + '.jpg')
 
 def accounts_login_view(request):
     if request.method == 'POST':
