@@ -122,11 +122,22 @@ def accounts_modify_view(request):
 
 def handle_uploaded_file(user):
     image = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/' + str(user.picture))
-    image.thumbnail((500,500))
+    crop_max_square(image)
     image = image.convert('RGB')
     user.picture = 'profile-pictures/main-' + str(user.user_id) + '.jpg'
     user.save()
     image.save('/home/scratchbowling/Scratch-Bowling-Series-Website/media/profile-pictures/main-' + str(user.user_id) + '.jpg')
+
+def crop_max_square(pil_img):
+    return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
+
+def crop_center(pil_img, crop_width, crop_height):
+    img_width, img_height = pil_img.size
+    return pil_img.crop(((img_width - crop_width) // 2,
+                         (img_height - crop_height) // 2,
+                         (img_width + crop_width) // 2,
+                         (img_height + crop_height) // 2))
+
 
 def accounts_login_view(request):
     if request.method == 'POST':
