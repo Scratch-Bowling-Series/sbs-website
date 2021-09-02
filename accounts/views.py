@@ -110,7 +110,7 @@ def accounts_modify_view(request):
             user.finish_profile = False
             form.save()
             user.save()
-            handle_uploaded_file(request.FILES['file'])
+            handle_uploaded_file(request.FILES['file'].stream)
             return redirect('/account/view/' + str(user.user_id))
     else:
         user = request.user
