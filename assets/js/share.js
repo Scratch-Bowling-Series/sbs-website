@@ -1,4 +1,9 @@
 $(document).ready(function(){
+    window.fbAsyncInit = function () {
+        FB.init({
+            xfbml:false  // Will stop the fb like button from rendering automatically
+        });
+    };
    $('.sharebox .close').click(function (){
        $('.sharebox').hide();
    });
@@ -32,7 +37,7 @@ $(document).ready(function(){
            success: function (data) {
                OpenShareBox();
                $('.share-link').html(data.toString().replace('.pythonanywhere', '') + '<span id="link-notify" class="link-copy-notify">LINK COPIED TO CLIPBOARD</span>');
-               
+
                $('.share-link').click(function (){ CopyTo(data.toString()); });
                $('.link-copy').click(function (){ CopyTo(data.toString()); });
            }
@@ -40,6 +45,7 @@ $(document).ready(function(){
    });
 
    function OpenShareBox(){
+        FB.XFBML.parse();
         $('.sharebox').css('display', 'block');
         $('.link-copy-notify').css('opacity', 0);
 
