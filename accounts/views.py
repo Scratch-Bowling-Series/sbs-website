@@ -88,7 +88,7 @@ def accounts_modify_view(request):
         if form.is_valid():
             user = request.user
             user.bio = form.data.get('bio')
-            user.picture= form.cleaned_data.get('picture')
+            user.picture = form.cleaned_data.get('picture')
             user.location_street = form.data.get('location_street')
             user.location_city = form.data.get('location_city')
             user.location_state = form.data.get('location_state')
@@ -109,7 +109,7 @@ def accounts_modify_view(request):
             user.left_handed = left_handed
             user.finish_profile = False
             form.save()
-            image = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/' + str(user.picture))
+            image = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/profile-pictures/' + str(user.picture))
             image = crop_max_square(image).resize((250, 250), Image.LANCZOS)
             image = image.convert('RGB')
             user.picture = 'profile-pictures/main-' + str(user.user_id) + '.jpg'
