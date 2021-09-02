@@ -18,4 +18,4 @@ urlpatterns = [
     path('scraper/', views.accounts_scraper_view, name='scraper'),
     path('socialcard/image/<id>/', views.accounts_socialcard_image, name='socialcard-image'),
     path('activate/<slug:uidb64>/<slug:token>/', views.activate, name='activate'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
