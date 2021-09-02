@@ -703,6 +703,11 @@ footer
     max-width:700px;
     background:white;
     border-radius:10px;
+    .fb-share-button{
+      display:block;
+      margin:0 auto;
+      text-align:center;
+    }
     .share-link{
       width:calc(100% - 100px);
       margin:20px 0 20px 20px;
