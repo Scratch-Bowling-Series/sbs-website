@@ -122,7 +122,7 @@ def accounts_modify_view(request):
 
 def handle_uploaded_file(user):
     image = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/' + str(user.picture))
-    crop_max_square(image)
+    image = crop_max_square(image).resize((250, 250), Image.LANCZOS)
     image = image.convert('RGB')
     user.picture = 'profile-pictures/main-' + str(user.user_id) + '.jpg'
     user.save()
