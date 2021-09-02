@@ -731,7 +731,8 @@ footer
         font-size:20px;
         padding:17px 0 17px 33px;
         display:block;
-        opacity:1;
+        opacity:0;
+        transition:opacity ease 0.5s;
       }
     }
     .link-copy{

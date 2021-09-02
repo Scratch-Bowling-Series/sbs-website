@@ -28,10 +28,9 @@ $(document).ready(function(){
 
    function CopyTo(url){
        $('.link-copy-notify').css('opacity', 1);
-       $('.share-link').css('color', 'red');
        navigator.clipboard.writeText(url);
        setTimeout(function (){
            $('.link-copy-notify').css('opacity', 0);
-       },2000);
+       },1000);
    }
 });
