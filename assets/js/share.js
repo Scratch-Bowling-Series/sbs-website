@@ -13,7 +13,7 @@ $(document).ready(function(){
            dataType: "text",
            success: function (data) {
                OpenShareBox();
-               $('.share-link').text(data.toString().replace('.pythonanywhere', ''));
+               $('.share-link').text(data.toString().replace('.pythonanywhere', '') + '<span id="link-notify" class="link-copy-notify">LINK COPIED TO CLIPBOARD</span>');
                $('.share-link').click(function (){ CopyTo(data.toString()); });
                $('.link-copy').click(function (){ CopyTo(data.toString()); });
            }
