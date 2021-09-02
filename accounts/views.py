@@ -125,6 +125,7 @@ def handle_uploaded_file(user):
     image.thumbnail((500,500))
     image.convert('RGB')
     user.picture = 'profile-pictures/main-' + str(user.user_id) + '.jpg'
+    user.save()
     image.save('/home/scratchbowling/Scratch-Bowling-Series-Website/media/profile-pictures/main-' + str(user.user_id) + '.jpg')
 
 def accounts_login_view(request):
