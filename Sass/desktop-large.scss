@@ -1038,7 +1038,14 @@ footer
   font-size:21px;
 }
 .live-prev-watch-share{
+  display:inline-block;
+  vertical-align:top;
+  float:right;
+  margin:20px;
   margin-right:0;
+  i{
+    color:white;
+  }
 }
 .live-prev-leader
 {
