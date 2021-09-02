@@ -32,7 +32,7 @@ $(document).ready(function(){
            success: function (data) {
                OpenShareBox();
                $('.share-link').html(data.toString().replace('.pythonanywhere', '') + '<span id="link-notify" class="link-copy-notify">LINK COPIED TO CLIPBOARD</span>');
-               $('.share-link-facebook').attr('data-href', data.toString());
+               $('.fb-share-button').attr('data-href', data.toString());
                $('.share-link').click(function (){ CopyTo(data.toString()); });
                $('.link-copy').click(function (){ CopyTo(data.toString()); });
            }
