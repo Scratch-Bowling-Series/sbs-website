@@ -3,7 +3,7 @@ $(document).ready(function(){
        $('.sharebox').hide();
    });
    $('.share-page').click(function(){
-      $('#link-notify').css('opacity', 0);
+      //$('#link-notify').css('opacity', 0);
       var pageUrl = window.location.href;
       pageUrl = pageUrl.replace('https://scratchbowling.pythonanywhere.com', '');
       pageUrl = pageUrl.replaceAll('/', '&sl');
