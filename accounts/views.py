@@ -109,8 +109,13 @@ def accounts_modify_view(request):
             user.left_handed = left_handed
             user.finish_profile = False
             form.save()
+            image = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/' + str(user.picture))
+            image = crop_max_square(image).resize((250, 250), Image.LANCZOS)
+            image = image.convert('RGB')
+            user.picture = 'profile-pictures/main-' + str(user.user_id) + '.jpg'
             user.save()
-            handle_uploaded_file(user)
+            image.save('/home/scratchbowling/Scratch-Bowling-Series-Website/media/profile-pictures/main-' + str(
+                user.user_id) + '.jpg')
             return redirect('/account/view/' + str(user.user_id))
     else:
         user = request.user
@@ -120,13 +125,8 @@ def accounts_modify_view(request):
                                                             'page_description': 'Modify your Scratch Bowling Series account.',
                                                             'page_keywords': 'Modify, Account, Edit, Change, Update, Information, Settings, Help'})
 
-def handle_uploaded_file(user):
-    image = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/' + str(user.picture))
-    image = crop_max_square(image).resize((250, 250), Image.LANCZOS)
-    image = image.convert('RGB')
-    user.picture = 'profile-pictures/main-' + str(user.user_id) + '.jpg'
-    user.save()
-    image.save('/home/scratchbowling/Scratch-Bowling-Series-Website/media/profile-pictures/main-' + str(user.user_id) + '.jpg')
+
+
 
 def crop_max_square(pil_img):
     return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
