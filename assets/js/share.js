@@ -12,14 +12,19 @@ $(document).ready(function(){
            contentType: "text/plain",
            dataType: "text",
            success: function (data) {
-                        $('.sharebox').css('display', 'block');
-                        $('.link-copy-notify').css('opacity', 0);
-                        $('.share-link').text(data.toString().replace('.pythonanywhere', ''));
-                        $('.share-link').click(function (){ CopyTo(data.toString()); });
-                        $('.link-copy').click(function (){ CopyTo(data.toString()); });
+               OpenShareBox();
+               $('.share-link').text(data.toString().replace('.pythonanywhere', ''));
+               $('.share-link').click(function (){ CopyTo(data.toString()); });
+               $('.link-copy').click(function (){ CopyTo(data.toString()); });
            }
        });
    });
+
+   function OpenShareBox(){
+        $('.sharebox').css('display', 'block');
+        $('.link-copy-notify').css('opacity', 0);
+
+   }
 
    function CopyTo(url){
        $('.link-copy-notify').css('opacity', 1);
