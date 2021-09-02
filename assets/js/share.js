@@ -1,9 +1,5 @@
 $(document).ready(function(){
-    window.fbAsyncInit = function () {
-        FB.init({
-            xfbml:false  // Will stop the fb like button from rendering automatically
-        });
-    };
+
    $('.sharebox .close').click(function (){
        $('.sharebox').hide();
    });
