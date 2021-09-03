@@ -244,18 +244,21 @@
     <div class="popup">
         <div class="pop-inner">
             <i class="icon-times close"></i>
-            {% if popup.0 %}
+            {% if popup.1 %}
                 <h2>WElCOME TO SBS!</h2>
                 <p>Things are changing. Something something like that. We are a new website now. This is where we are going to tell you what has changed. People will only see this on their first time visiting the site.<br><br>This is a very essential welcome message. We need to word things so people know exactly whats going on with SBS. Very friendly welcoming.<br><br>Whatever whatever some more things down here. Wordy wordy wordy.</p>
                 <a class="btn more continue">LEARN MORE</a>
-            {% elif popup.1 %}
+            {% elif popup.2 %}
                 <h2>CLAIM YOUR OLD SBS DATA</h2>
                 <p>Have you bowled with us before? We recently migrated the old bowler statistics to our new site. </p>
-            {% elif popup.1 %}
+                {% for shadow in popup.0 %}
+                    <a>{shadow.0} {shadow.1}</a>
+                {% endfor %}
+            {% elif popup.3 %}
 
-            {% elif popup.1 %}
+            {% elif popup.4 %}
 
-            {% elif popup.1 %}
+            {% elif popup.5 %}
 
             {% endif %}
         </div>
