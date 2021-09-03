@@ -708,9 +708,14 @@ footer
         vertical-align:top;
       }
     }
-    .claim-continue{
-      float:right;
+    .popup-claim-buttons{
+      width:100%;
+      text-align:right;
+      .claim-continue{
+        float:right;
+      }  
     }
+    
   }
 }
 
