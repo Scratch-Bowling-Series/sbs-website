@@ -21,6 +21,7 @@ def index(request):
     return render(request,
                   'homepage.html',
                   {'nbar': 'home',
+                   'popup': check_for_popup(request.user),
                    'tournament_live': load_tournament_live(),
                    'tournament_winners': load_tournament_winners(),
                    'tournaments_upcoming': load_tournament_upcoming(),
@@ -105,6 +106,12 @@ def shortener_create(request, url):
         return HttpResponse('')
     else:
         return HttpResponse(create_link(url))
+
+def check_for_popup(user):
+    if user != None:
+        if user.ask_for_claim:
+            return [False, True, False, False, False]
+        
 
 
 def user_to_display_list(user):

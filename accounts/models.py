@@ -74,6 +74,7 @@ class User(AbstractBaseUser):
     staff = models.BooleanField(default=False) # a admin user; non super-user
     admin = models.BooleanField(default=False) # a superuser
     is_online = models.BooleanField(default=False)
+    ask_for_claim = models.BooleanField(default=True)
     unclaimed = models.BooleanField(default=False)
     objects = UserManager()
     # notice the absence of a "Password field", that is built in.
