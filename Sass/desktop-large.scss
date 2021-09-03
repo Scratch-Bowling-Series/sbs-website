@@ -692,8 +692,13 @@ footer
       border-radius:10px;
       font-size:18px;
       text-align:left;
-      padding:20px;
+      padding:21px;
+      height:60px;
       display:block;
+      .btn{
+        float:right;
+        margin:17px 20px 17px 0;
+      }
     }
   }
 }
