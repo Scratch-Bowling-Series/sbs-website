@@ -108,7 +108,7 @@ def shortener_create(request, url):
         return HttpResponse(create_link(url))
 
 def check_for_popup(user):
-    if user != None and user.is_anonymous() == False:
+    if user != None and user.is_anonymous == False:
         if user.ask_for_claim:
             return [False, True, False, False, False]
 
