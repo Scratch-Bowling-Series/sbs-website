@@ -240,14 +240,29 @@
     </nav>
 
     <!-- Popup -->
+    {% if popup != None %}
     <div class="popup">
         <div class="pop-inner">
             <i class="icon-times close"></i>
-            <h2>WElCOME TO SBS!</h2>
-            <p>Things are changing. Something something like that. We are a new website now. This is where we are going to tell you what has changed. People will only see this on their first time visiting the site.<br><br>This is a very essential welcome message. We need to word things so people know exactly whats going on with SBS. Very friendly welcoming.<br><br>Whatever whatever some more things down here. Wordy wordy wordy.</p>
-            <a class="btn more continue">LEARN MORE</a>
+            {% if popup.0 %}
+                <h2>WElCOME TO SBS!</h2>
+                <p>Things are changing. Something something like that. We are a new website now. This is where we are going to tell you what has changed. People will only see this on their first time visiting the site.<br><br>This is a very essential welcome message. We need to word things so people know exactly whats going on with SBS. Very friendly welcoming.<br><br>Whatever whatever some more things down here. Wordy wordy wordy.</p>
+                <a class="btn more continue">LEARN MORE</a>
+            {% elif popup.1 %}
+                <h2>CLAIM YOUR OLD SBS DATA</h2>
+                <p>Have you bowled with us before? We recently migrated the old bowler statistics to our new site. </p>
+            {% elif popup.1 %}
+
+            {% elif popup.1 %}
+
+            {% elif popup.1 %}
+
+            {% endif %}
         </div>
     </div>
+    {% endif %}
+
+
 
     <!-- Content -->
     <div id="content-wrapper">
@@ -262,7 +277,9 @@
             <i class="icon-times close"></i>
             <h2>SHARING OPTIONS</h2>
             <a class="share-link">https://scratchbowling.com/s/EA4J9</a><a class="link-copy"><i class="icon-link text-white"></i></a>
-            <div class="fb-share-button" data-href="https://google.com" data-layout="button_count" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgoogle.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={$pageURLValue}" target="_blank">
+              Share on Facebook
+            </a>
         </div>
         <script>window.fbAsyncInit = function () {
         FB.init({
