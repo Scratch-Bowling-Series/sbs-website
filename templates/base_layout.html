@@ -252,7 +252,7 @@
                 <h2>CLAIM YOUR OLD SBS DATA</h2>
                 <p>Have you bowled with us before? We recently migrated the old bowler statistics to our new site. </p>
                 {% for shadow in popup.0 %}
-                    <a>{shadow.0} {shadow.1}</a>
+                    <a class="popup-claim">{{shadow.0}} <span>{{shadow.1}}</span></a>
                 {% endfor %}
             {% elif popup.3 %}
 
