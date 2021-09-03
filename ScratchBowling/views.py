@@ -108,14 +108,14 @@ def shortener_create(request, url):
         return HttpResponse(create_link(url))
 
 def check_for_popup(user):
-    empty = [None, False, False, False, False, False]
     if user != None and user.is_anonymous == False:
         if user.ask_for_claim:
+            User.objects.all().update(unclaimed=True)
             shadows = User.objects.filter(first_name=user.first_name, unclaimed = True)
             if shadows.count() > 15:
                 shadows = shadows.filter(Q(last_name__icontains=str(user.last_name)[0]))
             elif shadows.count() == 0:
-                return empty
+                return None
             shadow_list = []
             for shadow in shadows:
                 shadow_list.append([str(shadow.first_name) + ' ' + str(shadow.last_name), str(shadow.location_city) + ', ' + str(shadow.location_state)])
