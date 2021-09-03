@@ -111,7 +111,7 @@ def check_for_popup(user):
     if user != None:
         if user.ask_for_claim:
             return [False, True, False, False, False]
-        
+
 
 
 def user_to_display_list(user):

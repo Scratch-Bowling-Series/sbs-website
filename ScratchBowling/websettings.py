@@ -1,6 +1,5 @@
 import json
 
-from ScratchBowling.sbs_utils import read_file, store_file
 
 
 class WebSettings:
@@ -40,5 +39,22 @@ def store_settings(settings):
 def get_settings():
     read_file()
 
+def store_file(data, file_name, path=''):
+    try:
+        settings = WebSettings()
+        f = open(settings.os_path + path + file_name, "w")
+        f.write(data)
+        f.close()
+        return True
+    except FileNotFoundError:
+        return None
+
+def read_file(path, file_name):
+    try:
+        settings = WebSettings()
+        f = open(settings.os_path + path + file_name, "r")
+        return f.read()
+    except FileNotFoundError:
+        return None
 
 
