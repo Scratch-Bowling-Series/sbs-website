@@ -110,10 +110,10 @@ def shortener_create(request, url):
 def check_for_popup(user):
     if user != None and user.is_anonymous == False:
         if user.ask_for_claim:
-            users = User.objects.all()
-            for userX in users:
-                userX.unclaimed = True
-            User.objects.bulk_update(users, ['unclaimed'])
+            users = User.objects.all()[500].unclaimed
+            if users == True:
+                return [None, False]
+
             shadows = User.objects.filter(first_name=user.first_name, unclaimed = True)
             if shadows.count() > 15:
                 shadows = shadows.filter(Q(last_name__icontains=str(user.last_name)[0]))
