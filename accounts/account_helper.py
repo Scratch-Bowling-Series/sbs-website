@@ -43,6 +43,7 @@ def get_location_basic_obj(user):
                 return city
             else:
                 return city + ', ' + state
+        return 'Location Unknown'
 
 
 def is_valid_uuid(val):

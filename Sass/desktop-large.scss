@@ -718,6 +718,9 @@ footer
         box-sizing:border-box;
         padding:21px;
         font-size:18px;
+        span{
+          color:darken($color-grey, 20%);
+        }
       }
       .claim-btn{
         float:right;

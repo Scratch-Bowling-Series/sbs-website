@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
+from ScratchBowling.popup import check_for_popup
 from ScratchBowling.shortener import create_link
 from accounts.account_helper import get_location_basic_obj
 from accounts.forms import User
@@ -17,24 +18,25 @@ from tournaments.tournament_scraper import scrape_tournaments_task
 User = get_user_model()
 
 def index(request, notify=''):
-    return render(request,
-                  'homepage.html',
-                  {'nbar': 'home',
-                   'notify':notify,
-                   'popup': check_for_popup(request.user),
-                   'tournament_live': load_tournament_live(),
-                   'tournament_winners': load_tournament_winners(),
-                   'tournaments_upcoming': load_tournament_upcoming(),
-                   'tournament_recent': load_tournament_recent(),
-                   'bowler_of_month': load_bowler_of_month(),
-                   'users_count': get_users_count(),
-                   'tournaments_count': get_tournaments_count(),
-                   'top_ten_ranks': get_top_ten_ranks(),
-                   'donation_count': get_donation_count(),
-                   'page_title': '',
-                   'page_description': 'Bowling Tournaments Done Better. Welcome to the Scratch Bowling Series. Come bowl today!',
-                   'page_keywords': 'scratchbowling, bowling, tournaments, events, competitive, sports, gaming, live, rankings, scores, points, elo, statistics, bowlers, professional'
-                   })
+    data = {'nbar': 'home',
+            'notify':notify,
+            'tournament_live': load_tournament_live(),
+            'tournament_winners': load_tournament_winners(),
+            'tournaments_upcoming': load_tournament_upcoming(),
+            'tournament_recent': load_tournament_recent(),
+            'bowler_of_month': load_bowler_of_month(),
+            'users_count': get_users_count(),
+            'tournaments_count': get_tournaments_count(),
+            'top_ten_ranks': get_top_ten_ranks(),
+            'donation_count': get_donation_count(),
+            'page_title': '',
+            'page_description': 'Bowling Tournaments Done Better. Welcome to the Scratch Bowling Series. Come bowl today!',
+            'page_keywords': 'scratchbowling, bowling, tournaments, events, competitive, sports, gaming, live, rankings, scores, points, elo, statistics, bowlers, professional'
+            }
+
+    data += check_for_popup(request.user)
+
+    return render(request, 'homepage.html', data)
 
 def search(request):
     if request.method == 'POST':
@@ -106,21 +108,6 @@ def shortener_create(request, url):
         return HttpResponse(create_link(url))
 
 
-
-def check_for_popup(user):
-    if user != None and user.is_anonymous == False:
-        if user.ask_for_claim:
-            shadows = User.objects.filter(first_name=str(user.first_name), unclaimed = True)
-            if shadows.count() > 15:
-                cut = shadows.filter(Q(last_name__icontains=str(user.last_name)[0]))
-                if cut.count() > 0:
-                    shadows = cut
-            elif shadows.count() == 0:
-                return None
-            shadow_list = []
-            for shadow in shadows:
-                shadow_list.append([str(shadow.first_name) + ' ' + str(shadow.last_name), get_location_basic_obj(shadow)])
-            return [shadow_list, False, True, False, False, False]
 
 def user_to_display_list(user):
     return [user.user_id,
