@@ -638,9 +638,15 @@ footer
     display: inline-block;
     font-size:18px;
     position:absolute;
-    left:0;top:0;
-    padding:24px 10px 20px 20px;
-    color:$color-lightgreen;
+    left:20px;top:10px;
+    padding:5px;
+    background:$color-lightgreen;
+    color:white;
+    width:23px;
+    height:23px;
+    text-align:center;
+    box-sizing:border-box;
+    border-radius:18px;
   }
   a
   {
