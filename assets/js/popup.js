@@ -27,6 +27,7 @@ $(document).ready(function()
             var margins = ($('.popup').height() - $('.popup-inner').height()) / 2;
             $('.popup-inner').css('margin-top', margins);
             $('.popup-inner').css('margin-bottom', margins);
+            console.log('applied margin ' + margins);
     }
 
     $(function() {
