@@ -21,15 +21,14 @@ $(document).ready(function()
 
 
     function CenterPopup(){
-            var inheight = $('.popup-inner').height();
+            var inheight = $('.pop-inner').height();
 
             if(inheight > $(window).height()){
-                $('.popup-inner').height($(window).height());
+                $('.pop-inner').height($(window).height());
             }
             var margins = ($(window).height() - inheight) / 2;
-            $('.popup-inner').css('margin-top', margins);
-            $('.popup-inner').css('margin-bottom', margins);
-            console.log('applied margin ' + margins);
+            $('.pop-inner').css('margin-top', margins);
+            $('.pop-inner').css('margin-bottom', margins);
     }
 
     $(function() {
