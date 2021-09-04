@@ -20,6 +20,7 @@ User = get_user_model()
 def index(request, notify=''):
     data = {'nbar': 'home',
             'notify':notify,
+            'popup': check_for_popup(request.user),
             'tournament_live': load_tournament_live(),
             'tournament_winners': load_tournament_winners(),
             'tournaments_upcoming': load_tournament_upcoming(),
@@ -32,10 +33,7 @@ def index(request, notify=''):
             'page_title': '',
             'page_description': 'Bowling Tournaments Done Better. Welcome to the Scratch Bowling Series. Come bowl today!',
             'page_keywords': 'scratchbowling, bowling, tournaments, events, competitive, sports, gaming, live, rankings, scores, points, elo, statistics, bowlers, professional'
-            }
-
-    data += check_for_popup(request.user)
-
+    }
     return render(request, 'homepage.html', data)
 
 def search(request):

@@ -16,4 +16,4 @@ def check_for_popup(user):
             shadow_list = []
             for shadow in shadows:
                 shadow_list.append([str(shadow.first_name) + ' ' + str(shadow.last_name), get_location_basic_obj(shadow)])
-            return {'popup', [shadow_list, False, True, False, False, False]}
+            return [shadow_list, False, True, False, False, False]
