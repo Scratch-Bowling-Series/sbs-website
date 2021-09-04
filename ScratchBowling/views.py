@@ -86,9 +86,7 @@ def about(request):
     return render(request, 'about.html', {'nbar': 'about'})
 
 def contact(request):
-    user = User.objects.filter(email='christianjstarr@icloud.com').first()
     return render(request, 'contact.html', {'nbar': 'contact',
-                                            'test': user,
                                             'page_title': 'Contact',
                                             'page_description': 'If you have any questions or need help with something. Please contact us here and we will get back with you as soon as possible.',
                                             'page_keywords': 'Contact, Message, Help, Email, Faqs, Support, Call, Maintenance'

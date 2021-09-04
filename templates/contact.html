@@ -11,7 +11,7 @@
     <section class="sec contact">
         <h1>CONTACT US</h1>
         <form class="standard-form" action="POST">
-            {% if user.is_authenticated %}
+            {% if request.user.is_authenticated %}
             <div class="contact-preview">
                 <img src="/media/{{ request.user.picture }}">
                 <a>{{ request.user.first_name|none_replace:'John' }}&nbsp;{{ request.user.last_name|none_replace:'Smith' }}<span>we'll reply to '<i>{{ request.user.email|none_replace:'youremail@address.com' }}</i>'</span></a>
