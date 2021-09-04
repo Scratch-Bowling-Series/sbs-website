@@ -174,15 +174,15 @@ def accounts_signup_view(request):
             })
             mail_subject = 'Scratch Series Bowling, Activate Account'
             user.save()
-            send_mail(
-                mail_subject,
-                ' ',
-                'christianjstarr@icloud.com',
-                [email],
-                fail_silently=True,
-                html_message=message
-            )
-            return render(request, 'homepage.html', {'nbar': 'home', 'notify': 'verify_email', 'first': user.first_name})
+            ##send_mail(
+             ##   mail_subject,
+             ##   ' ',
+             ##   'christianjstarr@icloud.com',
+             ##   [email],
+             ##   fail_silently=True,
+            ##    html_message=message
+           ## )
+            return render(request, 'homepage.html', {'nbar': 'home', 'notify': 'verify_email'})
     else:
         form = RegisterForm()
     return render(request, 'accounts/signup.html', {'form':form,
