@@ -14,18 +14,18 @@ $(document).ready(function()
             }
         });
 
-
+    CenterPopup();
     $(window).resize(function(){
 
         CenterPopup();
     });
 
     function CenterPopup(){
-            if($('.popup-inner').Height() > $('.popup').Height()){
-                $('.popup-inner').Height($('.popup').Height());
+            if($('.popup-inner').height() > $('.popup').height()){
+                $('.popup-inner').height($('.popup').height());
             }
             $('.popup-inner').css('margin', margins + 'px auto');
-            var margins = ($('.popup').Height() - $('.popup-inner').Height()) / 2;
+            var margins = ($('.popup').height() - $('.popup-inner').height()) / 2;
     }
 
     $(function() {
