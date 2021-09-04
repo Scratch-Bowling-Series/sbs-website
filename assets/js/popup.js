@@ -29,6 +29,7 @@ $(document).ready(function()
             var margins = ($(window).height() - inheight) / 2;
             $('.pop-inner').css('margin-top', margins);
             $('.pop-inner').css('margin-bottom', margins);
+            console.log('inheight: ' + inheight + ' window:' + $(window).height());
     }
 
     $(function() {
