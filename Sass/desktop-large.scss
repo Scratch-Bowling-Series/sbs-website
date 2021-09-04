@@ -720,6 +720,7 @@ footer
         font-size:18px;
         span{
           color:darken($color-grey, 20%);
+          font-family:$font-primary-light;
         }
       }
       .claim-btn{
