@@ -1,9 +1,8 @@
 from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render, redirect
-
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.shortener import create_link
 from accounts.account_helper import get_location_basic_obj
@@ -11,7 +10,6 @@ from accounts.forms import User
 from accounts.models import Shorten
 from centers.models import Center
 from check_git import get_last_commit
-from scoreboard.ranking import get_top_rankings
 from support.donation import get_donation_count
 from tournaments.models import Tournament
 from tournaments.tournament_scraper import scrape_tournaments_task
@@ -81,7 +79,7 @@ def search(request):
                                                         'more_results_centers': more_results_centers,
                                                         'search': search})
     else:
-        return redirect('/')
+        return HttpResponseRedirect('/')
 
 def about(request):
     return render(request, 'about.html', {'nbar': 'about'})
@@ -107,6 +105,8 @@ def shortener_create(request, url):
     else:
         return HttpResponse(create_link(url))
 
+
+
 def check_for_popup(user):
     if user != None and user.is_anonymous == False:
         if user.ask_for_claim:
@@ -121,8 +121,6 @@ def check_for_popup(user):
             for shadow in shadows:
                 shadow_list.append([str(shadow.first_name) + ' ' + str(shadow.last_name), get_location_basic_obj(shadow)])
             return [shadow_list, False, True, False, False, False]
-
-
 
 def user_to_display_list(user):
     return [user.user_id,

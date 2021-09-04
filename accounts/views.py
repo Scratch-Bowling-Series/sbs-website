@@ -1,10 +1,7 @@
-import io
 import json
 import os
-
-from PIL import Image, ImageDraw, ImageOps, ImageFont
-from django.contrib.redirects.models import Redirect
-from django.http import HttpRequest, HttpResponse, Http404, FileResponse
+from PIL import Image, ImageDraw, ImageFont
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template.defaulttags import register
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
@@ -14,8 +11,6 @@ from django.contrib.auth import login, logout
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.core.mail import EmailMessage, send_mail
-
 from scoreboard.ranking import get_rank_data_from_json
 from tournaments.models import Tournament
 from tournaments.views import get_tournament, is_valid_uuid, get_place, get_qualifying, make_ordinal
@@ -61,13 +56,11 @@ def counter(value, ordinal=False):
                 output += '<li class="inactive">{0}</li>'.format(str(value + x))
     return output
 
-
 @register.filter
 def none_replace(value, output):
     if value == None or value == '':
         return output
     return value
-
 
 @register.filter
 def is_friend(user_id, user):
@@ -126,9 +119,6 @@ def accounts_modify_view(request):
                                                             'page_description': 'Modify your Scratch Bowling Series account.',
                                                             'page_keywords': 'Modify, Account, Edit, Change, Update, Information, Settings, Help'})
 
-
-
-
 def crop_max_square(pil_img):
     return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
 
@@ -138,7 +128,6 @@ def crop_center(pil_img, crop_width, crop_height):
                          (img_height - crop_height) // 2,
                          (img_width + crop_width) // 2,
                          (img_height + crop_height) // 2))
-
 
 def accounts_login_view(request):
     if request.method == 'POST':
@@ -156,8 +145,6 @@ def accounts_login_view(request):
                                                    'page_keywords': 'Login, Log In, Account, User, Add, Signup',
                                                    })
 
-
-# User-Auth SIGNUP
 def accounts_signup_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -183,7 +170,7 @@ def accounts_signup_view(request):
              ##   fail_silently=True,
             ##    html_message=message
            ## )
-            return Redirect('https://scratchbowling.com/notify/verify_email/')
+            return HttpResponseRedirect('https://scratchbowling.com/notify/verify_email/')
     else:
         form = RegisterForm()
     return render(request, 'accounts/signup.html', {'form':form,
@@ -191,7 +178,6 @@ def accounts_signup_view(request):
                                                     'page_description': 'Create your Scratch Bowling Series account.',
                                                     'page_keywords': 'Sign Up, Create, Account, Login, Log In',
                                                     })
-
 
 def activate(request, uidb64, token):
     try:
@@ -207,14 +193,10 @@ def activate(request, uidb64, token):
     else:
         return render(request, 'homepage.html', {'nbar': 'home', 'notify': 'verify_email_error'})
 
-
-# User-Auth LOGOUT
 def accounts_logout_view(request):
     logout(request)
     return redirect('/')
 
-
-# User-Auth MY Account
 def accounts_account_view(request, id):
     view_user = User.objects.filter(user_id=id).first()
     if view_user != None:
@@ -235,7 +217,6 @@ def accounts_account_view(request, id):
                                                             })
     else:
         return Http404('This user does not exist.')
-
 
 def accounts_socialcard_image(request, id):
     user = User.objects.filter(user_id=id).first()
@@ -271,7 +252,6 @@ def accounts_socialcard_image(request, id):
     else:
         return Http404('This user does not exist.')
 
-
 def create_profile_pic_stroke(profile_pic_size, stroke_size, color):
 
     profile_pic_size = (profile_pic_size[0] + (stroke_size * 2),
@@ -295,8 +275,6 @@ def create_profile_pic_circle(profile_pic, profile_pic_size):
 
     bkg.paste(profile_pic, (0,0), alpha_mask)
     return bkg
-
-
 
 def get_recent_tournaments(user):
     data = []
@@ -346,9 +324,6 @@ def update_users_tournaments():
                 bowler.tournaments = json.dumps(b_tournaments)
                 bowler.save()
 
-
-
-
 def accounts_add_view(request, id):
     id = is_valid_uuid(id)
     if id !=  None:
@@ -364,7 +339,6 @@ def accounts_add_view(request, id):
                 user.friends = json.dumps(friends)
                 user.save()
     return redirect('/account/view/' + str(id))
-
 
 def accounts_remove_view(request, id):
     id = is_valid_uuid(id)
@@ -383,14 +357,9 @@ def accounts_remove_view(request, id):
             user.save()
     return redirect('/account/view/' + str(id))
 
-
 def accounts_scraper_view(request):
     data = UpdateUsers()
     return HttpResponse(str(data))
 
-
-
 def get_amount_online():
     return User.objects.filter(is_online=True).count()
-
-
