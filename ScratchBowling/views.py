@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.shortener import create_link
+from accounts.account_helper import get_location_basic_obj
 from accounts.forms import User
 from accounts.models import Shorten
 from centers.models import Center
@@ -110,7 +111,7 @@ def shortener_create(request, url):
 def check_for_popup(user):
     if user != None and user.is_anonymous == False:
         if user.ask_for_claim:
-            shadows = User.objects.filter(first_name=user.first_name, unclaimed = True)
+            shadows = User.objects.filter(first_name='aaron', unclaimed = True)
             if shadows.count() > 15:
                 cut = shadows.filter(Q(last_name__icontains=str(user.last_name)[0]))
                 if cut.count() > 0:
@@ -119,7 +120,7 @@ def check_for_popup(user):
                 return None
             shadow_list = []
             for shadow in shadows:
-                shadow_list.append([str(shadow.first_name) + ' ' + str(shadow.last_name), str(shadow.location_city) + ', ' + str(shadow.location_state)])
+                shadow_list.append([str(shadow.first_name) + ' ' + str(shadow.last_name), get_location_basic_obj(shadow)])
             return [shadow_list, False, True, False, False, False]
 
 
