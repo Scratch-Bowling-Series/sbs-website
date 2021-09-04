@@ -1,3 +1,4 @@
+from django.db.models import Q
 
 from accounts.account_helper import get_location_basic_obj, User
 
