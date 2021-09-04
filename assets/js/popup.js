@@ -14,6 +14,20 @@ $(document).ready(function()
             }
         });
 
+
+    $(window).resize(function(){
+
+        CenterPopup();
+    });
+
+    function CenterPopup(){
+            if($('.popup-inner').Height() > $('.popup').Height()){
+                $('.popup-inner').Height($('.popup').Height());
+            }
+            $('.popup-inner').css('margin', margins + 'px auto');
+            var margins = ($('.popup').Height() - $('.popup-inner').Height()) / 2;
+    }
+
     $(function() {
         var glower = $('.glow');
         window.setInterval(function() {
