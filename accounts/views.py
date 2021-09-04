@@ -157,7 +157,7 @@ def accounts_signup_view(request):
             user.first_name = form.data['first_name']
             user.last_name = form.data.get('last_name')
             user.save()
-
+            login(request, user)
             message = render_to_string('acc_active_email.html', {
                 'user': user,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
