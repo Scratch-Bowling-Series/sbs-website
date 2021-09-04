@@ -3,7 +3,7 @@ import json
 
 
 class WebSettings:
-    primary_domain = 'https://scratchbowling.com'
+    primary_domain = 'https://scratchbowling.pythonanywhere.com'
     os_path = '/home/scratchbowling/Scratch-Bowling-Series-Website/'
 
 

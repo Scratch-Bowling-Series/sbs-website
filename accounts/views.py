@@ -11,6 +11,8 @@ from django.contrib.auth import login, logout
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
+from ScratchBowling.websettings import WebSettings
 from scoreboard.ranking import get_rank_data_from_json
 from tournaments.models import Tournament
 from tournaments.views import get_tournament, is_valid_uuid, get_place, get_qualifying, make_ordinal
@@ -154,22 +156,25 @@ def accounts_signup_view(request):
             user = User.objects.create_user(email, password)
             user.first_name = form.data['first_name']
             user.last_name = form.data.get('last_name')
+            user.save()
+
             message = render_to_string('acc_active_email.html', {
                 'user': user,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
-            mail_subject = 'Scratch Series Bowling, Activate Account'
-            user.save()
-            ##send_mail(
+            #mail_subject = 'Scratch Series Bowling, Activate Account'
+
+             ##send_mail(
              ##   mail_subject,
              ##   ' ',
              ##   'christianjstarr@icloud.com',
              ##   [email],
              ##   fail_silently=True,
-            ##    html_message=message
-           ## )
-            return HttpResponseRedirect('https://scratchbowling.com/notify/verify_email/')
+             ##    html_message=message
+             ## )
+            settings = WebSettings()
+            return HttpResponseRedirect(settings.primary_domain + '/notify/verify_email/')
     else:
         form = RegisterForm()
     return render(request, 'accounts/signup.html', {'form':form,
