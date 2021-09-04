@@ -697,19 +697,27 @@ footer
     }
     p
     {
-      padding:0 20px 30px 20px;
+      padding:0 25px 10px 25px;
       font-size:18px;
       line-height:1.2em;
     }
+    label{
+      display:block;
+      font-size:16px;
+      padding:5px 10px;
+      margin:10px 20px 0 20px;
+      color:$color-lightgreen;
+      font-family:$font-primary-light;
+    }
     .popup-claim{
       width:calc(100% - 40px);
-      margin:5px 20px;
+      margin:10px 20px;
       box-sizing:border-box;
       border:solid 2px $color-grey;
       border-radius:10px;
       text-align:left;
       height:60px;
-      display:block;
+      display:inline-block;
       overflow:hidden;
       .claim-name{
         height:60px;
@@ -718,9 +726,16 @@ footer
         box-sizing:border-box;
         padding:21px;
         font-size:18px;
+        max-width:calc(100% - 100px);
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+
         span{
           color:darken($color-grey, 20%);
           font-family:$font-primary-light;
+          &:before{content:'(';}&:after{content:')';}
+          font-size:16px;
         }
       }
       .claim-btn{
@@ -733,7 +748,7 @@ footer
       width:100%;
       text-align:right;
       .claim-continue{
-        margin:20px 20px 0 20px;
+        margin:30px 20px 0 0px;
       }  
     }
     
