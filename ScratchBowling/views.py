@@ -18,10 +18,11 @@ from tournaments.tournament_scraper import scrape_tournaments_task
 
 User = get_user_model()
 
-def index(request):
+def index(request, notify=''):
     return render(request,
                   'homepage.html',
                   {'nbar': 'home',
+                   'notify':notify,
                    'popup': check_for_popup(request.user),
                    'tournament_live': load_tournament_live(),
                    'tournament_winners': load_tournament_winners(),

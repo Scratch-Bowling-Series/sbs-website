@@ -3,6 +3,7 @@ import json
 import os
 
 from PIL import Image, ImageDraw, ImageOps, ImageFont
+from django.contrib.redirects.models import Redirect
 from django.http import HttpRequest, HttpResponse, Http404, FileResponse
 from django.template.defaulttags import register
 from django.contrib.auth import get_user_model
@@ -182,7 +183,7 @@ def accounts_signup_view(request):
              ##   fail_silently=True,
             ##    html_message=message
            ## )
-            return render(request, 'homepage.html', {'nbar': 'home', 'notify': 'verify_email'})
+            return Redirect('https://scratchbowling.com/notify/verify_email/')
     else:
         form = RegisterForm()
     return render(request, 'accounts/signup.html', {'form':form,
