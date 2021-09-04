@@ -154,9 +154,8 @@ def accounts_signup_view(request):
             user = User.objects.create_user(email, password)
             user.first_name = form.data['first_name']
             user.last_name = form.data.get('last_name')
-            current_site = get_current_site(request)
             message = render_to_string('acc_active_email.html', {
-                'user': user, 'domain': current_site.domain,
+                'user': user,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
