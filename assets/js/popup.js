@@ -7,7 +7,7 @@ $(document).ready(function()
     $('.popup .continue').click(function (){
         $('.popup').hide();
         var url = $('.popup .continue').attr('data');
-        if(url != ''){
+        if(url != '' && url != 'undefined'){
             setTimeout(function (){ window.location.href = url; }, 1000);
         }
     });
