@@ -3798,7 +3798,6 @@ footer
   text-align: left;
   margin: 10px 10px 10px 10px;
 }
-
 .contact{
   text-align:center;
   form{
@@ -3810,7 +3809,35 @@ footer
   }
   
 }
-
+.contact-preview{
+  width:100%;
+  img{
+    margin-left:20px;
+    display:inline-block;
+    width:50px;height:50px;
+    border-radius:25px;
+    background-color:lightgrey;
+  }
+  a{
+    display:inline-block;
+    line-height:1em;
+    padding:14px 15px;
+    font-size:22px;
+    text-overflow:nowrap;
+    max-width:70%;
+  }
+  span{
+    font-size:14px;
+    padding-left:10px;
+    display:block;
+    white-space:nowrap;
+    max-width:70%;
+    text-overflow:nowrap;
+    i{
+      color:grey;
+    }
+  }
+}
 
 .contact-help
 {
@@ -3818,8 +3845,6 @@ footer
     padding:0 20px 20px 20px;
   }
 }
-
-
 
 
 
