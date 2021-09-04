@@ -272,28 +272,28 @@
     <div class="popup">
         <div class="pop-inner">
             <i class="icon-times close"></i>
-            {% if popup.1 %}
+            {% if popup.popup_id == 1 %}
                 <h2>WElCOME TO SBS!</h2>
                 <p>Things are changing. Something something like that. We are a new website now. This is where we are going to tell you what has changed. People will only see this on their first time visiting the site.<br><br>This is a very essential welcome message. We need to word things so people know exactly whats going on with SBS. Very friendly welcoming.<br><br>Whatever whatever some more things down here. Wordy wordy wordy.</p>
                 <a class="btn more continue">LEARN MORE</a>
-            {% elif popup.2 %}
+            {% elif popup.popup_id == 2 %}
                 <h2>CLAIM YOUR OLD SBS DATA</h2>
                 <p>Have you bowled with us before? We recently migrated the old bowler statistics to our new site.<br><br>Claim your old data below by finding your unclaimed account and clicking 'CLAIM'.</p>
-                {% for shadow in popup.0 %}
+                {% for shadow in popup.data %}
+                    {% if forloop.first %}<label>Best Match</label>{% endif %}
                     <div class="popup-claim">
                         <a class="claim-name">{{shadow.0}} <span>{{shadow.1}}</span></a>
                         <a href="{{ shadow.2 }}" class="btn btn-medium claim-btn">CLAIM</a>
                     </div>
+                    {% if forloop.first and popup.data_length > 1 %}<label>Others</label>{% endif %}
                 {% endfor %}
                 <div class="popup-claim-buttons">
                     <a class="btn continue claim-continue">NO THANKS</a>
                 </div>
-            {% elif popup.3 %}
 
-            {% elif popup.4 %}
-
-            {% elif popup.5 %}
-
+            {% elif popup.popup_id == 3 %}
+            {% elif popup.popup_id == 4 %}
+            {% elif popup.popup_id == 5 %}
             {% endif %}
         </div>
     </div>
