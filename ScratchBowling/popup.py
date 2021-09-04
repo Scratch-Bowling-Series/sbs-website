@@ -1,5 +1,5 @@
-from ScratchBowling.views import User
-from accounts.account_helper import get_location_basic_obj
+
+from accounts.account_helper import get_location_basic_obj, User
 
 
 def check_for_popup(user):
