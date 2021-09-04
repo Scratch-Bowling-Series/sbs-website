@@ -24,8 +24,8 @@ $(document).ready(function()
             if($('.popup-inner').height() > $('.popup').height()){
                 $('.popup-inner').height($('.popup').height());
             }
-            $('.popup-inner').css('margin', margins + 'px auto');
             var margins = ($('.popup').height() - $('.popup-inner').height()) / 2;
+            $('.popup-inner').css('margin', margins + 'px auto');
     }
 
     $(function() {
