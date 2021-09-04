@@ -618,12 +618,13 @@ footer
 
 .top-notify
 {
-  width:100%;height:65px;
+  height:65px;
   vertical-align: top;
   position:relative;
   h2
   {
-
+    position:absolute;
+    left:85px;top:0;
     margin:0;
     display: inline-block;
     font-family:$font-primary-bold;
@@ -631,29 +632,33 @@ footer
     font-size:18px;
     color:$color-lightgreen;
     vertical-align: top;
-    padding:23.5px 0 10px 0;
+    padding:25px 0 10px 0;
   }
   i
   {
     display: inline-block;
-    font-size:18px;
+    font-size:20px;
     position:absolute;
-    left:20px;top:10px;
-    padding:5px;
-    background:$color-lightgreen;
+    left:15px;top:15px;
+    padding:8.5px 7.5px 7.5px 7.5px;
+    background:$color-darkgreen;
     color:white;
-    width:23px;
-    height:23px;
+    width:35px;
+    height:35px;
+    vertical-align:top;
     text-align:center;
     box-sizing:border-box;
     border-radius:18px;
   }
   a
   {
+    position:absolute;
+    right:15px;top:15px;
+    max-height:35px;
+    font-size:16px;
+    padding-top:8px;
     vertical-align: top;
     display: inline-block;
-    color:$color-lightgreen;
-    margin:13px 20px 13px 15px;
   }
   span{
     display:inline-block;

@@ -112,8 +112,8 @@ $(document).ready(function() {
       {% if notify == 'verify_email'%}
         <section class="sec top-notify">
             <i class="icon-exclamation"></i>
-            <h2>Welcome {{ request.user.first_name|none_replace:'John Smith' }}! Please verify your email to finish setting up your account. </h2>
-            <span class="desktop-on text-grey">Can't find it?</span>
+            <h2>Welcome {{ request.user.first_name|none_replace:'John' }}! Please verify your email to finish setting up your account.</h2>
+
             <a class="btn">RESEND<span class="mobile-on">&nbsp;EMAIL</span></a>
         </section>
       {% elif notify == 'verify_email_done' %}
