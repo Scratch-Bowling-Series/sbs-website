@@ -46,7 +46,8 @@ $(document).ready(function()
     }
 
     $('.claim-btn').click(function(){
-        userId = $('.claim-btn').attr('data');
+        var btn = $(this);
+        userId = btn.attr('data');
         if(userId != null && userId != 'undefined' && userId != ''){
             $.ajax(
             {
@@ -57,12 +58,12 @@ $(document).ready(function()
                 success: function (data) {
                     if(data == 'success')
                     {
-                        $(this).html('CLAIMED')
+                        btn.html('CLAIMED')
                         setTimeout(function(){$('.popup').hide();}, 2000)
                     }
                     else{
-                        $(this).html('ERROR')
-                        setTimeout(function(){$(this).html('CLAIM');}, 1500)
+                        btn.html('ERROR')
+                        setTimeout(function(){btn.html('CLAIM');}, 1500)
                     }
                 }
             });
