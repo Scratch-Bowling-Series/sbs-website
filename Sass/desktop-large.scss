@@ -862,16 +862,28 @@ footer
       text-align:center;
     }
     .share-button{
-      width:calc(33.3333% - 25px);
+      width:auto;
       margin:0px 10px;
       display:inline-block;
       font-size:18px;
+      line-height:30px;
       background:$color-darkgreen;
       border-radius:10px;
-      height:60px;
+      height:50px;
       box-sizing:border-box;
       color:white;
-      padding:22px 0;
+      padding:10px 20px 10px 0;
+      vertical-align:top;
+      text-align:left;
+      i{
+        vertical-align:top;
+        color:white;
+        display:inline-block;
+        padding-bottom:0px;
+        padding-right:10px;
+        padding-left:15px;
+        font-size:30px;
+      }
     }
   }
 }
