@@ -57,12 +57,12 @@ $(document).ready(function()
                 success: function (data) {
                     if(data == 'success')
                     {
-                        $(this).text('CLAIMED')
+                        $(this).html('CLAIMED')
                         setTimeout(function(){$('.popup').hide();}, 2000)
                     }
                     else{
-                        $(this).text('ERROR')
-                        setTimeout(function(){$(this).text('CLAIM');}, 1500)
+                        $(this).html('ERROR')
+                        setTimeout(function(){$(this).html('CLAIM');}, 1500)
                     }
                 }
             });
