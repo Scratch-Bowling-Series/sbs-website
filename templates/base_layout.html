@@ -273,8 +273,6 @@
     </div>
     {% endif %}
 
-
-
     <!-- Content -->
     <div id="content-wrapper">
       {% block content%}
@@ -288,9 +286,11 @@
             <i class="icon-times close"></i>
             <h2>SHARING OPTIONS</h2>
             <a class="share-link">https://scratchbowling.com/s/EA4J9</a><a class="link-copy"><i class="icon-link text-white"></i></a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u={$pageURLValue}" target="_blank">
-              Share on Facebook
-            </a>
+            <div class="share-buttons">
+                <a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u={{ pageURLValue }}">FACEBOOK</a>
+                <a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u={{ pageURLValue }}">TWITTER</a>
+                <a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u={{ pageURLValue }}">REDDIT</a>
+            </div>
         </div>
         <script>window.fbAsyncInit = function () {
         FB.init({

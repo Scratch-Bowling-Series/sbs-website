@@ -772,14 +772,14 @@ footer
   z-index:9999999;
   right:0;left:0;top:0;bottom:0;
   background:rgba(0,0,0,0.5);
-  display:none;
+  display:block;
   .sharebox-inner{
     position:absolute;
     right:0;left:0;
     margin:0 auto;
     top:calc(50vh - 150px);
     bottom:calc(50vh + 150px);
-    height:300px;
+    height:240px;
     width:32%;
     max-width:700px;
     background:white;
@@ -847,9 +847,7 @@ footer
         color:white;
       }
     }
-    
-    .close
-    {
+    .close{
       position:absolute;
       right:0;top:0;
       font-size:22px;
@@ -857,6 +855,23 @@ footer
       width:22px;
       text-align:center;
       cursor:pointer;
+    }
+    .share-buttons{
+      width:100%;
+      display:block;
+      text-align:center;
+    }
+    .share-button{
+      width:calc(33.3333% - 25px);
+      margin:0px 10px;
+      display:inline-block;
+      font-size:18px;
+      background:$color-darkgreen;
+      border-radius:10px;
+      height:60px;
+      box-sizing:border-box;
+      color:white;
+      padding:22px 0;
     }
   }
 }
@@ -1054,8 +1069,7 @@ footer
 .live-prev
 {
   text-align:left;
-}
-.live-prev-title
+}.live-prev-title
 {
   width:50%;height:60px;
   color:$color-tan;
@@ -1162,7 +1176,7 @@ footer
     vertical-align:top;
     color:grey;
     font-family:$font-primary-light;
-    &:after{content:'pts)';}
+    &:after{content:')';}
     &:before{content:'(';}
   }
   i

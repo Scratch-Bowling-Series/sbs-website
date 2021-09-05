@@ -12,8 +12,7 @@
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-.icon-link:before {
+}.icon-link:before {
   content: "\e926";
 }
 .icon-chain:before {
@@ -28,8 +27,32 @@
 .icon-anchor:before {
   content: "\e926";
 }
+.icon-calendar:before {
+  content: "\f073";
+}
+.icon-twitter-square:before {
+  content: "\f081";
+}
+.icon-facebook-square:before {
+  content: "\f082";
+}
+.icon-twitter:before {
+  content: "\f099";
+}
+.icon-facebook:before {
+  content: "\f09a";
+}
+.icon-facebook-f:before {
+  content: "\f09a";
+}
+.icon-reddit-square:before {
+  content: "\f1a2";
+}
 .icon-share-alt:before {
   content: "\f1e0";
+}
+.icon-reddit-alien:before {
+  content: "\f281";
 }
 .icon-exclamation:before {
   content: "\e925";
