@@ -256,7 +256,7 @@
                     {% if forloop.first %}<label>Best Match</label>{% endif %}
                     <div class="popup-claim">
                         <a class="claim-name">{{shadow.0}} <span>{{shadow.1}}</span></a>
-                        <a href="{{ shadow.2 }}" class="btn btn-medium claim-btn">CLAIM</a>
+                        <a data="{{ shadow.2 }}" class="btn btn-medium claim-btn">CLAIM</a>
                     </div>
                     {% if forloop.first and popup.data_length > 1 %}<label>Others</label>{% endif %}
                 {% endfor %}

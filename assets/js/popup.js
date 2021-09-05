@@ -38,4 +38,34 @@ $(document).ready(function()
             glower.toggleClass('active');
         }, 2000);
     });
+
+
+
+    function ClaimAccount(userId){
+
+    }
+
+    $('.claim-btn').click(function(){
+        userId = $('.claim-btn').attr('data');
+        if(userId != null && userId != 'undefined' && userId != ''){
+            $.ajax(
+            {
+                type: "GET",
+                url: "https://scratchbowling.pythonanywhere.com/accouant/claim/" + userId,
+                contentType: "text/plain",
+                dataType: "text",
+                success: function (data) {
+                    if(data == 'success')
+                    {
+                        $(this).text('CLAIMED')
+                        setTimeout(function(){$('.popup').hide();}, 2000)
+                    }
+                    else{
+                        $(this).text('ERROR')
+                        setTimeout(function(){$(this).text('CLAIM');}, 1500)
+                    }
+                }
+            });
+        }
+    });
 });

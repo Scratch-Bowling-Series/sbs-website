@@ -41,7 +41,7 @@ def check_for_popup(user):
                     return None
             shadow_list = []
             for shadow in users[:4]:
-                shadow_list.append([str(shadow.first_name) + ' ' + str(shadow.last_name), get_location_basic_obj(shadow)])
+                shadow_list.append([str(shadow.first_name) + ' ' + str(shadow.last_name), get_location_basic_obj(shadow), str(shadow.user_id)])
 
             popup = Popup()
             popup.popup_id = 2

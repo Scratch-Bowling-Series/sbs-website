@@ -256,6 +256,26 @@ def accounts_socialcard_image(request, id):
     else:
         return Http404('This user does not exist.')
 
+def accounts_claim_view(request, id):
+    user = User.objects.filter(user_id=id).first()
+    if user != None and user.unclaimed:
+
+        if request.user.is_anonymous == False and request.user.is_authenticated:
+            user.unclaimed = False
+            user.save()
+            request.user.location_state = user.location_state
+            request.user.location_city = user.location_city
+            request.user.statistics = user.statistics
+            request.user.tournaments = user.tournaments
+            request.user.save()
+            ## Delete user
+            ## Change UUID in all tournaments from user.uuid to request.user.uuid
+            return HttpResponse('success')
+        return HttpResponse('signed out')
+    else:
+        return HttpResponse('invalid user')
+
+
 def create_profile_pic_stroke(profile_pic_size, stroke_size, color):
 
     profile_pic_size = (profile_pic_size[0] + (stroke_size * 2),
