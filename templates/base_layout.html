@@ -287,9 +287,9 @@
             <h2>SHARING OPTIONS</h2>
             <a class="share-link">https://scratchbowling.com/s/EA4J9</a><a class="link-copy"><i class="icon-link text-white"></i></a>
             <div class="share-buttons">
-                <a class="share-button" style="background:#0F87EE;" href="https://www.facebook.com/sharer/sharer.php?u={{ request.get_full_path }}"><i class="icon-facebook"></i>SHARE</a>
-                <a class="share-button" style="background:#5DA9DD;" href="https://www.facebook.com/sharer/sharer.php?u={{ request.get_full_path }}"><i class="icon-twitter"></i>TWEET</a>
-                <a class="share-button" style="background:#FF4400;" href="https://www.facebook.com/sharer/sharer.php?u={{ request.get_full_path }}"><i class="icon-reddit-alien"></i>POST</a>
+                <a class="share-button" style="background:#0F87EE;" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ request.path }}"><i class="icon-facebook"></i>SHARE</a>
+                <a class="share-button" style="background:#5DA9DD;" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ request.path }}"><i class="icon-twitter"></i>TWEET</a>
+                <a class="share-button" style="background:#FF4400;" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ request.path }}"><i class="icon-reddit-alien"></i>POST</a>
             </div>
         </div>
         <script>window.fbAsyncInit = function () {
