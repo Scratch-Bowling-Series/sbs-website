@@ -772,18 +772,21 @@ footer
   z-index:9999999;
   right:0;left:0;top:0;bottom:0;
   background:rgba(0,0,0,0.5);
-  display:block;
+  display:none;
   .sharebox-inner{
     position:absolute;
     right:0;left:0;
     margin:0 auto;
-    top:calc(50vh - 150px);
-    bottom:calc(50vh + 150px);
-    height:240px;
+    top:calc(50vh - 110px);
+    bottom:calc(50vh + 110px);
+    height:220px;
     width:32%;
     max-width:700px;
     background:white;
     border-radius:10px;
+    h2{
+      font-size:25px;
+    }
     .fb-share-button{
       display:block;
       margin:0 auto;
@@ -793,11 +796,11 @@ footer
     }
     .share-link{
       width:calc(100% - 100px);
-      margin:20px 0 20px 20px;
+      margin:0px 0 20px 20px;
       border-radius:10px 0 0 10px;
-      border:solid 2px $color-grey;
+      border:solid 4px $color-grey;
       color:darken($color-grey, 20%);
-      padding:17px 20px;
+      padding:14px 20px;
       font-size:25px;
       line-height:1em;
       height:60px;
@@ -829,7 +832,6 @@ footer
       font-size:25px;
       height:60px;
       width:60px;
-      margin-top:20px;
       box-sizing:border-box; 
       color:white;
       border-radius:0 10px 10px 0;
@@ -841,7 +843,7 @@ footer
         display:block;
         font-size:30px;
         width:30px;
-        padding:14px;
+        padding:13px 12px;
         vertical-align:top;
         text-align:center;
         color:white;
@@ -882,7 +884,8 @@ footer
         padding-bottom:0px;
         padding-right:10px;
         padding-left:15px;
-        font-size:30px;
+        font-size:20px;
+        line-height:30px;
       }
     }
   }
