@@ -228,7 +228,7 @@
             </form>
             {% endif %}
             {% if user.is_authenticated %}
-            <a href="/account/view/{{ request.user.user_id }}" class="btn border-white text-white myaccount">MY PROFILE</a>
+            <a href="/account/view/{{ request.user.user_id }}" class="btn border-white text-white myaccount">PROFILE</a>
             <a href="/account/view/{{ request.user.user_id }}" class="nav-account-photo">
                  <img src="{{ request.user.picture.url }}" alt="{{ request.user.first_name }}'s profile picture">
             </a>
