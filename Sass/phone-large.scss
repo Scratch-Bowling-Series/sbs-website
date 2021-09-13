@@ -755,14 +755,14 @@ footer {
   z-index:9999999;
   right:0;left:0;top:0;bottom:0;
   background:rgba(0,0,0,0.5);
-  display:none;
+  display:block;
   .sharebox-inner{
     position:absolute;
     right:10px;left:10px;
     margin:0 auto;
     top:calc(50vh - 110px);
     bottom:calc(50vh + 110px);
-    height:220px;
+    height:210px;
     width:calc(100% - 20px);
     max-width:700px;
     background:white;
@@ -783,10 +783,10 @@ footer {
       border-radius:10px 0 0 10px;
       border:solid 4px $color-grey;
       color:darken($color-grey, 20%);
-      padding:14px 20px;
-      font-size:25px;
+      padding:17px 20px;
+      font-size:16px;
       line-height:1em;
-      height:60px;
+      height:55px;
       display:inline-block;
       box-sizing:border-box;
       vertical-align:top;
@@ -798,7 +798,7 @@ footer {
         position:absolute;
         right:0;left:0;
         width:100%;
-        height:60px;
+        height:55px;
         top:0;bottom:0;
         background:$color-grey;
         color:white;
@@ -808,12 +808,13 @@ footer {
         opacity:0;
         transition:opacity ease 0.5s;
       }
+      border-right:none;
     }
     .link-copy{
       vertical-align:top;
       display:inline-block;
       font-size:25px;
-      height:60px;
+      height:55px;
       width:60px;
       box-sizing:border-box; 
       color:white;
@@ -826,7 +827,7 @@ footer {
         display:block;
         font-size:30px;
         width:30px;
-        padding:13px 12px;
+        padding:10px 12px;
         vertical-align:top;
         text-align:center;
         color:white;
@@ -840,6 +841,7 @@ footer {
       width:22px;
       text-align:center;
       cursor:pointer;
+      color:$color-darkgrey;
     }
     .share-buttons{
       width:100%;
@@ -848,16 +850,16 @@ footer {
     }
     .share-button{
       width:auto;
-      margin:0px 10px;
+      margin:0px 5px;
       display:inline-block;
-      font-size:18px;
+      font-size:16px;
       line-height:30px;
       background:$color-darkgreen;
       border-radius:10px;
       height:50px;
       box-sizing:border-box;
       color:white;
-      padding:10px 20px 10px 0;
+      padding:11px 20px 10px 0;
       vertical-align:top;
       text-align:left;
       i{
