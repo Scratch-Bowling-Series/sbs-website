@@ -63,96 +63,24 @@
 <section class="col col-30 col-m-max-width" >
    <section class="sec my-account-top-height">
       <h1>PAST TOURNAMENT RESULTS</h1>
+      {% if tournaments_length > 0 %}
       <div class="profile-results">
-         <div class="profile-result">
-            <a class="profile-result-date">06/26</a>
-            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-darkgrey">City, State</a>
-            <a class="profile-result-place firstplace">1st</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date">06/26</a>
-            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-darkgrey">City, State</a>
-            <a class="profile-result-place firstplace">1st</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date">06/26</a>
-            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-darkgrey">City, State</a>
-            <a class="profile-result-place firstplace">1st</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date">06/26</a>
-            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-darkgrey">City, State</a>
-            <a class="profile-result-place firstplace">1st</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date">06/26</a>
-            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-darkgrey">City, State</a>
-            <a class="profile-result-place firstplace">1st</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date">06/26</a>
-            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-darkgrey">City, State</a>
-            <a class="profile-result-place firstplace">1st</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date">06/26</a>
-            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-darkgrey">City, State</a>
-            <a class="profile-result-place firstplace">1st</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date">06/26</a>
-            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-darkgrey">City, State</a>
-            <a class="profile-result-place firstplace">1st</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date">06/26</a>
-            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-darkgrey">City, State</a>
-            <a class="profile-result-place firstplace">1st</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date">06/26</a>
-            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-darkgrey">City, State</a>
-            <a class="profile-result-place firstplace">1st</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date">06/26</a>
-            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-darkgrey">City, State</a>
-            <a class="profile-result-place firstplace">1st</a>
-         </div>
-         <!--
-         {% if tournaments_length > 0 %}
          {% for tournament in tournaments %}
-         <div class="profile-result">
-            <a class="profile-result-date">{{ tournament.0|date:"m/d"}}</a>
-            <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">{{ tournament.1 }}</a>
-            <a class="profile-result-location text-lightgrey">{{ tournament.2 }}</a>
-            {% if tournament.3 == '1st' %}
-            <a class="profile-result-place firstplace">{{ tournament.3}}</a>
-            {% else %}
-            <a class="profile-result-place">{{ tournament.3}}</a>
-            {% endif %}
-         </div>
+            <div class="profile-result">
+               <a class="profile-result-date">{{ tournament.0|date:"m/d"}}</a>
+               <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">{{ tournament.1 }}</a>
+               <a class="profile-result-location text-darkgrey">{{ tournament.2 }}</a>
+               <a class="profile-result-place{% if tournament.3 == '1st' %} firstplace{% endif %}">{{ tournament.3}}</a>
+            </div>
          {% endfor %}
-         {% else %}
-         {% if view_user.user_id == request.user.user_id %}
-         <p class="profile-none">ATTEND YOUR FIRST TOURNAMENT TO SEE YOUR STATISTICS</p>
-         {% else %}
-         <p class="profile-none">{{ view_user.first_name|none_replace:'First Name'}} HAS YET TO ATTEND A TOURNAMENT</p>
-         {% endif %}
-         -->
-      {% endif %}
       </div>
+      {% else %}
+         {% if view_user.user_id == request.user.user_id %}
+            <p class="profile-none">ATTEND YOUR FIRST TOURNAMENT TO SEE YOUR STATISTICS</p>
+         {% else %}
+            <p class="profile-none">{{ view_user.first_name|none_replace:'First Name'}} HAS YET TO ATTEND A TOURNAMENT</p>
+         {% endif %}
+      {% endif %}
       <a class="btn btn-medium btn-bottom bkg-darkgreen text-white unavailable-btn" style="left:auto;">VIEW ALL TOURNAMENT RESULTS</a>
    </section>
 </section>
@@ -203,8 +131,10 @@
 
 <!-- Upcoming Tournaments Nearby -->
 <section class="col col-25 col-m-max-width">
+   {% if view_user.user_id == request.user.user_id and True == False %}
    <section class="sec my-account-top-height bkg-darkgreen">
       <h1 class="text-white">TOURNAMENTS NEAR YOU</h1>
+      {% if True == False %}
       <div class="profile-results">
          <div class="profile-result">
             <a class="profile-result-date text-white">06/26</a>
@@ -255,8 +185,20 @@
             <a class="profile-result-place text-white">54mi</a>
          </div>
       </div>
+      {% else %}
+      <p class="profile-none">YOU DON'T HAVE ANY TOURNAMENTS COMING SOON NEAR YOU.</p>
+      {% endif %}
+      <div class="profile-button-bar">
+
+      </div>
       <a class="btn btn-medium btn-bottom bkg-white text-darkgreen unavailable-btn" style="left:auto;">GET SMS ALERTS</a>
    </section>
+   {% else %}
+   <section class="sec my-account-top-height bkg-darkgreen">
+      <h1 class="text-white">STATISTICS COMPARISON</h1>
+
+   </section>
+   {% endif %}
 </section>
 
 <!-- Series History  &  Achievements-->

@@ -766,7 +766,6 @@ footer
     
   }
 }
-
 .sharebox{
   position:fixed;
   z-index:9999999;
@@ -890,6 +889,8 @@ footer
     }
   }
 }
+
+
 /*****************************
   HOMEPAGE - WINNERS PREV.
 *****************************/
@@ -1081,11 +1082,10 @@ footer
 /*****************************
   HOMEPAGE - LIVE PREV.
 *****************************/
-.live-prev
-{
+.live-prev{
   text-align:left;
-}.live-prev-title
-{
+}
+.live-prev-title{
   width:50%;height:60px;
   color:$color-tan;
   font-family:$font-primary-bold;
@@ -1106,8 +1106,7 @@ footer
     font-family:$font-primary-light;
   }
 }
-.live-prev-title .prefix
-{
+.live-prev-title .prefix{
     position: relative;
     font-family: $font-secondary;
     color:$color-tan;
@@ -1123,8 +1122,7 @@ footer
       vertical-align:top;
     }
 }
-.live-prev-title .content
-{
+.live-prev-title .content{
   font-size:21px;
   position: relative;
   font-family: $font-primary-light;
@@ -1144,8 +1142,7 @@ footer
   vertical-align: top;
   margin:20px;
 }
-.live-prev-status
-{
+.live-prev-status{
   box-sizing:border-box;
   width:50%;height:60px;
   color:$color-darkgreen;
@@ -1172,8 +1169,7 @@ footer
     text-align:center;
   }
 }
-.live-prev-leader
-{
+.live-prev-leader{
   text-align:right;
   width:50%;height:60px;
   box-sizing:border-box;
@@ -1807,18 +1803,14 @@ footer
 /*****************************
   BOWLER - PROFILE
 *****************************/
-.my-account-top-height
-{
+.my-account-top-height{
   height:548px;
 }
-
-.stats-grid
-{
+.stats-grid{
   font-size:0;
   text-align:center;
 }
-.stat-quad
-{
+.stat-quad{
   vertical-align:top;
   overflow:hidden;
   display:inline-block;
@@ -1826,20 +1818,15 @@ footer
   margin:0;
   box-sizing:border-box;
 }
-.stat-quad-25
-{
+.stat-quad-25{
   width:calc(27% - 30px);
   margin-bottom:20px;
 }
-
-
-.profile-hands
-{
+.profile-hands{
 	width:100%;
 	vertical-align:top;
 }
-.profile-hand
-{
+.profile-hand{
   margin:0;
   font-size:18px;
   display: inline-block;
@@ -1848,25 +1835,20 @@ footer
   padding:0;
   line-height:18px;
 }
-.profile-left-hand
-{
+.profile-left-hand{
   transform:scaleX(-1);
 }
-.profile-hand-label
-{
+.profile-hand-label{
   font-family: $font-primary-light;
   color:$color-tan;
   display: inline-block;
   font-size:16px;
   padding:0 0 0 10px;
 }
-.hand-off
-{
+.hand-off{
   color:#3d3d3d;
 }
-
-.my-account-rank-label
-{
+.my-account-rank-label{
     font-family: $font-primary;
     font-size:22px;
     color:$color-lightgreen;
@@ -1874,8 +1856,7 @@ footer
     display: block;
     padding:10px 0 20px 0;
 }
-.my-account-best-games
-{
+.my-account-best-games{
   width:80%;
   margin:0 auto;
   height:auto;
@@ -1928,9 +1909,7 @@ footer
     width: 100%;
   }
 }
-
-.counter
-{
+.counter{
   border:solid 3px $color-lightgreen;
   margin:0px auto 30px auto;
   width:120px;height:120px;
@@ -1985,18 +1964,13 @@ footer
       transition:color ease .8s;
   }
 }
-
-.counter-top
-{
+.counter-top{
   color:$color-tan;
 }
-
-.profile-prev
-{
+.profile-prev{
   font-size:14px;
 }
-.profile-prev-btns
-{
+.profile-prev-btns{
   position:absolute;
   bottom:20px;
   right:0;
@@ -2006,15 +1980,13 @@ footer
     margin:0 5px;
   }
 }
-.profile-prev span
-{
+.profile-prev span{
   opacity:0.3;
   margin:10px 60px;
   width:calc(100% - 120px);
   height:1px;
 }
-.profile-prev-pic
-{
+.profile-prev-pic{
   position: relative;
   width:200px;height:200px;
   background:lightgrey;
@@ -2038,17 +2010,13 @@ footer
   color:$color-darkgreen;
   cursor:pointer;
 }
-
-.profile-results
-{
+.profile-results{
   font-size:0;
   width:calc(100% - 40px);
   margin:0 auto;
   text-align:left;
 }
-
-.profile-result-date
-{
+.profile-result-date{
   display:inline-block;
   font-family:$font-primary-light;
   width:auto;
@@ -2057,15 +2025,13 @@ footer
   margin-left:10px;
   font-size:16px;
 }
-.profile-result-name
-{
+.profile-result-name{
   display:inline-block;
   padding:10px 5px 10px 0;  
   font-size:16px;
   width:auto;
 }
-.profile-result-location
-{
+.profile-result-location{
   font-family:$font-primary-light;
   display:inline-block;
   padding:10px;  
@@ -2077,28 +2043,29 @@ footer
   &:before{content:"(";}
   &:after{content:")";}
 }
-.profile-result-place
-{
+.profile-result-place{
   display:inline-block;
   font-size:16px;
   float:right;
   padding:10px;
 }
-
-
-.profile-medals
-{
-  
+.profile-none{
+  font-size:24px;
+  line-height:28px;
+  max-width:80%;
+  margin:150px auto;
+  color:$color-grey; 
+  text-transform:uppercase;
 }
-.profile-medal-none
-{
+.profile-medals{ 
+}
+.profile-medal-none{
   display:block;
   color:lightgrey;
   font-family:$font-primary-light;
   margin:50px auto 70px auto;
   font-size:24px;
 }
-
 .profile-upcoming-left{
   width:40%;
   display:inline-block;
@@ -2117,7 +2084,6 @@ footer
   display:inline-block;
   background:white;
 }
-
 .series-result{
   width:calc(100% - 40px);
   margin:3px 20px;

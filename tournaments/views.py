@@ -178,15 +178,6 @@ def ordinal(value):
     return make_ordinal(value)
 
 
-class Qualifying:
-    user_id = None;
-    place = 0
-    scores = 0
-
-class MatchPlay:
-    user_id = None
-    place = 0
-    scores = 0
 
 
 def get_placements(tournament):

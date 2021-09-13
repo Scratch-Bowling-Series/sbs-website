@@ -1,15 +1,14 @@
 import datetime
 import json
-import pickle
 from datetime import datetime
-
 from django.contrib.auth import get_user_model
-
-from accounts.account_helper import get_name_from_uuid
 from tournaments.models import Tournament
 from tournaments.views import get_qualifying, get_matchplay, get_qualifying_object, get_matchplay_object, get_placements
-
 User = get_user_model()
+
+
+
+
 
 class RankData:
     user_id = None
@@ -51,7 +50,6 @@ class RankData_Series:
     rank = 0
 
     rank_points = 0
-
 
 
 def get_top_rankings(amount):

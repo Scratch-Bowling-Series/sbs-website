@@ -6,6 +6,7 @@ from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.popup import check_for_popup
 from ScratchBowling.shortener import create_link
+from ScratchBowling.websettings import WebSettings
 from accounts.account_helper import get_location_basic_obj
 from accounts.forms import User
 from accounts.models import Shorten
@@ -15,7 +16,10 @@ from support.donation import get_donation_count
 from tournaments.models import Tournament
 from tournaments.tournament_scraper import scrape_tournaments_task
 
+
+
 User = get_user_model()
+
 
 def index(request, notify=''):
     data = {'nbar': 'home',

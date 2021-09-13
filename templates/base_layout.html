@@ -300,7 +300,7 @@
     </div>
 
     <!-- Messenger -->
-    {% if user.is_authenticated or True == True %}
+    {% if request.user.is_authenticated and settings.allow_messenger %}
     <div class="messenger-wrap">
         <div class="messenger">
           <i class=" msg-icon icon-paper-plane"></i>
