@@ -91,9 +91,14 @@ $(document).ready(function() {
     <h2>TOP 10 SBS RANKING</h2>
     {% for top in top_ten_ranks %}
       {% if foreach.first %}
-      <style>.rankings-offline{display:none;}</style>
+      <script>
+          $(document).ready(function(){
+            $('rankings-offline').hide();
+            $('rankings-row').show();
+          });
+      </script>
       {% endif %}
-      <div class="row-b">
+      <div class="row-b rankings-row" style="display:none;">
         <a class="row-b-c row-b-c1 bold {%if top.rank < 4%}text-tan{%endif%}">{{ top.rank|ordinal }}</a>
         <a class="row-b-c row-b-c2">{{ top.user_id|bowler_name:True|safe }}</a>
         <a class="row-b-btn btn btn-small border-none" href="/account/view/{{ top.user_id }}">VIEW</a>
