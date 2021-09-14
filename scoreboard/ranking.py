@@ -32,6 +32,22 @@ class RankData:
     top_five_year = [None, None, None, None, None]
     top_five_career = [None, None, None, None, None]
     tournaments = []
+    def rd_to_json(self):
+        return json.dumps([
+            str(self.user_id),
+            self.rank,
+            self.rank_points,
+            self.wins,
+            self.attended,
+            self.total_games_year,
+            self.total_games_career,
+            self.avg_score_year,
+            self.avg_score_career,
+            self.top_five_year,
+            self.top_five_career
+        ])
+    def t_to_json(self):
+        return json.dumps(self.tournaments)
     def to_list(self):
         return [
             str(self.user_id),
@@ -184,6 +200,8 @@ def run_statistics():
 
             # add tournament to list
             rank_data.tournaments.append(str(tournament.tournament_id))
+
+
     rank_datas = sorted(rank_datas, key=lambda x: x.rank_points, reverse=True)
     apply_rank_data_to_accounts(rank_datas)
     store_rank_data(rank_datas)
@@ -195,14 +213,21 @@ def run_statistics():
 @transaction.atomic
 def apply_rank_data_to_accounts(rank_datas):
     print('RankingSys - Saving Ranking Data')
+    if rank_datas == None: return 0
     data_count = 0
+    total = len(rank_datas)
+    last_prog = 0
     for data in rank_datas:
+        prog = int((data_count / total) * 100)
+        if last_prog != prog:
+            last_prog = prog
+            print('RankingSys - Saving Ranking Data - Progress: ' + str(prog) + '%')
         data_count += 1
         data.rank = data_count
         write_user = User.objects.filter(user_id=data.user_id).first()
         if write_user != None:
-            write_user.statistics = json.dumps(data.to_list())
-            write_user.tournaments = json.dumps(data.tournaments)
+            write_user.statistics = data.rd_to_json()
+            write_user.tournaments = data.t_to_json()
             write_user.save()
     return data_count
 
@@ -283,35 +308,6 @@ def task_best_score(top_five, scores, tournament_id):
 
     return [top_1, top_2, top_3, top_4, top_5]
 
-def update_users_tournaments():
-    users = User.objects.all()
-    for user in users:
-        user.tournaments = None
-        user.save()
-
-    tournaments = Tournament.objects.all()
-    count = 0
-    for tournament in tournaments:
-        count = count + 1
-        uuid = str(tournament.tournament_id)
-        print(tournament.tournament_name)
-        qualifying = get_qualifying(tournament)
-        if qualifying==None:
-            continue
-        for qual in qualifying:
-            uu = is_valid_uuid(qual[1])
-            if uu !=  None:
-                bowler = User.objects.get(user_id=uu)
-                b_tournaments = []
-                try:
-                    b_tournaments = json.loads(bowler.tournaments)
-                except ValueError:
-                    b_tournaments = []
-                except TypeError:
-                    b_tournaments = []
-                b_tournaments.append(uuid)
-                bowler.tournaments = json.dumps(b_tournaments)
-                bowler.save()
 
 if __name__ == "__main__":
     run_statistics()
