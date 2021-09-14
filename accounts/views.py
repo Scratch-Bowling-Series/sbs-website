@@ -16,7 +16,7 @@ from scoreboard.ranking import get_rank_data_from_json
 from tournaments.models import Tournament
 from tournaments.views import get_tournament, is_valid_uuid, get_place, get_qualifying, make_ordinal
 from .forms import RegisterForm, ModifyAccountForm
-from .scraper import master_scrape, get_scrape_cache, get_scraper_log
+from scraper import master_scrape, get_scraper_log
 from .tokens import account_activation_token
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.dispatch import receiver
