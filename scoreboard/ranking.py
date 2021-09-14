@@ -204,8 +204,8 @@ def run_statistics():
 
 
     rank_datas = sorted(rank_datas, key=lambda x: x.rank_points, reverse=True)
-    apply_rank_data_to_accounts_in_batches(rank_datas, 500)
     store_rank_data(rank_datas)
+    apply_rank_data_to_accounts_in_batches(rank_datas, 500)
     print('RankingSys - Finished')
 
 
@@ -215,16 +215,17 @@ def apply_rank_data_to_accounts_in_batches(rank_datas, batch_size):
     if batch_size < 200: batch_size = 200
     count = 0
     total = 0
+    total_batches = int(len(rank_datas) / batch_size)
     while True:
         count += 1
         start = 0 + (batch_size * (count - 1))
         batch = list(islice(rank_datas, start, batch_size * count))
         if not batch: break
-        total += apply_rank_data_to_accounts(batch)
+        total += apply_rank_data_to_accounts(batch, count, total_batches)
     return total
 
 @transaction.atomic
-def apply_rank_data_to_accounts(rank_datas):
+def apply_rank_data_to_accounts(rank_datas, batch, total_batches):
     print('RankingSys - Saving Ranking Data')
     if rank_datas == None: return 0
     data_count = 0
@@ -234,7 +235,7 @@ def apply_rank_data_to_accounts(rank_datas):
         prog = int((data_count / total) * 100)
         if last_prog != prog:
             last_prog = prog
-            print('RankingSys - Saving Ranking Data - Progress: ' + str(prog) + '%')
+            print('RankingSys - Saving Ranking Data - Batch: (' + str(batch) + '/'+ str(total_batches) + ') - Progress: ' + str(prog) + '%')
         data_count += 1
         data.rank = data_count
         write_user = User.objects.filter(user_id=data.user_id).first()
