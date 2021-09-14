@@ -235,3 +235,32 @@
 2021-09-14 01:06:28.093410 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 62%
 2021-09-14 01:06:28.413770 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 65%
 2021-09-14 01:06:28.741139 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 68%
+2021-09-14 01:06:29.150749 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 71%
+2021-09-14 01:06:29.555832 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 74%
+2021-09-14 01:06:29.912002 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 77%
+2021-09-14 01:06:30.226837 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 80%
+2021-09-14 01:06:30.566320 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 82%
+2021-09-14 01:06:30.885165 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 85%
+2021-09-14 01:06:31.275048 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 88%
+2021-09-14 01:06:31.631334 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 91%
+2021-09-14 01:06:31.956880 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 94%
+2021-09-14 01:06:32.163347 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 97%
+2021-09-14 01:06:34.518856 - MasterScraper - Task: Users Accounts Scrape - Progress: 0% - Time Remaining: 21 Minutes - Elapsed: 0 Minutes
+2021-09-14 01:06:41.101066 - MasterScraper - Task: Users Accounts Scrape - Progress: 0% - Time Remaining: 22 Minutes - Elapsed: 0 Minutes
+2021-09-14 01:06:48.943856 - MasterScraper - Task: Users Accounts Scrape - Progress: 0% - Time Remaining: 28 Minutes - Elapsed: 0 Minutes
+2021-09-14 01:06:59.705710 - MasterScraper - Task: Users Accounts Scrape - Progress: 1% - Time Remaining: 27 Minutes - Elapsed: 0 Minutes
+2021-09-14 01:07:04.104139 - MasterScraper - Task: Users Accounts Scrape - Progress: 1% - Time Remaining: 26 Minutes - Elapsed: 0 Minutes
+2021-09-14 01:07:08.323834 - MasterScraper - Task: Users Accounts Scrape - Progress: 2% - Time Remaining: 25 Minutes - Elapsed: 0 Minutes
+2021-09-14 01:07:14.811167 - MasterScraper - Task: Users Accounts Scrape - Progress: 2% - Time Remaining: 24 Minutes - Elapsed: 0 Minutes
+2021-09-14 01:07:25.730049 - MasterScraper - Task: Users Accounts Scrape - Progress: 3% - Time Remaining: 23 Minutes - Elapsed: 0 Minutes
+2021-09-14 01:07:40.468273 - MasterScraper - Task: Users Accounts Scrape - Progress: 4% - Time Remaining: 22 Minutes - Elapsed: 1 Minutes
+2021-09-14 01:08:06.456742 - MasterScraper - Task: Users Accounts Scrape - Progress: 6% - Time Remaining: 21 Minutes - Elapsed: 1 Minutes
+2021-09-14 01:08:40.924388 - MasterScraper - Task: Users Accounts Scrape - Progress: 9% - Time Remaining: 20 Minutes - Elapsed: 2 Minutes
+2021-09-14 01:09:24.021599 - MasterScraper - Task: Users Accounts Scrape - Progress: 12% - Time Remaining: 19 Minutes - Elapsed: 2 Minutes
+2021-09-14 01:10:13.589082 - MasterScraper - Task: Users Accounts Scrape - Progress: 16% - Time Remaining: 18 Minutes - Elapsed: 3 Minutes
+2021-09-14 01:11:02.125350 - MasterScraper - Task: Users Accounts Scrape - Progress: 20% - Time Remaining: 17 Minutes - Elapsed: 4 Minutes
+2021-09-14 01:11:52.812843 - MasterScraper - Task: Users Accounts Scrape - Progress: 23% - Time Remaining: 16 Minutes - Elapsed: 5 Minutes
+2021-09-14 01:12:45.205118 - MasterScraper - Task: Users Accounts Scrape - Progress: 27% - Time Remaining: 15 Minutes - Elapsed: 6 Minutes
+2021-09-14 01:13:39.937545 - MasterScraper - Task: Users Accounts Scrape - Progress: 32% - Time Remaining: 14 Minutes - Elapsed: 7 Minutes
+2021-09-14 01:14:37.283127 - MasterScraper - Task: Users Accounts Scrape - Progress: 36% - Time Remaining: 13 Minutes - Elapsed: 8 Minutes
+2021-09-14 01:15:34.221945 - MasterScraper - Task: Users Accounts Scrape - Progress: 40% - Time Remaining: 12 Minutes - Elapsed: 9 Minutes

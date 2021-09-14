@@ -94,7 +94,7 @@ def scrape_for_new_users(update, debug):
     last_minutes_remaining = 0
     if debug: urls = urls[:200]
     urls_length = len(urls)
-    batch_size = 500
+    batch_size = 200
     count = 0
     while True:
         users = []
