@@ -12,6 +12,7 @@ from accounts.forms import User
 from accounts.models import Shorten
 from centers.models import Center
 from check_git import get_last_commit
+from scoreboard.ranking import get_top_rankings
 from support.donation import get_donation_count
 from tournaments.models import Tournament
 from tournaments.tournament_scraper import scrape_tournaments_task
@@ -147,8 +148,7 @@ def get_tournaments_count():
     return Tournament.objects.all().count()
 
 def get_top_ten_ranks():
-    return None
-    ##return get_top_rankings(10)
+    return get_top_rankings(10)
 
 def has_content_changed(request):
     data = get_last_commit()
