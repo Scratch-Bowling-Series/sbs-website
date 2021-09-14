@@ -77,7 +77,10 @@ def store_rank_data(rank_datas):
         for rank_data in rank_datas:
             datas.append(rank_data.to_list())
         file = open(pwd + '/rankings.dat', 'w')
-        file.write(json.dumps(datas))
+        print('writing to json')
+        jsonstr = json.dumps(datas)
+        print('saving json')
+        file.write(jsonstr)
         file.close()
     except FileNotFoundError:
         return None
