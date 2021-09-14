@@ -60,8 +60,7 @@ class RankData:
             self.avg_score_year,
             self.avg_score_career,
             self.top_five_year,
-            self.top_five_career,
-            self.tournaments
+            self.top_five_career
         ]
 
 class RankData_Series:
@@ -105,7 +104,6 @@ def load_rank_data():
             rank_data.avg_score_career = data[8]
             rank_data.top_five_year = data[9]
             rank_data.top_five_career = data[10]
-            rank_data.tournaments = data[11]
             rank_datas.append(rank_data)
         return rank_datas
     except FileNotFoundError:
