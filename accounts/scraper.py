@@ -638,4 +638,4 @@ def get_scraper_log():
         return ScrapeCache()
 
 if __name__ == "__main__":
-    master_scrape()
+    master_scrape(False)
