@@ -163,8 +163,9 @@ def run_statistics():
 
             # get best games career
             rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.scores,tournament.tournament_id)
-
-    store_rank_data(sorted(rank_datas, key=lambda x: x.rank_points, reverse=True))
+    rank_datas = sorted(rank_datas, key=lambda x: x.rank_points, reverse=True)
+    apply_rank_data_to_accounts(rank_datas)
+    store_rank_data(rank_datas)
     print('RankingSys - Finished')
 
 @transaction.atomic
