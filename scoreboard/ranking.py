@@ -228,7 +228,6 @@ def apply_rank_data_to_accounts(rank_datas):
         write_user = User.objects.filter(user_id=data.user_id).first()
         if write_user != None:
             write_user.statistics = data.rd_to_json()
-            write_user.tournaments = data.t_to_json()
             write_user.save()
     return data_count
 
