@@ -18,6 +18,7 @@ from oils.oil_pattern import update_oil_pattern_library, get_oil_display_data
 from tournaments.forms import CreateTournament, ModifyTournament
 from tournaments.models import Tournament
 from oils.oil_pattern_scraper import get_oil_colors
+from tournaments.tournament_data import Qualifying, MatchPlay
 from tournaments.tournament_scraper import scrape_bowlers
 from tournaments.transfer import TransferT, Gather
 
@@ -177,21 +178,48 @@ def tournament_name(tournament_id):
 def ordinal(value):
     return make_ordinal(value)
 
+@register.filter
+def center_name(uuid):
+    uuid = is_valid_uuid(uuid)
+    if uuid is not None:
+        center = Center.objects.filter(center_id=uuid).first()
+        if center != None and center.center_name != None:
+            return center.center_name
+
+@register.filter
+def center_location(uuid):
+    uuid = is_valid_uuid(uuid)
+    if uuid is not None:
+        center = Center.objects.filter(center_id=uuid).first()
+        city = str(center.location_city)
+        state = str(center.location_state)
+        if city == None or city == '':
+            if state == None or state == '':
+                return 'Location Unknown'
+            else:
+                return state
+        elif state == None or state == '':
+            return city
+        else:
+            return city + ', ' + state
 
 
 
 def get_placements(tournament):
     qualifyings = get_qualifying_object(tournament)
-    if qualifyings is None:
+    if qualifyings == None or len(qualifyings) == 0:
         return None
     match_plays = get_matchplay_object(tournament)
-    if match_plays is None:
+    if match_plays == None or len(match_plays) == 0:
         return None
 
     for match_play in match_plays:
-        qualifying = qualifyings[match_play.place - 1]
-        qualifying.place = match_play.place
-        qualifying.scores += match_play.scores
+        try:
+            qualifying = qualifyings[match_play.place - 1]
+            qualifying.place = match_play.place
+            qualifying.scores += match_play.scores
+        except IndexError:
+            continue
     return qualifyings
 
 

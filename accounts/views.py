@@ -4,7 +4,6 @@ from PIL import Image, ImageDraw, ImageFont
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template.defaulttags import register
 from django.contrib.auth import get_user_model
-from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
@@ -17,7 +16,7 @@ from scoreboard.ranking import get_rank_data_from_json
 from tournaments.models import Tournament
 from tournaments.views import get_tournament, is_valid_uuid, get_place, get_qualifying, make_ordinal
 from .forms import RegisterForm, ModifyAccountForm
-from .scraper import UpdateUsers
+from .scraper import master_scrape, get_scrape_cache, get_scraper_log
 from .tokens import account_activation_token
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.dispatch import receiver
@@ -382,8 +381,18 @@ def accounts_remove_view(request, id):
     return redirect('/account/view/' + str(id))
 
 def accounts_scraper_view(request):
-    data = UpdateUsers()
+    data = ''
+    logs = get_scraper_log()
+    for log in logs:
+        log = log.replace('\n', '')
+        data += '<a>' + log + '</a><br>'
     return HttpResponse(str(data))
+
+def start_master_scraper(request):
+    master_scrape(False)
+    return HttpResponse('Done')
+
+
 
 def get_amount_online():
     return User.objects.filter(is_online=True).count()

@@ -63,7 +63,7 @@
             {% else %}
             --><a class="tournament-date">{{ tournament.tournament_date|date:'m/d/y' }}<p class="tournament-winner-name" href="/account/view/{{ tournament|winner }}"><i class="tournament-winner icon-trophy"></i>{{  tournament|winner|bowler_name:True }}<span>&nbsp;({{ tournament|winner|getaverage:tournament}} AVG)</span></p></a><!--
             {% endif %}
-            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES - DETROIT, MI</a><!--
+            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">{{ tournament.center }} {{ tournament.center|center_name }} - {{ tournament.center|center_location }}</a><!--
             --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">{{ tournament|participants }} PARTICIPANTS</a>
             </div>
             {% if not forloop.last %}
