@@ -317,36 +317,6 @@ def get_recent_tournaments(user):
             data.append([date, name, location, place, uuid])
     return data
 
-def update_users_tournaments():
-    users = User.objects.all()
-    for user in users:
-        user.tournaments = None
-        user.save()
-
-    tournaments = Tournament.objects.all()
-    count = 0
-    for tournament in tournaments:
-        count = count + 1
-        uuid = str(tournament.tournament_id)
-        print(tournament.tournament_name)
-        qualifying = get_qualifying(tournament)
-        if qualifying==None:
-            continue
-        for qual in qualifying:
-            uu = is_valid_uuid(qual[1])
-            if uu !=  None:
-                bowler = User.objects.get(user_id=uu)
-                b_tournaments = []
-                try:
-                    b_tournaments = json.loads(bowler.tournaments)
-                except ValueError:
-                    b_tournaments = []
-                except TypeError:
-                    b_tournaments = []
-                b_tournaments.append(uuid)
-                bowler.tournaments = json.dumps(b_tournaments)
-                bowler.save()
-
 def accounts_add_view(request, id):
     id = is_valid_uuid(id)
     if id !=  None:

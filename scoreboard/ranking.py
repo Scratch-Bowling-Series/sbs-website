@@ -14,7 +14,7 @@ User = get_user_model()
 
 
 
-
+## RANKING DATA OBJECT STORAGE ##
 class RankData:
     user_id = None
     rank = 0
@@ -31,6 +31,7 @@ class RankData:
     avg_score_career_total = 0
     top_five_year = [None, None, None, None, None]
     top_five_career = [None, None, None, None, None]
+    tournaments = []
     def to_list(self):
         return [
             str(self.user_id),
@@ -56,31 +57,6 @@ class RankData_Series:
 
     rank_points = 0
 
-
-def get_top_rankings(amount):
-    rank_datas = load_rank_data()
-    return rank_datas[:amount]
-
-
-def get_rank_data_from_json(json_data):
-    if json_data is not None and len(json_data) > 5:
-        import_data = json.loads(json_data)
-        rank_data = RankData()
-        rank_data.user_id = import_data[0]
-        rank_data.rank = import_data[1]
-        rank_data.rank_points = import_data[2]
-        rank_data.wins = import_data[3]
-        rank_data.attended = import_data[4]
-        rank_data.total_games_year = import_data[5]
-        rank_data.total_games_career = import_data[6]
-        rank_data.avg_score_year = import_data[7]
-        rank_data.avg_score_career = import_data[8]
-        rank_data.top_five_year = import_data[9]
-        rank_data.top_five_career = import_data[10]
-        return rank_data
-    return None
-
-
 def store_rank_data(rank_datas):
     try:
         datas = []
@@ -92,7 +68,6 @@ def store_rank_data(rank_datas):
         file.close()
     except FileNotFoundError:
         return None
-
 
 def load_rank_data():
     try:
@@ -113,11 +88,40 @@ def load_rank_data():
             rank_data.avg_score_career = data[8]
             rank_data.top_five_year = data[9]
             rank_data.top_five_career = data[10]
+            rank_data.tournaments = data[11]
             rank_datas.append(rank_data)
         return rank_datas
     except FileNotFoundError:
         return None
 
+
+## EXTERNAL RANKING DATA ACCESS FUNCTIONS ##
+
+def get_top_rankings(amount):
+    rank_datas = load_rank_data()
+    if rank_datas != None:
+        return rank_datas[:amount]
+
+def get_rank_data_from_json(json_data):
+    if json_data is not None and len(json_data) > 5:
+        import_data = json.loads(json_data)
+        rank_data = RankData()
+        rank_data.user_id = import_data[0]
+        rank_data.rank = import_data[1]
+        rank_data.rank_points = import_data[2]
+        rank_data.wins = import_data[3]
+        rank_data.attended = import_data[4]
+        rank_data.total_games_year = import_data[5]
+        rank_data.total_games_career = import_data[6]
+        rank_data.avg_score_year = import_data[7]
+        rank_data.avg_score_career = import_data[8]
+        rank_data.top_five_year = import_data[9]
+        rank_data.top_five_career = import_data[10]
+        return rank_data
+    return None
+
+
+## RUN STATISTICS FUNCTION ##
 
 def run_statistics():
     tournaments = Tournament.objects.all()
@@ -177,10 +181,16 @@ def run_statistics():
 
             # get best games career
             rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.scores,tournament.tournament_id)
+
+            # add tournament to list
+            rank_data.tournaments.append(str(tournament.tournament_id))
     rank_datas = sorted(rank_datas, key=lambda x: x.rank_points, reverse=True)
     apply_rank_data_to_accounts(rank_datas)
     store_rank_data(rank_datas)
     print('RankingSys - Finished')
+
+
+## STATISTICS PROCESS TASKS ##
 
 @transaction.atomic
 def apply_rank_data_to_accounts(rank_datas):
@@ -192,9 +202,9 @@ def apply_rank_data_to_accounts(rank_datas):
         write_user = User.objects.filter(user_id=data.user_id).first()
         if write_user != None:
             write_user.statistics = json.dumps(data.to_list())
+            write_user.tournaments = json.dumps(data.tournaments)
             write_user.save()
     return data_count
-
 
 def get_rank_data(rank_datas, user_id):
     for rank_data in rank_datas:
@@ -204,7 +214,6 @@ def get_rank_data(rank_datas, user_id):
     instance.user_id = user_id
     rank_datas.append(instance)
     return instance
-
 
 def task_get_rank_points(placement, avgerage, length, date):
     # calculate points
@@ -223,13 +232,11 @@ def task_get_rank_points(placement, avgerage, length, date):
         total_points = total_points - (total_points * decay)
     return round(total_points)
 
-
 def task_get_average(placement):
     amount = len(placement.scores)
     total = sum(placement.scores)
     average = round(total / amount, 2)
     return average
-
 
 def task_best_score(top_five, scores, tournament_id):
     best_score = 0
@@ -276,6 +283,35 @@ def task_best_score(top_five, scores, tournament_id):
 
     return [top_1, top_2, top_3, top_4, top_5]
 
+def update_users_tournaments():
+    users = User.objects.all()
+    for user in users:
+        user.tournaments = None
+        user.save()
+
+    tournaments = Tournament.objects.all()
+    count = 0
+    for tournament in tournaments:
+        count = count + 1
+        uuid = str(tournament.tournament_id)
+        print(tournament.tournament_name)
+        qualifying = get_qualifying(tournament)
+        if qualifying==None:
+            continue
+        for qual in qualifying:
+            uu = is_valid_uuid(qual[1])
+            if uu !=  None:
+                bowler = User.objects.get(user_id=uu)
+                b_tournaments = []
+                try:
+                    b_tournaments = json.loads(bowler.tournaments)
+                except ValueError:
+                    b_tournaments = []
+                except TypeError:
+                    b_tournaments = []
+                b_tournaments.append(uuid)
+                bowler.tournaments = json.dumps(b_tournaments)
+                bowler.save()
 
 if __name__ == "__main__":
     run_statistics()

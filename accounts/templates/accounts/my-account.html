@@ -74,14 +74,17 @@
             </div>
          {% endfor %}
       </div>
+      <a class="btn btn-medium btn-bottom bkg-darkgreen text-white unavailable-btn" style="left:auto;">VIEW ALL TOURNAMENT RESULTS</a>
       {% else %}
          {% if view_user.user_id == request.user.user_id %}
             <p class="profile-none">ATTEND YOUR FIRST TOURNAMENT TO SEE YOUR STATISTICS</p>
+            <a class="btn btn-medium btn-bottom bkg-darkgreen text-white unavailable-btn" style="left:auto;text-transform:uppercase;">FIND AN UPCOMING TOURNAMENT</a>
          {% else %}
             <p class="profile-none">{{ view_user.first_name|none_replace:'First Name'}} HAS YET TO ATTEND A TOURNAMENT</p>
+            <a class="btn btn-medium btn-bottom bkg-darkgreen text-white unavailable-btn" style="left:auto;text-transform:uppercase;">INVITE {{ view_user.first_name|none_replace:'First Name'}} TO A TOURNAMENT</a>
          {% endif %}
       {% endif %}
-      <a class="btn btn-medium btn-bottom bkg-darkgreen text-white unavailable-btn" style="left:auto;">VIEW ALL TOURNAMENT RESULTS</a>
+
    </section>
 </section>
 
@@ -131,10 +134,10 @@
 
 <!-- Upcoming Tournaments Nearby -->
 <section class="col col-25 col-m-max-width">
-   {% if view_user.user_id == request.user.user_id and True == False %}
+   {% if view_user.user_id == request.user.user_id %}
    <section class="sec my-account-top-height bkg-darkgreen">
       <h1 class="text-white">TOURNAMENTS NEAR YOU</h1>
-      {% if True == False %}
+      {% if tournaments_nearby_length > 0 %}
       <div class="profile-results">
          <div class="profile-result">
             <a class="profile-result-date text-white">06/26</a>
