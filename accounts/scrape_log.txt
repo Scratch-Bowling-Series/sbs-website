@@ -210,3 +210,28 @@
 2021-09-14 01:05:43.076705 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 97%
 2021-09-14 01:05:43.305312 - MasterScraper - Task: Users Accounts Scrape - Progress: 0%
 2021-09-14 01:05:46.191991 - MasterScraper - Task: Users Accounts Scrape - Progress: 0% - Time Remaining: 29 Minutes - Elapsed: 0 Minutes
+2021-09-14 01:06:20.680810 - MasterScraper - Task: Startup Initialized - Update: False - Debug: False
+2021-09-14 01:06:20.682810 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 2%
+2021-09-14 01:06:21.057703 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 5%
+2021-09-14 01:06:21.387073 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 8%
+2021-09-14 01:06:21.726518 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 11%
+2021-09-14 01:06:22.081709 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 14%
+2021-09-14 01:06:22.457012 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 17%
+2021-09-14 01:06:22.783320 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 20%
+2021-09-14 01:06:23.128935 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 22%
+2021-09-14 01:06:23.457829 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 25%
+2021-09-14 01:06:23.799407 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 28%
+2021-09-14 01:06:24.133592 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 31%
+2021-09-14 01:06:24.486284 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 34%
+2021-09-14 01:06:24.906265 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 37%
+2021-09-14 01:06:25.242861 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 40%
+2021-09-14 01:06:25.570943 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 42%
+2021-09-14 01:06:25.877871 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 45%
+2021-09-14 01:06:26.208645 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 48%
+2021-09-14 01:06:26.563327 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 51%
+2021-09-14 01:06:26.915178 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 54%
+2021-09-14 01:06:27.282595 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 57%
+2021-09-14 01:06:27.629655 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 60%
+2021-09-14 01:06:28.093410 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 62%
+2021-09-14 01:06:28.413770 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 65%
+2021-09-14 01:06:28.741139 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 68%
