@@ -56,8 +56,7 @@ class RankData:
             self.avg_score_year,
             self.avg_score_career,
             self.top_five_year,
-            self.top_five_career,
-            self.tournaments
+            self.top_five_career
         ]
 
 class RankData_Series:
@@ -77,10 +76,7 @@ def store_rank_data(rank_datas):
         for rank_data in rank_datas:
             datas.append(rank_data.to_list())
         file = open(pwd + '/rankings.dat', 'w')
-        print('writing to json')
-        jsonstr = json.dumps(datas)
-        print('saving json')
-        file.write(jsonstr)
+        file.write(json.dumps(datas))
         file.close()
     except FileNotFoundError:
         return None
@@ -104,7 +100,6 @@ def load_rank_data():
             rank_data.avg_score_career = data[8]
             rank_data.top_five_year = data[9]
             rank_data.top_five_career = data[10]
-            rank_datas.tournaments = data[11]
             rank_datas.append(rank_data)
         return rank_datas
     except FileNotFoundError:
@@ -139,11 +134,11 @@ def get_rank_data_from_json(json_data):
 
 ## RUN STATISTICS FUNCTION ##
 
-def calculate_statistics():
+def save_statistics():
     store_rank_data(get_rank_data_from_tournaments())
 
-def save_statistics():
-    apply_rank_data_to_accounts_in_batches(load_rank_data(), 300)
+def calculate_statistics():
+    apply_rank_data_to_accounts_in_batches(get_rank_data_from_tournaments(), 300)
     print('RankingSys - Finished')
 
 
