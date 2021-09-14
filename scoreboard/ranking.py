@@ -205,7 +205,7 @@ def run_statistics():
 
     rank_datas = sorted(rank_datas, key=lambda x: x.rank_points, reverse=True)
     store_rank_data(rank_datas)
-    apply_rank_data_to_accounts_in_batches(rank_datas, 500)
+    apply_rank_data_to_accounts_in_batches(rank_datas, 1000)
     print('RankingSys - Finished')
 
 
