@@ -80,7 +80,7 @@ $(document).ready(function() {
     {% if tournament|winner is not None %}
       <div class="row-b">
         <a class="row-b-c row-b-c1 text-white">{{ tournament.tournament_date|date:'m/d' }}</a>
-        <a class="row-b-c row-b-c2 text-white span-white">{{ tournament|winner|bowler_name:True|safe }}</a>
+        <a class="row-b-c row-b-c2 text-white span-white">{{ tournament|winner }}</a>
         <a class="row-b-btn btn btn-small bkg-white text-lightgreen border-none" href="/tournaments/view/{{ tournament.tournament_id }}">RESULTS</a>
       </div>
      {% endif %}
