@@ -204,12 +204,24 @@ def run_statistics():
 
 
     rank_datas = sorted(rank_datas, key=lambda x: x.rank_points, reverse=True)
-    apply_rank_data_to_accounts(rank_datas)
+    apply_rank_data_to_accounts_in_batches(rank_datas, 500)
     store_rank_data(rank_datas)
     print('RankingSys - Finished')
 
 
 ## STATISTICS PROCESS TASKS ##
+
+def apply_rank_data_to_accounts_in_batches(rank_datas, batch_size):
+    if batch_size < 200: batch_size = 200
+    count = 0
+    total = 0
+    while True:
+        count += 1
+        start = 0 + (batch_size * (count - 1))
+        batch = list(islice(rank_datas, start, batch_size * count))
+        if not batch: break
+        total += apply_rank_data_to_accounts(batch)
+    return total
 
 @transaction.atomic
 def apply_rank_data_to_accounts(rank_datas):
@@ -228,6 +240,7 @@ def apply_rank_data_to_accounts(rank_datas):
         write_user = User.objects.filter(user_id=data.user_id).first()
         if write_user != None:
             write_user.statistics = data.rd_to_json()
+            write_user.tournaments = data.t_to_json()
             write_user.save()
     return data_count
 
