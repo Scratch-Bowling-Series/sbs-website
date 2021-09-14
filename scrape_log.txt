@@ -441,3 +441,4 @@
 2021-09-14 03:00:06.861159 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 28%
 2021-09-14 03:00:07.225120 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 31%
 2021-09-14 03:00:07.624975 - MasterScraper - Task: Users Accounts Gather Urls - Progress: 34%
+2021-09-14 03:00:16.481290 - MasterScraper - Task: Tournaments Scrape - Progress: 2%
