@@ -90,7 +90,7 @@ $(document).ready(function() {
   <section class="sec">
     <h2>TOP 10 SBS RANKING</h2>
     {% for top in top_ten_ranks %}
-      {% if foreach.first %}
+      {% if forloop.first %}
       <script>
           $(document).ready(function(){
             $('rankings-offline').hide();
