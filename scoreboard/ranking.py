@@ -222,7 +222,7 @@ def apply_rank_data_to_accounts_in_batches(rank_datas, batch_size):
         total += apply_rank_data_to_accounts(batch, count, total_batches)
     return total
 
-@transaction.atomic
+
 def apply_rank_data_to_accounts(rank_datas, batch, total_batches):
     print('RankingSys - Saving Ranking Data')
     if rank_datas == None: return 0
