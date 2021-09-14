@@ -86,7 +86,6 @@ def scrape_for_new_users(update, debug):
     urls = get_all_account_urls()
     cache = get_scrape_cache()
     lib = cache.link_library
-    users = []
     bowlers_added = 0
     step = 0
     amount = 0
@@ -95,15 +94,35 @@ def scrape_for_new_users(update, debug):
     last_minutes_remaining = 0
     if debug: urls = urls[:200]
     urls_length = len(urls)
-    logit('Users Accounts Scrape', '0%')
-    for url in urls:
-        start = time.time()
-        step += 1
-        user = get_user_from_url(url)
-        if user != None:
-            if update:
-                search = User.objects.filter(first_name=user.first_name, last_name=user.last_name, location_city=user.location_city, location_state=user.location_state).first()
-                if search == None:
+    batch_size = 500
+    count = 0
+    while True:
+        users = []
+        count += 1
+        start = 0 + (batch_size * (count - 1))
+        url_batch = list(islice(urls, start, batch_size * count))
+        if not url_batch:
+            break
+        for url in url_batch:
+            start = time.time()
+            step += 1
+            user = get_user_from_url(url)
+            if user != None:
+                if update:
+                    search = User.objects.filter(first_name=user.first_name, last_name=user.last_name,
+                                                 location_city=user.location_city,
+                                                 location_state=user.location_state).first()
+                    if search == None:
+                        bowlers_added += 1
+                        users.append(user)
+                        if user.user_id != None:
+                            lib[url] = str(user.user_id)
+                        else:
+                            user.user_id = uuid.uuid4
+                            lib[url] = str(user.user_id)
+                    else:
+                        lib[url] = str(search.user_id)
+                else:
                     bowlers_added += 1
                     users.append(user)
                     if user.user_id != None:
@@ -111,37 +130,20 @@ def scrape_for_new_users(update, debug):
                     else:
                         user.user_id = uuid.uuid4
                         lib[url] = str(user.user_id)
-                else:
-                    lib[url] = str(search.user_id)
-            else:
-                bowlers_added += 1
-                users.append(user)
-                if user.user_id != None:
-                    lib[url] = str(user.user_id)
-                else:
-                    user.user_id = uuid.uuid4
-                    lib[url] = str(user.user_id)
-        end = time.time()
-        elapsed = end - start
-        elapsed_total += elapsed
-        elapsed_count += 1
-        if step == 10:
-            amount += 10
-            step = 0
-            minutes_remaining = int(((elapsed_total / elapsed_count) * (urls_length - amount)) / 60)
-            if last_minutes_remaining != minutes_remaining:
-                last_minutes_remaining = minutes_remaining
-                logit('Users Accounts Scrape', str(int((amount / urls_length) * 100)) + '% - Time Remaining: ' + str(minutes_remaining) + ' Minutes - Elapsed: ' + str(int(elapsed_total / 60)) + ' Minutes')
-
-    batch_size = 500
-    count = 0
-    while True:
-        count += 1
-        start = 0 + (batch_size * (count - 1))
-        batch = list(islice(users, start, batch_size * count))
-        if not batch:
-            break
-        User.objects.bulk_create(batch, batch_size)
+            end = time.time()
+            elapsed = end - start
+            elapsed_total += elapsed
+            elapsed_count += 1
+            if step == 10:
+                amount += 10
+                step = 0
+                minutes_remaining = int(((elapsed_total / elapsed_count) * (urls_length - amount)) / 60)
+                if last_minutes_remaining != minutes_remaining:
+                    last_minutes_remaining = minutes_remaining
+                    logit('Users Accounts Scrape',
+                          str(int((amount / urls_length) * 100)) + '% - Time Remaining: ' + str(
+                              minutes_remaining) + ' Minutes - Elapsed: ' + str(int(elapsed_total / 60)) + ' Minutes')
+        User.objects.bulk_create(users, batch_size)
     cache.link_library = lib
     store_scrape_cache(cache)
     return bowlers_added
