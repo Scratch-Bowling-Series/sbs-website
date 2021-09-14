@@ -122,9 +122,16 @@ def load_rank_data():
 def run_statistics():
     tournaments = Tournament.objects.all()
     rank_datas = []
+    count = 0
+    length = tournaments.count()
+    past_prog = 0
     print('RankingSys - Starting Statistics Calculations')
     for tournament in tournaments:
-        print('RankingSys - Running Statistics - Task: ' + str(tournament.tournament_name)[:10])
+        count += 1
+        progress = int((count / length ) * 100)
+        if past_prog != progress:
+            past_prog = progress
+            print('RankingSys - Running Statistics - Progress: ' + str(progress) + '%')
         in_season = False
         if tournament.tournament_date.year == datetime.now().date().year:
             in_season = True
