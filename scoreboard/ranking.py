@@ -1,7 +1,11 @@
 import datetime
 import json
 from datetime import datetime
+from itertools import islice
+
 from django.contrib.auth import get_user_model
+from django.db import transaction
+
 from tournaments.models import Tournament
 from tournaments.views import get_qualifying, get_matchplay, get_qualifying_object, get_matchplay_object, get_placements
 User = get_user_model()
@@ -111,7 +115,9 @@ def load_rank_data():
 def run_statistics():
     tournaments = Tournament.objects.all()
     rank_datas = []
+    print('RankingSys - Starting Statistics Calculations')
     for tournament in tournaments:
+        print('RankingSys - Running Statistics - Task: ' + str(tournament.tournament_name)[:10])
         in_season = False
         if tournament.tournament_date.year == datetime.now().date().year:
             in_season = True
@@ -157,15 +163,22 @@ def run_statistics():
 
             # get best games career
             rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.scores,tournament.tournament_id)
-    rank_datas = sorted(rank_datas, key=lambda x: x.rank_points, reverse=True)
-    count = 0
-    for rank_data in rank_datas:
-        count += 1
-        rank_data.rank = count
-        write_user = User.objects.filter(user_id=rank_data.user_id).first()
-        write_user.statistics = json.dumps(rank_data.to_list())
-        write_user.save()
-    store_rank_data(rank_datas)
+
+    store_rank_data(sorted(rank_datas, key=lambda x: x.rank_points, reverse=True))
+    print('RankingSys - Finished')
+
+@transaction.atomic
+def apply_rank_data_to_accounts(rank_datas):
+    print('RankingSys - Saving Ranking Data')
+    data_count = 0
+    for data in rank_datas:
+        data_count += 1
+        data.rank = data_count
+        write_user = User.objects.filter(user_id=data.user_id).first()
+        if write_user != None:
+            write_user.statistics = json.dumps(data.to_list())
+            write_user.save()
+    return data_count
 
 
 def get_rank_data(rank_datas, user_id):
