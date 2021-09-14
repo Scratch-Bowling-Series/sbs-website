@@ -60,7 +60,8 @@ class RankData:
             self.avg_score_year,
             self.avg_score_career,
             self.top_five_year,
-            self.top_five_career
+            self.top_five_career,
+            self.tournaments
         ]
 
 class RankData_Series:
