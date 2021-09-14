@@ -1,5 +1,6 @@
 import datetime
 import json
+import os
 from datetime import datetime
 from itertools import islice
 
@@ -81,35 +82,41 @@ def get_rank_data_from_json(json_data):
 
 
 def store_rank_data(rank_datas):
-    datas = []
-    for rank_data in rank_datas:
-        datas.append(rank_data.to_list())
-    file = open('rankings.txt', 'w')
-    file.write(json.dumps(datas))
-    file.close()
+    try:
+        datas = []
+        pwd = os.path.dirname(__file__)
+        for rank_data in rank_datas:
+            datas.append(rank_data.to_list())
+        file = open(pwd + '/rankings.dat', 'w')
+        file.write(json.dumps(datas))
+        file.close()
+    except FileNotFoundError:
+        return None
 
 
 def load_rank_data():
-    file = open('rankings.txt', 'r')
-    jsonstr = file.read()
-    datas = json.loads(jsonstr)
-    rank_datas = []
-
-    for data in datas:
-        rank_data = RankData()
-        rank_data.user_id = data[0]
-        rank_data.rank = data[1]
-        rank_data.rank_points = data[2]
-        rank_data.wins = data[3]
-        rank_data.attended = data[4]
-        rank_data.total_games_year = data[5]
-        rank_data.total_games_career = data[6]
-        rank_data.avg_score_year = data[7]
-        rank_data.avg_score_career = data[8]
-        rank_data.top_five_year = data[9]
-        rank_data.top_five_career = data[10]
-        rank_datas.append(rank_data)
-    return rank_datas
+    try:
+        pwd = os.path.dirname(__file__)
+        file = open(pwd + '/rankings.dat', 'r')
+        datas = json.loads(file.read())
+        rank_datas = []
+        for data in datas:
+            rank_data = RankData()
+            rank_data.user_id = data[0]
+            rank_data.rank = data[1]
+            rank_data.rank_points = data[2]
+            rank_data.wins = data[3]
+            rank_data.attended = data[4]
+            rank_data.total_games_year = data[5]
+            rank_data.total_games_career = data[6]
+            rank_data.avg_score_year = data[7]
+            rank_data.avg_score_career = data[8]
+            rank_data.top_five_year = data[9]
+            rank_data.top_five_career = data[10]
+            rank_datas.append(rank_data)
+        return rank_datas
+    except FileNotFoundError:
+        return None
 
 
 def run_statistics():
