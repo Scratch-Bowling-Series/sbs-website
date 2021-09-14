@@ -58,14 +58,14 @@ def get_scrape_cache():
 def master_scrape(update=True, debug=False):
     logit('Startup Initialized - Update: ' + str(update) + ' - Debug: ' + str(debug))
     ## SCRAPE FOR NEW USERS ##
-    if update == False: User.objects.all().delete()
-    users_added = scrape_for_new_users(update, debug)
-    logit('Users Accounts Scrape', 'Complete - Added: ' + str(users_added))
+    #if update == False: User.objects.all().delete()
+    #users_added = scrape_for_new_users(update, debug)
+    #logit('Users Accounts Scrape', 'Complete - Added: ' + str(users_added))
 
     ## SCRAPE FOR NEW CENTERS ##
-    if update == False: Center.objects.all().delete()
-    centers_added = scrape_for_new_centers(update, debug)
-    logit('Bowling Centers Scrape', 'Complete - Added: ' + str(centers_added))
+    #if update == False: Center.objects.all().delete()
+    #centers_added = scrape_for_new_centers(update, debug)
+    #logit('Bowling Centers Scrape', 'Complete - Added: ' + str(centers_added))
 
     ## SCRAPE FOR NEW TOURNAMENTS ##
     if update == False: Tournament.objects.all().delete()
