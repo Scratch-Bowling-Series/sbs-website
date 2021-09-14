@@ -157,8 +157,6 @@ def run_statistics():
 
             # get best games career
             rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.scores,tournament.tournament_id)
-
-
     rank_datas = sorted(rank_datas, key=lambda x: x.rank_points, reverse=True)
     count = 0
     for rank_data in rank_datas:
@@ -249,3 +247,7 @@ def task_best_score(top_five, scores, tournament_id):
             top_5[0] = str(tournament_id)
 
     return [top_1, top_2, top_3, top_4, top_5]
+
+
+if __name__ == "__main__":
+    run_statistics()
