@@ -205,6 +205,7 @@ def accounts_account_view(request, id):
     view_user = User.objects.filter(user_id=id).first()
     if view_user != None:
         tournaments = get_recent_tournaments(view_user)
+        tournaments_length = len(tournaments)
         rank_data = get_rank_data_from_json(view_user.statistics)
         if rank_data != None:
             description = 'Current Rank: ' + str(make_ordinal(rank_data.rank)) + ' Attended: ' + str(rank_data.attended) + ' Wins: ' + str(rank_data.wins) + ' Career Avg. Score: ' + str(rank_data.avg_score_career) + ' Career Total Games: ' + str(rank_data.total_games_career)
@@ -213,7 +214,7 @@ def accounts_account_view(request, id):
         return render(request, 'accounts/my-account.html', {'view_user': view_user,
                                                             'tournaments': tournaments,
                                                             'rank_data': rank_data,
-                                                            'tournaments_length': len(tournaments),
+                                                            'tournaments_length': tournaments_length,
                                                             'page_title': str(view_user.first_name) + ' ' + str(view_user.last_name),
                                                             'page_description': description,
                                                             'page_keywords': 'user, bowler, account, rank, data, scores, tournaments, stats, statistics',
@@ -314,7 +315,7 @@ def get_recent_tournaments(user):
                 name = tournament.tournament_name
                 location = get_center_location_uuid(tournament.center)
                 place = make_ordinal(get_place(tournament_id, user))
-                if place == 0:
+                if place == '0' or place == 0:
                     place = 'DNF'
                 uuid = str(tournament_id)
                 data.append([date, name, location, place, uuid])
