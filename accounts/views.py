@@ -314,6 +314,8 @@ def get_recent_tournaments(user):
                 name = tournament.tournament_name
                 location = get_center_location_uuid(tournament.center)
                 place = make_ordinal(get_place(tournament_id, user))
+                if place == 0:
+                    place = 'DNF'
                 uuid = str(tournament_id)
                 data.append([date, name, location, place, uuid])
     return data

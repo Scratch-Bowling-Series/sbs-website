@@ -6,6 +6,7 @@ $color-white: #fff;
 $color-grey: #d6d6d6;
 $color-darkgrey: #3d3d3d;
 $color-lightgrey: #e8e8e8;
+$color-red:red;
 
 $font-primary: tt_octosquares_condensedbold;
 $font-primary-bold: tt_octosquares_condensedbold;
@@ -2048,6 +2049,8 @@ footer
   font-size:16px;
   float:right;
   padding:10px;
+  .firstplace{color:$color-tan;}
+  .notfinish{color:$color-red;}
 }
 .profile-none{
   font-size:24px;
