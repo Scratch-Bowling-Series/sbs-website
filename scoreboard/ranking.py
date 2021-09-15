@@ -239,7 +239,7 @@ def get_rank_data_from_tournaments():
             # add tournament to list
             exists = False
             for id in rank_data.tournaments:
-                if id == tournament.id:
+                if id == str(tournament.tournament_id):
                     exists = True
                     break
             if not exists:
