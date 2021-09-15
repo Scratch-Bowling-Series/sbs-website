@@ -2017,6 +2017,10 @@ footer
   margin:0 auto;
   text-align:left;
 }
+.profile-result{
+  .firstplace{color:$color-tan;}
+  .notfinish{color:$color-red;}
+}
 .profile-result-date{
   display:inline-block;
   font-family:$font-primary-light;
@@ -2049,8 +2053,7 @@ footer
   font-size:16px;
   float:right;
   padding:10px;
-  .firstplace{color:$color-tan;}
-  .notfinish{color:$color-red;}
+  
 }
 .profile-none{
   font-size:24px;
