@@ -227,7 +227,10 @@ def get_rank_data_from_tournaments():
         for placement in qualifying_objects:
             rank_data = get_rank_data(rank_data_lib, placement.user_id)
             t_score_average = task_get_average(placement)
-            t_total_games = len(placement.scores)
+            if placement.scores == None:
+                t_total_games = 0
+            else:
+                t_total_games = len(placement.scores)
             # season data
             if in_season:
                 # get rank points
@@ -285,6 +288,8 @@ def task_get_rank_points(placement, avgerage, length, date):
     return round(total_points)
 
 def task_get_average(scores):
+    if scores == None:
+        return 0
     amount = len(scores)
     total = sum(scores)
     average = round(total / amount, 2)
