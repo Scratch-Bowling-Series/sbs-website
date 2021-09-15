@@ -198,14 +198,11 @@ def get_rank_data_from_tournaments():
             continue
         for placement in placements:
             rank_data = get_rank_data(rank_datas, placement.user_id)
-
             average = task_get_average(placement)
-
             # get rank points
             if in_season:
                 rank_data.rank_points = task_get_rank_points(placement, average, len(placements),
                                                              tournament.tournament_date)
-
             # get avg score year
             if in_season:
                 rank_data.avg_score_year_total += average
@@ -240,7 +237,13 @@ def get_rank_data_from_tournaments():
                                                         tournament.tournament_id)
 
             # add tournament to list
-            rank_data.tournaments.append(str(tournament.tournament_id))
+            exists = False
+            for id in rank_data.tournaments:
+                if id == tournament.id:
+                    exists = True
+                    break
+            if not exists:
+                rank_data.tournaments.append(str(tournament.tournament_id))
     return sorted(rank_datas, key=lambda x: x.rank_points, reverse=True)
 
 def get_rank_data(rank_datas, user_id):
@@ -322,4 +325,4 @@ def task_best_score(top_five, scores, tournament_id):
 
 
 if __name__ == "__main__":
-    run_statistics()
+    calculate_statistics()
