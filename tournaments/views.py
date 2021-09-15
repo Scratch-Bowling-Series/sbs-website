@@ -464,20 +464,24 @@ def get_date_time(date, time):
         return datetime.now()
 
 
-def get_place(tournament_uuid, user):
+def get_place(tournament_id, user):
     place = 0
-    tournament = get_tournament(tournament_uuid)
-    if tournament is not None and user is not None:
-        qualifying = tournament.qualifiers.replace("'", '"')
-        try:
-            qualifying = json.loads(qualifying)
-        except ValueError:
-            return 0
-        for qual in qualifying:
-            uu = is_valid_uuid(qual[1])
-            if uu is not None and uu == user.user_id:
-                place = qual[0]
-    return make_ordinal(place)
+    tournament = get_tournament(tournament_id)
+    if tournament != None:
+        matchplay_objects = get_matchplay_object(tournament)
+        if matchplay_objects != None:
+            for matchplay in matchplay_objects:
+                if matchplay.user_id == user.user_id:
+                    place = matchplay.place
+                    break
+        if place == 0:
+            qualifying_objects = get_qualifying_object(tournament)
+            if qualifying_objects != None:
+                for qualifying in qualifying_objects:
+                    if qualifying.user_id == user.user_id:
+                        place = qualifying.place
+                        break
+    return place
 
 
 def get_tournament(uuid):

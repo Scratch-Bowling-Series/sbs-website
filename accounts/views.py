@@ -12,6 +12,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from ScratchBowling.websettings import WebSettings
+from centers.center_utils import get_center_location_uuid
 from scoreboard.ranking import get_rank_data_from_json
 from tournaments.models import Tournament
 from tournaments.views import get_tournament, is_valid_uuid, get_place, get_qualifying, make_ordinal
@@ -306,15 +307,15 @@ def get_recent_tournaments(user):
             tournaments = json.loads(user.tournaments)
         except ValueError:
             tournaments = []
-        for id in tournaments:
-            tournament = get_tournament(id)
-            date = tournament.tournament_date
-            name = tournament.tournament_name
-            location = 'Linden, MI'
-            place = get_place(id, user)
-            uuid = str(tournament.tournament_id)
-
-            data.append([date, name, location, place, uuid])
+        for tournament_id in tournaments:
+            tournament = get_tournament(tournament_id)
+            if tournament != None:
+                date = tournament.tournament_date
+                name = tournament.tournament_name
+                location = get_center_location_uuid(tournament.center)
+                place = make_ordinal(get_place(tournament_id, user))
+                uuid = str(tournament_id)
+                data.append([date, name, location, place, uuid])
     return data
 
 def accounts_add_view(request, id):

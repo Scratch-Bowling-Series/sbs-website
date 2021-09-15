@@ -197,7 +197,7 @@ def get_rank_data_from_tournaments():
     log_count = 0
     log_total = tournaments_length
     log_prog_las = 0
-    log_prog_inc = 25
+    log_prog_inc = 0
     for tournament in tournaments:
         ## LOGGING
         log_count += 1
