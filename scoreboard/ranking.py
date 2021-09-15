@@ -260,7 +260,8 @@ def get_rank_data_from_tournaments():
             # get best games career
             rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.scores,tournament.tournament_id)
             # add tournament to list
-            task_store_tournament(tournament.tournament_id, rank_data.tournaments)
+            rank_data.tournaments = task_store_tournament(tournament.tournament_id, rank_data.tournaments)
+            print('-   USER: ' + str(rank_data.user_id)[10] + '  ---  ' + str(rank_data.tournaments))
 
     return sorted(rank_data_lib, key=lambda x: x.rank_points, reverse=True)
 
@@ -351,6 +352,7 @@ def task_store_tournament(tournament_id, tournaments):
             break
     if not exists:
         tournaments.append(str(tournament_id))
+    return tournaments
 
 
 if __name__ == "__main__":
