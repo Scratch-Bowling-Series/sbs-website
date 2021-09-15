@@ -2,15 +2,15 @@ import json
 
 
 class Qualifying:
-    user_id = None;
+    user_id = None
     place = 0
-    scores = 0
+    scores = []
 
 
 class MatchPlay:
     user_id = None
     place = 0
-    scores = 0
+    scores = []
 
 
 class Score_Data:
