@@ -6,6 +6,7 @@ from itertools import islice
 from django.contrib.auth import get_user_model
 from django.db import transaction
 
+from ScratchBowling import placements
 from tournaments.models import Tournament
 from tournaments.views import get_placements, get_matchplay_object, get_qualifying_object
 
@@ -191,9 +192,10 @@ def apply_rank_data_to_accounts(rank_datas, batch, total_batches):
 def get_rank_data_from_tournaments():
     rank_data_lib = []
     tournaments = Tournament.objects.all()
+    tournaments_length = tournaments.count()
     ## LOGGING
     log_count = 0
-    log_total = tournaments.count()
+    log_total = tournaments_length
     log_prog_las = 0
     log_prog_inc = 25
     for tournament in tournaments:
@@ -222,6 +224,7 @@ def get_rank_data_from_tournaments():
                     qualifying.place = matchplay.place
                     qualifying.scores += matchplay.scores
                     break
+        qualifying_objects_length = len(qualifying_objects)
 
         ## UPDATE DATA LIBRARY WITH PLACEMENTS
         for placement in qualifying_objects:
@@ -234,7 +237,7 @@ def get_rank_data_from_tournaments():
             # season data
             if in_season:
                 # get rank points
-                rank_data.rank_points = task_get_rank_points(placement, t_score_average, len(placement),tournament.tournament_date)
+                rank_data.rank_points = task_get_rank_points(placement, t_score_average, qualifying_objects_length,tournament.tournament_date)
                 # get avg score year
                 rank_data.avg_score_year_total += t_score_average
                 rank_data.avg_score_year_amount += 1
