@@ -226,7 +226,7 @@ def get_rank_data_from_tournaments():
         ## UPDATE DATA LIBRARY WITH PLACEMENTS
         for placement in qualifying_objects:
             rank_data = get_rank_data(rank_data_lib, placement.user_id)
-            t_score_average = task_get_average(placement)
+            t_score_average = task_get_average(placement.scores)
             if placement.scores == None:
                 t_total_games = 0
             else:
