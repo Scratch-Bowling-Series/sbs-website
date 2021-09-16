@@ -273,7 +273,7 @@ def get_rank_data_from_tournaments():
             rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.scores,tournament.tournament_id)
             # add tournament to list
             rank_data.tournaments = task_store_tournament(tournament.tournament_id, rank_data.tournaments)
-            print('-   USER: ' + str(rank_data.user_id)[10] + '  ---  ' + str(rank_data.tournaments))
+            
 
     return sorted(rank_data_lib, key=lambda x: x.rank_points, reverse=True)
 
