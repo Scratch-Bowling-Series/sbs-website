@@ -176,7 +176,7 @@ def convert_to_tournament_data_object(tournament):
                     match_data.bowler_datas.append(bowler_data)
                     match_datas.append(match_data)
 
-            match_number = tournament_data.match_datas.count()
+            match_number = len(tournament_data.match_datas)
             for match_data in match_datas:
                 match_number += 1
                 match_data.match_number = match_number
