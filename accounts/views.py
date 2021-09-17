@@ -14,9 +14,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from ScratchBowling.websettings import WebSettings
 from centers.center_utils import get_center_location_uuid
 from scoreboard.ranking import get_rank_data_from_json
-from tournaments.models import Tournament
-from tournaments.views import get_tournament, is_valid_uuid, get_place, get_qualifying, make_ordinal, \
-    get_qualifying_object
+from tournaments.views import get_tournament, is_valid_uuid, get_place, make_ordinal
 from .forms import RegisterForm, ModifyAccountForm
 from scraper import master_scrape, get_scraper_log
 from .tokens import account_activation_token
@@ -318,15 +316,8 @@ def get_recent_tournaments(user):
                 place = make_ordinal(get_place(tournament_id, user))
                 if place == '0' or place == 0:
                     place = 'DNF'
-                    qualifying_objects = get_qualifying_object(tournament)
-                    exists = False
-                    for qualifying in qualifying_objects:
-                        if qualifying.user_id == user.user_id:
-                            exists = True
-                            break
-                    if exists:
-                        uuid = str(tournament_id)
-                        data.append([date, name, location, place, uuid])
+                uuid = str(tournament_id)
+                data.append([date, name, location, place, uuid])
     return data
 
 def accounts_add_view(request, id):
