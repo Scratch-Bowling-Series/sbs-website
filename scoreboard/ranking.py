@@ -144,8 +144,9 @@ def save_statistics():
     store_rank_data(get_rank_data_from_tournaments())
 
 def calculate_statistics():
-    qualifying = get_qualifying_object(Tournament.objects.all()[500])[1]
-    print(str(qualifying.user_id) + '    -    ' + str(qualifying.place) + '    :::::    ' + str(qualifying.scores))
+    qualifyings = get_qualifying_object(Tournament.objects.all()[500])
+    for qualifying in qualifyings:
+        print(str(qualifying.user_id) + '    -    ' + str(qualifying.place) + '    :::::    ' + str(qualifying.scores))
     return
     rank_datas = get_rank_data_from_tournaments()
     apply_rank_data_to_accounts_in_batches(rank_datas, 1000)
