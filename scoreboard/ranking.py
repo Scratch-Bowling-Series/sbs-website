@@ -5,6 +5,8 @@ from datetime import datetime
 from itertools import islice
 from django.contrib.auth import get_user_model
 from django.db import transaction
+
+from accounts.account_helper import get_name_from_uuid
 from tournaments.models import Tournament
 from tournaments.views import get_matchplay_object, get_qualifying_object
 
@@ -147,10 +149,10 @@ def calculate_statistics():
     tournament = Tournament.objects.all()[500]
     qualifyings = get_qualifying_object(tournament)
     for qualifying in qualifyings:
-        print(str(qualifying.user_id) + '    -    ' + str(qualifying.place) + '    :::::    ' + str(qualifying.scores))
+        print(str(get_name_from_uuid(qualifying.user_id)) + '    -    ' + str(qualifying.place) + '    :::::    ' + str(qualifying.scores))
     qualifyings = get_matchplay_object(tournament)
     for qualifying in qualifyings:
-        print(str(qualifying.user_id) + '    -    ' + str(qualifying.place) + '    :::::    ' + str(qualifying.scores))
+        print(str(get_name_from_uuid(qualifying.user_id)) + '    -    ' + str(qualifying.place) + '    :::::    ' + str(qualifying.scores))
     return
     rank_datas = get_rank_data_from_tournaments()
     apply_rank_data_to_accounts_in_batches(rank_datas, 1000)
