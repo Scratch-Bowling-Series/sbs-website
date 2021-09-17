@@ -1,6 +1,7 @@
 import datetime
 import json
 import os
+from itertools import islice
 
 from tournaments.models import Tournament
 
@@ -23,10 +24,20 @@ def TransferT():
 
 def Gather():
     Tournament.objects.all().delete()
-    datas = ReadJson()
-    datas = json.loads(datas)
-    for data in datas:
-        CreateTournamentFromList(data)
+    datas = json.loads(ReadJson())
+    batch_size = 200
+    count = 0
+    while True:
+        tournaments = []
+        count += 1
+        start = 0 + (batch_size * (count - 1))
+        data_batch = list(islice(datas, start, batch_size * count))
+        if not data_batch:
+            break
+        for data in data_batch:
+            tournaments.append(CreateTournamentFromList(data))
+        Tournament.objects.bulk_create(tournaments, batch_size)
+
 
 def TournamentToList(tournament):
     tournamentslist = [
@@ -58,7 +69,7 @@ def CreateTournamentFromList(data):
         tournament.qualifiers = data[6]
         tournament.matchplay = data[7]
         tournament.format = data[8]
-        tournament.save()
+        return tournament
 
 def ValidateTournamentList(usrlist):
     if usrlist[0] == None or usrlist[0] == '':
