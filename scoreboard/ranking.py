@@ -5,13 +5,11 @@ from datetime import datetime
 from itertools import islice
 from django.contrib.auth import get_user_model
 from django.db import transaction
-
-from ScratchBowling import placements
 from tournaments.models import Tournament
-from tournaments.views import get_placements, get_matchplay_object, get_qualifying_object
+from tournaments.views import get_matchplay_object, get_qualifying_object
+
 
 User = get_user_model()
-
 
 ## RANKING DATA OBJECT STORAGE ##
 class RankPointData:
@@ -146,6 +144,8 @@ def save_statistics():
     store_rank_data(get_rank_data_from_tournaments())
 
 def calculate_statistics():
+    print(str(get_qualifying_object(Tournament.objects.all()[500])[1]))
+    return
     rank_datas = get_rank_data_from_tournaments()
     apply_rank_data_to_accounts_in_batches(rank_datas, 1000)
     print("RankingSys - Saving Ranking Data to 'rankings.dat'.")
@@ -273,10 +273,6 @@ def get_rank_data_from_tournaments():
             rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.scores,tournament.tournament_id)
             # add tournament to list
             rank_data.tournaments = task_store_tournament(tournament.tournament_id, rank_data.tournaments)
-
-
-
-
     return sorted(rank_data_lib, key=lambda x: x.rank_points, reverse=True)
 
 def get_rank_data(rank_datas, user_id):
