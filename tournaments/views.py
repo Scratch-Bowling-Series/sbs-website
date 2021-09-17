@@ -223,77 +223,11 @@ def get_placements(tournament):
     return qualifyings
 
 
-def get_qualifying_object(tournament):
-    if tournament is None:
-        return None
-        
-    import_data = tournament.qualifiers.replace("'", '"')
-    try:
-        import_data = json.loads(import_data)
-    except ValueError:
-        return None
-    if import_data is None:
-        return None
-
-    qualifyings = []
-    for data in import_data:
-        user_id = is_valid_uuid(data[1])
-        if user_id is not None:
-            qualifying = Qualifying()
-            qualifying.user_id = user_id
-            # set place
-            qualifying.place = 0
-            try:
-                qualifying.place = int(data[0])
-            except TypeError:
-                qualifying.place = 0
-
-            # set scores
-            qualifying.scores = []
-            for x in range(2, len(data) - 1):
-                score = 0
-                try:
-                    score = int(data[x])
-                except TypeError:
-                    score = 0
-                qualifying.scores.append(score)
-            qualifyings.append(qualifying)
-    return qualifyings
 
 
-def get_matchplay_object(tournament):
-    import_data = tournament.matchplay.replace("'", '"')
-    try:
-        import_data = json.loads(import_data)
-    except ValueError:
-        return None
-    if import_data is None:
-        return None
 
-    matchplays = []
-    for data in import_data:
-        user_id = is_valid_uuid(data[1])
-        if user_id is not None:
-            matchplay = MatchPlay()
-            matchplay.user_id = user_id
-            # set place
-            matchplay.place = 0
-            try:
-                matchplay.place = int(data[0])
-            except TypeError:
-                matchplay.place = 0
 
-            # set scores
-            matchplay.scores = []
-            for x in range(2, len(data) - 1):
-                score = 0
-                try:
-                    score = int(data[x])
-                except TypeError:
-                    score = 0
-                qualifying.scores.append(score)
-            matchplays.append(matchplay)
-    return matchplays
+
 
 
 
