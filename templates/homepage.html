@@ -512,12 +512,12 @@ $(document).ready(function() {
                 <a class="bom-pic-rank">1st</a>
             </div>
             <div class="bom-pic">
-                <img src="{{ bowler_of_month.picture.url }}" alt="{{ bowler_of_month.first_name}}'s profile picture">
+                <img src="account/data/profile-pic/{{ bowler_of_month.0 }}" alt="{{ bowler_of_month.1 }}'s profile picture">
             </div>
         </div>
-        <a class="bom-name">{{ bowler_of_month.first_name}}&nbsp;{{ bowler_of_month.last_name }}</a>
-        <a class="bom-location">{{ bowler_of_month.location_city|none_replace:'Flint' }}, {{ bowler_of_month.location_state|none_replace:'Michigan' }}</a>
-        <a class="btn btn-full text-white bkg-darkgreen border-none" href="account/view/{{ bowler_of_month.user_id }}">VISIT PROFILE</a>
+        <a class="bom-name">{{ bowler_of_month.1 }}</a>
+        <a class="bom-location">{{ bowler_of_month.2 }}</a>
+        <a class="btn btn-full text-white bkg-darkgreen border-none" href="account/view/{{ bowler_of_month.0 }}">VISIT PROFILE</a>
       </section>
       {% endif %}
     <section class="sec sitestat">

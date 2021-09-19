@@ -5,8 +5,10 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.popup import check_for_popup
+from ScratchBowling.sbs_utils import is_valid_uuid
 from ScratchBowling.shortener import create_link
-from accounts.account_helper import get_name_from_uuid
+from ScratchBowling.websettings import WebSettings
+from accounts.account_helper import get_name_from_uuid, get_location_basic_uuid
 from accounts.forms import User
 from accounts.models import Shorten
 from centers.models import Center
@@ -144,7 +146,15 @@ def load_tournament_upcoming():
     return Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time())
 
 def load_bowler_of_month():
-    return User.objects.all().first()
+    # FORMAT
+    # [id, name, location]
+    websettings = WebSettings()
+    if websettings.bowler_of_month != None:
+        websettings.bowler_of_month = is_valid_uuid(websettings.bowler_of_month)
+        user = User.objects.filter(user_id=websettings.bowler_of_month)
+        if user != None:
+            return [user.user_id, get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id)]
+    return None
 
 def get_users_count():
     return User.objects.all().count()
