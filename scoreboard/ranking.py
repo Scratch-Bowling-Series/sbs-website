@@ -73,7 +73,7 @@ class RankData_Series:
 def store_rank_data(rank_datas):
     try:
         pwd = os.path.dirname(__file__)
-        file = open(pwd + '/rankings.dat', 'w')
+        file = open(pwd + '/rankings.dat', 'wb')
         file.write(serialize_rank_data(rank_datas))
         file.close()
     except FileNotFoundError:
@@ -82,7 +82,7 @@ def store_rank_data(rank_datas):
 def load_rank_data():
     try:
         pwd = os.path.dirname(__file__)
-        file = open(pwd + '/rankings.dat', 'r')
+        file = open(pwd + '/rankings.dat', 'rb')
         return deserialize_rank_data(file.read())
     except FileNotFoundError:
         return None
