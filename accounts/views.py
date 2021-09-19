@@ -14,7 +14,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from ScratchBowling.websettings import WebSettings
 from centers.center_utils import get_center_location_uuid
 from scoreboard.ranking import get_rank_data_from_json
-from tournaments.views import get_tournament, is_valid_uuid, get_place, make_ordinal
+from tournaments.tournament_utils import get_place, get_tournament
+from tournaments.views import is_valid_uuid, make_ordinal
 from .forms import RegisterForm, ModifyAccountForm
 from scraper import master_scrape, get_scraper_log
 from .tokens import account_activation_token
