@@ -87,21 +87,6 @@ def qualifying(tournament):
     return data
 
 @register.filter
-def winner(tournament):
-    matchplay = get_matchplay(tournament)
-    if matchplay is None:
-        return None
-    data = []
-    for qual in matchplay:
-        if qual is None or qual[1] is None or qual[0] is None:
-            continue
-        uu = is_valid_uuid(qual[1])
-        if uu is not None:
-            place = int(qual[0])
-            if place == 1:
-                return str(uu)
-
-@register.filter
 def getaverage(uuid, tournament):
     qualifying = get_qualifying(tournament)
     if qualifying is None:
@@ -398,40 +383,7 @@ def get_date_time(date, time):
         return datetime.now()
 
 
-def get_place(tournament_id, user):
-    place = 0
-    tournament = get_tournament(tournament_id)
-    if tournament != None:
-        matchplay_objects = get_matchplay_object(tournament)
-        if matchplay_objects != None:
-            for matchplay in matchplay_objects:
-                if matchplay.user_id == user.user_id:
-                    place = matchplay.place
-                    break
-        if place == 0:
-            qualifying_objects = get_qualifying_object(tournament)
-            if qualifying_objects != None:
-                for qualifying in qualifying_objects:
-                    if qualifying.user_id == user.user_id:
-                        place = qualifying.place
-                        break
-    return place
 
-
-def get_tournament(uuid):
-    return Tournament.objects.filter(tournament_id=uuid).first()
-
-
-
-
-def scrape_old_site():
-    return None
-
-
-
-
-def scraper_bowlers_views(request):
-    return HttpResponse(scrape_bowlers())
 
 
 

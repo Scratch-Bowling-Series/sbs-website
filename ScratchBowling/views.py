@@ -6,8 +6,7 @@ from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.popup import check_for_popup
 from ScratchBowling.shortener import create_link
-from ScratchBowling.websettings import WebSettings
-from accounts.account_helper import get_location_basic_obj
+from accounts.account_helper import get_name_from_uuid
 from accounts.forms import User
 from accounts.models import Shorten
 from centers.models import Center
@@ -16,8 +15,7 @@ from scoreboard.ranking import get_top_rankings
 from support.donation import get_donation_count
 from tournaments.models import Tournament
 from tournaments.tournament_scraper import scrape_tournaments_task
-
-
+from tournaments.tournament_utils import get_winner
 
 User = get_user_model()
 
@@ -133,7 +131,13 @@ def load_tournament_recent():
     return Tournament.objects.all().first()
 
 def load_tournament_winners():
-    return Tournament.objects.all()[:10]
+    ## FORMAT: ARRAY OF LISTS [id, name, date, winner_name, winner_uuid]
+    winner_data = []
+    last_ten_tournaments = Tournament.objects.all()[:10]
+    for tournament in last_ten_tournaments:
+        winner_id = get_winner(tournament.placement_data)
+        winner_data.append([str(tournament.tournament_id, tournament.tournament_name, tournament.tournament_date, get_name_from_uuid(winner_id), winner_id)])
+    return winner_data
 
 def load_tournament_upcoming():
     return Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time())
