@@ -139,7 +139,7 @@ def load_tournament_recent():
         tournament.tournament_name,
         tournament.tournament_date,
         get_center_name_uuid(tournament.center),
-        str(tournament.center), #get_center_location_uuid(tournament.center),
+        str(tournament.center) + ' ::', #get_center_location_uuid(tournament.center),
         tournament.tournament_description,
         get_top_placements(tournament.placement_data, 4)
     ]
