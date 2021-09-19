@@ -1,10 +1,14 @@
+from ScratchBowling.sbs_utils import is_valid_uuid
 from centers.models import Center
 
 
 
 def get_center(center_id):
-    return Center.objects.filter(center_id=center_id).first()
-
+    center_id = is_valid_uuid(center_id)
+    if center_id != None:
+        return Center.objects.filter(center_id=center_id).first()
+    else:
+        return None
 
 def get_center_location_uuid(center_id):
     center = get_center(center_id)
