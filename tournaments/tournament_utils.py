@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from accounts.account_helper import get_name_from_uuid
 from tournaments.models import Tournament
 from tournaments.tournament_data import deserialize_placement_data
 
@@ -51,6 +52,18 @@ def get_bowler_id_from_place(tournament_id, place):
             if placement.place == place:
                 return placement.user_id
     return None
+
+def get_top_placements(placement_data, count):
+    ids = []
+    if placement_data != None:
+        placements = deserialize_placement_data(placement_data)
+        while count > 0:
+            for placement in placements:
+                if placement.place == count:
+                    ids.append([placement.user_id, get_name_from_uuid(placement.user_id)])
+                    break
+            count -= 1
+    return ids
 
 
 def make_ordinal(n):

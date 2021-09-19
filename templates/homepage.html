@@ -153,15 +153,15 @@ $(document).ready(function() {
             <img class="watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
         </div>
         <section class="content">
-            <a class="title" href="tournaments/view/{{tournament_recent.tournament_id }}">{{ tournament_recent.tournament_name }}</a>
-            <a class="date" href="tournaments/view/{{tournament_recent.tournament_id }}">{{ tournament_recent.tournament_date|date:'m/d' }} - {{ tournament_recent.tournament_center|none_replace:'Center Unknown' }}</a>
-            <a class="description" href="tournaments/view/{{tournament_recent.tournament_id }}">{{ tournament_recent.description|none_replace:"This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set." }}</a>
-            <a class="btn btn-medium bkg-darkgreen text-white border-darkgreen more" href="tournaments/view/{{tournament_recent.tournament_id }}">VIEW INFO</a>
+            <a class="title" href="tournaments/view/{{ tournament_recent.0 }}">{{ tournament_recent.1 }}</a>
+            <a class="date" href="tournaments/view/{{ tournament_recent.0 }}">{{ tournament_recent.2|date:'m/d' }} - {{ tournament_recent.3 }}</a>
+            <a class="description" href="tournaments/view/{{ tournament_recent.0 }}">{{ tournament_recent.5|none_replace:"This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set." }}</a>
+            <a class="btn btn-medium bkg-darkgreen text-white border-darkgreen more" href="tournaments/view/{{tournament_recent.0 }}">VIEW INFO</a>
             <div class="stats">
-                <div class="player"><a class="rank top-rank">1st</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent.tournament_id|get_bowler_from_place:1|bowler_name:True|safe }}</a></div>
-                <div class="player"><a class="rank">2nd</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:2 }}">{{ tournament_recent.tournament_id|get_bowler_from_place:2|bowler_name:True|safe }}</a></div>
-                <div class="player"><a class="rank">3rd</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:3 }}">{{ tournament_recent.tournament_id|get_bowler_from_place:3|bowler_name:True|safe }}</a></div>
-                <div class="player"><a class="rank">4th</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:4 }}">{{ tournament_recent.tournament_id|get_bowler_from_place:4|bowler_name:True|safe }}</a></div>
+                <div class="player"><a class="rank top-rank">1st</a><a class="name" href="/account/view/{{ tournament_recent.6.0.0 }}">{{ tournament_recent.6.0.1 }}</a></div>
+                <div class="player"><a class="rank">2nd</a><a class="name" href="/account/view/{{ tournament_recent.6.1.0 }}">{{ tournament_recent.6.1.1 }}</a></div>
+                <div class="player"><a class="rank">3rd</a><a class="name" href="/account/view/{{ tournament_recent.6.2.0 }}">{{ tournament_recent.6.2.1 }}</a></div>
+                <div class="player"><a class="rank">4th</a><a class="name" href="/account/view/{{ tournament_recent.6.3.0 }}">{{ tournament_recent.6.3.1 }}</a></div>
             </div>
         </section>
     </section>

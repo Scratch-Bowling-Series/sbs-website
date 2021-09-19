@@ -11,13 +11,14 @@ from ScratchBowling.websettings import WebSettings
 from accounts.account_helper import get_name_from_uuid, get_location_basic_uuid
 from accounts.forms import User
 from accounts.models import Shorten
+from centers.center_utils import get_center_location_uuid, get_center_name_uuid
 from centers.models import Center
 from check_git import get_last_commit
 from scoreboard.ranking import get_top_rankings
 from support.donation import get_donation_count
 from tournaments.models import Tournament
 from tournaments.tournament_scraper import scrape_tournaments_task
-from tournaments.tournament_utils import get_winner
+from tournaments.tournament_utils import get_winner, get_top_placements
 
 User = get_user_model()
 
@@ -130,7 +131,18 @@ def load_tournament_live():
     return {'is_live': True, 'center': live_center, 'status': live_status, 'leader': live_leader, 'score': live_score}
 
 def load_tournament_recent():
-    return Tournament.objects.all().first()
+    ## FORMAT
+    ## [0=id, 1=name, 2=date, 3=center_name, 4=center_location, 5=description, 6=topfour]
+    tournament = Tournament.objects.all().first()
+    return [
+        tournament.tournament_id,
+        tournament.tournament_name,
+        tournament.tournament_date,
+        get_center_name_uuid(tournament.center),
+        get_center_location_uuid(tournament.center),
+        tournament.tournament_description,
+        get_top_placements(tournament.placement_data, 4)
+    ]
 
 def load_tournament_winners():
     ## FORMAT: ARRAY OF LISTS
