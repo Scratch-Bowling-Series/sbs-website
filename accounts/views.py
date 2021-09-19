@@ -212,7 +212,7 @@ def accounts_account_view(request, id):
         for tournament in tournaments:
             tournament_location = get_center_location_uuid(tournament.center)
             place = make_ordinal(get_place(tournament.placement_data, view_user.user_id))
-            if place == 0:
+            if place == '0':
                 place = 'DNF'
             tournaments_attended.append([tournament.tournament_id, tournament.tournament_date, tournament.tournament_name, tournament_location, place])
 
