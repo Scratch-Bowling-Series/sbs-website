@@ -11,11 +11,10 @@ class Command(BaseCommand):
     help = 'Run Statistics'
 
     def handle(self, *args, **options):
-        for tournament in Tournament.objects.all():
+        tournaments = Tournament.objects.all()
+        for tournament in tournaments:
             center_id = is_valid_uuid(tournament.center)
             center = get_center(center_id)
             if center != None:
                 print(str(center_id) + ' : ' + str(center.center_name))
                 break
-        length = Center.objects.all().count()
-        print(str(length))
