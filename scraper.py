@@ -92,10 +92,10 @@ def master_scrape(update=True, debug=False):
 
     ## CONVERT SCRAPE DATA TO TOURNAMENT DATA
     convert_to_tournament_data_all_tournaments()
-    logit('CONVERTING TOURNAMENTS', 'Complete - Converted: ' + str(tournaments_added))
+    logit('Converting Tournaments', 'Complete - Converted: ' + str(tournaments_added))
     ## CALCULATE NEW STATISTICS
     calculate_statistics()
-    logit('CALCULATING STATISTICS', 'Complete - Calculated: ' + str(users_added))
+    logit('Calculating Statistics', 'Complete - Calculated: ' + str(users_added))
     ## UPDATE CACHE DATE ##
     cache = get_scrape_cache()
     if cache != None:
