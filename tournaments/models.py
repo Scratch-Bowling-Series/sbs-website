@@ -18,6 +18,9 @@ class Tournament(models.Model):
     matchplay = models.JSONField(blank=True, null=True)
     sponsor_image = models.ImageField(blank=True)
 
+    tournament_data = models.BinaryField(blank=True, null=True)
+    placement_data = models.BinaryField(blank=True, null=True)
+
     @classmethod
     def create(cls, name):
         tournament = cls(tournament_name=name)

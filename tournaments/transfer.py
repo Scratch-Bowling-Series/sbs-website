@@ -21,10 +21,12 @@ def TransferT():
     export = json.dumps(trans)
     StoreJson(export)
 
-
 def Gather():
     Tournament.objects.all().delete()
-    datas = json.loads(ReadJson())
+    datas = ReadJson()
+    if datas == None:
+        return
+    datas = json.loads(datas)
     batch_size = 200
     count = 0
     while True:
@@ -37,6 +39,9 @@ def Gather():
         for data in data_batch:
             tournaments.append(CreateTournamentFromList(data))
         Tournament.objects.bulk_create(tournaments, batch_size)
+
+
+
 
 
 def TournamentToList(tournament):

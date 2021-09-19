@@ -9,7 +9,8 @@ from django.db import transaction
 from accounts.account_helper import get_name_from_uuid
 from tournaments.models import Tournament
 from tournaments.tournament_data import convert_to_tournament_data_object, get_matchplay_object, get_qualifying_object, \
-    get_placement_datas_from_tournament_data
+    get_placement_datas_from_tournament_data, convert_to_tournament_data_all_tournaments, deserialize_tournament_data, \
+    deserialize_placement_data
 from tournaments.tournament_utils import in_season
 
 User = get_user_model()
@@ -143,10 +144,12 @@ def get_rank_data_from_json(json_data):
 
 ## RUN STATISTICS FUNCTION ##
 
-def save_statistics():
-    store_rank_data(get_rank_data_from_tournaments())
+def convert_tournaments():
+    convert_to_tournament_data_all_tournaments()
 
 def calculate_statistics():
+
+
     rank_datas = get_rank_datas_from_all_tournaments()
     apply_rank_data_to_accounts_in_batches(rank_datas, 1000)
     print("RankingSys - Saving Ranking Data to 'rankings.dat'.")
@@ -285,18 +288,20 @@ def get_rank_datas_from_all_tournaments():
     log_prog_las = 0
     log_prog_inc = 0
     for tournament in tournaments:
-        tournament_data = convert_to_tournament_data_object(tournament)
-        placement_datas = get_placement_datas_from_tournament_data(tournament_data)
+        tournament_data = deserialize_tournament_data(tournament.tournament_data)
+        placement_datas = deserialize_placement_data(tournament.placement_data)
         ## LOGGING
         log_count += 1
         log_prog = int((log_count / log_total) * 100)
         if log_prog_las != log_prog:
             log_prog_las = log_prog
             if log_prog >= log_prog_inc:
-                log_prog_inc += 25
+                log_prog_inc += 5
                 print('RankingSys - Calculating Statistics - Progress: ' + str(log_prog) + '%')
-        for placement in placement_datas:
 
+        placements_length = len(placement_datas)
+
+        for placement in placement_datas:
             ## get rank data object
             rank_data = None
             for data in rank_data_lib:
@@ -312,15 +317,16 @@ def get_rank_datas_from_all_tournaments():
             # season data
             if in_season(tournament):
                 # get rank points
-                rank_data.rank_points = task_get_rank_points(placement, placement.avg_score, placement_datas.count(),tournament.tournament_date)
+                rank_data.rank_points = task_get_rank_points(placement, placement.average_score, placements_length,tournament.tournament_date)
+                print(str(rank_data.rank_points) + '   :     ' + str(rank_data.user_id))
                 # get avg score year
-                rank_data.avg_score_year_total += placement.avg_score
+                rank_data.avg_score_year_total += placement.average_score
                 rank_data.avg_score_year_amount += 1
                 rank_data.avg_score_year = round(rank_data.avg_score_year_total / rank_data.avg_score_year_amount, 2)
                 # get best games year
-                rank_data.top_five_year = task_best_score(rank_data.top_five_year, placement.scores,tournament.tournament_id)
+                rank_data.top_five_year = task_best_score(rank_data.top_five_year, placement.high_score,tournament.tournament_id)
             # get avg score career
-            rank_data.avg_score_career_total += placement.avg_score
+            rank_data.avg_score_career_total += placement.average_score
             rank_data.avg_score_career_amount += 1
             rank_data.avg_score_career = round(rank_data.avg_score_career_total / rank_data.avg_score_career_amount, 2)
             # get total wins
@@ -333,7 +339,7 @@ def get_rank_datas_from_all_tournaments():
             # get total games career
             rank_data.total_games_career += placement.total_games
             # get best games career
-            rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.scores,tournament.tournament_id)
+            rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.high_score,tournament.tournament_id)
             # add tournament to list
             rank_data.tournaments = task_store_tournament(tournament.tournament_id, rank_data.tournaments)
     return sorted(rank_data_lib, key=lambda x: x.rank_points, reverse=True)
@@ -372,12 +378,7 @@ def task_get_average(scores):
     average = round(total / amount, 2)
     return average
 
-def task_best_score(top_five, scores, tournament_id):
-    best_score = 0
-    for score in scores:
-        if score > best_score:
-            best_score = score
-
+def task_best_score(top_five, best_score, tournament_id):
     top_1 = top_five[0]
     top_2 = top_five[1]
     top_3 = top_five[2]
@@ -426,6 +427,10 @@ def task_store_tournament(tournament_id, tournaments):
     if not exists:
         tournaments.append(str(tournament_id))
     return tournaments
+
+
+
+
 
 
 if __name__ == "__main__":

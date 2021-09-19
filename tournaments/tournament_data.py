@@ -1,7 +1,8 @@
 import json
-
+import time
+import quickle
 from ScratchBowling.sbs_utils import is_valid_uuid
-
+from tournaments.models import Tournament
 
 class Qualifying:
     user_id = None
@@ -80,7 +81,7 @@ def get_matchplay_object(tournament):
                     score = int(data[x])
                 except TypeError:
                     score = 0
-                qualifying.scores.append(score)
+                matchplay.scores.append(score)
             matchplays.append(matchplay)
     return matchplays
 
@@ -89,35 +90,58 @@ def get_matchplay_object(tournament):
 
 
 
-class Tournament_Data:
-    tournament_id = None
-    number_of_qualifying_matches = 1
-    match_datas = []
+class Tournament_Data(quickle.Struct):
+    tournament_id : str = None
+    number_of_qualifying_matches : int = 0
+    match_datas : list = []
 
-class Match_Data:
-    match_number = 0
-    bowler_datas = []
 
-class Bowler_Data:
-    user_id = None
-    total_score = 0
-    game_datas = []
+class Match_Data(quickle.Struct):
+    match_number : int = 0
+    bowler_datas : list = []
 
-class Game_Data:
-    game_number = 0
-    scores = []
-    total_score = 0
-    pin_datas = None
 
-class Pin_Data:
+class Bowler_Data(quickle.Struct):
+    user_id : str = None
+    total_score : int = 0
+    game_datas : list = []
+
+
+class Game_Data(quickle.Struct):
+    game_number : int = 0
+    scores : list = []
+    total_score : int = 0
+    pin_datas : list = []
+
+
+class Pin_Data(quickle.Struct):
     # BINARY FORMAT (x10) ex. '0110101001' 1 Pin Up : 0 Pin Down
-    pins = 0
+    pins : int = 0
+
+
+## Serialization / DeSerialization
+def serialize_tournament_data(tournament_data):
+    #print('TournamentData - Serializing Tournament')
+    return quickle.Encoder(registry=[Tournament_Data, Match_Data, Bowler_Data, Game_Data, Pin_Data]).dumps(tournament_data)
+
+def deserialize_tournament_data(data):
+    #print('TournamentData - Deserializing Tournament')
+    return quickle.Decoder(registry=[Tournament_Data, Match_Data, Bowler_Data, Game_Data, Pin_Data]).loads(data)
+
+def serialize_placement_data(placement_data):
+    #print('TournamentData - Serializing Tournament')
+    return quickle.Encoder(registry=[Placement_Data]).dumps(placement_data)
+
+def deserialize_placement_data(data):
+    #print('TournamentData - Deserializing Tournament')
+    return quickle.Decoder(registry=[Placement_Data]).loads(data)
 
 
 def convert_to_tournament_data_object(tournament):
     if tournament != None:
+        print('TournamentData - Converting - ' + str(tournament.tournament_id)[:5])
         tournament_data = Tournament_Data()
-        tournament_data.tournament_id = tournament.tournament_id
+        tournament_data.tournament_id =  str(tournament.tournament_id)
         ## CONVERT QUALIFYING INTO MATCH DATA
         qualifying_objects = get_qualifying_object(tournament)
         if qualifying_objects != None:
@@ -125,7 +149,7 @@ def convert_to_tournament_data_object(tournament):
             qualifying_match.match_number = 1
             for qualifying in qualifying_objects:
                 bowler_data = Bowler_Data()
-                bowler_data.user_id = qualifying.user_id
+                bowler_data.user_id = str(qualifying.user_id)
                 game_number = 0
                 for score in qualifying.scores:
                     game_number += 1
@@ -146,12 +170,12 @@ def convert_to_tournament_data_object(tournament):
                     last_match_index += 1
                     exists = False
                     for bowler_data in match_data.bowler_datas:
-                        if bowler_data.user_id == matchplay.user_id:
+                        if bowler_data.user_id == str(matchplay.user_id):
                             exists = True
                             break
                     if not exists:
                         bowler_data = Bowler_Data()
-                        bowler_data.user_id = matchplay.user_id
+                        bowler_data.user_id = str(matchplay.user_id)
                         game_number = 0
                         for score in matchplay.scores:
                             game_number += 1
@@ -165,7 +189,7 @@ def convert_to_tournament_data_object(tournament):
                 if placed == False:
                     match_data = Match_Data()
                     bowler_data = Bowler_Data()
-                    bowler_data.user_id = matchplay.user_id
+                    bowler_data.user_id = str(matchplay.user_id)
                     game_number = 0
                     for score in matchplay.scores:
                         game_number += 1
@@ -184,6 +208,27 @@ def convert_to_tournament_data_object(tournament):
 
         return tournament_data
     return None
+
+def convert_to_tournament_data_all_tournaments():
+    s_datas = []
+    tournaments = Tournament.objects.all()
+    prog_total = tournaments.count()
+    prog_count = 0
+    prog_last = 0
+    for tournament in tournaments:
+        prog_count += 1
+        prog = int((prog_count / prog_total ) * 100)
+        if prog != prog_last:
+            prog_last = prog
+            print('TournamentData - Generating Data - Progress: ' + str(prog) + '%')
+        tournament_data = convert_to_tournament_data_object(tournament)
+        if tournament_data != None:
+            placement_data = get_placement_datas_from_tournament_data(tournament_data)
+            tournament.tournament_data = serialize_tournament_data(tournament_data)
+            tournament.placement_data = serialize_placement_data(placement_data)
+            tournament.save()
+            print('Tournament Data Saved: ' + str(len(tournament.tournament_data)))
+
 
 ## GET AVERAGE SCORE
 def get_average_score_game(game_data):
@@ -206,6 +251,7 @@ def get_average_score_match(bowler_data):
     if average_total != 0 and average_count != 0:
         average = average_total / average_count
     return average
+
 def get_average_score_tournament(tournament_data, user_id):
     average = 0
     average_count = 0
@@ -244,12 +290,12 @@ def get_total_games_tournament(tournament_data, user_id):
     return total_games
 
 
-class Placement_Data:
-    user_id = 0
-    place = 0
-    average_score = 0
-    high_score = 0
-    total_games = 0
+class Placement_Data(quickle.Struct):
+    user_id : str = None
+    place : int = 0
+    average_score : float =  0
+    high_score : int = 0
+    total_games : int = 0
 
 def get_placement_datas_from_tournament_data(tournament_data):
     placement_datas = []
@@ -268,6 +314,7 @@ def get_placement_datas_from_tournament_data(tournament_data):
                 placement_data = Placement_Data()
                 placement_data.user_id = bowler_data.user_id
                 placement_data.place = place
+                placement_datas.append(placement_data)
 
     for placement_data in placement_datas:
         placement_data.average_score = get_average_score_tournament(tournament_data, placement_data.user_id)
