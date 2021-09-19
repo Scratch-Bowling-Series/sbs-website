@@ -1,10 +1,15 @@
 from datetime import datetime
-
+import quickle
 from accounts.account_helper import get_name_from_uuid
-from scoreboard.ranking import deserialize_tournaments_list
 from tournaments.models import Tournament
 from tournaments.tournament_data import deserialize_placement_data
 
+
+def serialize_tournaments_list(tournaments):
+    return quickle.dumps(tournaments)
+
+def deserialize_tournaments_list(data):
+    return quickle.loads(data)
 
 def in_season(tournament):
     in_season = False

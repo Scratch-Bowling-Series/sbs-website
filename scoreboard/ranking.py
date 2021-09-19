@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from tournaments.models import Tournament
 from tournaments.tournament_data import get_matchplay_object, get_qualifying_object, convert_to_tournament_data_all_tournaments, deserialize_tournament_data, deserialize_placement_data
-from tournaments.tournament_utils import in_season
+from tournaments.tournament_utils import in_season, serialize_tournaments_list
 
 User = get_user_model()
 
@@ -56,11 +56,7 @@ def serialize_rank_data(rank_data):
 def deserialize_rank_data(data):
     return quickle.Decoder(registry=[RankData]).loads(data)
 
-def serialize_tournaments_list(tournaments):
-    return quickle.dumps(tournaments)
 
-def deserialize_tournaments_list(data):
-    return quickle.loads(data)
 
 
 
