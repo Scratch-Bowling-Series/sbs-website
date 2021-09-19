@@ -131,7 +131,8 @@ def load_tournament_recent():
     return Tournament.objects.all().first()
 
 def load_tournament_winners():
-    ## FORMAT: ARRAY OF LISTS [id, name, date, winner_name, winner_uuid]
+    ## FORMAT: ARRAY OF LISTS
+    ## [id, name, date, winner_name, winner_uuid]
     winner_data = []
     last_ten_tournaments = Tournament.objects.all()[:10]
     for tournament in last_ten_tournaments:
