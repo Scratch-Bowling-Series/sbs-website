@@ -1,40 +1,44 @@
-from datetime import datetime
-import itertools
 import json
+from datetime import datetime
+import quickle
 import os
 import time
 import uuid
 from itertools import islice
-from typing import Dict, Any
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
 from ScratchBowling.sbs_utils import is_valid_uuid, normalize_state
 from centers.models import Center
 from tournaments.models import Tournament
-from tournaments.tournament_scraper import convert_abr
+from tournaments.tournament_data import convert_to_tournament_data_all_tournaments
 
 
 User = get_user_model()
 
 ## SCRAPE CACHE ##
-class ScrapeCache:
-    last_scrape = None
-    link_library = {}
-    center_link_library = {}
-    tournament_link_library = {}
-    urls = []
+class ScrapeCache(quickle.Struct):
+    last_scrape : str = None
+    link_library : dict = {}
+    center_link_library : dict = {}
+    tournament_link_library : dict = {}
+    urls : list = []
 
-def store_scrape_cache(cache):
+def store_scrape_cache(scrape_cache):
     try:
         pwd = os.path.dirname(__file__)
-        f = open(pwd + "/scrape_cache.dat", "w")
-        f.write(json.dumps([cache.last_scrape, cache.urls, cache.link_library, cache.center_link_library, cache.tournament_link_library]))
+        f = open(pwd + "/scrape_cache.dat", "wb")
+        f.write(serialize_scrape_cache(scrape_cache))
         f.close()
     except FileNotFoundError:
         return None
 
-def get_scrape_cache():
+def convert_to_new_scrape_cache():
+    scrape_cache = get_old_scrape_cache()
+    store_scrape_cache(scrape_cache)
+    print('DONE')
+
+def get_old_scrape_cache():
     try:
         pwd = os.path.dirname(__file__)
         f = open(pwd + "/scrape_cache.dat", "r")
@@ -53,6 +57,19 @@ def get_scrape_cache():
     except FileNotFoundError:
         return ScrapeCache()
 
+def get_scrape_cache():
+    try:
+        pwd = os.path.dirname(__file__)
+        f = open(pwd + "/scrape_cache.dat", "rb")
+        return deserialize_scrape_cache(f.read())
+    except FileNotFoundError:
+        return ScrapeCache()
+
+def serialize_scrape_cache(scrape_cache):
+    return quickle.Encoder(registry=[ScrapeCache]).dumps(scrape_cache)
+
+def deserialize_scrape_cache(data):
+    return quickle.Decoder(registry=[ScrapeCache]).loads(data)
 
 ## MASTER SCRAPE FUNCTION ##
 def master_scrape(update=True, debug=False):
@@ -71,6 +88,9 @@ def master_scrape(update=True, debug=False):
     if update == False: Tournament.objects.all().delete()
     tournaments_added = scrape_for_new_tournaments(update, debug)
     logit('Tournaments Scrape', 'Complete - Added: ' + str(tournaments_added))
+
+    ## CONVERT SCRAPE DATA TO TOURNAMENT DATA
+    convert_to_tournament_data_all_tournaments()
 
     ## UPDATE CACHE DATE ##
     cache = get_scrape_cache()
@@ -224,6 +244,8 @@ def scrape_for_new_centers(update, debug):
                     centers.append(center)
                     if center.center_id != None:
                         lib[url] = str(center.center_id)
+                else:
+                    lib[url] = str(center.center_id)
             else:
                 centers.append(center)
                 if center.center_id != None:
