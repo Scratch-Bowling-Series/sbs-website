@@ -67,10 +67,10 @@
       <div class="profile-results">
          {% for tournament in tournaments %}
             <div class="profile-result">
-               <a class="profile-result-date">{{ tournament.0|date:"m/d"}}</a>
-               <a class="profile-result-name" href="/tournaments/view/{{ tournament.4 }}">{{ tournament.1 }}</a>
-               <a class="profile-result-location text-darkgrey">{{ tournament.2 }}</a>
-               <a class="profile-result-place{% if tournament.3 == '1st' %} firstplace{% endif %}{% if tournament.3 == 'DNF' %} notfinish{% endif %}">{{ tournament.3}}</a>
+               <a class="profile-result-date">{{ tournament.1|date:"m/d"}}</a>
+               <a class="profile-result-name" href="/tournaments/view/{{ tournament.0 }}">{{ tournament.2|truncatechars:20 }}</a>
+               <a class="profile-result-location text-darkgrey">{{ tournament.3 }}</a>
+               <a class="profile-result-place{% if tournament.4 == '1st' %} firstplace{% endif %}{% if tournament.4 == 'DNF' %} notfinish{% endif %}">{{ tournament.4 }}</a>
             </div>
          {% endfor %}
       </div>
