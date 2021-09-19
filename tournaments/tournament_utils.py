@@ -19,7 +19,7 @@ def get_place(tournament_id, user_id):
     if tournament != None:
         placements = deserialize_placement_data(tournament.placement_data)
         for placement in placements:
-            if placement.bowler_id == user_id:
+            if placement.user_id == user_id:
                 place = placement.place
                 break
     return place
@@ -30,7 +30,7 @@ def get_average(tournament_id, user_id):
     if tournament != None:
         placements = deserialize_placement_data(tournament.placement_data)
         for placement in placements:
-            if placement.bowler_id == user_id:
+            if placement.user_id == user_id:
                 average = placement.average_score
                 break
     return average
@@ -40,7 +40,7 @@ def get_winner(placement_data):
         placements = deserialize_placement_data(placement_data)
         for placement in placements:
             if placement.place == 1:
-                return placement.bowler_id
+                return placement.user_id
     return None
 
 def get_bowler_from_place(tournament_id, place):
@@ -49,7 +49,7 @@ def get_bowler_from_place(tournament_id, place):
         placements = deserialize_placement_data(tournament.placement_data)
         for placement in placements:
             if placement.place == place:
-                return placement.bowler_id
+                return placement.user_id
     return None
 
 
