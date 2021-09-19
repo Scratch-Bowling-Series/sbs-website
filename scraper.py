@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
 from ScratchBowling.sbs_utils import is_valid_uuid, normalize_state
 from centers.models import Center
+from scoreboard.ranking import calculate_statistics
 from tournaments.models import Tournament
 from tournaments.tournament_data import convert_to_tournament_data_all_tournaments
 
@@ -91,7 +92,10 @@ def master_scrape(update=True, debug=False):
 
     ## CONVERT SCRAPE DATA TO TOURNAMENT DATA
     convert_to_tournament_data_all_tournaments()
-
+    logit('CONVERTING TOURNAMENTS', 'Complete - Converted: ' + str(tournaments_added))
+    ## CALCULATE NEW STATISTICS
+    calculate_statistics()
+    logit('CALCULATING STATISTICS', 'Complete - Calculated: ' + str(users_added))
     ## UPDATE CACHE DATE ##
     cache = get_scrape_cache()
     if cache != None:

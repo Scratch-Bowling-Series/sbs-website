@@ -12,8 +12,6 @@ class Command(BaseCommand):
     help = 'Run Statistics'
 
     def handle(self, *args, **options):
-        convert_to_new_scrape_cache()
-        return
 
         tournaments = Tournament.objects.all()
         for tournament in tournaments:
