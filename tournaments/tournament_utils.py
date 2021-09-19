@@ -24,6 +24,17 @@ def get_place(tournament_id, user_id):
                 break
     return place
 
+def get_average(tournament_id, user_id):
+    average = 0
+    tournament = get_tournament(tournament_id)
+    if tournament != None:
+        placements = deserialize_placement_data(tournament.placement_data)
+        for placement in placements:
+            if placement.bowler_id == user_id:
+                average = placement.average_score
+                break
+    return average
+
 def get_winner(placement_data):
     if placement_data != None:
         placements = deserialize_placement_data(placement_data)
@@ -31,3 +42,22 @@ def get_winner(placement_data):
             if placement.place == 1:
                 return placement.bowler_id
     return None
+
+def get_bowler_from_place(tournament_id, place):
+    tournament = get_tournament(tournament_id)
+    if tournament != None:
+        placements = deserialize_placement_data(tournament.placement_data)
+        for placement in placements:
+            if placement.place == place:
+                return placement.bowler_id
+    return None
+
+
+def make_ordinal(n):
+    n = int(n)
+    if n == 0:
+        return '0'
+    suffix = ['th', 'st', 'nd', 'rd', 'th'][min(n % 10, 4)]
+    if 11 <= (n % 100) <= 13:
+        suffix = 'th'
+    return str(n) + suffix

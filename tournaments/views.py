@@ -1,26 +1,18 @@
-import json
-import uuid
-from urllib.request import urlopen
-
 from datetime import datetime
 from uuid import UUID
-
 from django.db.models import Q
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaulttags import register
-
 from ScratchBowling.forms import TournamentsSearch
 from ScratchBowling.pages import create_page_obj
+from accounts.account_helper import get_location_basic_uuid, is_valid_uuid
 from centers.models import Center
 from accounts.forms import User
-from oils.oil_pattern import update_oil_pattern_library, get_oil_display_data
+from oils.oil_pattern import  get_oil_display_data
 from tournaments.forms import CreateTournament, ModifyTournament
 from tournaments.models import Tournament
 from oils.oil_pattern_scraper import get_oil_colors
-from tournaments.tournament_data import Qualifying, MatchPlay
-from tournaments.tournament_scraper import scrape_bowlers
-from tournaments.transfer import TransferT, Gather
+from tournaments.tournament_utils import make_ordinal, get_average
 
 
 @register.filter
@@ -36,80 +28,13 @@ def placer(value):
     return value.text
 
 @register.filter
-def firstplace(tournament):
-    placements = get_placements(tournament)
-    return placements[0].user_id
+def get_bowler_from_place(tournament_id, place):
+    return get_bowler_from_place(tournament_id, place)
 
 @register.filter
-def get_bowler_from_place(tournament, place):
-    placements = get_placements(tournament)
-    if placements is None:
-        return None
-    for placement in placements:
-        if placement.place == place:
-            return placement.user_id
-    return None
+def getaverage(user_id, tournament_id):
+    return get_average(tournament_id, user_id)
 
-@register.filter
-def qualifyings(tournament):
-    qualifyings = get_qualifying_object(tournament)
-    return qualifyings
-
-@register.filter
-def qualifying(tournament):
-    qualifying = get_qualifying(tournament)
-    if qualifying is None:
-        return None
-    data = []
-    for qual in qualifying:
-        uu = is_valid_uuid(qual[1])
-        if uu is not None:
-            place = 'DNF'
-            try:
-                place = int(qual[0])
-            except TypeError:
-                print(qual[0])
-                place = 'DNF'
-            name = User.objects.get(user_id=uu)
-            name = name.first_name + ' <span>' + name.last_name + '</span>'
-            link = str(uu)
-            total = 0
-            scores = []
-            for x in range(2, len(qual) - 1):
-                score = 0
-                try:
-                    score = int(qual[x])
-                except TypeError:
-                    score = 0
-                scores.append(score)
-                total = total + score
-            data.append([place, name, scores, total, link])
-    return data
-
-@register.filter
-def getaverage(uuid, tournament):
-    qualifying = get_qualifying(tournament)
-    if qualifying is None:
-        return None
-    totalscore = 0
-    amount = 0
-    for qual in qualifying:
-        uu = is_valid_uuid(qual[1])
-        if uu is not None and str(uu) == str(uuid):
-            for x in range(2, len(qual) - 1):
-                score = int(qual[x])
-                totalscore = totalscore + score
-                amount = amount + 1
-            avg = totalscore / amount
-            avg = '{:0.1f}'.format(avg)
-            return avg
-
-@register.filter
-def participants(tournament):
-    qualifying = get_qualifying(tournament)
-    if qualifying is None:
-        return 0
-    return len(qualifying)
 
 @register.filter
 def bowler_name(uuid, bold_last=False):
@@ -132,14 +57,7 @@ def bowler_name(uuid, bold_last=False):
 
 @register.filter
 def bowler_location(uuid):
-    uuid = is_valid_uuid(uuid)
-    if uuid is not None:
-        user = User.objects.get(user_id=uuid)
-        if user.location_city is '':
-            return ''
-        else:
-            return '(' + user.location_city + ' ' + user.location_state + ')'
-
+    return get_location_basic_uuid(uuid)
 
 @register.filter
 def tournament_date(tournament_id):
@@ -149,7 +67,6 @@ def tournament_date(tournament_id):
         if tournament is not None:
             return tournament.tournament_date
 
-
 @register.filter
 def tournament_name(tournament_id):
     tournament_id = is_valid_uuid(tournament_id)
@@ -157,7 +74,6 @@ def tournament_name(tournament_id):
         tournament = Tournament.objects.filter(tournament_id=tournament_id).first()
         if tournament is not None:
             return tournament.tournament_name
-
 
 @register.filter
 def ordinal(value):
@@ -190,67 +106,6 @@ def center_location(uuid):
 
 
 
-def get_placements(tournament):
-    qualifyings = get_qualifying_object(tournament)
-    if qualifyings == None or len(qualifyings) == 0:
-        return None
-    match_plays = get_matchplay_object(tournament)
-    if match_plays == None or len(match_plays) == 0:
-        return None
-
-    for match_play in match_plays:
-        try:
-            qualifying = qualifyings[match_play.place - 1]
-            qualifying.place = match_play.place
-            qualifying.scores += match_play.scores
-        except IndexError:
-            continue
-    return qualifyings
-
-
-
-
-
-
-
-
-
-
-
-def get_qualifying(tournament):
-    qualifying = tournament.qualifiers.replace("'", '"')
-    try:
-        return json.loads(qualifying)
-    except ValueError:
-        return None
-
-
-def get_matchplay(tournament):
-    matchplay = tournament.matchplay.replace("'", '"')
-    try:
-        return json.loads(matchplay)
-    except ValueError:
-        return None
-
-
-
-def is_valid_uuid(val):
-    try:
-        return uuid.UUID(str(val))
-    except ValueError:
-        return None
-
-
-def make_ordinal(n):
-    n = int(n)
-    if n == 0:
-        return '0'
-    suffix = ['th', 'st', 'nd', 'rd', 'th'][min(n % 10, 4)]
-    if 11 <= (n % 100) <= 13:
-        suffix = 'th'
-    return str(n) + suffix
-
-
 def tournaments_results_views(request, page=1, search=''):
     page = int(page)
     per_page = 20
@@ -269,7 +124,7 @@ def tournaments_results_views(request, page=1, search=''):
     reallist = []
     for tournament in tournaments_past:
 
-        qualifying = get_qualifying_object(tournament)
+        qualifying = None ##get_qualifying_object(tournament)
         if qualifying != None and len(qualifying) > 0:
             reallist.append(tournament)
     start = (per_page * page) - per_page
