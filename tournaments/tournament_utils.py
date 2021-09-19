@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from accounts.account_helper import get_name_from_uuid
+from scoreboard.ranking import deserialize_tournaments_list
 from tournaments.models import Tournament
 from tournaments.tournament_data import deserialize_placement_data
 
@@ -62,6 +63,16 @@ def get_top_placements(placement_data, count):
                     break
             count -= 1
     return ids
+
+def get_all_tournaments(user_tournaments_data):
+    tournaments = []
+    if user_tournaments_data !=  None:
+        tournament_ids = deserialize_tournaments_list(user_tournaments_data)
+        for tournament_id in tournament_ids:
+            tournament = get_tournament(tournament_id)
+            if tournament != None:
+                tournaments.append(tournament)
+    return tournaments
 
 
 def make_ordinal(n):

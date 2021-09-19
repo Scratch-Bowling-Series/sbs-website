@@ -67,8 +67,8 @@ class User(AbstractBaseUser):
     right_handed = models.BooleanField(default=False)
     left_handed = models.BooleanField(default=False)
     medals = models.JSONField(blank=True, null=True)
-    tournaments = models.JSONField(blank=True, null=True)
-    statistics = models.JSONField(blank=True, null=True)
+    tournaments = models.BinaryField(blank=True, null=True)
+    statistics = models.BinaryField(blank=True, null=True)
     friends = models.JSONField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False) # a admin user; non super-user

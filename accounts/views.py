@@ -14,7 +14,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from ScratchBowling.websettings import WebSettings
 from centers.center_utils import get_center_location_uuid
 from scoreboard.ranking import get_rank_data_from_json, deserialize_rank_data
-from tournaments.tournament_utils import get_place, get_tournament
+from tournaments.tournament_utils import get_place, get_tournament, get_all_tournaments
 from tournaments.views import is_valid_uuid, make_ordinal
 from .forms import RegisterForm, ModifyAccountForm
 from scraper import master_scrape, get_scraper_log
@@ -204,7 +204,7 @@ def accounts_logout_view(request):
 def accounts_account_view(request, id):
     view_user = User.objects.filter(user_id=id).first()
     if view_user != None:
-        tournaments = get_recent_tournaments(view_user)
+        tournaments = get_all_tournaments(view_user.tournaments)
         tournaments_length = len(tournaments)
         ## FORMAT : tournaments attended
         ## [id, date, name, location, place]
@@ -308,25 +308,7 @@ def create_profile_pic_circle(profile_pic, profile_pic_size):
     bkg.paste(profile_pic, (0,0), alpha_mask)
     return bkg
 
-def get_recent_tournaments(user):
-    data = []
-    if user.tournaments !=  None:
-        try:
-            tournaments = json.loads(user.tournaments)
-        except ValueError:
-            tournaments = []
-        for tournament_id in tournaments:
-            tournament = get_tournament(tournament_id)
-            if tournament != None:
-                date = tournament.tournament_date
-                name = tournament.tournament_name
-                location = get_center_location_uuid(tournament.center)
-                place = make_ordinal(get_place(tournament_id, user))
-                if place == '0' or place == 0:
-                    place = 'DNF'
-                uuid = str(tournament_id)
-                data.append([date, name, location, place, uuid])
-    return data
+
 
 def accounts_add_view(request, id):
     id = is_valid_uuid(id)

@@ -56,6 +56,12 @@ def serialize_rank_data(rank_data):
 def deserialize_rank_data(data):
     return quickle.Decoder(registry=[RankData]).loads(data)
 
+def serialize_tournaments_list(tournaments):
+    return quickle.dumps(tournaments)
+
+def deserialize_tournaments_list(data):
+    return quickle.loads(data)
+
 
 
 class RankData_Series:
@@ -157,8 +163,9 @@ def apply_rank_data_to_accounts(rank_datas, batch, total_batches):
         data.rank = data_count
         write_user = User.objects.filter(user_id=data.user_id).first()
         if write_user != None:
-            write_user.statistics = data.rd_to_json()
-            write_user.tournaments = data.t_to_json()
+            write_user.tournaments = serialize_tournaments_list(data.tournaments)
+            data.tournaments = []
+            write_user.statistics = serialize_rank_data(data)
             write_user.save()
     return data_count
 
