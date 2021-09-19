@@ -18,3 +18,5 @@ class Command(BaseCommand):
             if center != None:
                 print(str(center_id) + ' : ' + str(center.center_name))
                 break
+            else:
+                print(str(center_id))
