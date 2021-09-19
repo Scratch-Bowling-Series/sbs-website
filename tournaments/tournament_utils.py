@@ -43,7 +43,7 @@ def get_winner(placement_data):
                 return placement.user_id
     return None
 
-def get_bowler_from_place(tournament_id, place):
+def get_bowler_id_from_place(tournament_id, place):
     tournament = get_tournament(tournament_id)
     if tournament != None:
         placements = deserialize_placement_data(tournament.placement_data)

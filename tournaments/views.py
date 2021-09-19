@@ -12,7 +12,7 @@ from oils.oil_pattern import  get_oil_display_data
 from tournaments.forms import CreateTournament, ModifyTournament
 from tournaments.models import Tournament
 from oils.oil_pattern_scraper import get_oil_colors
-from tournaments.tournament_utils import make_ordinal, get_average
+from tournaments.tournament_utils import make_ordinal, get_average, get_bowler_id_from_place
 
 
 @register.filter
@@ -29,7 +29,7 @@ def placer(value):
 
 @register.filter
 def get_bowler_from_place(tournament_id, place):
-    return get_bowler_from_place(tournament_id, place)
+    return get_bowler_id_from_place(tournament_id, place)
 
 @register.filter
 def getaverage(user_id, tournament_id):
