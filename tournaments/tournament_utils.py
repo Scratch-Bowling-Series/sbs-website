@@ -14,11 +14,9 @@ def in_season(tournament):
 def get_tournament(tournament_id):
     return Tournament.objects.filter(tournament_id=tournament_id).first()
 
-def get_place(tournament_id, user_id):
-    place = 0
-    tournament = get_tournament(tournament_id)
-    if tournament != None:
-        placements = deserialize_placement_data(tournament.placement_data)
+def get_place(placement_data, user_id):
+    if placement_data != None:
+        placements = deserialize_placement_data(placement_data)
         for placement in placements:
             if placement.user_id == user_id:
                 place = placement.place

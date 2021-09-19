@@ -13,7 +13,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from ScratchBowling.websettings import WebSettings
 from centers.center_utils import get_center_location_uuid
-from scoreboard.ranking import get_rank_data_from_json
+from scoreboard.ranking import get_rank_data_from_json, deserialize_rank_data
 from tournaments.tournament_utils import get_place, get_tournament
 from tournaments.views import is_valid_uuid, make_ordinal
 from .forms import RegisterForm, ModifyAccountForm
@@ -206,13 +206,20 @@ def accounts_account_view(request, id):
     if view_user != None:
         tournaments = get_recent_tournaments(view_user)
         tournaments_length = len(tournaments)
-        rank_data = get_rank_data_from_json(view_user.statistics)
+        ## FORMAT : tournaments attended
+        ## [id, date, name, location, place]
+        tournaments_attended = []
+        for tournament in tournaments:
+            tournament_location = get_center_location_uuid(tournament.center)
+            tournaments_attended.append([tournament.tournament_id, tournament.tournament_date, tournament.tournament_name, tournament_location, make_ordinal(get_place(tournament.placement_data)), ])
+
+        rank_data = deserialize_rank_data(view_user.statistics)
         if rank_data != None:
             description = 'Current Rank: ' + str(make_ordinal(rank_data.rank)) + ' Attended: ' + str(rank_data.attended) + ' Wins: ' + str(rank_data.wins) + ' Career Avg. Score: ' + str(rank_data.avg_score_career) + ' Career Total Games: ' + str(rank_data.total_games_career)
         else:
             description = 'This bowler has yet to attend a tournament.'
         return render(request, 'accounts/my-account.html', {'view_user': view_user,
-                                                            'tournaments': tournaments,
+                                                            'tournaments': tournaments_attended,
                                                             'rank_data': rank_data,
                                                             'tournaments_length': tournaments_length,
                                                             'page_title': str(view_user.first_name) + ' ' + str(view_user.last_name),

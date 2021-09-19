@@ -1,16 +1,13 @@
 import datetime
 import json
 import os
+import quickle
 from datetime import datetime
 from itertools import islice
 from django.contrib.auth import get_user_model
 from django.db import transaction
-
-from accounts.account_helper import get_name_from_uuid
 from tournaments.models import Tournament
-from tournaments.tournament_data import convert_to_tournament_data_object, get_matchplay_object, get_qualifying_object, \
-    get_placement_datas_from_tournament_data, convert_to_tournament_data_all_tournaments, deserialize_tournament_data, \
-    deserialize_placement_data
+from tournaments.tournament_data import get_matchplay_object, get_qualifying_object, convert_to_tournament_data_all_tournaments, deserialize_tournament_data, deserialize_placement_data
 from tournaments.tournament_utils import in_season
 
 User = get_user_model()
@@ -20,40 +17,24 @@ class RankPointData:
     points = 0
     date = None
 
-class RankData:
-    user_id = None
-    rank = 0
-    rank_points = 0
-    rank_point_data = []
-    wins = 0
-    attended = 0
-    total_games_year = 0
-    total_games_career = 0
-    avg_score_year = 0
-    avg_score_year_amount = 0
-    avg_score_year_total = 0
-    avg_score_career = 0
-    avg_score_career_amount = 0
-    avg_score_career_total = 0
-    top_five_year = [None, None, None, None, None]
-    top_five_career = [None, None, None, None, None]
-    tournaments = []
-    def rd_to_json(self):
-        return json.dumps([
-            str(self.user_id),
-            self.rank,
-            self.rank_points,
-            self.wins,
-            self.attended,
-            self.total_games_year,
-            self.total_games_career,
-            self.avg_score_year,
-            self.avg_score_career,
-            self.top_five_year,
-            self.top_five_career
-        ])
-    def t_to_json(self):
-        return json.dumps(self.tournaments)
+class RankData(quickle.Struct):
+    user_id : str = None
+    rank : int = 0
+    rank_points : int = 0
+    rank_point_data : list = []
+    wins : int = 0
+    attended : int = 0
+    total_games_year : int = 0
+    total_games_career : int = 0
+    avg_score_year : int = 0
+    avg_score_year_amount : int = 0
+    avg_score_year_total : int = 0
+    avg_score_career : int = 0
+    avg_score_career_amount : int = 0
+    avg_score_career_total : int = 0
+    top_five_year : list = [None, None, None, None, None]
+    top_five_career : list = [None, None, None, None, None]
+    tournaments : list = []
     def to_list(self):
         return [
             str(self.user_id),
@@ -69,6 +50,14 @@ class RankData:
             self.top_five_career
         ]
 
+def serialize_rank_data(rank_data):
+    return quickle.Encoder(registry=[RankData]).dumps(rank_data)
+
+def deserialize_rank_data(data):
+    return quickle.Decoder(registry=[RankData]).loads(data)
+
+
+
 class RankData_Series:
     series_id = None
 
@@ -81,12 +70,9 @@ class RankData_Series:
 
 def store_rank_data(rank_datas):
     try:
-        datas = []
         pwd = os.path.dirname(__file__)
-        for rank_data in rank_datas:
-            datas.append(rank_data.to_list())
         file = open(pwd + '/rankings.dat', 'w')
-        file.write(json.dumps(datas))
+        file.write(serialize_rank_data(rank_datas))
         file.close()
     except FileNotFoundError:
         return None
@@ -95,23 +81,7 @@ def load_rank_data():
     try:
         pwd = os.path.dirname(__file__)
         file = open(pwd + '/rankings.dat', 'r')
-        datas = json.loads(file.read())
-        rank_datas = []
-        for data in datas:
-            rank_data = RankData()
-            rank_data.user_id = data[0]
-            rank_data.rank = data[1]
-            rank_data.rank_points = data[2]
-            rank_data.wins = data[3]
-            rank_data.attended = data[4]
-            rank_data.total_games_year = data[5]
-            rank_data.total_games_career = data[6]
-            rank_data.avg_score_year = data[7]
-            rank_data.avg_score_career = data[8]
-            rank_data.top_five_year = data[9]
-            rank_data.top_five_career = data[10]
-            rank_datas.append(rank_data)
-        return rank_datas
+        return deserialize_rank_data(file.read())
     except FileNotFoundError:
         return None
 
@@ -148,8 +118,7 @@ def convert_tournaments():
     convert_to_tournament_data_all_tournaments()
 
 def calculate_statistics():
-
-
+    print("RankingSys - Initializing...")
     rank_datas = get_rank_datas_from_all_tournaments()
     apply_rank_data_to_accounts_in_batches(rank_datas, 1000)
     print("RankingSys - Saving Ranking Data to 'rankings.dat'.")
