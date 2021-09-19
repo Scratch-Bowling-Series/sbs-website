@@ -133,7 +133,7 @@ def load_tournament_live():
 def load_tournament_recent():
     ## FORMAT
     ## [0=id, 1=name, 2=date, 3=center_name, 4=center_location, 5=description, 6=topfour]
-    tournament = Tournament.objects.all().first()
+    tournament = Tournament.objects.all().last()
     return [
         tournament.tournament_id,
         tournament.tournament_name,
