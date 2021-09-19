@@ -19,4 +19,4 @@ class Command(BaseCommand):
                 print(str(center_id) + ' : ' + str(center.center_name))
                 break
             else:
-                print(str(center_id))
+                print(str(tournament.center))
