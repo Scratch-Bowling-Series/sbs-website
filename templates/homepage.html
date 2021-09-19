@@ -158,10 +158,10 @@ $(document).ready(function() {
             <a class="description" href="tournaments/view/{{tournament_recent.tournament_id }}">{{ tournament_recent.description|none_replace:"This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set." }}</a>
             <a class="btn btn-medium bkg-darkgreen text-white border-darkgreen more" href="tournaments/view/{{tournament_recent.tournament_id }}">VIEW INFO</a>
             <div class="stats">
-                <div class="player"><a class="rank top-rank">1st</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent|get_bowler_from_place:1|bowler_name:True|safe }}</a></div>
-                <div class="player"><a class="rank">2nd</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:2 }}">{{ tournament_recent|get_bowler_from_place:2|bowler_name:True|safe }}</a></div>
-                <div class="player"><a class="rank">3rd</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:3 }}">{{ tournament_recent|get_bowler_from_place:3|bowler_name:True|safe }}</a></div>
-                <div class="player"><a class="rank">4th</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:4 }}">{{ tournament_recent|get_bowler_from_place:4|bowler_name:True|safe }}</a></div>
+                <div class="player"><a class="rank top-rank">1st</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:1 }}">{{ tournament_recent.tournament_id|get_bowler_from_place:1|bowler_name:True|safe }}</a></div>
+                <div class="player"><a class="rank">2nd</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:2 }}">{{ tournament_recent.tournament_id|get_bowler_from_place:2|bowler_name:True|safe }}</a></div>
+                <div class="player"><a class="rank">3rd</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:3 }}">{{ tournament_recent.tournament_id|get_bowler_from_place:3|bowler_name:True|safe }}</a></div>
+                <div class="player"><a class="rank">4th</a><a class="name" href="/account/view/{{ tournament_recent|get_bowler_from_place:4 }}">{{ tournament_recent.tournament_id|get_bowler_from_place:4|bowler_name:True|safe }}</a></div>
             </div>
         </section>
     </section>
