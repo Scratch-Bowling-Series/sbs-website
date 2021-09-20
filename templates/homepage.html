@@ -97,7 +97,7 @@ $(document).ready(function() {
       </script>
       {% endif %}
       <div class="row-b rankings-row" style="display:none;">
-        <a class="row-b-c row-b-c1 bold {% if rank_data.2 == '1st' or rank_data.2 == '2nd' or rank_data.2 == '3rd' or rank_data.2 == '4th' or %}text-tan{%endif%}">{{ rank_data.2 }}</a>
+        <a class="row-b-c row-b-c1 bold {% if rank_data.2 == '1st' or rank_data.2 == '2nd' or rank_data.2 == '3rd' or rank_data.2 == '4th' %}text-tan{%endif%}">{{ rank_data.2 }}</a>
         <a class="row-b-c row-b-c2">{{ rank_data.1|safe }}</a>
         <a class="row-b-btn btn btn-small border-none" href="/account/view/{{ rank_data.0 }}">VIEW</a>
       </div>
