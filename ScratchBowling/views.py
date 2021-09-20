@@ -149,7 +149,7 @@ def load_tournament_winners():
     last_ten_tournaments = Tournament.objects.all()[:10]
     for tournament in last_ten_tournaments:
         winner_id = get_winner(tournament.placement_data)
-        winner_data.append([str(tournament.tournament_id), tournament.tournament_name, tournament.tournament_date, get_name_from_uuid(winner_id), str(winner_id)])
+        winner_data.append([str(tournament.tournament_id), tournament.tournament_name, tournament.tournament_date, get_name_from_uuid(winner_id, True, True), str(winner_id)])
     return winner_data
 
 def load_tournament_upcoming():

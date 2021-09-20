@@ -87,9 +87,6 @@ def get_matchplay_object(tournament):
 
 
 
-
-
-
 class Tournament_Data(quickle.Struct):
     tournament_id : str = None
     number_of_qualifying_matches : int = 0

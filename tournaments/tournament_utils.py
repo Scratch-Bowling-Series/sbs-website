@@ -65,7 +65,7 @@ def get_top_placements(placement_data, count):
         while count > 0:
             for placement in placements:
                 if placement.place == count:
-                    ids.append([placement.user_id, get_name_from_uuid(placement.user_id)])
+                    ids.append([placement.user_id, get_name_from_uuid(placement.user_id, True, True)])
                     break
             count -= 1
     return ids
