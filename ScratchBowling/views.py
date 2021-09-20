@@ -34,7 +34,7 @@ def index(request, notify=''):
             'bowler_of_month': load_bowler_of_month(),
             'users_count': get_users_count(),
             'tournaments_count': get_tournaments_count(),
-            'top_ten_ranks': get_top_ten_ranks(),
+            'top_ten_ranks': get_top_ranks(10),
             'donation_count': get_donation_count(),
             'page_title': '',
             'page_description': 'Bowling Tournaments Done Better. Welcome to the Scratch Bowling Series. Come bowl today!',
