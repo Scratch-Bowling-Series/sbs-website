@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 def get_name_from_uuid(uuid,last_name=True, bold_last=False, truncate_last=False):
+    uuid = is_valid_uuid(uuid)
     if uuid is not None:
         user = User.objects.filter(user_id=uuid).first()
         if user == None:
