@@ -34,6 +34,7 @@ def get_name_from_uuid(uuid,last_name=True, bold_last=False, truncate_last=False
                     return first + ' ' + last_initial
                 else:
                     return first
+    return 'Unknown User'
 
 def get_name_from_user(user,last_name=True, bold_last=False, truncate_last=False):
     if user == None:
