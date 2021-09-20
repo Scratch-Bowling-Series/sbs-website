@@ -79,7 +79,7 @@ $(document).ready(function() {
     {% for row in tournament_winners %}
     <div class="row-b">
         <a class="row-b-c row-b-c1 text-white">{{ row.2|date:'m/d' }}</a>
-        <a class="row-b-c row-b-c2 text-white span-white" href="/account/view/{{ row.4 }}">{{ row.3 }}</a>
+        <a class="row-b-c row-b-c2 text-white span-white" href="/account/view/{{ row.4 }}">{{ row.3|safe }}</a>
         <a class="row-b-btn btn btn-small bkg-white text-lightgreen border-none" href="/tournaments/view/{{ row.0 }}">RESULTS</a>
       </div>
     {% endfor %}
