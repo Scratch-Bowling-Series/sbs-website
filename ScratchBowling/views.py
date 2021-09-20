@@ -178,7 +178,7 @@ def get_top_ranks(amount):
     rank_datas = get_top_rankings(amount)
     data = []
     for rank_data in rank_datas:
-        data.append([rank_data.user_id, get_name_from_uuid(rank_data, True, True), make_ordinal(rank_data.rank)])
+        data.append([rank_data.user_id, get_name_from_uuid(rank_data.user_id, True, True), make_ordinal(rank_data.rank)])
     return data
 
 def has_content_changed(request):
