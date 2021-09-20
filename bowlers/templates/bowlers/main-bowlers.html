@@ -59,22 +59,18 @@
         {% else %}
         {% for bowler in bowlers %}
         <section class="account-preview">
-
-            <div class='account-image'><img src="/media/{{ bowler.5 }}"></div>
+            <div class='account-image'><img src="/account/data/profile-pic/{{ bowler.0 }}"></div>
             <div class="account-container account-half-width">
-                <a href="/account/view/{{ bowler.0 }}" class="account-name">{{ bowler.1 }} {{ bowler.2 }}</a>
-                <a href="/account/view/{{ bowler.0 }}" class="account-location">{{ bowler.3 }}, {{ bowler.4 }}</a>
+                <a href="/account/view/{{ bowler.0 }}" class="account-name">{{ bowler.1 }}</a>
+                <a href="/account/view/{{ bowler.0 }}" class="account-location">{{ bowler.2 }}</a>
                 <div class="account-stats">
-                    <div class="stat"><a>2,052nd</a><span>RANK</span></div>
-                    <div class="stat"><a>43</a><span>ATTEND</span></div>
-                    <div class="stat"><a>106</a><span>WINS</span></div>
-                    <div class="stat"><a>260</a><span>AVG</span></div>
+                    <div class="stat"><a>{{ bowler.3 }}</a><span>RANK</span></div>
+                    <div class="stat"><a>{{ bowler.4 }}</a><span>ATTEND</span></div>
+                    <div class="stat"><a>{{ bowler.5 }}</a><span>WINS</span></div>
+                    <div class="stat"><a>{{ bowler.6 }}</a><span>AVG</span></div>
                 </div>
                 <a href="/account/view/{{ bowler.0 }}" class="account-view btn btn-medium desktop-on">VIEW PROFILE</a>
             </div>
-            {% if not forloop.last %}
-            <div class="standard-underline"></div>
-            {% endif %}
         </section>
         {% endfor %}
         {% endif %}

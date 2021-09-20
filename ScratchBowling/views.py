@@ -8,7 +8,7 @@ from ScratchBowling.popup import check_for_popup
 from ScratchBowling.sbs_utils import is_valid_uuid
 from ScratchBowling.shortener import create_link
 from ScratchBowling.websettings import WebSettings
-from accounts.account_helper import get_name_from_uuid, get_location_basic_uuid, get_name_from_user
+from accounts.account_helper import get_name_from_uuid, get_location_basic_uuid, get_name_from_user, display_get_bowlers
 from accounts.forms import User
 from accounts.models import Shorten
 from centers.center_utils import get_center_location_uuid, get_center_name_uuid
@@ -49,11 +49,7 @@ def search(request):
             search = form.cleaned_data['search_args']
             bowlers = User.objects.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))
             more_results_bowlers = len(bowlers) - 4
-            bowlers = bowlers[:4]
-            temp_bowlers = []
-            for bowler in bowlers:
-                temp_bowlers.append(user_to_display_list(bowler))
-            bowlers = temp_bowlers
+            bowlers = display_get_bowlers(bowlers[:4])
 
             tournaments_upcoming = Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time())
             tournaments_results = Tournament.objects.filter(tournament_date__lte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__gt=datetime.now().time())

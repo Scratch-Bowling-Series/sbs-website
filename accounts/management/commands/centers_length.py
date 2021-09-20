@@ -13,8 +13,4 @@ class Command(BaseCommand):
     help = 'Run Statistics'
 
     def handle(self, *args, **options):
-
-        users = User.objects.all()
-        for user in users:
-            user.unclaimed = True
-            user.save()
+        return None

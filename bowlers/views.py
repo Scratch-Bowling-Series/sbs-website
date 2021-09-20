@@ -5,6 +5,7 @@ from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.pages import create_page_obj
 from ScratchBowling.views import load_bowler_of_month
+from accounts.account_helper import display_get_bowlers
 from accounts.views import get_amount_online
 
 
@@ -28,14 +29,10 @@ def bowlers_views(request, page=1, search=''):
     else:
         users = User.objects.all()
 
-    bowlers = []
     bowlers_count = len(users)
     start = (per_page * page) - per_page
     end = per_page * page
-    for user in users[start:end]:
-        bowler = user_to_display_list(user)
-        if bowler[1] != None:
-            bowlers.append(bowler)
+    bowlers = display_get_bowlers(users[start:end])
 
     return render(request, 'bowlers/main-bowlers.html', {'nbar': 'bowlers',
                                                          'bowlers': bowlers,

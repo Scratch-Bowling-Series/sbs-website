@@ -2,6 +2,9 @@ import uuid
 
 from django.contrib.auth import get_user_model
 
+from scoreboard.ranking import deserialize_rank_data
+from tournaments.tournament_utils import make_ordinal
+
 User = get_user_model()
 
 def get_name_from_uuid(uuid,last_name=True, bold_last=False, truncate_last=False):
@@ -105,3 +108,14 @@ def is_valid_uuid(val):
         return uuid.UUID(str(val))
     except ValueError:
         return None
+
+
+def display_get_bowlers(users):
+    # FORMAT : Array of Lists
+    # [id, name, location, rank, attend, wins, average]
+    data = []
+    for user in users:
+        rank_data = deserialize_rank_data(user.statistics)
+        if rank_data != None:
+            data.append([str(user.user_id), get_name_from_user(user), get_location_basic_obj(user), make_ordinal(rank_data.rank), rank_data.attended, rank_data.wins, rank_data.average_score_career])
+    return data
