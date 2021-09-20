@@ -8,7 +8,7 @@ from ScratchBowling.popup import check_for_popup
 from ScratchBowling.sbs_utils import is_valid_uuid
 from ScratchBowling.shortener import create_link
 from ScratchBowling.websettings import WebSettings
-from accounts.account_helper import get_name_from_uuid, get_location_basic_uuid
+from accounts.account_helper import get_name_from_uuid, get_location_basic_uuid, get_name_from_user
 from accounts.forms import User
 from accounts.models import Shorten
 from centers.center_utils import get_center_location_uuid, get_center_name_uuid
@@ -18,7 +18,7 @@ from scoreboard.ranking import get_top_rankings
 from support.donation import get_donation_count
 from tournaments.models import Tournament
 from tournaments.tournament_scraper import scrape_tournaments_task
-from tournaments.tournament_utils import get_winner, get_top_placements
+from tournaments.tournament_utils import get_winner, get_top_placements, make_ordinal
 
 User = get_user_model()
 
@@ -111,8 +111,6 @@ def shortener_create(request, url):
     else:
         return HttpResponse(create_link(url))
 
-
-
 def user_to_display_list(user):
     return [user.user_id,
             user.first_name,
@@ -174,8 +172,14 @@ def get_users_count():
 def get_tournaments_count():
     return Tournament.objects.all().count()
 
-def get_top_ten_ranks():
-    return get_top_rankings(10)
+def get_top_ranks(amount):
+    ## FORMAT
+    ## [id, name, place]
+    rank_datas = get_top_rankings(amount)
+    data = []
+    for rank_data in rank_datas:
+        data.append([rank_data.user_id, get_name_from_uuid(rank_data, True, True), make_ordinal(rank_data.rank)])
+    return data
 
 def has_content_changed(request):
     data = get_last_commit()
@@ -187,3 +191,4 @@ def scrape_tournaments(request):
 
 def scrape_bowlers(request):
     return None
+

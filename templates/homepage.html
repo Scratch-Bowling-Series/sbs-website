@@ -87,7 +87,7 @@ $(document).ready(function() {
   </section>
   <section class="sec">
     <h2>TOP 10 SBS RANKING</h2>
-    {% for top in top_ten_ranks %}
+    {% for rank_data in top_ten_ranks %}
       {% if forloop.first %}
       <script>
           $(document).ready(function(){
@@ -97,9 +97,9 @@ $(document).ready(function() {
       </script>
       {% endif %}
       <div class="row-b rankings-row" style="display:none;">
-        <a class="row-b-c row-b-c1 bold {%if top.rank < 4%}text-tan{%endif%}">{{ top.rank|ordinal }}</a>
-        <a class="row-b-c row-b-c2">{{ top.user_id|bowler_name:True|safe }}</a>
-        <a class="row-b-btn btn btn-small border-none" href="/account/view/{{ top.user_id }}">VIEW</a>
+        <a class="row-b-c row-b-c1 bold {% if rank_data.2 == '1st' or rank_data.2 == '2nd' or rank_data.2 == '3rd' or rank_data.2 == '4th' or %}text-tan{%endif%}">{{ rank_data.2 }}</a>
+        <a class="row-b-c row-b-c2">{{ rank_data.1|safe }}</a>
+        <a class="row-b-btn btn btn-small border-none" href="/account/view/{{ rank_data.0 }}">VIEW</a>
       </div>
     {% endfor %}
     <div class="rankings-offline">

@@ -4,12 +4,64 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-def get_name_from_uuid(uuid):
-    uuid = is_valid_uuid(uuid)
+def get_name_from_uuid(uuid,last_name=True, bold_last=False, truncate_last=False):
     if uuid is not None:
         user = User.objects.filter(user_id=uuid).first()
-        if user is not None:
-            return user.first_name + ' ' + user.last_name
+        if user == None:
+            return 'Unknown User'
+
+        first = str(user.first_name)
+        last = str(user.last_name)
+        last_initial = last[0]
+
+        if last_name == False:
+            bold_last = False
+
+        if truncate_last:
+            if bold_last:
+                return first + '&nbsp;<span class="bold">' + last_initial + '.</span>'
+            else:
+                if last_name:
+                    return first + ' ' + last_initial + '.'
+                else:
+                    return first
+        else:
+            if bold_last:
+                return first + '&nbsp;<span class="bold">' + last + '</span>'
+            else:
+                if last_name:
+                    return first + ' ' + last_initial
+                else:
+                    return first
+
+def get_name_from_user(user,last_name=True, bold_last=False, truncate_last=False):
+    if user == None:
+        return 'Unknown User'
+
+    first = str(user.first_name)
+    last = str(user.last_name)
+    last_initial = last[0]
+
+    if last_name == False:
+        bold_last = False
+
+    if truncate_last:
+        if bold_last:
+            return first + '&nbsp;<span class="bold">' + last_initial + '.</span>'
+        else:
+            if last_name:
+                return first + ' ' + last_initial + '.'
+            else:
+                return first
+    else:
+        if bold_last:
+            return first + '&nbsp;<span class="bold">' + last + '</span>'
+        else:
+            if last_name:
+                return first + ' ' + last_initial
+            else:
+                return first
+
 
 
 def get_location_basic_uuid(uuid):
