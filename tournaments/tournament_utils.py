@@ -80,4 +80,9 @@ def get_all_tournaments(user_tournaments_data):
                 tournaments.append(tournament)
     return tournaments
 
-
+def get_date_time(date, time):
+    if date is not None and time is not None:
+        date_str = date + ' ' + time
+        return datetime.datetime.strptime(date_str, "%Y-%m-%d %H:%M")
+    else:
+        return datetime.now()

@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from . import views
+from . import views, shortener
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
@@ -26,8 +26,12 @@ urlpatterns = [
     path('scrape/tournaments/', views.scrape_tournaments, name='scrape_tournaments'),
     path('scrape/bowlers/', views.scrape_bowlers, name='scrape_bowlers'),
     path('search/', views.search, name='search'),
-    path('s/<code>/', views.shortener, name='shortener'),
-    path('s/create/new/<url>/', views.shortener_create, name='shortener')
+
+
+
+    ## URL SHORTENER
+    path('s/<code>/', shortener.shorten, name='shortener'),
+    path('s/create/new/<url>/', shortener.create, name='shortener')
 ]
 
 urlpatterns += staticfiles_urlpatterns()

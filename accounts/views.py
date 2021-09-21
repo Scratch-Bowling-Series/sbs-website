@@ -13,9 +13,10 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from ScratchBowling.websettings import WebSettings
 from centers.center_utils import get_center_location_uuid
-from scoreboard.ranking import get_rank_data_from_json, deserialize_rank_data
-from tournaments.tournament_utils import get_place, get_tournament, get_all_tournaments
-from tournaments.views import is_valid_uuid, make_ordinal
+from scoreboard.ranking import deserialize_rank_data
+from tournaments.tournament_utils import get_place, get_all_tournaments
+from tournaments.views import is_valid_uuid
+from .account_helper import make_ordinal
 from .forms import RegisterForm, ModifyAccountForm
 from scraper import master_scrape, get_scraper_log
 from .tokens import account_activation_token
@@ -64,17 +65,7 @@ def none_replace(value, output):
         return output
     return value
 
-@register.filter
-def is_friend(user_id, user):
-    user_id = is_valid_uuid(user_id)
-    if user_id != None:
-        if user != None:
-            friends = json.loads(user.friends)
-            if str(user_id) in friends:
-                return True
-            else:
-                return False
-    return None
+
 
 
 def accounts_modify_view(request):
@@ -311,8 +302,6 @@ def create_profile_pic_circle(profile_pic, profile_pic_size):
     bkg.paste(profile_pic, (0,0), alpha_mask)
     return bkg
 
-
-
 def accounts_add_view(request, id):
     id = is_valid_uuid(id)
     if id !=  None:
@@ -358,7 +347,3 @@ def start_master_scraper(request):
     master_scrape(False)
     return HttpResponse('Done')
 
-
-
-def get_amount_online():
-    return User.objects.filter(is_online=True).count()

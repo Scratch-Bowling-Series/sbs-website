@@ -1,21 +1,16 @@
 from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.popup import check_for_popup
-from ScratchBowling.sbs_utils import is_valid_uuid
-from ScratchBowling.shortener import create_link
-from ScratchBowling.websettings import WebSettings
-from accounts.account_helper import get_name_from_uuid, get_location_basic_uuid, make_ordinal
+from accounts.account_helper import get_name_from_uuid, load_bowler_of_month, get_amount_users, get_top_ranks
 from accounts.forms import User
-from accounts.models import Shorten
 from bowlers.views import display_get_bowlers
-from centers.center_utils import get_center_location_uuid, get_center_name_uuid
+from centers.center_utils import get_center_name_uuid
 from centers.models import Center
 from check_git import get_last_commit
-from scoreboard.ranking import get_top_rankings
 from support.donation import get_donation_count
 from tournaments.models import Tournament
 from tournaments.tournament_scraper import scrape_tournaments_task
@@ -33,7 +28,7 @@ def index(request, notify=''):
             'tournaments_upcoming': load_tournament_upcoming(),
             'tournament_recent': load_tournament_recent(),
             'bowler_of_month': load_bowler_of_month(),
-            'users_count': get_users_count(),
+            'users_count': get_amount_users(),
             'tournaments_count': get_tournaments_count(),
             'top_ten_ranks': get_top_ranks(10),
             'donation_count': get_donation_count(),
@@ -94,30 +89,6 @@ def contact(request):
                                             'page_keywords': 'Contact, Message, Help, Email, Faqs, Support, Call, Maintenance'
                                             })
 
-def shortener(request, code):
-    if code == '' or len(code) != 5:
-        return Http404('This link is broken...')
-    shorten = Shorten.objects.filter(code=code).first()
-    if shorten != None:
-        return HttpResponseRedirect(shorten.url)
-    return Http404('This link is broken...')
-
-def shortener_create(request, url):
-    if url == '' or len(url) < 5:
-        return HttpResponse('')
-    else:
-        return HttpResponse(create_link(url))
-
-def user_to_display_list(user):
-    return [user.user_id,
-            user.first_name,
-            user.last_name,
-            user.location_city,
-            user.location_state,
-            user.picture,
-            user.statistics
-            ]
-
 def load_tournament_live():
     live_center = {'name': '300 Bowl', 'city': 'Detroit', 'state': 'MI'}
     live_status = 'Qualifying (3/10)'
@@ -152,31 +123,8 @@ def load_tournament_winners():
 def load_tournament_upcoming():
     return Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time())
 
-def load_bowler_of_month():
-    # FORMAT
-    # [id, name, location]
-    websettings = WebSettings()
-    if websettings.bowler_of_month != None:
-        websettings.bowler_of_month = is_valid_uuid(websettings.bowler_of_month)
-        user = User.objects.filter(user_id=websettings.bowler_of_month)
-        if user != None:
-            return [user.user_id, get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id)]
-    return None
-
-def get_users_count():
-    return User.objects.all().count()
-
 def get_tournaments_count():
     return Tournament.objects.all().count()
-
-def get_top_ranks(amount):
-    ## FORMAT
-    ## [id, name, place]
-    rank_datas = get_top_rankings(amount)
-    data = []
-    for rank_data in rank_datas:
-        data.append([rank_data.user_id, get_name_from_uuid(rank_data.user_id, True, True), make_ordinal(rank_data.rank)])
-    return data
 
 def has_content_changed(request):
     data = get_last_commit()

@@ -1,7 +1,25 @@
 import random
 import string
 
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+
 from accounts.models import Shorten
+
+
+def shorten(request, code):
+    if code == '' or len(code) != 5:
+        return Http404('This link is broken...')
+    shorten = Shorten.objects.filter(code=code).first()
+    if shorten != None:
+        return HttpResponseRedirect(shorten.url)
+    return Http404('This link is broken...')
+
+def create(request, url):
+    if url == '' or len(url) < 5:
+        return HttpResponse('')
+    else:
+        return HttpResponse(create_link(url))
+
 
 
 def create_link(link):
@@ -17,7 +35,6 @@ def create_link(link):
         shorten.url = link
         shorten.save()
         return 'https://scratchbowling.pythonanywhere.com/s/' + str(shorten.code) + '/'
-
 
 def generate_code():
     for x in range(0, 100):
