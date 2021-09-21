@@ -18,7 +18,7 @@ from scoreboard.ranking import get_top_rankings
 from support.donation import get_donation_count
 from tournaments.models import Tournament
 from tournaments.tournament_scraper import scrape_tournaments_task
-from tournaments.tournament_utils import get_winner, get_top_placements, make_ordinal
+from tournaments.tournament_utils import get_winner, get_top_placements
 
 User = get_user_model()
 

@@ -1,5 +1,6 @@
 from datetime import datetime
 import quickle
+from accounts.account_helper import get_name_from_uuid
 from tournaments.models import Tournament
 from tournaments.tournament_data import deserialize_placement_data
 
