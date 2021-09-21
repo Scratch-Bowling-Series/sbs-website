@@ -1,8 +1,8 @@
 import uuid
-
 from django.contrib.auth import get_user_model
-
 from scoreboard.ranking import deserialize_rank_data
+
+
 
 User = get_user_model()
 
