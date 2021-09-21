@@ -5,9 +5,9 @@ from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.pages import create_page_obj
 from ScratchBowling.views import load_bowler_of_month
-from accounts.account_helper import display_get_bowlers
+from accounts.account_helper import get_name_from_user, get_location_basic_obj, make_ordinal
 from accounts.views import get_amount_online
-
+from scoreboard.ranking import deserialize_rank_data
 
 User = get_user_model()
 
@@ -46,3 +46,14 @@ def bowlers_views(request, page=1, search=''):
                                                          'page_description': 'Search, Filter, and Sort through over ' + str(bowlers_count) + ' bowlers.',
                                                          'page_keywords': 'all, bowlers, accounts, pages, profiles, users, statistics, scores, stats'
                                                          })
+
+
+def display_get_bowlers(users):
+    # FORMAT : Array of Lists
+    # [id, name, location, rank, attend, wins, average]
+    data = []
+    for user in users:
+        rank_data = deserialize_rank_data(user.statistics)
+        if rank_data != None:
+            data.append([str(user.user_id), get_name_from_user(user), get_location_basic_obj(user), make_ordinal(rank_data.rank), rank_data.attended, rank_data.wins, rank_data.average_score_career])
+    return data
