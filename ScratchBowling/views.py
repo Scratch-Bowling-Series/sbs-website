@@ -8,7 +8,8 @@ from ScratchBowling.popup import check_for_popup
 from ScratchBowling.sbs_utils import is_valid_uuid
 from ScratchBowling.shortener import create_link
 from ScratchBowling.websettings import WebSettings
-from accounts.account_helper import get_name_from_uuid, get_location_basic_uuid, get_name_from_user, display_get_bowlers
+from accounts.account_helper import get_name_from_uuid, get_location_basic_uuid, get_name_from_user, \
+    display_get_bowlers, make_ordinal
 from accounts.forms import User
 from accounts.models import Shorten
 from centers.center_utils import get_center_location_uuid, get_center_name_uuid
