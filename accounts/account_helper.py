@@ -3,7 +3,6 @@ import uuid
 from django.contrib.auth import get_user_model
 
 from scoreboard.ranking import deserialize_rank_data
-from tournaments.tournament_utils import make_ordinal
 
 User = get_user_model()
 
@@ -119,3 +118,13 @@ def display_get_bowlers(users):
         if rank_data != None:
             data.append([str(user.user_id), get_name_from_user(user), get_location_basic_obj(user), make_ordinal(rank_data.rank), rank_data.attended, rank_data.wins, rank_data.average_score_career])
     return data
+
+
+def make_ordinal(n):
+    n = int(n)
+    if n == 0:
+        return '0'
+    suffix = ['th', 'st', 'nd', 'rd', 'th'][min(n % 10, 4)]
+    if 11 <= (n % 100) <= 13:
+        suffix = 'th'
+    return str(n) + suffix

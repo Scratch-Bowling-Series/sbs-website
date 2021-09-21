@@ -81,11 +81,3 @@ def get_all_tournaments(user_tournaments_data):
     return tournaments
 
 
-def make_ordinal(n):
-    n = int(n)
-    if n == 0:
-        return '0'
-    suffix = ['th', 'st', 'nd', 'rd', 'th'][min(n % 10, 4)]
-    if 11 <= (n % 100) <= 13:
-        suffix = 'th'
-    return str(n) + suffix
