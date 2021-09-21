@@ -46,15 +46,3 @@ def bowlers_views(request, page=1, search=''):
                                                          'page_description': 'Search, Filter, and Sort through over ' + str(bowlers_count) + ' bowlers.',
                                                          'page_keywords': 'all, bowlers, accounts, pages, profiles, users, statistics, scores, stats'
                                                          })
-
-
-
-def user_to_display_list(user):
-    return [user.user_id,
-            user.first_name,
-            user.last_name,
-            user.location_city,
-            user.location_state,
-            user.picture,
-            user.statistics
-            ]
