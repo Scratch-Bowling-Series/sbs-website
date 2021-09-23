@@ -2,9 +2,12 @@
 {% load static %}
 {% block content %}
 
+<!-- LEFT SIDEBAR -->
 <section class="col col-20 col-m-max-width m-order-1">
 
 </section>
+
+<!-- CENTER COLUMN -->
 <section class="col col-60 col-m-max-width m-order-2">
     <section class="tournament-topbar">
         <section class="tournament-view-selector std-radius">
@@ -20,8 +23,8 @@
             <a>SORT BY <i class="icon-angle-down"></i></a>
         </section>
     </section>
-    {% if selected_upcoming == True %}
 
+    {% if selected_upcoming == True %}
     <section class="sec tournaments-list">
         {% if upcoming_count == 0 %}
             <h2 class="no-results">NO UPCOMING TOURNAMENTS</h2>
@@ -29,51 +32,54 @@
         {% else %}
         {% for tournament in tournaments_upcoming %}
         <section class="tournament-preview">
-            <div class='tournament-image'><img src="{{ tournament.sponsor_image }}"></div>
-
-            <div class="tournament-container tournament-half-width">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">{{ tournament.tournament_name }}</a><!--
-            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">{{ tournament.tournament_date|date:'m/d/y' }}<i class="tournament-arrow icon-arrow-right"></i>{{ tournament.tournament_time|time:'h:iA' }}</a><!--
-            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES - DETROIT, MI</a><!--
-            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">420 SPOTS RESERVED</a>
+            <div class='tournament-image'>
+                <img src="/tournaments/data/sponsor-pic/{{ tournament.4 }}">
             </div>
-            {% if not forloop.last %}<a class="btn tournament-button">RESERVE</a>{% else %}<a class="tournament-button-invert standard-button">RESERVED</a>
+            <div class="tournament-container tournament-half-width">
+                    <a href="/tournaments/view/{{ tournament.0 }}" class="tournament-name">{{ tournament.1 }}</a><!--
+                    --><a href="/tournaments/view/{{ tournament.0 }}" class="tournament-date">{{ tournament.2|date:'m/d/y' }}<i class="tournament-arrow icon-arrow-right"></i>{{ tournament.3|time:'h:iA' }}</a><!--
+                    --><a href="/centers/view/{{ tournament.5 }}" class="tournament-center">{{ tournament.6 }} - {{ tournament.7 }}</a><!--
+                    --><a href="/tournaments/view/{{ tournament.0 }}" class="tournament-spots">{{ tournament.9 }} RESERVED, {{ tournament.8 }} AVAILABLE</a>
+            </div>
+            {% if not forloop.last %}
+                <a class="btn tournament-button">RESERVE</a>
+            {% else %}
+                <a class="tournament-button-invert standard-button">RESERVED</a>
             {% endif %}
             {% if not forloop.last %}
-            <div class="standard-underline"></div>
+                <div class="standard-underline"></div>
             {% endif %}
         </section>
         {% endfor %}
         {% endif %}
     </section>
-    {% endif %}
-
-    {% if selected_upcoming == False %}
+    {% else %}
     <section class="sec tournaments-list">
         {% if results_count == 0 %}
             <h2 class="no-results">NO RESULTS FOUND</h2>
         {% else %}
         {% for tournament in tournaments_past %}
         <section class="tournament-preview">
-            <img class='tournament-image' src="/media/{{ tournament.sponsor_image }}"><!--
+            <img class="tournament-image" src="/tournaments/data/sponsor-pic/{{ tournament.4 }}"><!--
             --><div class="tournament-container tournament-full-width">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">{{ tournament.tournament_name }}</a><!--
-            {% if tournament|winner == None %}
-            --><a class="tournament-date">{{ tournament.tournament_date|date:'m/d/y' }}</a><!--
-            {% else %}
-            --><a class="tournament-date">{{ tournament.tournament_date|date:'m/d/y' }}<p class="tournament-winner-name" href="/account/view/{{ tournament|winner }}"><i class="tournament-winner icon-trophy"></i>{{  tournament|winner|bowler_name:True }}<span>&nbsp;({{ tournament|winner|getaverage:tournament}} AVG)</span></p></a><!--
-            {% endif %}
-            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">{{ tournament.center }} {{ tournament.center|center_name }} - {{ tournament.center|center_location }}</a><!--
-            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">{{ tournament|participants }} PARTICIPANTS</a>
+                    <a href="/tournaments/view/{{ tournament.0 }}" class="tournament-name">{{ tournament.tournament_name }}</a><!--
+                    {% if tournament.9 == None %}
+                    --><a class="tournament-date">{{ tournament.2|date:'m/d/y' }}</a><!--
+                    {% else %}
+                    --><a class="tournament-date">{{ tournament.2|date:'m/d/y' }}<p class="tournament-winner-name" href="/account/view/{{ tournament.9 }}"><i class="tournament-winner icon-trophy"></i>{{  tournament.8 }}<span>&nbsp;({{ tournament.10 }} AVG)</span></p></a><!--
+                    {% endif %}
+                    --><a href="/tournaments/view/{{ tournament.0 }}" class="tournament-center">{{ tournament.5 }} - {{ tournament.6 }}</a><!--
+                    --><a href="/tournaments/view/{{ tournament.0 }}" class="tournament-spots">{{ tournament.7 }} PARTICIPANTS</a>
             </div>
-            {% if not forloop.last %}
+        {% if not forloop.last %}
             <div class="standard-underline"></div>
-            {% endif %}
+        {% endif %}
         </section>
         {% endfor %}
         {% endif %}
     </section>
     {% endif %}
+
     {% if page != None %}
     <section class="account-pagebar">
         <section class="account-pages std-radius">
@@ -91,6 +97,8 @@
     </section>
     {% endif %}
 </section>
+
+<!-- RIGHT SIDEBAR -->
 <section class="col col-20 col-m-max-width m-order-3">
     <section class="sec desktop-on">
         <h3 class="tournament-filter-header standard-title text-dark-green">FILTERS</h3>
@@ -135,4 +143,30 @@
 </section>
 
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

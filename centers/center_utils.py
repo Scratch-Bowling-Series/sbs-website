@@ -28,6 +28,22 @@ def get_center_location_uuid(center_id):
     else:
         return 'Location Unknown'
 
+def get_center_location_obj(center):
+    if center != None:
+        city = str(center.location_city)
+        state = str(center.location_state)
+        if city == None or city == '':
+            if state == None or state == '':
+                return 'Location Unknown'
+            else:
+                return state
+        elif state == None or state == '':
+            return city
+        else:
+            return city + ', ' + state
+    else:
+        return 'Location Unknown'
+
 def get_center_name_uuid(center_id):
     center = get_center(center_id)
     if center != None:

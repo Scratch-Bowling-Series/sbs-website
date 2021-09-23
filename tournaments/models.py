@@ -9,18 +9,20 @@ class Tournament(models.Model):
     tournament_description = models.TextField(blank=True, null=True)
     tournament_date = models.DateField(blank=True, null=True)
     tournament_time = models.TimeField(blank=True, null=True)
-    picture = models.ImageField(blank=True)
+    picture = models.ImageField(default='tournament-pictures/default.jpg', upload_to='tournament-pictures/')
     center = models.UUIDField(editable=True, unique=True, blank=True, null=True)
     format = models.UUIDField(editable=True, unique=True, blank=True, null=True)
     entry_fee = models.FloatField(blank=True, null=True)
     total_games = models.IntegerField(null=False, blank=True, default=0)
     qualifiers = models.JSONField(blank=True, null=True)
     matchplay = models.JSONField(blank=True, null=True)
-    sponsor_image = models.ImageField(blank=True)
-
+    sponsor =  models.UUIDField(editable=True, unique=False, null=True, blank=True)
+    finished = models.BooleanField(default=False)
+    live = models.BooleanField(default=False)
     tournament_data = models.BinaryField(blank=True, null=True)
     placement_data = models.BinaryField(blank=True, null=True)
-
+    roster = models.BinaryField(blank=True, null=True)
+    spots_reserved = models.IntegerField(null=False, blank=True, default=0)
     @classmethod
     def create(cls, name):
         tournament = cls(tournament_name=name)

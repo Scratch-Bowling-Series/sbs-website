@@ -1,4 +1,3 @@
-from datetime import datetime
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from ScratchBowling.forms import TournamentsSearch
@@ -8,63 +7,83 @@ from oils.oil_pattern import  get_oil_display_data
 from tournaments.forms import CreateTournament, ModifyTournament
 from tournaments.models import Tournament
 from oils.oil_pattern_scraper import get_oil_colors
-from tournaments.tournament_utils import get_tournament
+from tournaments.tournament_utils import get_tournament, get_all_completed_tournaments, get_count_upcoming_tournaments, \
+    get_all_upcoming_tournaments, get_count_all_tournaments, convert_to_display_main_upcoming_list, \
+    convert_to_display_main_results_list
+
+page_data_results = {'nbar': 'tournaments',
+                     'search_type': 'tournaments_results',
+                     'page_title': 'Tournament Results',
+                     'page_description': 'Check our list of Tournament Results and view info about a Tournament.',
+                     'page_keywords': 'Tournament, Results, Scores, Information, Statistics, Bowlers, Checking, Reserve, Roster, Bowl, Entry'
+}
+page_data_upcoming = {'nbar': 'tournaments',
+                      'search_type': 'tournaments_upcoming',
+                      'page_title': 'Upcoming Tournaments',
+                      'page_description': 'View all of our Upcoming Tournaments. Join a Roster. Bowl Today!',
+                      'page_keywords': 'Bowl, Upcoming, Tournaments, Roster, Join, View, Reserver, Entry, Results, Scores'
+}
 
 
 def tournaments_results_views(request, page=1, search=''):
     page = int(page)
     per_page = 20
-    selected_upcoming = False
-    tournaments_count = Tournament.objects.all().count()
-    tournaments_past = Tournament.objects.filter(tournament_date__lte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__gt=datetime.now().time())
-
+    tournaments = get_all_completed_tournaments()
+    tournaments_count = tournaments.count()
+    results_count = tournaments_count
     if request.method == 'POST':
         form = TournamentsSearch(request.POST)
         if form.is_valid():
             search = form.cleaned_data['search_args']
-            tournaments_past = tournaments_past.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))
+            tournaments = tournaments.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))
+            results_count = tournaments.count()
     elif search != '':
-        tournaments_past = tournaments_past.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))
-
-    reallist = []
-    for tournament in tournaments_past:
-
-        qualifying = None ##get_qualifying_object(tournament)
-        if qualifying != None and len(qualifying) > 0:
-            reallist.append(tournament)
+        tournaments = tournaments.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))
+        results_count = tournaments.count()
     start = (per_page * page) - per_page
     end = per_page * page
-    total_count = len(reallist)
-    tournaments_past = reallist[start:end]
-    return render(request, 'tournaments/main-tournaments.html', {'nbar': 'tournaments',
-                                                                 'tournaments_past': tournaments_past,
-                                                                 'selected_upcoming':selected_upcoming,
-                                                                 'tournaments_count': tournaments_count,
-                                                                 'upcoming_count': Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time()).count(),
-                                                                 'results_count': total_count,
-                                                                 'search_type': 'tournaments_results',
-                                                                 'search': search,
-                                                                 'page': create_page_obj(page, per_page, total_count),
-                                                                 'page_title': 'Tournament Results',
-                                                                 'page_description': 'Check our list of Tournament Results and view info about a Tournament.',
-                                                                 'page_keywords': 'Tournament, Results, Scores, Information, Statistics, Bowlers, Checking, Reserve, Roster, Bowl, Entry'
-                                                                 })
+    tournaments = tournaments[start:end]
+    tournaments = convert_to_display_main_results_list(tournaments)
+    data = {'tournaments_past': tournaments,
+            'selected_upcoming': False,
+            'tournaments_count': tournaments_count,
+            'upcoming_count': get_count_upcoming_tournaments(),
+            'results_count': results_count,
+            'search': search,
+            'page': create_page_obj(page, per_page, results_count),
+            }
+    data.update(page_data_results)
+    return render(request, 'tournaments/main-tournaments.html', data)
 
-def tournaments_upcoming_views(request):
-    selected_upcoming = True
-    tournaments_count = Tournament.objects.all().count()
-    tournaments_upcoming = Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time())
-    return render(request, 'tournaments/main-tournaments.html', {'nbar': 'tournaments',
-                                                                 'tournaments_upcoming': tournaments_upcoming,
-                                                                 'selected_upcoming':selected_upcoming,
-                                                                 'upcoming_count': tournaments_upcoming.count(),
-                                                                 'tournaments_count': tournaments_count,
-                                                                 'search_type': 'tournaments_upcoming',
-                                                                 'page_title': 'Upcoming Tournaments',
-                                                                 'page_description': 'View all of our Upcoming Tournaments. Join a Roster. Bowl Today!',
-                                                                 'page_keywords': 'Bowl, Upcoming, Tournaments, Roster, Join, View, Reserver, Entry, Results, Scores'
-
-                                                                 })
+def tournaments_upcoming_views(request, page=1, search=''):
+    page = int(page)
+    per_page = 20
+    tournaments = get_all_upcoming_tournaments()
+    tournaments_count = get_count_all_tournaments()
+    upcoming_count = tournaments.count()
+    results_count = upcoming_count
+    if request.method == 'POST':
+        form = TournamentsSearch(request.POST)
+        if form.is_valid():
+            search = form.cleaned_data['search_args']
+            tournaments = tournaments.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))
+            results_count = tournaments.count()
+    elif search != '':
+        tournaments = tournaments.filter(Q(tournament_name__icontains=search) | Q(tournament_date__icontains=search))
+        results_count = tournaments.count()
+    start = (per_page * page) - per_page
+    end = per_page * page
+    tournaments = tournaments[start:end]
+    tournaments = convert_to_display_main_upcoming_list(tournaments)
+    data = {'tournaments_upcoming': tournaments,
+            'selected_upcoming': True,
+            'upcoming_count': upcoming_count,
+            'tournaments_count': tournaments_count,
+            'search': search,
+            'page': create_page_obj(page, per_page, results_count),
+    }
+    data.update(page_data_upcoming)
+    return render(request, 'tournaments/main-tournaments.html', data)
 
 def tournaments_view_views(request, id):
     tournament = Tournament.objects.get(tournament_id=id)
