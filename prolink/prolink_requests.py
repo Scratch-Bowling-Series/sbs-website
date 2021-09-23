@@ -1,8 +1,5 @@
 import json
-
 from django.db.models import Q
-from django.http import request
-
 from accounts.forms import User
 from centers.models import Center
 from oils.models import Oil_Pattern

@@ -1,118 +1,15 @@
 import datetime
-import json
-import os
-import quickle
 from datetime import datetime
 from itertools import islice
 from django.contrib.auth import get_user_model
 from django.db import transaction
+
+from scoreboard.rank_data import store_rank_data, serialize_rank_data, RankData
 from tournaments.models import Tournament
 from tournaments.tournament_data import get_matchplay_object, get_qualifying_object, convert_to_tournament_data_all_tournaments, deserialize_tournament_data, deserialize_placement_data
 from tournaments.tournament_utils import in_season, serialize_tournaments_list
 
 User = get_user_model()
-
-## RANKING DATA OBJECT STORAGE ##
-class RankPointData:
-    points = 0
-    date = None
-
-class RankData(quickle.Struct):
-    user_id : str = None
-    rank : int = 0
-    rank_points : int = 0
-    rank_point_data : list = []
-    wins : int = 0
-    attended : int = 0
-    total_games_year : int = 0
-    total_games_career : int = 0
-    avg_score_year : int = 0
-    avg_score_year_amount : int = 0
-    avg_score_year_total : int = 0
-    avg_score_career : int = 0
-    avg_score_career_amount : int = 0
-    avg_score_career_total : int = 0
-    top_five_year : list = [None, None, None, None, None]
-    top_five_career : list = [None, None, None, None, None]
-    tournaments : list = []
-    def to_list(self):
-        return [
-            str(self.user_id),
-            self.rank,
-            self.rank_points,
-            self.wins,
-            self.attended,
-            self.total_games_year,
-            self.total_games_career,
-            self.avg_score_year,
-            self.avg_score_career,
-            self.top_five_year,
-            self.top_five_career
-        ]
-
-def serialize_rank_data(rank_data):
-    return quickle.Encoder(registry=[RankData]).dumps(rank_data)
-
-def deserialize_rank_data(data):
-    return quickle.Decoder(registry=[RankData]).loads(data)
-
-
-
-
-
-class RankData_Series:
-    series_id = None
-
-    attended = 0
-    total = 0
-    wins = 0
-    rank = 0
-
-    rank_points = 0
-
-def store_rank_data(rank_datas):
-    try:
-        pwd = os.path.dirname(__file__)
-        file = open(pwd + '/rankings.dat', 'wb')
-        file.write(serialize_rank_data(rank_datas))
-        file.close()
-    except FileNotFoundError:
-        return None
-
-def load_rank_data():
-    try:
-        pwd = os.path.dirname(__file__)
-        file = open(pwd + '/rankings.dat', 'rb')
-        return deserialize_rank_data(file.read())
-    except FileNotFoundError:
-        return None
-
-
-## EXTERNAL RANKING DATA ACCESS FUNCTIONS ##
-
-def get_top_rankings(amount):
-    rank_datas = load_rank_data()
-    if rank_datas != None:
-        return rank_datas[:amount]
-
-def get_rank_data_from_json(json_data):
-    if json_data is not None and len(json_data) > 5:
-        import_data = json.loads(json_data)
-        rank_data = RankData()
-        rank_data.user_id = import_data[0]
-        rank_data.rank = import_data[1]
-        rank_data.rank_points = import_data[2]
-        rank_data.wins = import_data[3]
-        rank_data.attended = import_data[4]
-        rank_data.total_games_year = import_data[5]
-        rank_data.total_games_career = import_data[6]
-        rank_data.avg_score_year = import_data[7]
-        rank_data.avg_score_career = import_data[8]
-        rank_data.top_five_year = import_data[9]
-        rank_data.top_five_career = import_data[10]
-        return rank_data
-    return None
-
 
 ## RUN STATISTICS FUNCTION ##
 
@@ -399,10 +296,6 @@ def task_store_tournament(tournament_id, tournaments):
     if not exists:
         tournaments.append(str(tournament_id))
     return tournaments
-
-
-
-
 
 
 if __name__ == "__main__":

@@ -1,12 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.shortcuts import render
-
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.pages import create_page_obj
-from accounts.account_helper import get_name_from_user, get_location_basic_obj, make_ordinal, get_amount_users, \
-    load_bowler_of_month, display_get_bowlers
-from scoreboard.ranking import deserialize_rank_data
+from accounts.account_helper import display_get_bowlers, load_bowler_of_month, get_amount_users
 
 User = get_user_model()
 

@@ -1,10 +1,7 @@
-import io
-import json
-import urllib
-from io import BytesIO
+import quickle
 from urllib.request import urlopen
-from PIL import Image, ImageColor
-
+from PIL import Image
+from bs4 import BeautifulSoup
 from oils.models import Oil_Pattern
 
 oil_colors = ['transparent', 'rgb(153,204,255)', '#99ccff', '#0000CD', '#00008B', '#0033ff']
@@ -15,68 +12,61 @@ lib = {"Imajlar/imBos.gif": oil_colors[0],
        "Imajlar/imOrtaKoyuMavi.gif": oil_colors[3],
        "Imajlar/imKoyuMavi.gif": oil_colors[4],
        "Imajlar/imOrtaMavi.gif": oil_colors[5]
-
        }
 
 
 def update_library():
+    print('OilPattern Scraper - Initializing...')
+
     for pattern_id in range(510, 902):
         update_oil_pattern(pattern_id)
-        print('Updating Library (' + str(pattern_id) + '/902)')
+
     print('Done Updating Oil Pattern Library. Length: ' + str(len(Oil_Pattern.objects.all())))
 
-
-
-
-
-
-def update_oil_pattern(pattern_id):
-    with urlopen('http://patternlibrary.kegel.net/PatternLibraryPatternGraph.aspx?ID=' + str(pattern_id) + '&VIEW=COM') as response:
+def update_oil_pattern(pattern_db_id):
+    oil_pattern = Oil_Pattern.objects.filter(pattern_db_id=pattern_db_id).first()
+    if oil_pattern == None:
+        oil_pattern = Oil_Pattern.create(pattern_db_id)
+    with urlopen('http://patternlibrary.kegel.net/PatternLibraryPatternGraph.aspx?ID=' + str(pattern_db_id) + '&VIEW=COM') as response:
         soup = BeautifulSoup(response, 'lxml')
-        if soup is not None:
-            oil_pattern = Oil_Pattern.objects.filter(pattern_db_id=pattern_id).first()
-            if oil_pattern is None:
-                oil_pattern = Oil_Pattern.create(pattern_id)
-
+        if soup != None:
+            # GET NAME
             name = get_oil_name(soup)
             if name is not None:
                 oil_pattern.pattern_name = str(name)
 
+            ## GET DISPLAY DATA
             display_data = get_display_data(soup)
             if display_data is not None:
-                oil_pattern.pattern_cache = json.dumps(display_data)
-
-            oil_pattern.save()
-
-    with urlopen('http://patternlibrary.kegel.net/PatternLibraryPatternLoadData.aspx?ID=' + str(pattern_id) + '&VIEW=COM') as response:
+                oil_pattern.pattern_cache = quickle.dumps(display_data)
+    with urlopen('http://patternlibrary.kegel.net/PatternLibraryPatternLoadData.aspx?ID=' + str(pattern_db_id) + '&VIEW=COM') as response:
         soup = BeautifulSoup(response, 'lxml')
-        if soup is not None:
-            oil_pattern = Oil_Pattern.objects.filter(pattern_db_id=pattern_id).first()
-            if oil_pattern is None:
-                oil_pattern = Oil_Pattern.create(pattern_id)
-
+        if soup != None:
+            ## GET OIL LENGTH
             length = get_oil_length(soup)
             if length is not None:
                 oil_pattern.pattern_length = str(length)
 
+            ## GET OIL VOLUME
             volume = get_oil_volume(soup)
             if volume is not None:
                 oil_pattern.pattern_volume = str(volume)
 
+            ## GET OIL FORWARD
             forward = get_oil_forward(soup)
             if forward is not None:
                 oil_pattern.pattern_forward = str(forward)
 
+            ## GET OIL BACKWARDS
             backward = get_oil_backward(soup)
             if backward is not None:
                 oil_pattern.pattern_backward = str(backward)
 
+            ## GET OIL RATIO
             ratio = get_oil_ratio(soup)
             if ratio is not None:
                 oil_pattern.pattern_ratio = str(ratio)
-
-            oil_pattern.save()
-
+    oil_pattern.save()
 
 
 # oil_pattern.pattern_name #
@@ -144,11 +134,8 @@ def get_display_data(soup):
 
 
 
-
-
 def get_oil_colors():
     return oil_colors
-
 
 def get_gradient_location(color, height, max, count, total):
     scale = height / max
@@ -172,7 +159,6 @@ def get_gradient_location(color, height, max, count, total):
 
 
     return scale
-
 
 def gradient_maker(pattern):
     gradient = []
@@ -230,7 +216,6 @@ def gradient_maker(pattern):
     data = ' '.join(gradient)
     return 'linear-gradient(' + data + ')'
 
-
 def scrape_oil_display(pattern_id):
     with urlopen('http://patternlibrary.kegel.net/PatternLibraryPatternGraph.aspx?ID=' + str(pattern_id) + '&VIEW=COM') as response:
         soup = BeautifulSoup(response, 'lxml')
@@ -258,7 +243,6 @@ def scrape_oil_display(pattern_id):
             except IndexError:
                 continue
         return oil_pattern
-
 
 def gradient_maker_two(pattern):
     gradient = []
@@ -320,20 +304,16 @@ def gradient_maker_two(pattern):
     data = ' '.join(gradient)
     return 'linear-gradient(' + data + ')'
 
-
 def gradient_create(color, percent):
     return color + ' ' + str(percent) + '% ,'
 
-
 def scale(value):
     return 100 * (value / 120)
-
 
 class DCELL:
     position = 0
     color = None
     height = None
-
 
 def get_color(url):
     img = Image.open(url)

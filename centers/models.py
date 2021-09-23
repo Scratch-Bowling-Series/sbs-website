@@ -1,5 +1,4 @@
 import uuid
-
 from django.db import models
 
 
@@ -14,4 +13,3 @@ class Center(models.Model):
     phone_number = models.IntegerField(default=0)
     oil_machine = models.TextField(default='')
     tournaments = models.JSONField(default='')
-#models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)

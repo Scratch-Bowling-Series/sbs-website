@@ -1,10 +1,6 @@
-import datetime
-
 from django.shortcuts import render
-
 from ScratchBowling.pages import create_page_obj
 from centers.models import Center
-from tournaments.models import Tournament
 
 
 def centers_views(request, page=1):
@@ -24,8 +20,6 @@ def centers_views(request, page=1):
                                                          'page_description': 'View information about all ' + str(total_count) + ' bowling centers we have held events at.',
                                                          'page_keywords': 'bowling center, business, events, hosting, tournaments, center, lanes'
                                                          })
-
-
 
 def centers_to_list(centers):
     result = []

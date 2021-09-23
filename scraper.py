@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
 from ScratchBowling.sbs_utils import is_valid_uuid, normalize_state
 from centers.models import Center
+from oils.oil_pattern_scraper import update_library
 from scoreboard.ranking import calculate_statistics
 from tournaments.models import Tournament
 from tournaments.tournament_data import convert_to_tournament_data_all_tournaments
@@ -96,6 +97,8 @@ def master_scrape(update=True, debug=False):
     ## CALCULATE NEW STATISTICS
     calculate_statistics()
     logit('Calculating Statistics', 'Complete - Calculated: ' + str(users_added))
+    ## UPDATE OIL PATTERN DATABASE
+    update_library()
     ## UPDATE CACHE DATE ##
     cache = get_scrape_cache()
     if cache != None:

@@ -1,20 +1,10 @@
 import json
-import os
-from time import sleep
-
-from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
-
-
-# Create your views here.
+from django.shortcuts import render
 from django.utils.encoding import smart_str
-
 from accounts.views import User
-from centers.center_web_scraper import scrape_centers
-from oils.oil_pattern_scraper import update_library
 from prolink.prolink_requests import get_list_of_all_bowlers, get_centers_from_auto_field, get_oils_from_auto_field, \
     get_list_of_all_patterns, get_list_of_all_tournaments, get_list_of_all_centers
 

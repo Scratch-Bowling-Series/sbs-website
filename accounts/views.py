@@ -13,7 +13,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from ScratchBowling.websettings import WebSettings
 from centers.center_utils import get_center_location_uuid
-from scoreboard.ranking import deserialize_rank_data
+from scoreboard.rank_data import deserialize_rank_data
 from tournaments.tournament_utils import get_place, get_all_tournaments
 from tournaments.views import is_valid_uuid
 from .account_helper import make_ordinal

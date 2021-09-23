@@ -2,7 +2,8 @@ import uuid
 from django.contrib.auth import get_user_model
 
 from ScratchBowling.websettings import WebSettings
-from scoreboard.ranking import deserialize_rank_data, get_top_rankings
+from scoreboard.rank_data import deserialize_rank_data
+from scoreboard.ranking_data_quick import get_top_rankings
 
 User = get_user_model()
 

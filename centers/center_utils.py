@@ -28,7 +28,6 @@ def get_center_location_uuid(center_id):
     else:
         return 'Location Unknown'
 
-
 def get_center_name_uuid(center_id):
     center = get_center(center_id)
     if center != None:

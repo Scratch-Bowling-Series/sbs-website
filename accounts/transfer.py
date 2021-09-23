@@ -1,7 +1,6 @@
 import json
 import os
 from itertools import islice
-
 from ScratchBowling.sbs_utils import is_valid_uuid
 from accounts.views import User
 

@@ -1,9 +1,6 @@
 import json
 from django.template.defaulttags import register
-
 from django.shortcuts import render
-
-# Create your views here.
 from oils.models import Oil_Pattern
 from oils.oil_pattern_scraper import get_oil_colors
 
