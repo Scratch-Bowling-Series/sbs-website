@@ -34,7 +34,7 @@ def tournaments_results_views(request, page=1, search=''):
         roster = []
         placements = deserialize_placement_data(tournament.placement_data)
         for placement in placements:
-            roster.append(str(placement.bowler_id))
+            roster.append(str(placement.user_id))
         tournament.roster = serialize_roster_data(roster)
         tournament.save()
     page = int(page)
