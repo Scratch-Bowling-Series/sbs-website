@@ -7,7 +7,7 @@ from django.db import models
 class Oil_Pattern(models.Model):
     pattern_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     pattern_name = models.TextField(default=0)
-    pattern_cache = models.JSONField(default=0)
+    pattern_cache = models.BinaryField(blank=True, null=True)
     pattern_db_id = models.IntegerField(default=0)
     pattern_length = models.IntegerField(default=0)
     pattern_volume = models.FloatField(default=0)
