@@ -27,7 +27,8 @@ page_data_upcoming = {'nbar': 'tournaments',
 
 
 def tournaments_results_views(request, page=1, search=''):
-
+    to = Tournament.objects.all()[650]
+    to.live = True
     page = int(page)
     per_page = 20
     tournaments = get_all_completed_tournaments()
