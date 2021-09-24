@@ -25,13 +25,9 @@ page_data_upcoming = {'nbar': 'tournaments',
                       'page_keywords': 'Bowl, Upcoming, Tournaments, Roster, Join, View, Reserver, Entry, Results, Scores'
 }
 
-@transaction.atomic
+
 def tournaments_results_views(request, page=1, search=''):
-    tournaments = Tournament.objects.all()
-    for tournament in tournaments:
-        tournament.qualifiers = ''
-        tournament.matchplay = ''
-        tournament.save()
+
     page = int(page)
     per_page = 20
     tournaments = get_all_completed_tournaments()
