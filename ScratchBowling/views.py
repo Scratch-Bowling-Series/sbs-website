@@ -8,13 +8,13 @@ from ScratchBowling.popup import check_for_popup
 from accounts.account_helper import get_name_from_uuid, load_bowler_of_month, get_amount_users, get_top_ranks
 from accounts.forms import User
 from bowlers.views import display_get_bowlers
-from centers.center_utils import get_center_name_uuid
+from centers.center_utils import get_center_name_uuid, get_center_location_uuid
 from centers.models import Center
 from check_git import get_last_commit
 from support.donation import get_donation_count
 from tournaments.models import Tournament
 from tournaments.tournament_scraper import scrape_tournaments_task
-from tournaments.tournament_utils import get_winner, get_top_placements
+from tournaments.tournament_utils import get_winner, get_top_placements, get_all_live_tournaments
 
 User = get_user_model()
 
@@ -90,11 +90,26 @@ def contact(request):
                                             })
 
 def load_tournament_live():
-    live_center = {'name': '300 Bowl', 'city': 'Detroit', 'state': 'MI'}
-    live_status = 'Qualifying (3/10)'
-    live_leader = 'Christian S.'
-    live_score = '410'
-    return {'is_live': True, 'center': live_center, 'status': live_status, 'leader': live_leader, 'score': live_score}
+    live_tournaments = get_all_live_tournaments()
+    if live_tournaments != None:
+        tournament = live_tournaments.filter(stream_available=True).first()
+        if tournament != None:
+            return {'stream': True,
+                    'center': {'name': get_center_name_uuid(tournament.center),
+                               'location': get_center_location_uuid(tournament.center)},
+                    'status': tournament.live_status_header,
+                    'leader': tournament.live_status_leader,
+                    'score': tournament.live_status_leader_score}
+        else:
+            tournament = live_tournaments.first()
+            return {'stream': False,
+                    'center': {'name': get_center_name_uuid(tournament.center),
+                               'location': get_center_location_uuid(tournament.center)},
+                    'status': tournament.live_status_header,
+                    'leader': tournament.live_status_leader,
+                    'score': tournament.live_status_leader_score}
+
+    return None
 
 def load_tournament_recent():
     ## FORMAT

@@ -19,10 +19,15 @@ class Tournament(models.Model):
     sponsor =  models.UUIDField(editable=True, unique=False, null=True, blank=True)
     finished = models.BooleanField(default=False)
     live = models.BooleanField(default=False)
+    stream_available = models.BooleanField(default=False)
     tournament_data = models.BinaryField(blank=True, null=True)
     placement_data = models.BinaryField(blank=True, null=True)
     roster = models.BinaryField(blank=True, null=True)
     spots_reserved = models.IntegerField(null=False, blank=True, default=0)
+
+    live_status_header = models.TextField(blank=True, null=True)
+    live_status_leader = models.UUIDField(editable=True, unique=False)
+    live_status_leader_score = models.FloatField(default=0, blank=True)
     @classmethod
     def create(cls, name):
         tournament = cls(tournament_name=name)
