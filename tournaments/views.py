@@ -10,7 +10,7 @@ from tournaments.models import Tournament
 from oils.oil_pattern_scraper import get_oil_colors
 from tournaments.tournament_utils import get_tournament, get_all_completed_tournaments, get_count_upcoming_tournaments, \
     get_all_upcoming_tournaments, get_count_all_tournaments, convert_to_display_main_upcoming_list, \
-    convert_to_display_main_results_list
+    convert_to_display_main_results_list, get_all_live_tournaments
 
 page_data_results = {'nbar': 'tournaments',
                      'search_type': 'tournaments_results',
@@ -46,7 +46,10 @@ def tournaments_results_views(request, page=1, search=''):
     end = per_page * page
     tournaments = tournaments[start:end]
     tournaments = convert_to_display_main_results_list(tournaments)
+    tournaments_live = convert_to_display_main_results_list(get_all_live_tournaments())
     data = {'tournaments_past': tournaments,
+            'tournaments_live': tournaments_live,
+            'live_count': tournaments_live.count(),
             'selected_upcoming': False,
             'tournaments_count': tournaments_count,
             'upcoming_count': get_count_upcoming_tournaments(),
@@ -78,7 +81,10 @@ def tournaments_upcoming_views(request, page=1, search=''):
     end = per_page * page
     tournaments = tournaments[start:end]
     tournaments = convert_to_display_main_upcoming_list(tournaments)
+    tournaments_live = convert_to_display_main_results_list(get_all_live_tournaments())
     data = {'tournaments_upcoming': tournaments,
+            'tournaments_live': tournaments_live,
+            'live_count': tournaments_live.count(),
             'selected_upcoming': True,
             'upcoming_count': upcoming_count,
             'tournaments_count': tournaments_count,

@@ -9,6 +9,29 @@
 
 <!-- CENTER COLUMN -->
 <section class="col col-60 col-m-max-width m-order-2">
+    {% if live_count > 0 %}
+    <section class="sec tournaments-list glow">
+        {% for tournament in tournaments_live %}
+        <section class="tournament-preview">
+            <img class="tournament-image" src="/tournaments/data/sponsor-pic/{{ tournament.4 }}"><!--
+            --><div class="tournament-container tournament-full-width">
+                    <a href="/tournaments/view/{{ tournament.0 }}" class="tournament-name">{{ tournament.1 }}</a><!--
+                    {% if tournament.9 == None %}
+                    --><a class="tournament-date">{{ tournament.2|date:'m/d/y' }}</a><!--
+                    {% else %}
+                    --><a class="tournament-date">{{ tournament.2|date:'m/d/y' }}<p class="tournament-winner-name" href="/account/view/{{ tournament.9 }}"><i class="tournament-winner icon-trophy"></i>{{  tournament.8 }}<span>&nbsp;({{ tournament.10 }} AVG)</span></p></a><!--
+                    {% endif %}
+                    --><a href="/tournaments/view/{{ tournament.0 }}" class="tournament-center">{{ tournament.5 }} - {{ tournament.6 }}</a><!--
+                    --><a href="/tournaments/view/{{ tournament.0 }}" class="tournament-spots">{{ tournament.7 }} PARTICIPANTS</a>
+            </div>
+        {% if not forloop.last %}
+            <div class="standard-underline"></div>
+        {% endif %}
+        </section>
+        {% endfor %}
+    </section>
+    {% endif %}
+
     <section class="tournament-topbar">
         <section class="tournament-view-selector std-radius">
             {% if selected_upcoming == True %}
