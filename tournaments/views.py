@@ -27,7 +27,11 @@ page_data_upcoming = {'nbar': 'tournaments',
 
 @transaction.atomic
 def tournaments_results_views(request, page=1, search=''):
-
+    tournaments = Tournament.objects.all()
+    for tournament in tournaments:
+        tournament.qualifiers = ''
+        tournament.matchplay = ''
+        tournament.save()
     page = int(page)
     per_page = 20
     tournaments = get_all_completed_tournaments()
@@ -58,6 +62,7 @@ def tournaments_results_views(request, page=1, search=''):
     return render(request, 'tournaments/main-tournaments.html', data)
 
 def tournaments_upcoming_views(request, page=1, search=''):
+
     page = int(page)
     per_page = 20
     tournaments = get_all_upcoming_tournaments()
