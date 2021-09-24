@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from ScratchBowling.forms import TournamentsSearch
@@ -24,8 +25,13 @@ page_data_upcoming = {'nbar': 'tournaments',
                       'page_keywords': 'Bowl, Upcoming, Tournaments, Roster, Join, View, Reserver, Entry, Results, Scores'
 }
 
-
+@transaction.atomic
 def tournaments_results_views(request, page=1, search=''):
+    tournaments = Tournament.objects.all()
+    for tournament in tournaments:
+        tournament.finished = True
+        tournament.save()
+
     page = int(page)
     per_page = 20
     tournaments = get_all_completed_tournaments()
