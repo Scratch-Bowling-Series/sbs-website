@@ -47,9 +47,12 @@ def tournaments_results_views(request, page=1, search=''):
     tournaments = tournaments[start:end]
     tournaments = convert_to_display_main_results_list(tournaments)
     tournaments_live = convert_to_display_main_results_list(get_all_live_tournaments())
+    live_count = 0
+    if tournaments_live != None:
+        live_count = tournaments_live.count()
     data = {'tournaments_past': tournaments,
             'tournaments_live': tournaments_live,
-            'live_count': tournaments_live.count(),
+            'live_count': live_count,
             'selected_upcoming': False,
             'tournaments_count': tournaments_count,
             'upcoming_count': get_count_upcoming_tournaments(),
@@ -82,9 +85,12 @@ def tournaments_upcoming_views(request, page=1, search=''):
     tournaments = tournaments[start:end]
     tournaments = convert_to_display_main_upcoming_list(tournaments)
     tournaments_live = convert_to_display_main_results_list(get_all_live_tournaments())
+    live_count = 0
+    if tournaments_live != None:
+        live_count = tournaments_live.count()
     data = {'tournaments_upcoming': tournaments,
             'tournaments_live': tournaments_live,
-            'live_count': tournaments_live.count(),
+            'live_count': live_count,
             'selected_upcoming': True,
             'upcoming_count': upcoming_count,
             'tournaments_count': tournaments_count,
