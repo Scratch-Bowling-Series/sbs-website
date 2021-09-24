@@ -1,5 +1,5 @@
 from ScratchBowling.sbs_utils import is_valid_uuid
-
+import quickle
 
 def add_user_to_roster_obj(tournament, user_id):
     roster_data = tournament.roster
