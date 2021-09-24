@@ -22,9 +22,6 @@ urlpatterns = [
     path('modify/', views.accounts_modify_view, name='modify'),
     path('activate/<slug:uidb64>/<slug:token>/', views.activate, name='activate'),
 
-
-    path('scraper/', views.start_master_scraper, name='scraper'),
-    path('scraperlog/', views.accounts_scraper_view, name='scraperlog'),
     path('socialcard/image/<id>/', views.accounts_socialcard_image, name='socialcard-image'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

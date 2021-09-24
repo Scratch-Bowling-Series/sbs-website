@@ -19,7 +19,7 @@ from tournaments.views import is_valid_uuid
 from .account_helper import make_ordinal
 from .forms import RegisterForm, ModifyAccountForm
 from scraper import master_scrape, get_scraper_log
-from .friends import is_friends_with
+from .friends import is_friends_with, add_to_friends_list, remove_from_friends_list
 from .tokens import account_activation_token
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.dispatch import receiver
@@ -309,46 +309,13 @@ def create_profile_pic_circle(profile_pic, profile_pic_size):
 
 def accounts_add_view(request, id):
     id = is_valid_uuid(id)
-    if id !=  None:
-        user = request.user
-        if user !=  None:
-            friends = []
-            try:
-                friends = json.loads(user.friends)
-            except:
-                friends = []
-            if str(id) not in friends:
-                friends.append(str(id))
-                user.friends = json.dumps(friends)
-                user.save()
+    if id !=  None and request.user != None:
+        add_to_friends_list(request.user, id)
     return redirect('/account/view/' + str(id))
 
 def accounts_remove_view(request, id):
     id = is_valid_uuid(id)
-    if id !=  None:
-        user = request.user
-        if user !=  None:
-            friends = []
-            try:
-                friends = json.loads(user.friends)
-            except:
-                friends = []
-
-            if str(id) in friends:
-                friends.remove(str(id))
-            user.friends = json.dumps(friends)
-            user.save()
+    if id !=  None and request.user != None:
+        remove_from_friends_list(request.user, id)
     return redirect('/account/view/' + str(id))
-
-def accounts_scraper_view(request):
-    data = ''
-    logs = get_scraper_log()
-    for log in logs:
-        log = log.replace('\n', '')
-        data += '<a>' + log + '</a><br>'
-    return HttpResponse(str(data))
-
-def start_master_scraper(request):
-    master_scrape(False)
-    return HttpResponse('Done')
 
