@@ -142,7 +142,7 @@ def load_bowler_of_month():
         user = User.objects.filter(user_id=websettings.bowler_of_month)
         if user != None:
             return [user.user_id, get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id)]
-    user = User.objects.all(randrange(1, User.objects.all().count()))
+    user = User.objects.all()[randrange(1, User.objects.all().count())]
     return [user.user_id, get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id)]
 
 def get_amount_users(include_offline=True):
