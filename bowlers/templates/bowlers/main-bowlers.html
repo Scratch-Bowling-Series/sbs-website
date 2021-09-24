@@ -1,10 +1,11 @@
 {% extends 'base_layout.html' %}
 {% load static %}
+
+
 {% block content %}
 
 
-
-
+<!-- LEFT COLUMN : ( Top10Rankings ) -->
 <section class="col col-20 col-m-max-width m-order-2">
     <section class="sec">
         <h2>TOP 10 SBS RANKING</h2>
@@ -46,6 +47,8 @@
     {% endif %}
 
 </section>
+
+<!-- CENTER COLUMN : ( ListOfBowlers ) -->
 <section class="col col-60 col-m-max-width m-order-1">
     <section class="account-topbar">
         <section class="account-sort std-radius">
@@ -97,6 +100,8 @@
     </section>
     {% endif %}
 </section>
+
+<!-- RIGHT COLUMN : ( Filter, SiteStat ) -->
 <section class="col col-20 col-m-max-width m-order-3">
     <section class="sec desktop-on">
         <h3 class="tournament-filter-header standard-title text-dark-green">FILTERS</h3>
@@ -146,6 +151,8 @@
         </div>
       </section>
 </section>
+
+<!-- Toggle Show Stats -->
 <script>
     $(document).ready(function() {
     //set initial state.
@@ -165,4 +172,6 @@
     });
 });
 </script>
+
+
 {% endblock %}

@@ -13,11 +13,13 @@ def is_friends_filter(user_id, friends_list):
 
 # SERIALIZATION / DESERIALIZATION
 def serialize_friends_list(friends_list):
-    return quickle.dumps(friends_list)
-
+    if friends_list != None:
+        return quickle.dumps(friends_list)
+    return None
 def deserialize_friends_list(data):
-    return quickle.loads(data)
-
+    if data != None:
+        return quickle.loads(data)
+    return None
 
 # FUNCTIONS
 def add_to_friends_list(user, add_user):

@@ -35,27 +35,27 @@
          <i class="profile-hand profile-left-hand icon-hand-paper"></i>&nbsp;<i class="profile-hand icon-hand-paper"></i><a class="profile-hand-label">TWO HANDED</a><br>
          {% endif %}
       </div>
+
       <!-- Buttons -->
-      {% if view_user.user_id == request.user.user_id %}
       <div class="profile-prev-btns">
-         <a class="btn" href="{% url 'accounts:modify' %}">MODIFY</a>
-         <a class="btn" href="{% url 'accounts:logout' %}">LOG OUT</a>
-      </div>
-      {% elif view_user.user_id|is_friend:request.user is True %}
-      <div class="profile-prev-btns">
-         <a class="btn bkg-darkgreen text-white" href="{% url 'accounts:remove' id=view_user.user_id %}"><i class="icon-user-alt text-white"></i>FRIENDS</a>
-         <a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
-      </div>
-      {% elif view_user.user_id|is_friend:request.user is False %}
-      <div class="profile-prev-btns">
-         <a class="btn" href="{% url 'accounts:add' id=view_user.user_id %}"><i class="icon-user-plus"></i>REQUEST</a>
-         <a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
-      </div>
+      {% if user.is_authenticated %}
+         {% if view_user.user_id == user.user_id %}
+            <a class="btn" href="{% url 'accounts:modify' %}">MODIFY</a>
+            <a class="btn" href="{% url 'accounts:logout' %}">LOG OUT</a>
+         {% elif view_user.user_id|is_friends_filter:user.friends %}
+            <a class="btn bkg-darkgreen text-white" href="{% url 'accounts:remove' id=view_user.user_id %}"><i class="icon-user-alt text-white"></i>FRIENDS</a>
+            <a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
+         {% else %}
+            <a class="btn" href="{% url 'accounts:add' id=view_user.user_id %}"><i class="icon-user-plus"></i>REQUEST</a>
+            <a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
+         {% endif %}
       {% else %}
-      <div class="profile-prev-btns">
          <a class="btn btn-full bkg-darkgreen text-white" href="{% url 'accounts:login' %}">LOG IN FOR MORE</a>
-      </div>
       {% endif %}
+      </div>
+
+
+
    </section>
 </section>
 
