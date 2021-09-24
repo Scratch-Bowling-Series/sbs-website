@@ -19,12 +19,17 @@ from tournaments.views import is_valid_uuid
 from .account_helper import make_ordinal
 from .forms import RegisterForm, ModifyAccountForm
 from scraper import master_scrape, get_scraper_log
+from .friends import is_friends_with
 from .tokens import account_activation_token
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.dispatch import receiver
 
 User = get_user_model()
 
+# FILTERS
+@register.filter
+def is_friends_filter(user_id, friends_list):
+    return is_friends_with(friends_list, user_id)
 
 @receiver(user_logged_in)
 def got_online(sender, user, request, **kwargs):

@@ -1,14 +1,10 @@
 import quickle
-from django.template.defaulttags import register
 
 
 ## FRIENDS LIST FORMAT : LIST OF UUIDS
 
 
-# FILTERS
-@register.filter
-def is_friends_filter(user_id, friends_list):
-    return is_friends_with(friends_list, user_id)
+
 
 
 # SERIALIZATION / DESERIALIZATION
