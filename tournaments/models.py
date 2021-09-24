@@ -26,7 +26,7 @@ class Tournament(models.Model):
     spots_reserved = models.IntegerField(null=False, blank=True, default=0)
 
     live_status_header = models.TextField(blank=True, null=True)
-    live_status_leader = models.UUIDField(editable=True, unique=False)
+    live_status_leader = models.UUIDField(default=None, null=True, editable=True, unique=False)
     live_status_leader_score = models.FloatField(default=0, blank=True)
     @classmethod
     def create(cls, name):
