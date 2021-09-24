@@ -54,10 +54,12 @@ class RankData_Series:
 
 
 def serialize_rank_data(rank_data):
-    return quickle.Encoder(registry=[RankData]).dumps(rank_data)
+    if rank_data != None:
+        return quickle.Encoder(registry=[RankData]).dumps(rank_data)
 
 def deserialize_rank_data(data):
-    return quickle.Decoder(registry=[RankData]).loads(data)
+    if data != None:
+        return quickle.Decoder(registry=[RankData]).loads(data)
 
 def store_rank_data(rank_datas):
     try:
