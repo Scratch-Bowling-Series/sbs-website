@@ -88,15 +88,15 @@ def master_scrape(update=True, debug=False):
 
     ## SCRAPE FOR NEW TOURNAMENTS ##
     #if update == False: Tournament.objects.all().delete()
-    tournaments_added = scrape_for_new_tournaments(update, debug)
-    logit('Tournaments Scrape', 'Complete - Added: ' + str(tournaments_added))
+    #tournaments_added = scrape_for_new_tournaments(update, debug)
+    #logit('Tournaments Scrape', 'Complete - Added: ' + str(tournaments_added))
 
     ## CONVERT SCRAPE DATA TO TOURNAMENT DATA
-    convert_to_tournament_data_all_tournaments()
-    logit('Converting Tournaments', 'Complete - Converted: ' + str(tournaments_added))
+    #convert_to_tournament_data_all_tournaments()
+    #logit('Converting Tournaments', 'Complete - Converted: ' + str(tournaments_added))
     ## CALCULATE NEW STATISTICS
-    calculate_statistics()
-    logit('Calculating Statistics', 'Complete - Calculated: ' + str('010'))#users_added))
+    #calculate_statistics()
+    #logit('Calculating Statistics', 'Complete - Calculated: ' + str('010'))#users_added))
     ## UPDATE OIL PATTERN DATABASE
     update_library()
     ## UPDATE CACHE DATE ##
