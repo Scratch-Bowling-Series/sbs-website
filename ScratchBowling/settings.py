@@ -50,8 +50,7 @@ INSTALLED_APPS = [
     'merch',
     'prolink',
     'oils',
-    'accounts',
-    'scratchbowling'
+    'accounts'
 ]
 
 MIDDLEWARE = [

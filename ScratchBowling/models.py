@@ -39,9 +39,3 @@ class SeriesRanking(models.Model):
 
 
 
-class Sponsor(models.Model):
-    sponsor_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    sponsor_name =  models.CharField(max_length=60, blank=True, null=True)
-    sponsor_display_name = models.CharField(max_length=60, blank=True, null=True)
-    sponsor_balance = models.IntegerField(default=0, null=False, blank=True)
-    sponsor_image = models.ImageField(default='sponsor-pictures/default.jpg', upload_to='sponsor-pictures/')

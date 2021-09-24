@@ -1,9 +1,9 @@
 from django.http import FileResponse, Http404
 
-from ScratchBowling.models import Sponsor
 
 from ScratchBowling.sbs_utils import is_valid_uuid
 from ScratchBowling.websettings import WebSettings
+from tournaments.models import Sponsor
 from tournaments.tournament_utils import get_tournament
 
 
