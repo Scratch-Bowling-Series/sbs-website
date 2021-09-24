@@ -8,6 +8,8 @@ from oils.oil_pattern import  get_oil_display_data
 from tournaments.forms import CreateTournament, ModifyTournament
 from tournaments.models import Tournament
 from oils.oil_pattern_scraper import get_oil_colors
+from tournaments.roster import serialize_roster_data
+from tournaments.tournament_data import deserialize_placement_data
 from tournaments.tournament_utils import get_tournament, get_all_completed_tournaments, get_count_upcoming_tournaments, \
     get_all_upcoming_tournaments, get_count_all_tournaments, convert_to_display_main_upcoming_list, \
     convert_to_display_main_results_list
@@ -27,6 +29,14 @@ page_data_upcoming = {'nbar': 'tournaments',
 
 @transaction.atomic
 def tournaments_results_views(request, page=1, search=''):
+    tournaments = Tournament.objects.all()
+    for tournament in tournaments:
+        roster = []
+        placements = deserialize_placement_data(tournament.placement_data)
+        for placement in placements:
+            roster.append(str(placement.bowler_id))
+        tournament.roster = serialize_roster_data(roster)
+        tournament.save()
     page = int(page)
     per_page = 20
     tournaments = get_all_completed_tournaments()
