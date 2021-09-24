@@ -107,7 +107,7 @@ def master_scrape(update=True, debug=False):
         roster = []
         placements = deserialize_placement_data(tournament.placement_data)
         for placement in placements:
-            roster.append(str(placement.bowler_id))
+            roster.append(str(placement.user_id))
         tournament.roster = serialize_roster_data(roster)
         tournament.save()
 
