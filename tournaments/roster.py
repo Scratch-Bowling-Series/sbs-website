@@ -50,3 +50,11 @@ def get_spots_available_obj(tournament):
             if available < 0:
                 available = 0
             return available
+
+
+def serialize_roster_data(roster):
+    return quickle.dumps(roster)
+
+
+def deserialize_roster_data(roster_data):
+    return quickle.loads(roster_data)

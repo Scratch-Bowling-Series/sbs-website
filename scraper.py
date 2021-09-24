@@ -13,8 +13,8 @@ from centers.models import Center
 from oils.oil_pattern_scraper import update_library
 from scoreboard.ranking import calculate_statistics
 from tournaments.models import Tournament
-from tournaments.tournament_data import convert_to_tournament_data_all_tournaments
-
+from tournaments.roster import serialize_roster_data
+from tournaments.tournament_data import convert_to_tournament_data_all_tournaments, deserialize_placement_data
 
 User = get_user_model()
 
@@ -100,6 +100,17 @@ def master_scrape(update=True, debug=False):
     ## UPDATE OIL PATTERN DATABASE
     update_library()
     ## UPDATE CACHE DATE ##
+
+    ## UPDATE ROSTER LISTS ##
+    tournaments = Tournament.objects.all()
+    for tournament in tournaments:
+        roster = []
+        placements = deserialize_placement_data(tournament.placement_data)
+        for placement in placements:
+            roster.append(str(placement.bowler_id))
+        tournament.roster = serialize_roster_data(roster)
+        tournament.save()
+
     cache = get_scrape_cache()
     if cache != None:
         cache.last_scrape = str(datetime.now())
