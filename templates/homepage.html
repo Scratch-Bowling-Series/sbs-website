@@ -72,7 +72,7 @@ $(document).ready(function() {
 </script>
 
 
-
+<!-- Left Column : ( Last10Winners, Top10Rankings )-->
 <section class="col col-20 col-m-max-width m-order-2">
   <section class="sec bkg-darkgreen">
     <h2 class="text-white">TOURNAMENT WINNERS</h2>
@@ -109,7 +109,7 @@ $(document).ready(function() {
   </section>
 </section>
 
-
+<!-- Center Column : ( TopNotify, LivePrev, RecentPrev, DesktopGoal, DesktopAppPrev, LiveHighlights )-->
 <section class="col col-60 col-m-max-width m-order-1">
     {% if notify or user.finish_profile == True %}
       {% if notify == 'verify_email'%}
@@ -311,7 +311,7 @@ $(document).ready(function() {
     </div>
 </section>
 
-
+<!-- Center Column Mobile : ( MobileGoal, MobileAppPrev, LiveHighlights ) -->
 <section class="col col-60 col-mobile col-m-max-width m-order-4">
     <section class="sec sec-half merch-prev">
             <h2>HELP HIT OUR NEXT GOAL</h2>
@@ -451,7 +451,7 @@ $(document).ready(function() {
         </section>
 </section>
 
-
+<!-- Right Column : ( UpcomingTournaments, SiteStat )-->
 <section class="col col-20 col-m-max-width m-order-3" >
     <section class="sec">
         <h2>UPCOMING TOURNAMENTS</h2>
