@@ -135,7 +135,7 @@ def display_get_bowlers(users):
 
 def load_bowler_of_month():
     # FORMAT
-    # [id, name, location]
+    # [id, name, location, rank]
     websettings = WebSettings()
     if websettings.bowler_of_month != None:
         websettings.bowler_of_month = is_valid_uuid(websettings.bowler_of_month)
@@ -143,7 +143,17 @@ def load_bowler_of_month():
         if user != None:
             return [user.user_id, get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id)]
     user = User.objects.all()[randrange(1, User.objects.all().count())]
-    return [user.user_id, get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id)]
+    return [user.user_id, get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id), get_rank_from_user(user.statistics)]
+
+def get_rank_from_user(statistics_data, ordinal=True):
+    rank = 0
+    if statistics_data != None:
+        rank_data = deserialize_rank_data(statistics_data)
+        if rank_data != None:
+            rank = rank_data.rank
+    if ordinal:
+        rank = make_ordinal(rank)
+    return rank
 
 def get_amount_users(include_offline=True):
     amount = 0

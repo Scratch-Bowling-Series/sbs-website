@@ -451,7 +451,7 @@ $(document).ready(function() {
         </section>
 </section>
 
-<!-- Right Column : ( UpcomingTournaments, SiteStat )-->
+<!-- Right Column : ( UpcomingTournaments, BowlerOfMonth, SiteStat )-->
 <section class="col col-20 col-m-max-width m-order-3" >
     <section class="sec">
         <h2>UPCOMING TOURNAMENTS</h2>
@@ -491,7 +491,7 @@ $(document).ready(function() {
         <h2>BOWLER OF THE MONTH</h2>
         <div class="bom-pic-wrap">
             <div class="bom-pic-rank-wrap">
-                <a class="bom-pic-rank">1st</a>
+                <a class="bom-pic-rank">{{ bowler_of_month.3 }}</a>
             </div>
             <div class="bom-pic">
                 <img src="account/data/profile-pic/{{ bowler_of_month.0 }}" alt="{{ bowler_of_month.1 }}'s profile picture">
