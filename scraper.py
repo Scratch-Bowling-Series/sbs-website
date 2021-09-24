@@ -96,7 +96,7 @@ def master_scrape(update=True, debug=False):
     logit('Converting Tournaments', 'Complete - Converted: ' + str(tournaments_added))
     ## CALCULATE NEW STATISTICS
     calculate_statistics()
-    logit('Calculating Statistics', 'Complete - Calculated: ' + str(users_added))
+    logit('Calculating Statistics', 'Complete - Calculated: ' + str('010'))#users_added))
     ## UPDATE OIL PATTERN DATABASE
     update_library()
     ## UPDATE CACHE DATE ##
