@@ -442,6 +442,7 @@ def convert_tournaments(datas):
         tournament.tournament_oil = data.oil
         if data.center != None:
             center_id = is_valid_uuid(lib.get(data.center))
+            print('Center: ' + str(data.center) + ' UUID: ' + str(center_id))
             if center_id != None:
                 tournament.tournament_center = center_id
         tournament.entry = data.entry
