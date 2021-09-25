@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.contrib.auth import get_user_model
+from django.db import transaction
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -88,8 +89,13 @@ def contact(request):
                                             'page_description': 'If you have any questions or need help with something. Please contact us here and we will get back with you as soon as possible.',
                                             'page_keywords': 'Contact, Message, Help, Email, Faqs, Support, Call, Maintenance'
                                             })
-
+@transaction.atomic
 def load_tournament_live():
+    tournaments = Tournament.objects.all()
+    for tournament in tournaments:
+        tournament.finished = True
+        tournament.save()
+
     live_tournaments = get_all_live_tournaments()
     if live_tournaments != None:
         tournament = live_tournaments.filter(stream_available=True).first()
