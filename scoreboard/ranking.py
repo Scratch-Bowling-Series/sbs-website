@@ -156,6 +156,7 @@ def get_rank_datas_from_all_tournaments():
     log_total = tournaments_length
     log_prog_las = 0
     log_prog_inc = 0
+    decay = False
     for tournament in tournaments:
         tournament_data = deserialize_tournament_data(tournament.tournament_data)
         placement_datas = deserialize_placement_data(tournament.placement_data)
@@ -186,7 +187,7 @@ def get_rank_datas_from_all_tournaments():
             # season data
             if in_season(tournament):
                 # get rank points
-                rank_data.rank_points = task_get_rank_points(placement, placement.average_score, placements_length,tournament.tournament_date)
+                rank_data.rank_points = task_get_rank_points(placement, placement.average_score, placements_length,tournament.tournament_date, decay)
                 print(str(rank_data.rank_points) + '   :     ' + str(rank_data.user_id))
                 # get avg score year
                 rank_data.avg_score_year_total += placement.average_score
@@ -222,7 +223,7 @@ def get_rank_data(rank_datas, user_id):
     rank_datas.append(instance)
     return instance
 
-def task_get_rank_points(placement, avgerage, length, date):
+def task_get_rank_points(placement, avgerage, length, date, decay):
     # calculate points
     place_points = 0
     score_points = 0
@@ -233,10 +234,12 @@ def task_get_rank_points(placement, avgerage, length, date):
     total_points = place_points + score_points
 
     # apply decay
-    delta = datetime.now().date() - date
-    if delta.days >= 0:
-        decay = 0.002 * delta.days
-        total_points = total_points - (total_points * decay)
+    if decay:
+        delta = datetime.now().date() - date
+        if delta.days >= 0:
+            decay = 0.002 * delta.days
+            total_points = total_points - (total_points * decay)
+
     return round(total_points)
 
 def task_get_average(scores):
