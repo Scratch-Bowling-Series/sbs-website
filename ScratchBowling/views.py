@@ -24,7 +24,7 @@ User = get_user_model()
 
 
 def index(request, notify=''):
-    cache = True
+    cache = False
 
     if cache:
         homepage_cache = get_homepage_cache()
