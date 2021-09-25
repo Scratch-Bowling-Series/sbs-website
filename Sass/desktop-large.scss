@@ -28,7 +28,6 @@ body
   font-size:0;
   overflow-x:hidden;
   width:100%;height:auto;
-  background:$color-lightgrey;
 }
 a,span,p,h1,h2,h3,h4,i
 {
@@ -120,7 +119,6 @@ nav
 {
   height: 50px;width:auto!important;
   padding:8px 0 15px 0;
-  filter:$nav-logo-filter;
 }
 .nav-logo-f
 {
@@ -4026,21 +4024,22 @@ footer
         DARK MODE
 *****************************/
 
-.text-white{color:white;}
-.text-lightgreen{color:$color-lightgreen;}
-.text-darkgreen{color:$color-darkgreen;}
+.text-white{color: #fff;}
+.text-lightgreen{color: #fff;}
+.text-darkgreen{color: #fff;}
 .text-grey{color:$color-grey;}
-.text-lightgrey{color:$color-lightgrey;}
+.text-lightgrey{color:#000;}
 .text-darkgrey{color:$color-darkgrey;}
 .text-tan{color:$color-tan;}
 
 .bkg-none{background:transparent;}
-.bkg-white{background: white;}
-.bkg-darkgreen{background: $color-darkgreen;}
+.bkg-white{background: #000;}
+.bkg-darkgreen{background: #3d3d3d;}
 .bkg-lightgreen{background: $color-lightgreen;}
 .bkg-tan{background:$color-tan;}
-.bkg-lightgrey{background:$color-lightgrey;}
+.bkg-lightgrey{background:#000;}
 .bkg-grey{background:$color-grey;}
+.sec{background:#000;border:solid 1px #fff;}
 
 .border-white{border-color:white;}
 .border-darkgreen{border-color: $color-darkgreen;}
@@ -4051,6 +4050,8 @@ footer
 .border-grey{border-color:$color-grey;}
 
 
+.filter-white{
+  filter:invert(99%) sepia(1%) saturate(2%) hue-rotate(307deg) brightness(110%) contrast(101%);}
 /*****************************
         DARK MODE - TRUE OLED
 *****************************/
