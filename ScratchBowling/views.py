@@ -33,10 +33,10 @@ def index(request, notify=''):
         tournament_recent = quickle.loads(homepage_cache.recent_tournament),
         bowler_of_month = quickle.loads(homepage_cache.bowler_of_month),
     else:
-        tournament_winners = load_tournament_winners(),
-        top_ten_ranks = get_top_ranks(10),
-        tournament_recent = load_tournament_recent(),
-        bowler_of_month = load_bowler_of_month(),
+        tournament_winners = load_tournament_winners()
+        top_ten_ranks = get_top_ranks(10)
+        tournament_recent = load_tournament_recent()
+        bowler_of_month = load_bowler_of_month()
 
     data = {'nbar': 'home',
             'notify':notify,
