@@ -141,9 +141,9 @@ def load_bowler_of_month():
         websettings.bowler_of_month = is_valid_uuid(websettings.bowler_of_month)
         user = User.objects.filter(user_id=websettings.bowler_of_month)
         if user != None:
-            return [user.user_id, get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id)]
+            return [str(user.user_id), get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id)]
     user = User.objects.all()[randrange(1, User.objects.all().count())]
-    return [user.user_id, get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id), get_rank_from_user(user.statistics)]
+    return [str(user.user_id), get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id), get_rank_from_user(user.statistics)]
 
 def get_rank_from_user(statistics_data, ordinal=True):
     rank = 0
