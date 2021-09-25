@@ -102,7 +102,8 @@ def load_tournament_live():
                     'score': tournament.live_status_leader_score}
         else:
             tournament = live_tournaments.first()
-            return {'stream': False,
+            if tournament != None:
+                return {'stream': False,
                     'center': {'name': get_center_name_uuid(tournament.center),
                                'location': get_center_location_uuid(tournament.center)},
                     'status': tournament.live_status_header,
