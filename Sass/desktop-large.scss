@@ -18,16 +18,6 @@ $nav-logo-filter: invert(20%) sepia(19%) saturate(958%) hue-rotate(99deg) bright
 $footer-logo-filter: invert(99%) sepia(1%) saturate(2%) hue-rotate(307deg) brightness(110%) contrast(101%);
 
 
-$color-darkgreen: #fff;
-$color-lightgreen: #fff;
-$color-tan: #B49A67;
-$color-tan-light: lighten($color-tan, 20%);
-$color-white: #000;
-$color-grey: #d6d6d6;
-$color-darkgrey: #3d3d3d;
-$color-lightgrey: #000;
-$color-red:#e3645b;
-
 
 /*****************************
          TAG PRESETS 
@@ -4028,3 +4018,39 @@ footer
 
 .span-white i{color:white;}
 .align-left{text-align:left;}
+
+
+
+
+/*****************************
+        DARK MODE
+*****************************/
+
+.text-white{color:white;}
+.text-lightgreen{color:$color-lightgreen;}
+.text-darkgreen{color:$color-darkgreen;}
+.text-grey{color:$color-grey;}
+.text-lightgrey{color:$color-lightgrey;}
+.text-darkgrey{color:$color-darkgrey;}
+.text-tan{color:$color-tan;}
+
+.bkg-none{background:transparent;}
+.bkg-white{background: white;}
+.bkg-darkgreen{background: $color-darkgreen;}
+.bkg-lightgreen{background: $color-lightgreen;}
+.bkg-tan{background:$color-tan;}
+.bkg-lightgrey{background:$color-lightgrey;}
+.bkg-grey{background:$color-grey;}
+
+.border-white{border-color:white;}
+.border-darkgreen{border-color: $color-darkgreen;}
+.border-lightgreen{border-color: $color-lightgreen;}
+.border-tan{border-color:$color-tan;}
+.border-none{border:none;}
+.border-lightgrey{border-color:$color-lightgrey;}
+.border-grey{border-color:$color-grey;}
+
+
+/*****************************
+        DARK MODE - TRUE OLED
+*****************************/

@@ -24,21 +24,31 @@ User = get_user_model()
 
 
 def index(request, notify=''):
-    homepage_cache = get_homepage_cache()
+    cache = False
 
-    
+    if cache:
+        homepage_cache = get_homepage_cache()
+        tournament_winners = quickle.loads(homepage_cache.tournament_winners),
+        top_ten_ranks = deserialize_rank_data(homepage_cache.top_ten_rankings),
+        tournament_recent = quickle.loads(homepage_cache.recent_tournament),
+        bowler_of_month = quickle.loads(homepage_cache.bowler_of_month),
+    else:
+        tournament_winners = load_tournament_winners(),
+        top_ten_ranks = get_top_ranks(10),
+        tournament_recent = load_tournament_recent(),
+        bowler_of_month = load_bowler_of_month(),
 
     data = {'nbar': 'home',
             'notify':notify,
             'popup': check_for_popup(request.user),
             'tournament_live': load_tournament_live(),
-            'tournament_winners': quickle.loads(homepage_cache.tournament_winners),
             'tournaments_upcoming': load_tournament_upcoming(),
-            'tournament_recent': quickle.loads(homepage_cache.recent_tournament),
-            'bowler_of_month': quickle.loads(homepage_cache.bowler_of_month),
+            'tournament_winners': tournament_winners,
+            'top_ten_ranks': top_ten_ranks,
+            'tournament_recent': tournament_recent,
+            'bowler_of_month': bowler_of_month,
             'users_count': get_amount_users(),
             'tournaments_count': get_tournaments_count(),
-            'top_ten_ranks': deserialize_rank_data(homepage_cache.top_ten_rankings),
             'donation_count': get_donation_count(),
             'page_title': '',
             'page_description': 'Bowling Tournaments Done Better. Welcome to the Scratch Bowling Series. Come bowl today!',
