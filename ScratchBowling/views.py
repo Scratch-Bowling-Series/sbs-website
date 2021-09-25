@@ -28,10 +28,10 @@ def index(request, notify=''):
 
     if cache:
         homepage_cache = get_homepage_cache()
-        tournament_winners = quickle.loads(homepage_cache.tournament_winners),
-        top_ten_ranks = deserialize_rank_data(homepage_cache.top_ten_rankings),
-        tournament_recent = quickle.loads(homepage_cache.recent_tournament),
-        bowler_of_month = quickle.loads(homepage_cache.bowler_of_month),
+        tournament_winners = quickle.loads(homepage_cache.tournament_winners)
+        top_ten_ranks = deserialize_rank_data(homepage_cache.top_ten_rankings)
+        tournament_recent = quickle.loads(homepage_cache.recent_tournament)
+        bowler_of_month = quickle.loads(homepage_cache.bowler_of_month)
     else:
         tournament_winners = load_tournament_winners()
         top_ten_ranks = get_top_ranks(10)
