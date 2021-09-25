@@ -96,10 +96,8 @@ def contact(request):
 
 
 def get_homepage_cache():
-    Homepage_Cache().save()
     homepage_cache = Homepage_Cache.objects.filter(cache_id=0).first()
-    if homepage_cache == None:  ## OR IS EXPIRED
-        homepage_cache = Homepage_Cache()
+    if True:  ##  IS EXPIRED
         update_homepage_cache(homepage_cache)
     return homepage_cache
 
