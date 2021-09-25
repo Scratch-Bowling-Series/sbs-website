@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
+from ScratchBowling.models import Homepage_Cache
 from ScratchBowling.popup import check_for_popup
 from accounts.account_helper import get_name_from_uuid, load_bowler_of_month, get_amount_users, get_top_ranks
 from accounts.forms import User
@@ -21,17 +22,18 @@ User = get_user_model()
 
 
 def index(request, notify=''):
+    homepage_cache = get_homepage_cache()
     data = {'nbar': 'home',
             'notify':notify,
             'popup': check_for_popup(request.user),
             'tournament_live': load_tournament_live(),
-            'tournament_winners': load_tournament_winners(),
+            'tournament_winners': quickle.loads(homepage_cache.tournament_winners),
             'tournaments_upcoming': load_tournament_upcoming(),
-            'tournament_recent': load_tournament_recent(),
-            'bowler_of_month': load_bowler_of_month(),
+            'tournament_recent': quickle.loads(homepage_cache.recent_tournament),
+            'bowler_of_month': quickle.loads(homepage_cache.bowler_of_month),
             'users_count': get_amount_users(),
             'tournaments_count': get_tournaments_count(),
-            'top_ten_ranks': get_top_ranks(10),
+            'top_ten_ranks': quickle.loads(homepage_cache.top_ten_rankings),
             'donation_count': get_donation_count(),
             'page_title': '',
             'page_description': 'Bowling Tournaments Done Better. Welcome to the Scratch Bowling Series. Come bowl today!',
@@ -89,6 +91,23 @@ def contact(request):
                                             'page_description': 'If you have any questions or need help with something. Please contact us here and we will get back with you as soon as possible.',
                                             'page_keywords': 'Contact, Message, Help, Email, Faqs, Support, Call, Maintenance'
                                             })
+
+
+
+def get_homepage_cache():
+    homepage_cache = Homepage_Cache.objects.filter(cache_id=0).first()
+    if homepage_cache == None:  ## OR IS EXPIRED
+        homepage_cache = Homepage_Cache()
+        update_homepage_cache(homepage_cache)
+    return homepage_cache
+
+def update_homepage_cache(homepage_cache):
+    homepage_cache.tournament_winners = quickle.dumps(load_tournament_winners())
+    homepage_cache.top_ten_rankings = quickle.dumps(get_top_ranks(10))
+    homepage_cache.recent_tournament = quickle.dumps(load_tournament_recent())
+    homepage_cache.bowler_of_month = quickle.dumps(load_bowler_of_month())
+    homepage_cache.save()
+
 @transaction.atomic
 def load_tournament_live():
     tournaments = Tournament.objects.all()
