@@ -4022,7 +4022,7 @@ footer
 
 /*****************************
         DARK MODE
-*****************************/
+*****************************
 
 .text-white{color: #fff;}
 .text-lightgreen{color: #fff;}
@@ -4039,7 +4039,7 @@ footer
 .bkg-tan{background:$color-tan;}
 .bkg-lightgrey{background:#000;}
 .bkg-grey{background:$color-grey;}
-.sec{background:#000;border:solid 1px #fff;}
+.sec{background:#000;border:solid 1px #fff;box-sizing:border-box;}
 
 .border-white{border-color:white;}
 .border-darkgreen{border-color: $color-darkgreen;}
@@ -4052,6 +4052,6 @@ footer
 
 .filter-white{
   filter:invert(99%) sepia(1%) saturate(2%) hue-rotate(307deg) brightness(110%) contrast(101%);}
-/*****************************
+*****************************
         DARK MODE - TRUE OLED
 *****************************/
