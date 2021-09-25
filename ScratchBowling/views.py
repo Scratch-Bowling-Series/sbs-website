@@ -122,17 +122,7 @@ def update_homepage_cache(homepage_cache):
     homepage_cache.bowler_of_month = quickle.dumps(load_bowler_of_month())
     homepage_cache.save()
 
-@transaction.atomic
 def load_tournament_live():
-    tournaments = Tournament.objects.all()
-    for tournament in tournaments:
-        tournament.finished = True
-        tournament.save()
-    t = Tournament.objects.all()[5]
-    t.finished = False
-    t.live = True
-    t.stream_available = True
-    t.save()
     live_tournaments = get_all_live_tournaments()
     if live_tournaments != None:
         tournament = live_tournaments.filter(stream_available=True).first()
