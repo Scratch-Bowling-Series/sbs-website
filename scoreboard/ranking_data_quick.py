@@ -6,3 +6,4 @@ def get_top_rankings(amount):
     if rank_datas != None:
         return rank_datas[:amount]
 
+

@@ -13,6 +13,7 @@ from cacher.models import Homepage_Cache
 from centers.center_utils import get_center_name_uuid, get_center_location_uuid
 from centers.models import Center
 from check_git import get_last_commit
+from scoreboard.rank_data import serialize_rank_data, deserialize_rank_data
 from support.donation import get_donation_count
 from tournaments.models import Tournament
 from tournaments.tournament_scraper import scrape_tournaments_task
@@ -34,7 +35,7 @@ def index(request, notify=''):
             'bowler_of_month': quickle.loads(homepage_cache.bowler_of_month),
             'users_count': get_amount_users(),
             'tournaments_count': get_tournaments_count(),
-            'top_ten_ranks': quickle.loads(homepage_cache.top_ten_rankings),
+            'top_ten_ranks': deserialize_rank_data(homepage_cache.top_ten_rankings),
             'donation_count': get_donation_count(),
             'page_title': '',
             'page_description': 'Bowling Tournaments Done Better. Welcome to the Scratch Bowling Series. Come bowl today!',
@@ -103,7 +104,7 @@ def get_homepage_cache():
 
 def update_homepage_cache(homepage_cache):
     homepage_cache.tournament_winners = quickle.dumps(load_tournament_winners())
-    homepage_cache.top_ten_rankings = quickle.dumps(get_top_ranks(10))
+    homepage_cache.top_ten_rankings = serialize_rank_data(get_top_ranks(10))
     homepage_cache.recent_tournament = quickle.dumps(load_tournament_recent())
     homepage_cache.bowler_of_month = quickle.dumps(load_bowler_of_month())
     homepage_cache.save()
@@ -146,7 +147,7 @@ def load_tournament_recent():
     ## [0=id, 1=name, 2=date, 3=center_name, 4=center_location, 5=description, 6=topfour]
     tournament = Tournament.objects.all()[545]
     return [
-        tournament.tournament_id,
+        str(tournament.tournament_id),
         tournament.tournament_name,
         tournament.tournament_date,
         get_center_name_uuid(tournament.center),
