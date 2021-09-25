@@ -102,6 +102,12 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "default_cache_table",
+    }
+}
 
 AUTH_USER_MODEL = 'accounts.User'
 
