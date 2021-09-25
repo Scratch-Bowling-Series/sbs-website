@@ -17,6 +17,7 @@ from support.donation import get_donation_count
 from tournaments.models import Tournament
 from tournaments.tournament_scraper import scrape_tournaments_task
 from tournaments.tournament_utils import get_winner, get_top_placements, get_all_live_tournaments
+import quickle
 
 User = get_user_model()
 
