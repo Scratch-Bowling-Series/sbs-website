@@ -25,6 +25,9 @@ User = get_user_model()
 
 def index(request, notify=''):
     homepage_cache = get_homepage_cache()
+
+    
+
     data = {'nbar': 'home',
             'notify':notify,
             'popup': check_for_popup(request.user),
