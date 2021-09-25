@@ -96,9 +96,9 @@ def load_tournament_live():
         tournament.finished = True
         tournament.save()
     t = Tournament.objects.all()[5]
-    t.finished = True
-    t.live = False
-    t.stream_available = False
+    t.finished = False
+    t.live = True
+    t.stream_available = True
     t.save()
     live_tournaments = get_all_live_tournaments()
     if live_tournaments != None:
