@@ -5,11 +5,11 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
-from ScratchBowling.models import Homepage_Cache
 from ScratchBowling.popup import check_for_popup
 from accounts.account_helper import get_name_from_uuid, load_bowler_of_month, get_amount_users, get_top_ranks
 from accounts.forms import User
 from bowlers.views import display_get_bowlers
+from cacher.models import Homepage_Cache
 from centers.center_utils import get_center_name_uuid, get_center_location_uuid
 from centers.models import Center
 from check_git import get_last_commit
