@@ -95,7 +95,7 @@ def load_tournament_live():
     for tournament in tournaments:
         tournament.finished = True
         tournament.save()
-    t = Tournament.objects.all()[940]
+    t = Tournament.objects.all()[5]
     t.finished = True
     t.live = False
     t.stream_available = False
