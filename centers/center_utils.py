@@ -11,7 +11,6 @@ def get_center(center_id):
         return None
 
 def get_center_location_uuid(center_id):
-    return str(center_id)
     center = get_center(center_id)
     if center != None:
         city = str(center.location_city)
@@ -49,4 +48,4 @@ def get_center_name_uuid(center_id):
     if center != None:
         return str(center.center_name)
     else:
-        return 'Location Unknown'
+        return 'Center Unknown'

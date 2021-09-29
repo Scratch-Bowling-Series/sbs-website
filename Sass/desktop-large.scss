@@ -28,6 +28,7 @@ body
   font-size:0;
   overflow-x:hidden;
   width:100%;height:auto;
+  max-width:3840px;
 }
 a,span,p,h1,h2,h3,h4,i
 {
@@ -2721,6 +2722,7 @@ footer
 /*****************************
   TOURNAMENTS - VIEW SINGLE
 *****************************/
+
 .t-roster
 {
 	width:calc(100% - 40px);
@@ -2728,18 +2730,22 @@ footer
 	overflow-y:scroll;
 	height:870px;
 	margin-bottom:20px;
+  position:relative;
 	 &::-webkit-scrollbar {
     	width: 8px;
+      border-radius:4px;
 	  }
 	  /* Track */
 	  &::-webkit-scrollbar-track {
 	    background: #f1f1f1;
-	  }
+	   border-radius:4px;
+    }
 
 	  /* Handle */
 	  &::-webkit-scrollbar-thumb {
 	    background: $color-lightgreen;
-	  }
+	   border-radius:4px;
+    }
 
 	  /* Handle on hover */
 	  &::-webkit-scrollbar-thumb:hover {
@@ -2761,28 +2767,27 @@ footer
 		width:30px;height:30px;
 		border-radius:15px;
 		background:lightgrey;
-		margin:5px 10px 5px 30px;
+		margin:5px 10px 5px 5px;
 		overflow:hidden;
 		display:inline-block;
 	}
 	a
 	{
-		padding:8px 0;
+		padding:10px 0;
 		font-size:20px;
 		line-height:20px;
 		display:inline-block;
 		vertical-align:top;
 		&:hover{text-decoration:underline;}
 	}
-	span
+	i
 	{
-		float:right;
-		font-size:14px;
-		padding:12px 20px 12px 0;
-		vertical-align:top;
-		color:grey;
-		font-family:$font-primary-light;
-
+    vertical-align:top;
+		display:inline-block;
+    margin:14px 5px 12px 0;
+    height:12px;
+    width:12px;
+    font-size:12px;
 	}
 }
 .t-modify
@@ -2790,8 +2795,40 @@ footer
 	position:absolute;
 	right:20px;bottom:20px;
 }
-
-
+.t-video{
+  iframe{
+    width:100%;
+    height:500px;
+  }
+}
+.t-live-prev-title{
+  height:60px;
+  color:$color-tan;
+  font-family:$font-primary-bold;
+  padding:20px;
+  display: inline-block;
+  font-size:21px;
+  box-sizing:border-box;
+  vertical-align:top;
+  position:absolute;
+  left:0;top:0;
+  .prefix{
+    position: relative;
+    font-family: $font-secondary;
+    color:$color-tan;
+    font-size:8px;
+    height:21px;
+    padding:0;
+    display: inline-block;
+    vertical-align: top;
+    i
+    {
+      line-height:18px;
+      color:$color-tan;
+      vertical-align:top;
+    }
+  }
+}
 .t-oil
 {
 	width:100%;
@@ -2820,8 +2857,6 @@ footer
 			display:block;
 		}
 	}
-	
-	
 }
 .t-oil-stats span{
 	width:100%;
@@ -2941,7 +2976,7 @@ footer
 }
 .t-details
 {
-	height:360px;
+	height:310px;
 }
 
 
@@ -2992,14 +3027,29 @@ footer
   margin-top:30px;
   padding:0;
 }
-.t-location
+
+.t-center
 {
+  display:inline-block;
   font-family: $font-primary;
   font-size:18px;
   color:$color-lightgreen;
-  margin:0;
-  padding:20px 0 30px 0;
+  margin-bottom:20px;
+  padding:20px 5px 0px 0;
+
 }
+.t-location
+{
+  default:inline-block;
+  font-family: $font-primary;
+  font-size:16px;
+  color:$color-grey;
+  margin-bottom:20px;
+  padding:10px 0 0 0;
+  &:before{content:'(';}
+  &:after{content:')';}
+}
+
 .tournament-info-slide-selector
 {
   width:100%;height:40px;
@@ -4052,6 +4102,85 @@ footer
 
 .filter-white{
   filter:invert(99%) sepia(1%) saturate(2%) hue-rotate(307deg) brightness(110%) contrast(101%);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fixes
+ make goal display real circle
+ fix goal display aliasing
+ account button on account page has lightgreen border
+ share btn not working on liveprev
+ share btn not working on account page
+ share btn needs styling on account page
+ account page needs styling update to new system
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 *****************************
         DARK MODE - TRUE OLED
 *****************************/

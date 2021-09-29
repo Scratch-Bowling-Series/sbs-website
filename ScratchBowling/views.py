@@ -24,17 +24,17 @@ User = get_user_model()
 
 
 def index(request, notify=''):
-    cache = True
+    cache = False
 
     if cache:
         homepage_cache = get_homepage_cache()
         tournament_winners = quickle.loads(homepage_cache.tournament_winners)
-        top_ten_ranks = deserialize_rank_data(homepage_cache.top_ten_rankings)
+        #top_ten_ranks = deserialize_rank_data(homepage_cache.top_ten_rankings)
         tournament_recent = quickle.loads(homepage_cache.recent_tournament)
         bowler_of_month = quickle.loads(homepage_cache.bowler_of_month)
     else:
         tournament_winners = load_tournament_winners()
-        top_ten_ranks = get_top_ranks(10)
+        #top_ten_ranks = get_top_ranks(10)
         tournament_recent = load_tournament_recent()
         bowler_of_month = load_bowler_of_month()
 
@@ -44,7 +44,7 @@ def index(request, notify=''):
             'tournament_live': load_tournament_live(),
             'tournaments_upcoming': load_tournament_upcoming(),
             'tournament_winners': tournament_winners,
-            'top_ten_ranks': top_ten_ranks,
+            'top_ten_ranks': None, #top_ten_ranks,
             'tournament_recent': tournament_recent,
             'bowler_of_month': bowler_of_month,
             'users_count': get_amount_users(),

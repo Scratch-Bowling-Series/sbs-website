@@ -10,7 +10,7 @@ class Tournament(models.Model):
     tournament_date = models.DateField(blank=True, null=True)
     tournament_time = models.TimeField(blank=True, null=True)
     picture = models.ImageField(default='tournament-pictures/default.jpg', upload_to='tournament-pictures/')
-    center = models.UUIDField(editable=True, unique=True, blank=True, null=True)
+    center = models.UUIDField(editable=True, blank=True, null=True)
     format = models.UUIDField(editable=True, unique=True, blank=True, null=True)
     entry_fee = models.FloatField(blank=True, null=True)
     total_games = models.IntegerField(null=False, blank=True, default=0)
@@ -24,7 +24,7 @@ class Tournament(models.Model):
     placement_data = models.BinaryField(blank=True, null=True)
     roster = models.BinaryField(blank=True, null=True)
     spots_reserved = models.IntegerField(null=False, blank=True, default=0)
-
+    oil_pattern = models.UUIDField(editable=True, unique=False, null=True, blank=True)
     live_status_header = models.TextField(blank=True, null=True)
     live_status_leader = models.UUIDField(editable=True, unique=False, null=True, blank=True)
     live_status_leader_score = models.FloatField(default=0, blank=True)

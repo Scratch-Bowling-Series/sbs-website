@@ -1,13 +1,16 @@
 from django.db import transaction
 from django.db.models import Q
+from django.http import Http404
 from django.shortcuts import render, redirect
 from ScratchBowling.forms import TournamentsSearch
 from ScratchBowling.pages import create_page_obj
 from ScratchBowling.sbs_utils import is_valid_uuid
-from oils.oil_pattern import  get_oil_display_data
+from centers.center_utils import get_center_name_uuid, get_center_location_uuid
+from oils.oil_pattern import get_oil_display_data_uuid
 from tournaments.forms import CreateTournament, ModifyTournament
 from tournaments.models import Tournament
 from oils.oil_pattern_scraper import get_oil_colors
+from tournaments.roster import deserialize_roster_data, roster_data_display
 from tournaments.tournament_utils import get_tournament, get_all_completed_tournaments, get_count_upcoming_tournaments, \
     get_all_upcoming_tournaments, get_count_all_tournaments, convert_to_display_main_upcoming_list, \
     convert_to_display_main_results_list, get_all_live_tournaments
@@ -100,12 +103,34 @@ def tournaments_upcoming_views(request, page=1, search=''):
     return render(request, 'tournaments/main-tournaments.html', data)
 
 def tournaments_view_views(request, id):
-    tournament = Tournament.objects.get(tournament_id=id)
+    tournament = get_tournament(id)
+    if tournament != None:
+        render_data = {'nbar': 'tournaments',
+                       'live': True,
+                       'stream_available': True,
+                       'tournament': display_tournament_view(tournament),
+                       'oil_pattern': get_oil_display_data_uuid(tournament.oil_pattern),
+                       'oil_colors': get_oil_colors(),
+                       'roster': roster_data_display(deserialize_roster_data(tournament.roster)),
+                       'payout': payout_calculator(30, 10, 5, 50)
+                       }
+        render_data.update(make_tournament_meta(tournament))
+        return render(request, 'tournaments/view-tournament.html', render_data)
+    else:
+        return Http404('Tournament does not exist.')
 
-    oil_pattern = get_oil_display_data(879)
-    oil_colors = get_oil_colors()
-
-    return render(request, 'tournaments/view-tournament.html', {'nbar': 'tournaments', 'tournament': tournament, 'oil_pattern': oil_pattern, 'oil_colors': oil_colors})
+def display_tournament_view(tournament):
+    ## FORMAT
+    ## [ 0=id, 1=name, date=2, time=3, desc=4, 5=center_id, 6=center_name, 7=center_location ]
+    return [tournament.tournament_id,
+            tournament.tournament_name,
+            tournament.tournament_date,
+            tournament.tournament_time,
+            tournament.tournament_description,
+            tournament.center,
+            get_center_name_uuid(tournament.center),
+            get_center_location_uuid(tournament.center)
+            ]
 
 def tournaments_modify_views(request, id):
     id = is_valid_uuid(id)
@@ -152,6 +177,14 @@ def tournaments_create_views(request):
 
     return render(request, 'tournaments/create-tournament.html', {'form': form, 'nbar': 'tournaments'})
 
+def make_tournament_meta(tournament):
+    return {'test': None}
+
+def payout_calculator(prize, lineage, expense, current):
+    minv = current / 2
+    maxv = current + (current / 2)
+    payouts = []
+    return [prize, lineage, expense, payouts, minv, maxv, current]
 
 
 

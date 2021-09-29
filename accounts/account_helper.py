@@ -9,6 +9,11 @@ from scoreboard.ranking_data_quick import get_top_rankings
 
 User = get_user_model()
 
+def get_user_uuid(uuid):
+    uuid = is_valid_uuid(uuid)
+    if uuid != None:
+        return User.objects.filter(user_id=uuid).first()
+
 def get_name_from_uuid(uuid,last_name=True, bold_last=False, truncate_last=False):
     uuid = is_valid_uuid(uuid)
     if uuid is not None:
@@ -85,6 +90,7 @@ def get_location_basic_uuid(uuid):
                 return city
             else:
                 return city + ', ' + state
+    return 'Location Unknown'
 
 def get_location_basic_obj(user):
         if user is not None:

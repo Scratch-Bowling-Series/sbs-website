@@ -4,7 +4,7 @@ import quickle
 from centers.center_utils import get_center, get_center_location_obj
 from tournaments.models import Tournament
 from tournaments.roster import get_spots_available_obj, get_roster_length_obj
-from tournaments.tournament_data import deserialize_placement_data
+from tournaments.tournament_data import deserialize_placement_data, deserialize_tournament_data
 from accounts.account_helper import get_name_from_uuid
 
 
@@ -110,9 +110,24 @@ def get_date_time(date, time):
     else:
         return datetime.now()
 
+def qualifying_display_view(tournament_data):
+    ## FORMAT
+    ## [ 0=id, 1=name, 2=place, 3=scores, 4=total]
+    tournament_data = deserialize_tournament_data(tournament_data)
+    display_data = []
+    if tournament_data != None:
+        if tournament_data.number_of_qualifying_matches == 1:
+            match_data = tournament_data.match_datas[0]
+            for bowler_data in match_data.bowler_datas:
+                scores = []
+                for game_data in bowler_data.game_datas:
+                    scores.append(game_data.total_score)
 
-
-
+                display_data.append([bowler_data.user_id,
+                                     get_name_from_uuid(bowler_data.user_id, True, True),
+                                     0,## PLACE
+                                     scores,
+                                     bowler_data.total_score])
 
 # DISPLAY CONVERSIONS
 def convert_to_display_main_upcoming_list(tournament_list):

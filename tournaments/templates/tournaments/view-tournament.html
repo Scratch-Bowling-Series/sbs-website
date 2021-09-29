@@ -1,32 +1,48 @@
 {% extends 'base_layout.html' %}
 {% load static %}
+
+
 {% block content %}
-<script src="{% static 'js/tournament-view-align.js' %}"></script>
 
 
-<section class="col col-30">
+
+
+<!-- Left Column : Tournament Roster -->
+<section class="col col-25">
     <div class="sec">
         <h2>ROSTER</h2>
         <div class="t-roster">
-            {% for row in tournament|qualifyings %}
+            {% for roster_user in roster %}
             <div class="t-roster-bowler">
-                <img src="/media/profile-pictures/default.jpg" alt="">
-                <a href="#">{{ row.user_id|bowler_name:False }}</a>
-                <span>{{ row.user_id|bowler_location }}</span>
+                <img src="/account/data/profile-pic/{{ roster_user.0 }}" alt="">
+                <a href="/account/view/{{ roster_user.0 }}">{{ roster_user.1 }}</a>
+                {{ roster_user.2|safe }}
             </div>
             {% endfor %}
         </div>
     </div>
 </section>
 
-<section class="col col-45">
-    <div class="sec">
-        <img class="t-display-img" src="{% static 'img/recent-preview-template.png'%}" alt="">
-        <img class="t-watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
-        <h2 class="t-header">{{ tournament.tournament_name }}</h2>
-        <h3 class="t-location">{{ tournament.tournament_center|none_replace:'Thunderbowl Lanes' }}</h3>
-        <a class="btn t-modify" href="/tournaments/modify/{{ tournament.tournament_id }}">MODIFY</a>
+<!-- Center Column : Tournament Preview -->
+<section class="col col-50">
+    <div class="sec {% if live %}glow{% endif %}">
+        <a class="t-live-prev-title">LIVE <span class="prefix"><i class="icon-circle"></i></span></a>
+        <h2 class="t-header">{{ tournament.1 }}</h2>
+        <a class="t-center" href="/centers/view/{{ tournament.5 }}">{{ tournament.6 }}</a>
+        <a class="t-location" href="/centers/view/{{ tournament.5 }}">{{ tournament.7 }}</a>
     </div>
+    {% if stream_available or True == True%}
+    <div class="sec t-video">
+        <iframe src="https://www.youtube.com/embed/Gpuxr8G8Syo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    {% else %}
+        <div class="sec">
+            <img class="t-display-img" src="{% static 'img/recent-preview-template.png'%}" alt="">
+            <img class="t-watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
+        </div>
+    {% endif %}
+
     <div class="sec">
         <div class="t-details">
             <div class="tournament-info-slide-selector">
@@ -36,6 +52,7 @@
     </div>
 </section>
 
+<!-- Right Column : Oil Pattern Display -->
 <section class="col col-25">
     <div class="sec">
         <h2>OIL PATTERN</h2>
@@ -112,6 +129,8 @@
     </div>
 </section>
 
+{% if finished or True %}
+<!-- Center Column Below : Quaifying -->
 <section class="col col-35" >
     <div class="sec">
         <div class="tournament-view-info-qualifying">
@@ -128,23 +147,22 @@
                 --> <a class="total">TOTAL</a>
             </div>
             <div class="tournament-info-slide-container">
-
-
-                {% for row in tournament|qualifying %}
+                {% for qualifying in qualifyings %}
                 <div class="tournament-view-qualifying-slide">
-                    <a class="place">{{ row.0 }}</a><!--
-                    --><a class="name" href="/account/view/{{ row.4 }}">{{ row.1|safe }}</a><!--
-                    {% for x in row.2 %}
-                    --><a class="score">{{ x }}</a><!--
+                    <a class="place">{{ qualifying.2 }}</a><!--
+                    --><a class="name" href="/account/view/{{ qualifying.0 }}">{{ qualifying.1|safe }}</a><!--
+                    {% for qualifying_score in qualifying.3 %}
+                    --><a class="score">{{ qualifying_score }}</a><!--
                     {% endfor %}
-                    --><a class="total">{{ row.3 }}</a>
+                    --><a class="total">{{ qualifying.4 }}</a>
                 </div>
                 {% endfor %}
             </div>
         </div>
-
     </div>
 </section>
+
+<!-- Center Column Below : Matchplay -->
 <section class="col col-65">
     <div class="sec">
         <div class="tournament-view-info-qualifying">
@@ -163,7 +181,7 @@
             <div class="tournament-info-slide-container">
 
 
-                {% for row in tournament|qualifying %}
+                {% for row in matchplay %}
                 <div class="tournament-view-qualifying-slide">
                     <a class="place">{{ row.0 }}</a><!--
                     --><a class="name" href="/account/view/{{ row.4 }}">{{ row.1|safe }}</a><!--
@@ -178,5 +196,11 @@
 
     </div>
 </section>
+
+{% endif %}
+
+<script src="{% static 'js/tournament-view-align.js' %}"></script>
+<script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
+
 {% endblock %}
 
