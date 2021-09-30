@@ -24,7 +24,6 @@ class Tournament(models.Model):
     placement_data = models.BinaryField(blank=True, null=True)
     roster = models.BinaryField(blank=True, null=True)
     spots_reserved = models.IntegerField(null=False, blank=True, default=0)
-    oil_pattern = models.UUIDField(editable=True, unique=False, null=True, blank=True)
     live_status_header = models.TextField(blank=True, null=True)
     live_status_leader = models.UUIDField(editable=True, unique=False, null=True, blank=True)
     live_status_leader_score = models.FloatField(default=0, blank=True)
