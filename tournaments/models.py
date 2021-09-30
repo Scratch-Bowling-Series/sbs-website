@@ -19,7 +19,11 @@ class Tournament(models.Model):
     sponsor =  models.UUIDField(editable=True, unique=False, null=True, blank=True)
     finished = models.BooleanField(default=False)
     live = models.BooleanField(default=False)
+
     stream_available = models.BooleanField(default=False)
+    vod_id = models.UUIDField(editable=True, unique=False, null=True, blank=True)
+
+
     tournament_data = models.BinaryField(blank=True, null=True)
     placement_data = models.BinaryField(blank=True, null=True)
     roster = models.BinaryField(blank=True, null=True)

@@ -4,7 +4,8 @@ import json
 
 class WebSettings:
     primary_domain = 'https://scratchbowling.pythonanywhere.com'
-    os_path = '/home/scratchbowling/Scratch-Bowling-Series-Website/'
+    os_path = 'C:/Users/Christian J Starr/Documents/ScratchBowlingSeries/Scratch-Bowling-Series-Website/'
+    #'/home/scratchbowling/Scratch-Bowling-Series-Website/'
 
 
     allow_traffic = True

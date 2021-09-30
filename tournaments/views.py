@@ -14,6 +14,7 @@ from tournaments.roster import deserialize_roster_data, roster_data_display
 from tournaments.tournament_utils import get_tournament, get_all_completed_tournaments, get_count_upcoming_tournaments, \
     get_all_upcoming_tournaments, get_count_all_tournaments, convert_to_display_main_upcoming_list, \
     convert_to_display_main_results_list, get_all_live_tournaments
+from vods.vod_utils import get_vod_url
 
 page_data_results = {'nbar': 'tournaments',
                      'search_type': 'tournaments_results',
@@ -112,7 +113,8 @@ def tournaments_view_views(request, id):
                        'oil_pattern': get_oil_display_data_uuid(tournament.oil_pattern),
                        'oil_colors': get_oil_colors(),
                        'roster': roster_data_display(deserialize_roster_data(tournament.roster)),
-                       'payout': payout_calculator(30, 10, 5, 50)
+                       'payout': payout_calculator(30, 10, 5, 50),
+                       'vod_url' : get_vod_url(tournament.vod_id)
                        }
         render_data.update(make_tournament_meta(tournament))
         return render(request, 'tournaments/view-tournament.html', render_data)
@@ -121,7 +123,9 @@ def tournaments_view_views(request, id):
 
 def display_tournament_view(tournament):
     ## FORMAT
-    ## [ 0=id, 1=name, date=2, time=3, desc=4, 5=center_id, 6=center_name, 7=center_location ]
+    ## [ 0=id, 1=name, date=2, time=3, desc=4,
+    #   5=center_id, 6=center_name, 7=center_location,
+    #   8=vod_id]
     return [tournament.tournament_id,
             tournament.tournament_name,
             tournament.tournament_date,
@@ -129,7 +133,7 @@ def display_tournament_view(tournament):
             tournament.tournament_description,
             tournament.center,
             get_center_name_uuid(tournament.center),
-            get_center_location_uuid(tournament.center)
+            get_center_location_uuid(tournament.center),
             ]
 
 def tournaments_modify_views(request, id):

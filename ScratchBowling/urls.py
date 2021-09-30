@@ -12,6 +12,7 @@ urlpatterns = [
     path('tournaments/', include('tournaments.urls')),
     path('bowlers/', include('bowlers.urls')),
     path('centers/', include('centers.urls')),
+    path('vods/', include('vods.urls')),
     path('scoreboard/', include('scoreboard.urls')),
     path('broadcasts/', include('broadcasts.urls')),
     path('support/', include('support.urls')),

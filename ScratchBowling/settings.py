@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'prolink',
     'oils',
     'accounts',
-    'cacher'
+    'cacher',
+    'vods'
 ]
 
 MIDDLEWARE = [
