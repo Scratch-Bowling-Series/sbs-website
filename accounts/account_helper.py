@@ -49,30 +49,17 @@ def get_name_from_uuid(uuid,last_name=True, bold_last=False, truncate_last=False
 def get_name_from_user(user,last_name=True, bold_last=False, truncate_last=False):
     if user == None:
         return 'Unknown User'
-
     first = str(user.first_name)
     last = str(user.last_name)
     last_initial = last[0]
-
-    if last_name == False:
-        bold_last = False
-
-    if truncate_last:
+    if last_name:
+        if truncate_last:
+            last = str(last_initial) + '.'
         if bold_last:
-            return first + '&nbsp;<span class="bold">' + last_initial + '.</span>'
-        else:
-            if last_name:
-                return first + ' ' + last_initial + '.'
-            else:
-                return first
+            last = '<span class="bold">' + last + '</span>'
+        return first + ' ' + last
     else:
-        if bold_last:
-            return first + '&nbsp;<span class="bold">' + last + '</span>'
-        else:
-            if last_name:
-                return first + ' ' + last_initial
-            else:
-                return first
+        return first
 
 def get_location_basic_uuid(uuid):
     uuid = is_valid_uuid(uuid)
@@ -148,8 +135,11 @@ def load_bowler_of_month():
         user = User.objects.filter(user_id=websettings.bowler_of_month)
         if user != None:
             return [str(user.user_id), get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id)]
-    user = User.objects.all()[randrange(1, User.objects.all().count())]
-    return [str(user.user_id), get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id), get_rank_from_user(user.statistics)]
+    user = User.objects.all()[5]
+    return [str(user.user_id),
+            get_name_from_uuid(user.user_id),
+            get_location_basic_uuid(user.user_id),
+            get_rank_color(get_rank_from_user(user.statistics, False))]
 
 def get_rank_from_user(statistics_data, ordinal=True):
     rank = 0
@@ -177,3 +167,35 @@ def get_top_ranks(amount):
     for rank_data in rank_datas:
         data.append([rank_data.user_id, get_name_from_uuid(rank_data.user_id, True, True), make_ordinal(rank_data.rank)])
     return data
+
+def get_rank_color(rank, total_users=10000):
+    diamond = total_users / 10
+    gold = total_users / 5
+    silver = total_users / 2.5
+
+    diamond_icon = 'shield2'
+    diamond_color = '#8AD2E2'
+
+    gold_icon = 'shield2'
+    gold_color = '#f5d442'
+
+    silver_icon = 'shield2'
+    silver_color = '#c2c2c2'
+
+    bronze_icon = 'shield2'
+    bronze_color = '#d7995b'
+    if rank > 0 and rank <= diamond:
+        return create_icon_html(diamond_icon, diamond_color)
+    elif rank > diamond and rank <= gold:
+        return create_icon_html(gold_icon, gold_color)
+    elif rank > gold and rank <= silver:
+        return create_icon_html(silver_icon, silver_color)
+    elif rank > silver:
+        return create_icon_html(bronze_icon, bronze_color)
+    else:
+        return create_icon_html(bronze_icon, bronze_color)
+
+
+
+def create_icon_html(icon, color, clss=''):
+    return '<i class="icon-' + icon + ' ' + clss + ' rank-color" style="color:' + color + ';"></i>'

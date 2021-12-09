@@ -1,12 +1,14 @@
-from django.db import transaction
+from datetime import datetime
+
+from django.contrib.auth import get_user_model
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render, redirect
 from ScratchBowling.forms import TournamentsSearch
 from ScratchBowling.pages import create_page_obj
 from ScratchBowling.sbs_utils import is_valid_uuid
-from centers.center_utils import get_center_name_uuid, get_center_location_uuid
-from oils.oil_pattern import get_oil_display_data_uuid
+from centers.models import Center
+from oils.models import Oil_Pattern
 from tournaments.forms import CreateTournament, ModifyTournament
 from tournaments.models import Tournament
 from oils.oil_pattern_scraper import get_oil_colors
@@ -29,6 +31,7 @@ page_data_upcoming = {'nbar': 'tournaments',
                       'page_keywords': 'Bowl, Upcoming, Tournaments, Roster, Join, View, Reserver, Entry, Results, Scores'
 }
 
+User = get_user_model()
 
 def tournaments_results_views(request, page=1, search=''):
     page = int(page)
@@ -67,7 +70,6 @@ def tournaments_results_views(request, page=1, search=''):
     return render(request, 'tournaments/main-tournaments.html', data)
 
 def tournaments_upcoming_views(request, page=1, search=''):
-
     page = int(page)
     per_page = 20
     tournaments = get_all_upcoming_tournaments()
@@ -103,38 +105,84 @@ def tournaments_upcoming_views(request, page=1, search=''):
     data.update(page_data_upcoming)
     return render(request, 'tournaments/main-tournaments.html', data)
 
-def tournaments_view_views(request, id):
-    tournament = get_tournament(id)
-    if tournament != None:
+def single_tournament_views(request, id):
+    tournament = Tournament.get_tournament_by_uuid(id)
+    if tournament:
+        roster_data = []
+        on_roster = False
+        if tournament.roster:
+            roster_data = roster_data_display(deserialize_roster_data(tournament.roster))
+            if not tournament.finished and request.user.is_authenticated:
+                on_roster = tournament.exists_in_roster(request.user.user_id)
+
+
+
+
         render_data = {'nbar': 'tournaments',
-                       'live': True,
-                       'stream_available': True,
+                       'live': tournament.live,
+                       'stream_available': tournament.stream_available,
+                       'finished': tournament.finished,
+                       'on_roster': on_roster,
                        'tournament': display_tournament_view(tournament),
-                       'oil_pattern': get_oil_display_data_uuid(tournament.oil_pattern),
+                       'center': display_center_view(tournament.center),
+                       'oil_pattern': Oil_Pattern.get_oil_pattern_converted_uuid(tournament.oil_pattern),
                        'oil_colors': get_oil_colors(),
-                       'roster': roster_data_display(deserialize_roster_data(tournament.roster)),
+                       'roster': roster_data,
                        'payout': payout_calculator(30, 10, 5, 50),
-                       'vod_url' : get_vod_url(tournament.vod_id)
+                       'vod_url' : get_vod_url(tournament.vod_id),
+                       'tournament_picture': tournament.get_picture(),
+                       'description': tournament.tournament_description
                        }
         render_data.update(make_tournament_meta(tournament))
         return render(request, 'tournaments/view-tournament.html', render_data)
     else:
-        return Http404('Tournament does not exist.')
+        raise Http404('The Tournament you are looking for does not exist.')
 
 def display_tournament_view(tournament):
     ## FORMAT
     ## [ 0=id, 1=name, date=2, time=3, desc=4,
     #   5=center_id, 6=center_name, 7=center_location,
-    #   8=vod_id]
+    #   8=vod_id, 9=tags, 10=entry_fee, 11=team_entry]
+    center_name = 'Center Unknown'
+    center_location = ''
+    center_data = Center.get_name_and_location_by_uuid(tournament.center)
+    if center_data:
+        center_name = center_data[0]
+        center_location = str(center_data[1]) + ', ' + str(center_data[2])
+
+    date = tournament.datetime.date()
+    if date.year == datetime.now().year:
+        date = date.strftime('%m/%d')
+    else:
+        date = date.strftime('%m/%d/%y')
+
+    entry_fee = tournament.entry_fee
+    if not entry_fee:
+        entry_fee = 0
+    is_team_entry = False
+    if 'double' in tournament.tournament_name:
+        is_team_entry = True
+    if 'Double' in tournament.tournament_name:
+        is_team_entry = True
     return [tournament.tournament_id,
             tournament.tournament_name,
-            tournament.tournament_date,
+            date,
             tournament.tournament_time,
             tournament.tournament_description,
             tournament.center,
-            get_center_name_uuid(tournament.center),
-            get_center_location_uuid(tournament.center),
+            center_name,
+            center_location,
+            None,
+            tournament.get_tags(),
+            entry_fee,
+            is_team_entry
             ]
+
+def display_center_view(center_id):
+    center = Center.get_center_by_uuid(center_id)
+    if center:
+        return [center.center_id, center.center_name, center.location_city, center.location_state, center.get_picture()]
+    return None
 
 def tournaments_modify_views(request, id):
     id = is_valid_uuid(id)
@@ -189,6 +237,61 @@ def payout_calculator(prize, lineage, expense, current):
     maxv = current + (current / 2)
     payouts = []
     return [prize, lineage, expense, payouts, minv, maxv, current]
+
+
+
+
+def roster_join(request, id):
+    user = request.user
+    success = False
+    on_roster = False
+    roster_data = []
+
+    if user.is_authenticated:
+        tournament = Tournament.get_tournament_by_uuid(id)
+        if tournament:
+            success = tournament.add_to_roster(user.user_id)
+            if success:
+                on_roster = tournament.exists_in_roster(user.user_id)
+                roster = tournament.get_roster()
+                for user_id in roster:
+                    roster_data.append([user_id, user.first_name, user.last_name])
+    return JsonResponse({'success': success, 'onRoster': on_roster, 'rosterData': roster_data})
+
+
+def roster_leave(request, id):
+    user = request.user
+    success = False
+    on_roster = False
+    roster_data = []
+
+    if user.is_authenticated:
+        tournament = Tournament.get_tournament_by_uuid(id)
+        if tournament:
+            success = tournament.remove_from_roster(user.user_id)
+            if success:
+                on_roster = tournament.exists_in_roster(user.user_id)
+                roster = tournament.get_roster()
+                for user_id in roster:
+                    roster_data.append([user_id, user.first_name, user.last_name])
+    return JsonResponse({'success': success, 'onRoster': on_roster, 'rosterData': roster_data})
+
+def roster_get(request, id):
+    user = request.user
+    success = False
+    on_roster = False
+    roster_data = []
+    tournament = Tournament.get_tournament_by_uuid(id)
+    if tournament:
+        roster = tournament.get_roster()
+        if roster:
+            success = True
+            if user.is_authenticated:
+                on_roster = tournament.exists_in_roster(user.user_id)
+            for user_id in roster:
+                roster_data.append([user_id, user.first_name, user.last_name])
+
+    return JsonResponse({'success': success, 'onRoster': on_roster, 'rosterData': roster_data})
 
 
 

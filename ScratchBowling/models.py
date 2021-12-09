@@ -3,8 +3,15 @@ import uuid
 from django.db import models
 
 
+class WebData(models.Model):
+    preview_tournament = models.UUIDField(editable=True, unique=False, null=True, blank=True)
 
-
+    @classmethod
+    def get_current(cls):
+        web_data = cls.objects.all().first()
+        if web_data:
+            return web_data
+        return WebData()
 
 class Series(models.Model):
     series_id = models.CharField(max_length=30)

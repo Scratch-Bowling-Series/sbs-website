@@ -1,0 +1,51 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block content %}
+
+
+<section class="col col-30 col-m-max-width m-order-1">
+    <section class="sec help-center">
+        <h2>SBS Help Center</h2>
+        <p>Welcome to our help center! If you can't find what you're looking for, you can always chat with us live <a
+                href="{% url 'live-chat' %}">here</a>.</p>
+    </section>
+
+    <section class="sec help-topics">
+        <h2>Helpful Topics</h2>
+        <p>We have more specific help sections for larger topics below.</p>
+        <a href="" class="topic">1.) Common issues with the mobile app.</a>
+        <a href="" class="topic">2.) How can I attend my first tournament?</a>
+        <a href="" class="topic">3.) How does a SBS tournament work?</a>
+        <a href="" class="topic">4.) Will SBS send me a 10-99 form?</a>
+        <div class="btn-bar">
+            <a class="btn btn-medium bkg-darkgreen border-none text-white">VIEW MORE</a>
+        </div>
+    </section>
+    <section class="sec faq">
+        <h2>Frequently Asked Questions</h2>
+        <p>Welcome to our help center! If you can't find what you're looking for, you can always chat with us live <a
+                href="{% url 'live-chat' %}">here</a>.</p>
+        <div class="question-wrap">
+            <p class="question"><span>Q.</span>What are the colored symbols next to bowler names?</p>
+            <p class="answer"><span>A.</span>This is a visualization of the bowlers rank. You can learn more about it <a href="{% url 'live-chat' %}">here</a>.</p>
+        </div>
+        <div class="question-wrap">
+            <p class="question"><span>Q.</span>What are the colored symbols next to bowler names?</p>
+            <p class="answer"><span>A.</span>This is a visualization of the bowlers rank. You can learn more about it <a href="{% url 'live-chat' %}">here</a>.</p>
+        </div>
+        <div class="question-wrap">
+            <p class="question"><span>Q.</span>What are the colored symbols next to bowler names?</p>
+            <p class="answer"><span>A.</span>This is a visualization of the bowlers rank. You can learn more about it <a href="{% url 'live-chat' %}">here</a>.</p>
+        </div>
+
+    </section>
+    <div class="sec help-center-contact">
+        <a class="contact-title">Can't find what you're looking for?</a>
+        <a href="{% url 'live-chat' %}" class="contact-item"><i class="icon-commenting"></i>LIVE CHAT</a>
+        <a href="{% url 'contact' %}" class="contact-item"><i class="icon-email"></i>EMAIL US</a>
+    </div>
+</section>
+
+
+
+{% endblock %}

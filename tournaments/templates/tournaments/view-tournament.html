@@ -5,33 +5,31 @@
 {% block content %}
 
 
-
-
-<!-- Left Column : Tournament Roster -->
-<section class="col col-25">
-    <div class="sec">
-        <h2>ROSTER</h2>
-        <div class="t-roster">
-            {% for roster_user in roster %}
-            <div class="t-roster-bowler">
-                <img src="/account/data/profile-pic/{{ roster_user.0 }}" alt="">
-                <a href="/account/view/{{ roster_user.0 }}">{{ roster_user.1 }}</a>
-                {{ roster_user.2|safe }}
-            </div>
-            {% endfor %}
+<!-- Center Column : Tournament Preview -->
+<section class="col col-50 col-m-max-width m-order-1 order-2">
+    <div class="sec {% if live %}glow{% endif %}">
+        <a class="share-page t-share"><i class="icon-share-alt"></i></a>
+        <h2 class="t-title">{{ tournament.1 }}</h2>
+        <a class="t-date">{{ tournament.2 }}</a>
+        <a class="t-center" href="/centers/view/{{ tournament.5 }}">&nbsp;at&nbsp;{{ tournament.6 }}</a>
+        <a class="t-location" href="/centers/view/{{ tournament.5 }}">{% if tournament.7 %}&nbsp;-&nbsp;{{ tournament.7 }}{% endif %}</a>
+        <div class="block-tags align-center margin-bottom">
+        {% for tag in tournament.9 %}
+        {% if tag == 1 %}
+        <span class="tag bkg-lightgrey text-darkgreen">DOUBLES</span>
+        {% elif tag == 2 %}
+        <span class="tag bkg-lightgrey text-darkgreen">SWEEPER</span>
+        {% elif tag == 3 %}
+       <span class="tag bkg-lightgrey text-darkgreen">SBS OPEN</span>
+        {% elif tag == 4 %}
+       <span class="tag bkg-lightgrey text-darkgreen">CHALLENGE</span>
+        {% elif tag == 5 %}
+       <span class="tag bkg-lightgrey text-darkgreen">SPRUMMER</span>
+        {% endif %}
+        {% endfor %}
         </div>
     </div>
-</section>
-
-<!-- Center Column : Tournament Preview -->
-<section class="col col-50">
-    <div class="sec {% if live %}glow{% endif %}">
-        <a class="t-live-prev-title">LIVE <span class="prefix"><i class="icon-circle"></i></span></a>
-        <h2 class="t-header">{{ tournament.1 }}</h2>
-        <a class="t-center" href="/centers/view/{{ tournament.5 }}">{{ tournament.6 }}</a>
-        <a class="t-location" href="/centers/view/{{ tournament.5 }}">{{ tournament.7 }}</a>
-    </div>
-    {% if stream_available or True == True%}
+    {% if stream_available %}
     <div class="sec t-video">
         <video id="my-video" class="video-js" controls preload="auto" poster="/vods/poster/{{ tournament.8 }}/" data-setup='{"fluid": true}'>
             <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4" />
@@ -43,22 +41,28 @@
 
     {% else %}
         <div class="sec">
-            <img class="t-display-img" src="{% static 'img/recent-preview-template.png'%}" alt="">
-            <img class="t-watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
+            <img class="t-display-img" src="{{ tournament_picture }}" alt="">
         </div>
     {% endif %}
 
-    <div class="sec">
-        <div class="t-details">
-            <div class="tournament-info-slide-selector">
+    <div class="sec t-details">
+        <div class="tournament-info-slide-selector">
                 <a href="">DETAILS</a>
             </div>
-        </div>
+
+        <p>{{ description }}</p>
     </div>
+
+    <div class="sec t-contact mobile-on">
+        <a href="" class="t-contact-item">Need Help?</a>
+        <a href="{% url 'faqs' %}" class="t-contact-item"><i class="icon-question-circle"></i>HELP CENTER</a>
+        <a href="{% url 'live-chat' %}" class="t-contact-item"><i class="icon-commenting"></i>LIVE CHAT</a>
+    </div>
+
 </section>
 
 <!-- Right Column : Oil Pattern Display -->
-<section class="col col-25">
+<section class="col col-25 col-m-max-width m-order-8 order-3">
     <div class="sec">
         <h2>OIL PATTERN</h2>
          <div class="t-oil">
@@ -134,78 +138,202 @@
     </div>
 </section>
 
-{% if finished or True %}
-<!-- Center Column Below : Quaifying -->
-<section class="col col-35" >
-    <div class="sec">
-        <div class="tournament-view-info-qualifying">
-            <div class="tournament-info-slide-selector">
-                <a href="">QUALIFYING</a>
-            </div>
-            <div class="tournament-view-qualifying-slide-label">
-                <a class="place"></a><!--
-                --><a class="name"></a><!--
-                --><a class="score">1</a><!--
-                --><a class="score">2</a><!--
-                --><a class="score">3</a><!--
-                --><a class="score">4</a><!--
-                --> <a class="total">TOTAL</a>
-            </div>
-            <div class="tournament-info-slide-container">
-                {% for qualifying in qualifyings %}
-                <div class="tournament-view-qualifying-slide">
-                    <a class="place">{{ qualifying.2 }}</a><!--
-                    --><a class="name" href="/account/view/{{ qualifying.0 }}">{{ qualifying.1|safe }}</a><!--
-                    {% for qualifying_score in qualifying.3 %}
-                    --><a class="score">{{ qualifying_score }}</a><!--
-                    {% endfor %}
-                    --><a class="total">{{ qualifying.4 }}</a>
-                </div>
-                {% endfor %}
+{% if finished %}
+    <!-- Left Column :  -->
+    <section class="col col-25 col-m-max-width m-order-2 order-1">
+        {% if center %}
+        <div class="sec t-center-about">
+            <h2>{{ center.1 }}</h2>
+            <img src="{{ center.4 }}" alt="" class="t-c-image">
+            <ul>
+                <li>Location: <span>{{ center.2 }}, {{ center.3 }}</span></li>
+                <li>Lanes: <span>25</span></li>
+                <li>Free Wifi: <span>Yes</span></li>
+                <li>Cafe: <span>Yes</span></li>
+            </ul>
+            <div class="btn-bar-right">
+                <a class="btn btn-medium border-none bkg-none border-none text-darkgreen">Want to learn more info?</a>
+                <a href="" class="btn btn-medium border-none">VIEW</a>
             </div>
         </div>
-    </div>
-</section>
+        {% endif %}
+        <div class="sec t-contact desktop-on">
+            <a href="" class="t-contact-item">Need Help?</a>
+            <a href="{% url 'faqs' %}" class="t-contact-item"><i class="icon-question-circle"></i>HELP CENTER</a>
+            <a href="{% url 'live-chat' %}" class="t-contact-item"><i class="icon-commenting"></i>LIVE CHAT</a>
+        </div>
+    </section>
 
-<!-- Center Column Below : Matchplay -->
-<section class="col col-65">
-    <div class="sec">
-        <div class="tournament-view-info-qualifying">
-            <div class="tournament-info-slide-selector">
-                <a href="">MATCH PLAY</a>
-            </div>
-            <div class="tournament-view-qualifying-slide-label">
-                <a class="place"></a><!--
-                --><a class="name"></a><!--
-                --><a class="score">1</a><!--
-                --><a class="score">2</a><!--
-                --><a class="score">3</a><!--
-                --><a class="score">4</a><!--
-                --> <a class="total">TOTAL</a>
-            </div>
-            <div class="tournament-info-slide-container">
-
-
-                {% for row in matchplay %}
-                <div class="tournament-view-qualifying-slide">
-                    <a class="place">{{ row.0 }}</a><!--
-                    --><a class="name" href="/account/view/{{ row.4 }}">{{ row.1|safe }}</a><!--
-                    {% for x in row.2 %}
-                    --><a class="score">{{ x }}</a><!--
-                    {% endfor %}
-                    --><a class="total">{{ row.3 }}</a>
+    <!-- Center Column Below : Quaifying -->
+    <section class="col col-35 col-m-max-width m-order-2 order-7" >
+        <div class="sec">
+            <div class="tournament-view-info-qualifying">
+                <div class="tournament-info-slide-selector">
+                    <a href="">QUALIFYING</a>
                 </div>
-                {% endfor %}
+                <div class="tournament-view-qualifying-slide-label">
+                    <a class="place"></a><!--
+                    --><a class="name"></a><!--
+                    --><a class="score">1</a><!--
+                    --><a class="score">2</a><!--
+                    --><a class="score">3</a><!--
+                    --><a class="score">4</a><!--
+                    --> <a class="total">TOTAL</a>
+                </div>
+                <div class="tournament-info-slide-container">
+                    {% for qualifying in qualifyings %}
+                    <div class="tournament-view-qualifying-slide">
+                        <a class="place">{{ qualifying.2 }}</a><!--
+                        --><a class="name" href="/account/view/{{ qualifying.0 }}">{{ qualifying.1|safe }}</a><!--
+                        {% for qualifying_score in qualifying.3 %}
+                        --><a class="score">{{ qualifying_score }}</a><!--
+                        {% endfor %}
+                        --><a class="total">{{ qualifying.4 }}</a>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
+    </section>
 
-    </div>
-</section>
+    <!-- Center Column Below : Matchplay -->
+    <section class="col col-65 col-m-max-width m-order-3 order-7">
+        <div class="sec">
+            <div class="tournament-view-info-qualifying">
+                <div class="tournament-info-slide-selector">
+                    <a href="">MATCH PLAY</a>
+                </div>
+                <div class="tournament-view-qualifying-slide-label">
+                    <a class="place"></a><!--
+                    --><a class="name"></a><!--
+                    --><a class="score">1</a><!--
+                    --><a class="score">2</a><!--
+                    --><a class="score">3</a><!--
+                    --><a class="score">4</a><!--
+                    --> <a class="total">TOTAL</a>
+                </div>
+                <div class="tournament-info-slide-container">
 
+
+                    {% for row in matchplay %}
+                    <div class="tournament-view-qualifying-slide">
+                        <a class="place">{{ row.0 }}</a><!--
+                        --><a class="name" href="/account/view/{{ row.4 }}">{{ row.1|safe }}</a><!--
+                        {% for x in row.2 %}
+                        --><a class="score">{{ x }}</a><!--
+                        {% endfor %}
+                        --><a class="total">{{ row.3 }}</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+{% elif live %}
+
+{% else %}
+    <!-- Left Column : Tournament Roster -->
+    <section class="col col-25 col-m-max-width m-order-2 order-1">
+        <div class="sec t-roster-wrap">
+            <h2>ROSTER</h2>
+            <div class="t-roster {% if not roster %}no-scroll{% endif %}" tournamentId="{{ tournament.0 }}">
+                {% if roster %}
+                <div class="t-roster-bowler preview">
+                    <img class="t-r-bowler-image" src="/media/profile-pictures/default.jpg" alt="">
+                    <a class="t-r-bowler-name"></a>
+                    <a class="btn btn-small t-r-bowler-view"></a>
+                </div>
+                <div class="t-roster-bowler preview">
+                    <img class="t-r-bowler-image" src="/media/profile-pictures/default.jpg" alt="">
+                    <a class="t-r-bowler-name"></a>
+                    <a class="btn btn-small t-r-bowler-view"></a>
+                </div>
+                <div class="t-roster-bowler preview">
+                    <img class="t-r-bowler-image" src="/media/profile-pictures/default.jpg" alt="">
+                    <a class="t-r-bowler-name"></a>
+                    <a class="btn btn-small t-r-bowler-view"></a>
+                </div>
+                <div class="t-roster-bowler preview">
+                    <img class="t-r-bowler-image" src="/media/profile-pictures/default.jpg" alt="">
+                    <a class="t-r-bowler-name"></a>
+                    <a class="btn btn-small t-r-bowler-view"></a>
+                </div>
+                <div class="t-roster-bowler preview">
+                    <img class="t-r-bowler-image" src="/media/profile-pictures/default.jpg" alt="">
+                    <a class="t-r-bowler-name"></a>
+                    <a class="btn btn-small t-r-bowler-view"></a>
+                </div>
+                <div class="t-roster-bowler preview desktop-on">
+                    <img class="t-r-bowler-image" src="/media/profile-pictures/default.jpg" alt="">
+                    <a class="t-r-bowler-name"></a>
+                    <a class="btn btn-small t-r-bowler-view"></a>
+                </div>
+                <div class="t-roster-bowler preview desktop-on">
+                    <img class="t-r-bowler-image" src="/media/profile-pictures/default.jpg" alt="">
+                    <a class="t-r-bowler-name"></a>
+                    <a class="btn btn-small t-r-bowler-view"></a>
+                </div>
+                <div class="t-roster-bowler preview desktop-on">
+                    <img class="t-r-bowler-image" src="/media/profile-pictures/default.jpg" alt="">
+                    <a class="t-r-bowler-name"></a>
+                    <a class="btn btn-small t-r-bowler-view"></a>
+                </div>
+                <div class="t-roster-bowler preview desktop-on">
+                    <img class="t-r-bowler-image" src="/media/profile-pictures/default.jpg" alt="">
+                    <a class="t-r-bowler-name"></a>
+                    <a class="btn btn-small t-r-bowler-view"></a>
+                </div>
+                <div class="t-roster-bowler preview desktop-on">
+                    <img class="t-r-bowler-image" src="/media/profile-pictures/default.jpg" alt="">
+                    <a class="t-r-bowler-name"></a>
+                    <a class="btn btn-small t-r-bowler-view"></a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="roster-btns {% if not roster %}empty{% endif %}">
+                <a class="roster-empty-msg">Be the first to join the roster!</a>
+                {% if user.is_authenticated or True%}
+                    <a class="btn btn-medium bkg-none border-none text-darkgreen roster-btn">${{ tournament.10|floatformat:0 }}{% if tournament.11 %}/Team{% endif %} FEE DUE AT ENTRY</a>
+                    {% if on_roster %}
+                        <a class="btn btn-medium bkg-darkgreen border-none text-white join-roster roster-btn" leave-roster="{% url 'tournaments:leave-roster' tournament.0 %}" join-roster="{% url 'tournaments:join-roster' tournament.0 %}" state="leave">LEAVE</a>
+                    {% else %}
+                        <a class="btn btn-medium bkg-darkgreen border-none text-white join-roster roster-btn" leave-roster="{% url 'tournaments:leave-roster' tournament.0 %}" join-roster="{% url 'tournaments:join-roster' tournament.0 %}" state="join">JOIN</a>
+                    {% endif %}
+                {% else %}
+                    <a class="btn btn-medium bkg-darkgreen border-none text-white">LOGIN TO JOIN</a>
+                {% endif %}
+            </div>
+        </div>
+        {% if center %}
+        <div class="sec t-center-about">
+            <h2>{{ center.1 }}</h2>
+            <img src="{{ center.4 }}" alt="" class="t-c-image">
+            <ul>
+                <li>Location: <span>{{ center.2 }}, {{ center.3 }}</span></li>
+                <li>Lanes: <span>25</span></li>
+                <li>Free Wifi: <span>Yes</span></li>
+                <li>Cafe: <span>Yes</span></li>
+            </ul>
+            <div class="btn-bar-right">
+                <a class="btn btn-medium border-none bkg-none border-none text-darkgreen">Want to learn more info?</a>
+                <a href="" class="btn btn-medium border-none">VIEW</a>
+            </div>
+        </div>
+        {% endif %}
+        <div class="sec t-contact desktop-on">
+            <a href="" class="t-contact-item">Need Help?</a>
+            <a href="{% url 'faqs' %}" class="t-contact-item"><i class="icon-question-circle"></i>HELP CENTER</a>
+            <a href="{% url 'live-chat' %}" class="t-contact-item"><i class="icon-commenting"></i>LIVE CHAT</a>
+        </div>
+    </section>
+    <script src="{% static 'js/tournament/roster.js' %}"></script>
 {% endif %}
 
 <script src="{% static 'js/tournament-view-align.js' %}"></script>
 <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
+
 
 {% endblock %}
 

@@ -196,7 +196,7 @@ def get_page_urls():
     urls = []
     tries = 0
 
-    for x in range(0, 34):
+    for x in range(0, 2):
         with urlopen('https://www.scratchbowling.com/tournament-results?page=' + str(x)) as response:
             soup = BeautifulSoup(response, 'lxml')
             titles = soup.find_all(class_='field field--name-title field--type-string field--label-hidden')

@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'oils',
     'accounts',
     'cacher',
-    'vods'
+    'vods',
+    'ScratchBowling'
 ]
 
 MIDDLEWARE = [

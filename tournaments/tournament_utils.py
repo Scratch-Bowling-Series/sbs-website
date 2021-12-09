@@ -138,7 +138,7 @@ def convert_to_display_main_upcoming_list(tournament_list):
 def convert_to_display_main_upcoming(tournament):
     ## UPCOMING TOURNAMENTS FORMAT
     ## [0=id, 1=name, 2=date, 3=time, 4=sponsor_id, 5=center_id,
-    # 6=center_name, 7=center_location, 8=spots_available, 9=spots_reserved]
+    # 6=center_name, 7=center_location, 8=spots_available, 9=spots_reserved, 10=entry_fee, 11=is_team_entry, 12=tags]
     center_name = 'Unknown Center'
     center_id = 0
     center_location = 'Unknown Location'
@@ -147,16 +147,30 @@ def convert_to_display_main_upcoming(tournament):
         center_name = center.center_name
         center_id = center.center_id
         center_location = get_center_location_obj(center)
+    is_team_entry = False
+    spots_reserved = tournament.spots_reserved
+    if 'double' in tournament.tournament_name:
+        is_team_entry = True
+    if 'Double' in tournament.tournament_name:
+        is_team_entry = True
+    if spots_reserved == 0:
+        spots_reserved = 120
+
+
 
     return [tournament.tournament_id,
             tournament.tournament_name,
-            tournament.tournament_date,
-            tournament.sponsor,
+            tournament.datetime.strftime("%m/%d"),
+            tournament.datetime.time(),
+            tournament.get_sponsor_image(),
             center_id,
             center_name,
             center_location,
-            get_spots_available_obj(tournament),
-            tournament.spots_reserved
+            tournament.get_roster_length(),
+            spots_reserved,
+            tournament.entry_fee,
+            is_team_entry,
+            tournament.get_tags()
             ]
 
 def convert_to_display_main_results_list(tournament_list):
@@ -167,7 +181,7 @@ def convert_to_display_main_results_list(tournament_list):
 def convert_to_display_main_results(tournament):
     ## RESULTS TOURNAMENTS FORMAT
     ## [0=id, 1=name, 2=date, 3=sponsor_id, 4=center_id,
-    # 5=center_name, 6=center_location, 7=participants, 8=winner_name, 9=winner_id, 10=winner_avg]
+    # 5=center_name, 6=center_location, 7=participants, 8=winner_name, 9=winner_id, 10=winner_avg, 11=tags]
     center_name = 'Unknown Center'
     center_id = 0
     center_location = 'Unknown Location'
@@ -180,15 +194,23 @@ def convert_to_display_main_results(tournament):
     winner_id = get_winner(tournament.placement_data)
     winner = get_name_from_uuid(winner_id, True, True, True)
     winner_average = get_average(tournament, winner_id)
+
+    date = tournament.datetime.date()
+    if date.year == datetime.now().year:
+        date = date.strftime('%m/%d')
+    else:
+        date = date.strftime('%m/%d/%y')
+
     return [tournament.tournament_id,
             tournament.tournament_name,
-            tournament.tournament_date,
-            tournament.sponsor,
+            date,
+            tournament.get_sponsor_image(),
             center_id,
             center_name,
             center_location,
             get_roster_length_obj(tournament),
             winner,
             winner_id,
-            winner_average
+            winner_average,
+            tournament.get_tags()
             ]

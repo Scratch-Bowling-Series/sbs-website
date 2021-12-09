@@ -2,14 +2,14 @@
 {% load static %}
 {% block content %}
 
-<section class="col col-20 col-m-max-width m-order-1">
+<section class="col col-20 col-m-max-width m-order-2">
     <section class="sec looking-for-centers">
         <h2>LOOKING FOR CENTERS</h2>
         <p>Would you like to have SBS come to your bowling center?</p>
         <a href="" class="btn btn-full bkg-darkgreen text-white">LEARN MORE</a>
     </section>
 </section>
-<section class="col col-60 col-m-max-width m-order-2">
+<section class="col col-60 col-m-max-width m-order-1">
     <section class="tournament-topbar">
         <section class="account-sort std-radius">
             <a>SORT BY <i class="icon-angle-down"></i></a>
@@ -32,7 +32,7 @@
                     <div class="stat"><a>106</a><span>WINS</span></div>
                     <div class="stat"><a>260</a><span>AVG</span></div>
                 </div>
-                <a href="/account/view/{{ bowler.0 }}" class="account-view btn btn-medium">VIEW PROFILE</a>
+                <a href="/account/view/{{ bowler.0 }}" class="account-view btn btn-medium">VIEW</a>
             </div>
             {% if not forloop.last %}
             <div class="standard-underline"></div>
@@ -100,6 +100,10 @@
         <div class="sitestat-half">
           <a>CENTERS</a>
           <h2>{% if total_centers is None %}0{% else %}{{ total_centers }}{% endif %}</h2>
+        </div>
+        <div class="sitestat-half">
+            <a>STREAM READY</a>
+            <h2>{% if total_centers is None %}0{% else %}{{ total_centers|add:'-34' }}{% endif %}</h2>
         </div>
       </section>
 </section>

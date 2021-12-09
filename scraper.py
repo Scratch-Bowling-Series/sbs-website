@@ -8,22 +8,21 @@ from itertools import islice
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
-from ScratchBowling.sbs_utils import is_valid_uuid, normalize_state
+from ScratchBowling.sbs_utils import normalize_state
 from centers.models import Center
-from oils.oil_pattern_scraper import update_library
 from scoreboard.ranking import calculate_statistics
 from tournaments.models import Tournament
-from tournaments.roster import serialize_roster_data
+from tournaments.roster import serialize_roster_data, fix_scraped_tournament_rosters
 from tournaments.tournament_data import convert_to_tournament_data_all_tournaments, deserialize_placement_data
 
 User = get_user_model()
 
-## SCRAPE CACHE ##
+# <editor-fold desc="SCRAPE CACHE MANAGEMENT">
 class ScrapeCache(quickle.Struct):
     last_scrape : str = None
     link_library : dict = {}
     center_link_library : dict = {}
-    tournament_link_library : dict = {}
+    tournament_link_library : dict = []
     urls : list = []
 
 def store_scrape_cache(scrape_cache):
@@ -63,7 +62,8 @@ def get_scrape_cache():
     try:
         pwd = os.path.dirname(__file__)
         f = open(pwd + "/scrape_cache.dat", "rb")
-        return deserialize_scrape_cache(f.read())
+        data = f.read()
+        return deserialize_scrape_cache(data)
     except FileNotFoundError:
         return ScrapeCache()
 
@@ -71,9 +71,56 @@ def serialize_scrape_cache(scrape_cache):
     return quickle.Encoder(registry=[ScrapeCache]).dumps(scrape_cache)
 
 def deserialize_scrape_cache(data):
-    return quickle.Decoder(registry=[ScrapeCache]).loads(data)
+    try:
+        return quickle.Decoder(registry=[ScrapeCache]).loads(data)
+    except quickle.DecodingError:
+        return ScrapeCache()
+# </editor-fold>
 
-## MASTER SCRAPE FUNCTION ##
+
+
+
+def run_sync_cycle(debug=False):
+    logit('Sync Initialized - Debug: ' + str(debug))
+    ## SCRAPE FOR NEW USERS ##
+    #users_added = scrape_for_new_users(True, debug)
+    #logit('Users Accounts Scrape', 'Complete - Added: ' + str(users_added))
+
+    ## SCRAPE FOR NEW CENTERS ##
+    #centers_added = scrape_for_new_centers(True, debug)
+    #logit('Bowling Centers Scrape', 'Complete - Added: ' + str(centers_added))
+
+    ## SCRAPE FOR UPCOMING TOURNAMENTS ##
+    upcoming_added = scrape_for_upcoming_tournaments()
+    logit('Upcoming Tournaments Scrape', 'Complete - Added: ' + str(upcoming_added))
+
+    ## SCRAPE FOR NEW TOURNAMENTS ##
+   # tournaments_added = scrape_for_new_tournaments(True, debug)
+  #  logit('Tournaments Scrape', 'Complete - Added: ' + str(tournaments_added))
+
+    ## CONVERT SCRAPE DATA TO TOURNAMENT DATA
+#    convert_to_tournament_data_all_tournaments()
+ #   logit('Converting Tournaments', 'Complete - Converted: ' + str(tournaments_added))
+
+
+    ## CALCULATE NEW STATISTICS
+    #calculate_statistics()
+    #logit('Calculating Statistics', 'Complete - Calculated: ' + str('010'))  # users_added))
+
+    ## UPDATE OIL PATTERN DATABASE
+    # update_library()
+    ## UPDATE CACHE DATE ##
+
+    ## UPDATE ROSTER LISTS ##
+    #fix_scraped_tournament_rosters()
+
+    #cache = get_scrape_cache()
+   # if cache != None:
+    #    cache.last_scrape = str(datetime.now())
+       # store_scrape_cache(cache)
+
+    logit('Finished')
+
 def master_scrape(update=True, debug=False):
     logit('Startup Initialized - Update: ' + str(update) + ' - Debug: ' + str(debug))
     ## SCRAPE FOR NEW USERS ##
@@ -87,18 +134,18 @@ def master_scrape(update=True, debug=False):
     #logit('Bowling Centers Scrape', 'Complete - Added: ' + str(centers_added))
 
     ## SCRAPE FOR NEW TOURNAMENTS ##
-    #if update == False: Tournament.objects.all().delete()
-    #tournaments_added = scrape_for_new_tournaments(update, debug)
-    #logit('Tournaments Scrape', 'Complete - Added: ' + str(tournaments_added))
+    if update == False: Tournament.objects.all().delete()
+    tournaments_added = scrape_for_new_tournaments(update, debug)
+    logit('Tournaments Scrape', 'Complete - Added: ' + str(tournaments_added))
 
     ## CONVERT SCRAPE DATA TO TOURNAMENT DATA
-    #convert_to_tournament_data_all_tournaments()
-    #logit('Converting Tournaments', 'Complete - Converted: ' + str(tournaments_added))
+    convert_to_tournament_data_all_tournaments()
+    logit('Converting Tournaments', 'Complete - Converted: ' + str(tournaments_added))
     ## CALCULATE NEW STATISTICS
-    #calculate_statistics()
-    #logit('Calculating Statistics', 'Complete - Calculated: ' + str('010'))#users_added))
+    calculate_statistics()
+    logit('Calculating Statistics', 'Complete - Calculated: ' + str('010'))#users_added))
     ## UPDATE OIL PATTERN DATABASE
-    update_library()
+    #update_library()
     ## UPDATE CACHE DATE ##
 
     ## UPDATE ROSTER LISTS ##
@@ -119,7 +166,7 @@ def master_scrape(update=True, debug=False):
     logit('Finished')
 
 
-## USER ACCOUNT SCRAPING ##
+# <editor-fold desc="USER ACCOUNT SCRAPING">
 def scrape_for_new_users(update, debug):
     urls = get_all_account_urls()
     cache = get_scrape_cache()
@@ -236,9 +283,9 @@ def get_user_from_url(url):
             user.location_state = normalize_state(location.split(',')[1])
         user.unclaimed = True
         return user
+# </editor-fold>
 
-
-## CENTERS SCRAPING ##
+# <editor-fold desc="CENTERS SCRAPING">
 def scrape_for_new_centers(update, debug):
     cache = get_scrape_cache()
     lib = cache.center_link_library
@@ -367,8 +414,9 @@ def create_center(name, street, city, state, zip, phone, description):
     center.phone_number = int(phone)
     center.center_description = str(description) + ' '
     return center
+# </editor-fold>
 
-## TOURNAMENT SCRAPING ##
+# <editor-fold desc="TOURNAMENT SCRAPING">
 class ScrapedTournament:
     name = ''
     n_city = ''
@@ -378,9 +426,12 @@ class ScrapedTournament:
     qualifiers = None
     oil = None
     matchplay = None
+    description = ''
+    picture = ''
 
 def scrape_for_new_tournaments(update, debug):
-    urls = get_page_urls()
+    urls = get_all_tournament_urls()
+    scrape_cache = get_scrape_cache()
     count = 0
     tournaments_added = 0
     tournaments = []
@@ -396,7 +447,7 @@ def scrape_for_new_tournaments(update, debug):
             amount += 25
             step = 0
             logit('Tournaments Scrape', str(int((amount / urls_length) * 100)) + '%')
-        tournament = get_tournament_from_url(url)
+        tournament = get_tournament_from_url(url, scrape_cache)
         if tournament != None:
             if update:
                 if tournament_exists(tournament) == False:
@@ -432,26 +483,46 @@ def tournament_exists(scraped_tournament):
 
 def convert_tournaments(datas):
     tournaments = []
-    cache = get_scrape_cache()
-    lib = cache.center_link_library
     for data in datas:
         tournament = Tournament.create(data.name)
         if data.date == None: data.date = '01/01/01'
         date = datetime.strptime(data.date, '%m/%d/%y')
         tournament.tournament_date = date.strftime('%Y-%m-%d')
         tournament.tournament_oil = data.oil
-        if data.center != None:
-            center_id = is_valid_uuid(lib.get(data.center))
-            print('Center: ' + str(data.center) + ' UUID: ' + str(center_id))
-            if center_id != None:
-                tournament.tournament_center = center_id
+        tournament.center = data.center
         tournament.entry = data.entry
+        tournament.picture_scrape = data.picture
+        tournament.tournament_description = data.description
         tournament.qualifiers = json.dumps(data.qualifiers)
         tournament.matchplay = json.dumps(data.matchplay)
         tournaments.append(tournament)
     return tournaments
 
-def get_tournament_from_url(url):
+def get_all_tournament_urls():
+    scrape_cache = get_scrape_cache()
+    lib = scrape_cache.tournament_link_library
+    if len(lib) > 0:
+        return lib
+    else:
+        urls = []
+        page = 0
+        while True:
+            page += 1
+            logit('Tournaments Gather Urls', str(int((page / 40) * 100)) + '%')
+            with urlopen('https://www.scratchbowling.com/tournament-results?page=' + str(page)) as response:
+                soup = BeautifulSoup(response, 'lxml')
+                titles = soup.find_all(class_='field field--name-title field--type-string field--label-hidden')
+                if titles == None or len(titles) == 0:
+                    break
+                for title in titles:
+                    url = title.find_parent('a').get('href')
+                    if 'oil-patterns' not in url:
+                        urls.append('https://scratchbowling.com/' + url)
+        scrape_cache.tournament_link_library = urls
+        store_scrape_cache(scrape_cache)
+        return urls
+
+def get_tournament_from_url(url, scrape_cache):
     with urlopen(url) as response:
         soup = BeautifulSoup(response, 'lxml')
 
@@ -469,17 +540,17 @@ def get_tournament_from_url(url):
         else:
             skip = True
 
-        center = get_center(soup)
+        center = get_center(soup, scrape_cache)
         if center != None and skip == False:
             tournament.center = center
-        else:
-            skip = True
 
         entry = get_entry(soup)
         if entry != None and skip == False:
             tournament.entry = entry
-        else:
-            skip = True
+
+        desc = get_description(soup)
+        if desc != None and skip == False:
+            tournament.description = desc
 
         qualifiers = get_qualifiers(soup)
         if qualifiers != None and skip == False:
@@ -496,44 +567,29 @@ def get_tournament_from_url(url):
         oil = get_oil(soup)
         if oil != None and skip == False:
             tournament.oil = oil
-        else:
-            skip = False
+
+        img = get_image(soup)
+        if img != None and skip == False:
+            tournament.picture = img
 
         if skip == False:
             return tournament
         else:
             return None
 
-def get_page_urls():
-    urls = []
-    page = 0
-    while True:
-        page += 1
-        logit('Tournaments Gather Urls', str(int((page / 40) * 100)) + '%')
-        with urlopen('https://www.scratchbowling.com/tournament-results?page=' + str(page)) as response:
-            soup = BeautifulSoup(response, 'lxml')
-            titles = soup.find_all(class_='field field--name-title field--type-string field--label-hidden')
-            if titles == None or len(titles) == 0:
-                break
-            for title in titles:
-                url = title.find_parent('a').get('href')
-                if 'oil-patterns' not in url:
-                    urls.append('https://scratchbowling.com/' + url)
-    return urls
-
 def get_entry(soup):
     title = soup.find(class_='field field--name-field-entry-fee field--type-string field--label-inline')
     if title is not None:
         entry = title.find(class_='field__item')
-        if entry is not None:
+        if entry:
             entry = entry.text
             entry = entry.replace("$","")
             if '/' in entry:
                 entry = entry.split('/')
                 entry = entry[0]
-            return entry
-
-    return None
+            if entry:
+                return int(entry)
+    return 0
 
 def get_name(soup):
     title = soup.find(class_='field field--name-title field--type-string field--label-hidden')
@@ -544,24 +600,30 @@ def get_name(soup):
             return title.text
     return None
 
-def get_date(soup):
-    title = soup.find(class_='field field--name-title field--type-string field--label-hidden')
-    if title is not None:
-        try:
-            date = datetime.strptime(title.text.split('-')[0], '%B %d, %Y ')
-            return date.strftime('%m/%d/%y')
-        except ValueError:
-            date = None
+def get_description(soup):
+    desc = soup.find(class_='field--type-text-with-summary')
+    if desc != None:
+        desc = soup.find('p')
+        if desc != None:
+            return desc.text
     return None
 
-def get_center(soup):
+def get_datetime(soup):
+    time = soup.find('time')
+    if time:
+        time = time['datetime']
+        return datetime.strptime(time, '%Y-%m-%dT%H:%M:%SZ')
+    return None
+
+def get_center(soup, scrape_cache):
     title = soup.find(class_='field field--name-field-bowling-center field--type-entity-reference field--label-inline')
-    if title is not None:
+    if title != None:
         entry = title.find(class_='field__items')
         entry = entry.find(class_='field__item')
         entry = entry.find('a')
-        return entry['href']
-
+        entry = entry['href']
+        if entry in scrape_cache.center_link_library:
+            return scrape_cache.center_link_library[entry]
     return None
 
 def get_qualifiers(soup):
@@ -653,8 +715,68 @@ def get_oil(soup):
 
     return None
 
+def get_image(soup):
+    img = soup.find(class_='image-style-tournament-image')
+    if img != None:
+        print(img['src'])
+        return img['src']
+    return None
 
-## LOGGING ##
+# </editor-fold>
+
+def scrape_for_upcoming_tournaments():
+    scrape_cache = get_scrape_cache()
+    links = get_individual_links_of_upcoming_tournaments()
+    tournaments = []
+    count = 0
+    for link in links:
+        with urlopen(link) as response:
+            soup = BeautifulSoup(response, 'lxml')
+            print(link)
+            date = get_datetime(soup)
+            if not date:
+                print('date not found')
+                continue
+            if date < datetime.now():
+                print('tournament is finished')
+                continue
+
+            name = get_name(soup)
+            if not name:
+                print('name not found')
+                continue
+            tournament = Tournament.create(name)
+            tournament.datetime = date
+            tournament.soup = str(soup)
+            tournament.tournament_description = get_description(soup)
+            tournament.entry_fee = get_entry(soup)
+            # Get Center
+            center = get_center(soup, scrape_cache)
+            if center:
+                tournament.center = center
+            tournaments.append(tournament)
+            count += 1
+    Tournament.objects.bulk_create(tournaments)
+    return count
+
+
+
+def get_individual_links_of_upcoming_tournaments():
+    url = 'https://scratchbowling.com/upcoming-tournaments'
+    with urlopen(url) as response:
+        soup = BeautifulSoup(response, 'lxml')
+        tournament_links = []
+        datas = soup.find_all('td')
+        for data in datas:
+            data = data.find('a')
+            if data:
+                link = data['href']
+                if link:
+                    tournament_links.append(link)
+    return tournament_links
+
+
+# <editor-fold desc="LOGGING">
 def logit(task, prog=None):
     if prog != None:
         print('MasterScraper - Task: ' + str(task) + ' - Progress: ' + str(prog))
@@ -680,6 +802,4 @@ def get_scraper_log():
         return logs
     except FileNotFoundError:
         return ScrapeCache()
-
-if __name__ == "__main__":
-    master_scrape(False, True)
+# </editor-fold>

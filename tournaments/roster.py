@@ -1,11 +1,20 @@
-from random import randrange
-
-from ScratchBowling.sbs_utils import is_valid_uuid
 import quickle
+from random import randrange
+from ScratchBowling.sbs_utils import is_valid_uuid
+from accounts.account_helper import get_name_from_user, get_rank_from_user, get_user_uuid, get_amount_users, \
+    get_rank_color
+from tournaments.models import Tournament
+from tournaments.tournament_data import deserialize_placement_data
 
-from accounts.account_helper import get_name_from_uuid, get_location_basic_uuid, get_name_from_user, get_rank_from_user, \
-    get_user_uuid, make_ordinal, get_amount_users
-
+def fix_scraped_tournament_rosters():
+    tournaments = Tournament.objects.filter(finished=True)
+    for tournament in tournaments:
+        roster = []
+        placements = deserialize_placement_data(tournament.placement_data)
+        for placement in placements:
+            roster.append(str(placement.user_id))
+        tournament.roster = serialize_roster_data(roster)
+    Tournament.objects.bulk_update(tournaments)
 
 def add_user_to_roster_obj(tournament, user_id):
     roster_data = tournament.roster
@@ -66,12 +75,12 @@ def deserialize_roster_data(roster_data):
     return quickle.loads(roster_data)
 
 
-def roster_data_display(roster):
+def roster_data_display(roster, bold_last=True):
     datas = []
     for user_id in roster:
         user = get_user_uuid(user_id)
         if user != None:
-            datas.append([user_id, get_name_from_user(user), get_rank_from_user(user.statistics, False)])
+            datas.append([user_id, get_name_from_user(user, True, bold_last), get_rank_from_user(user.statistics, False)])
         else:
             datas.append([0, 'Unknown Name', randrange(1, 4000)])
 
@@ -83,31 +92,3 @@ def roster_data_display(roster):
 
     return datas
 
-def get_rank_color(rank, total_users):
-    diamond = total_users / 10
-    gold = total_users / 5
-    silver = total_users / 2.5
-
-    diamond_icon = 'icon-play'
-    diamond_color = '#42d1f5'
-
-    gold_icon = 'icon-play'
-    gold_color = '#f5d442'
-
-    silver_icon = 'icon-play'
-    silver_color = '#c2c2c2'
-
-    bronze_icon = 'icon-play'
-    bronze_color = '#CD7F32'
-    if rank > 0 and rank <= diamond:
-        return create_icon_html(diamond_icon, diamond_color)
-    elif rank > diamond and rank <= gold:
-        return create_icon_html(gold_icon, gold_color)
-    elif rank > gold and rank <= silver:
-        return create_icon_html(silver_icon, silver_color)
-    elif rank > silver:
-        return create_icon_html(bronze_icon, bronze_color)
-
-
-def create_icon_html(icon, color, clss=''):
-    return '<i class="' + icon + ' ' + clss + '" style="color:' + color + ';"></i>'

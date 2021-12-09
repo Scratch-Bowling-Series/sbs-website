@@ -1,0 +1,71 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block content %}
+
+<section class="col col-20 col-m-max-width m-order-2">
+    <section class="sec looking-for-centers">
+        <h2>LOOKING FOR CENTERS</h2>
+        <p>Would you like to have SBS come to your bowling center?</p>
+        <a href="" class="btn btn-full bkg-darkgreen text-white">LEARN MORE</a>
+    </section>
+</section>
+<section class="col col-60 col-m-max-width m-order-1">
+    <section class="sec single-center">
+        {% if center %}
+            <h2>{{ center.1 }}</h2>
+            <h3> {{ center.2 }}</h3>
+        {% endif %}
+    </section>
+</section>
+<section class="col col-20 col-m-max-width m-order-3">
+    <section class="sec desktop-on">
+        <h3 class="tournament-filter-header standard-title text-dark-green">FILTERS</h3>
+        <div class="tournament-filter-container">
+            <div class="tournament-filter-icon">
+                <i class="icon-circle"></i>
+            </div><div class="tournament-filter-section">
+                <a class="tournament-filter-title">ALL CENTERS</a>
+            </div>
+        </div>
+        <div class="tournament-filter-container">
+            <div class="tournament-filter-icon">
+                <i class="icon-circle1"></i>
+            </div><div class="tournament-filter-section">
+                <a class="tournament-filter-title">SEARCH BY ZIP</a>
+                <input type="zip" class="tournament-filter-zip" placeholder="ZIP CODE">
+            </div>
+        </div>
+        <div class="tournament-filter-container">
+            <div class="tournament-filter-icon">
+                <i class="icon-circle1"></i>
+            </div><div class="tournament-filter-section">
+                <a class="tournament-filter-title">MILE RADIUS</a>
+                <input class="tournament-filter-miles" type="range" min="10" max="250" value="125" class="slider" id="myRange">
+                <div class="tournament-filter-miles-label-container">
+                    <a class="first">10</a>
+                    <a class="second">125</a>
+                    <a class="third">250+</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% if request.user is not None and request.user.admin == True %}
+    <section class="sec">
+        <h3 class="standard-title text-dark-green">ADMIN FUNCTIONS</h3>
+        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen">CREATE TOURNAMENT</a>
+        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen" style="margin-top:0;">VIEW DEEP STATS</a>
+    </section>
+    {% endif %}
+    <section class="sec sitestat">
+        <div class="sitestat-half">
+          <a>CENTERS</a>
+          <h2>{% if total_centers is None %}0{% else %}{{ total_centers }}{% endif %}</h2>
+        </div>
+        <div class="sitestat-half">
+            <a>STREAM READY</a>
+            <h2>{% if total_centers is None %}0{% else %}{{ total_centers|add:'-34' }}{% endif %}</h2>
+        </div>
+      </section>
+</section>
+
+{% endblock %}

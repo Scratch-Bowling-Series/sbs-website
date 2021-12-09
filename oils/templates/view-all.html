@@ -23,7 +23,7 @@
              <a href="" class="btn btn-small t-oil-view-pdf">VIEW PDF</a>
              <div class="t-oil-display-wrap">
                  <div class="t-oil-display">
-                     {% for oil in oil_pattern|oil_pattern_filter %}
+                     {% for oil in oil_pattern %}
                      <span class="t-oil-cell {% if forloop.last %} t-oil-cell-right {% endif %}">
                     <span class="t-oil-row t-oil-row-top" style="background: {{ oil.0 }};"></span>
                     <span class="t-oil-row" style="background: {{ oil.1 }};"></span>

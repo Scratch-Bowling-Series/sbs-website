@@ -3,4 +3,5 @@ from django.shortcuts import render
 
 
 def scoreboard(request):
-    return HttpResponse('None')
+    data = {'test':None}
+    return render(request, 'scoreboard/scoreboard.html', data)

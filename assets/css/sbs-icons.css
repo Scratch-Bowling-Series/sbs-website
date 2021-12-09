@@ -12,47 +12,43 @@
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}.icon-link:before {
+}
+
+.icon-defend:before {
+  content: "\e929";
+}
+.icon-shield2:before {
+  content: "\e928";
+}
+.icon-badge:before {
   content: "\e926";
 }
-.icon-chain:before {
-  content: "\e926";
+.icon-shield1:before {
+  content: "\e927";
 }
-.icon-url:before {
-  content: "\e926";
+.icon-question:before {
+  content: "\f128";
 }
-.icon-uri:before {
-  content: "\e926";
+.icon-question-circle:before {
+  content: "\f059";
 }
-.icon-anchor:before {
-  content: "\e926";
+.icon-comment:before {
+  content: "\f075";
 }
-.icon-calendar:before {
-  content: "\f073";
+.icon-phone:before {
+  content: "\f095";
 }
-.icon-twitter-square:before {
-  content: "\f081";
+.icon-email:before {
+  content: "\f0e0";
 }
-.icon-facebook-square:before {
-  content: "\f082";
+.icon-shield:before {
+  content: "\f132";
 }
-.icon-twitter:before {
-  content: "\f099";
+.icon-commenting:before {
+  content: "\f27a";
 }
-.icon-facebook:before {
-  content: "\f09a";
-}
-.icon-facebook-f:before {
-  content: "\f09a";
-}
-.icon-reddit-square:before {
-  content: "\f1a2";
-}
-.icon-share-alt:before {
-  content: "\f1e0";
-}
-.icon-reddit-alien:before {
-  content: "\f281";
+.icon-question-circle-o:before {
+  content: "\f29c";
 }
 .icon-exclamation:before {
   content: "\e925";
@@ -168,3 +164,4 @@
 .icon-wine-glass-alt:before {
   content: "\e91f";
 }
+

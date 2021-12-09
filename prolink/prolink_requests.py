@@ -1,4 +1,4 @@
-import json
+import quickle
 from django.db.models import Q
 from accounts.forms import User
 from centers.models import Center
@@ -29,7 +29,7 @@ def get_list_of_all_patterns():
     for oil_pattern in oil_patterns:
         pattern_cache = oil_pattern.pattern_cache
         if pattern_cache is not None:
-            pattern_cache = json.loads(pattern_cache)
+            pattern_cache = quickle.loads(pattern_cache)
             data = []
             data.append(oil_pattern.pattern_name)
             data.append(oil_pattern.pattern_db_id)

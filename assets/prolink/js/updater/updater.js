@@ -51,6 +51,7 @@ ipcRenderer.on('Error', function()
 ipcRenderer.on('NoUpdate', function()
 {
     NoUpdates();
+    console.log('no updates');
 });
 ipcRenderer.on('Downloaded', function()
 {

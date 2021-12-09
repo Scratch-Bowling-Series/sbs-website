@@ -35,11 +35,11 @@
     <section class="tournament-topbar">
         <section class="tournament-view-selector std-radius">
             {% if selected_upcoming == True %}
-            <a class="left" href="/tournaments/upcoming">UPCOMING</a>
-            <a class="right text-lightgrey" href="/tournaments/results">RESULTS</a>
+            <a class="left text-grey" href="/tournaments/upcoming">UPCOMING</a>
+            <a class="right " href="/tournaments/results">RESULTS</a>
             {% else %}
-            <a class="left text-lightgrey" href="/tournaments/upcoming">UPCOMING</a>
-            <a class="right" href="/tournaments/results">RESULTS</a>
+            <a class="left" href="/tournaments/upcoming">UPCOMING</a>
+            <a class="right text-grey" href="/tournaments/results">RESULTS</a>
             {% endif %}
         </section>
         <section class="tournament-sort std-radius">
@@ -54,25 +54,42 @@
             <a href="/tournaments/results" class="no-results-link hover-effect">VIEW PREVIOUS TOURNAMENTS</a>
         {% else %}
         {% for tournament in tournaments_upcoming %}
-        <section class="tournament-preview">
-            <div class='tournament-image'>
-                <img src="/tournaments/data/sponsor-pic/{{ tournament.4 }}">
-            </div>
-            <div class="tournament-container tournament-half-width">
-                    <a href="/tournaments/view/{{ tournament.0 }}" class="tournament-name">{{ tournament.1 }}</a><!--
-                    --><a href="/tournaments/view/{{ tournament.0 }}" class="tournament-date">{{ tournament.2|date:'m/d/y' }}<i class="tournament-arrow icon-arrow-right"></i>{{ tournament.3|time:'h:iA' }}</a><!--
-                    --><a href="/centers/view/{{ tournament.5 }}" class="tournament-center">{{ tournament.6 }} - {{ tournament.7 }}</a><!--
-                    --><a href="/tournaments/view/{{ tournament.0 }}" class="tournament-spots">{{ tournament.9 }} RESERVED, {{ tournament.8 }} AVAILABLE</a>
-            </div>
-            {% if not forloop.last %}
-                <a class="btn tournament-button">RESERVE</a>
-            {% else %}
-                <a class="tournament-button-invert standard-button">RESERVED</a>
-            {% endif %}
-            {% if not forloop.last %}
-                <div class="standard-underline"></div>
-            {% endif %}
-        </section>
+            <section class="tournament-block">
+                <div class="sponsor-card">
+                    <img src="{{ tournament.4 }}" alt="{{ tournament.1 }} Event Picture.">
+                </div>
+                <a class="block-name">{{ tournament.1 }}</a>
+
+
+                <div class="block-details">
+                    <a href="/centers/view/{{ tournament.3 }}" class="tournament-date" >{{ tournament.2 }} at {{ tournament.6 }} - {{ tournament.7 }}</a>
+                    <a href="/centers/view/{{ tournament.3 }}" class="tournament-date">Bowlers on Roster {{ tournament.8 }}/{{ tournament.9 }}</a>
+                    <div class="block-tags">
+                        {% for tag in tournament.12 %}
+                            {% if tag == 1 %}
+                            <span class="tag bkg-lightgrey text-darkgreen">DOUBLES</span>
+                            {% elif tag == 2 %}
+                            <span class="tag bkg-lightgrey text-darkgreen">SWEEPER</span>
+                            {% elif tag == 3 %}
+                            <span class="tag bkg-lightgrey text-darkgreen">SBS OPEN</span>
+                            {% elif tag == 4 %}
+                            <span class="tag bkg-lightgrey text-darkgreen">CHALLENGE</span>
+                            {% elif tag == 5 %}
+                            <span class="tag bkg-lightgrey text-darkgreen">SPRUMMER</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="block-btns">
+                    <a href="/tournaments/view/{{ tournament.0 }}" class="btn btn-medium bkg-none border-transparent text-darkgreen">${{ tournament.10|floatformat:0 }}{% if tournament.11 %}/TEAM{% endif %} ENTRY</a>
+                    {% if user.is_authenticated %}
+                    <a href="/tournaments/view/{{ tournament.0 }}" class="btn btn-medium bkg-none text-darkgreen border-darkgreen margin-left">JOIN</a>
+                    <a href="/tournaments/view/{{ tournament.0 }}" class="btn btn-medium bkg-darkgreen border-darkgreen margin-left">VIEW</a>
+                    {% else %}
+                    <a href="/tournaments/view/{{ tournament.0 }}" class="btn btn-medium bkg-darkgreen border-darkgreen margin-left">VIEW</a>
+                    {% endif %}
+                </div>
+            </section>
         {% endfor %}
         {% endif %}
     </section>
@@ -82,22 +99,40 @@
             <h2 class="no-results">NO RESULTS FOUND</h2>
         {% else %}
         {% for tournament in tournaments_past %}
-        <section class="tournament-preview">
-            <img class="tournament-image" src="/tournaments/data/sponsor-pic/{{ tournament.4 }}"><!--
-            --><div class="tournament-container tournament-full-width">
-                    <a href="/tournaments/view/{{ tournament.0 }}" class="tournament-name">{{ tournament.1 }}</a><!--
-                    {% if tournament.9 == None %}
-                    --><a class="tournament-date">{{ tournament.2|date:'m/d/y' }}</a><!--
-                    {% else %}
-                    --><a class="tournament-date">{{ tournament.2|date:'m/d/y' }}<p class="tournament-winner-name" href="/account/view/{{ tournament.9 }}"><i class="tournament-winner icon-trophy"></i>{{  tournament.8 }}<span>&nbsp;({{ tournament.10 }} AVG)</span></p></a><!--
-                    {% endif %}
-                    --><a href="/tournaments/view/{{ tournament.0 }}" class="tournament-center">{{ tournament.5 }} - {{ tournament.6 }}</a><!--
-                    --><a href="/tournaments/view/{{ tournament.0 }}" class="tournament-spots">{{ tournament.7 }} PARTICIPANTS</a>
-            </div>
-        {% if not forloop.last %}
-            <div class="standard-underline"></div>
-        {% endif %}
-        </section>
+            <section class="tournament-block">
+                <div class="sponsor-card">
+                    <img src="{{ tournament.3 }}" alt="{{ tournament.1 }} Event Picture.">
+                </div>
+                <a class="block-name">{{ tournament.1 }}</a>
+                <div class="block-details">
+                    <a href="/centers/view/{{ tournament.4 }}" class="tournament-date" >{{ tournament.2 }} at {{ tournament.5 }} - {{ tournament.6 }}</a>
+                    <a class="block-winner" href="/account/view/{{ tournament.9 }}">
+                        <i class="tournament-winner icon-trophy"></i>
+                        {{ tournament.8|safe }}
+                        <span class="text-grey winner-avg">&nbsp;({{ tournament.10|floatformat:1 }} AVG)</span>
+                    </a>
+                    <div class="block-tags">
+                        {% for tag in tournament.11 %}
+                            {% if tag == 1 %}
+                            <span class="tag bkg-lightgrey text-darkgreen">DOUBLES</span>
+                            {% elif tag == 2 %}
+                            <span class="tag bkg-lightgrey text-darkgreen">SWEEPER</span>
+                            {% elif tag == 3 %}
+                            <span class="tag bkg-lightgrey text-darkgreen">SBS OPEN</span>
+                            {% elif tag == 4 %}
+                            <span class="tag bkg-lightgrey text-darkgreen">CHALLENGE</span>
+                            {% elif tag == 5 %}
+                            <span class="tag bkg-lightgrey text-darkgreen">SPRUMMER</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="block-btns">
+                    <a href="/tournaments/view/{{ tournament.0 }}" class="btn btn-medium bkg-none border-transparent text-darkgreen">{{ tournament.7 }} PARTICIPANTS</a>
+                    <a href="/tournaments/view/{{ tournament.0 }}" class="btn btn-medium bkg-darkgreen border-darkgreen margin-left">VIEW</a>
+                </div>
+            </section>
         {% endfor %}
         {% endif %}
     </section>
