@@ -83,12 +83,12 @@ def deserialize_scrape_cache(data):
 def run_sync_cycle(debug=False):
     logit('Sync Initialized - Debug: ' + str(debug))
     ## SCRAPE FOR NEW USERS ##
-    #users_added = scrape_for_new_users(True, debug)
-    #logit('Users Accounts Scrape', 'Complete - Added: ' + str(users_added))
+    users_added = scrape_for_new_users(True, debug)
+    logit('Users Accounts Scrape', 'Complete - Added: ' + str(users_added))
 
     ## SCRAPE FOR NEW CENTERS ##
-    #centers_added = scrape_for_new_centers(True, debug)
-    #logit('Bowling Centers Scrape', 'Complete - Added: ' + str(centers_added))
+    centers_added = scrape_for_new_centers(True, debug)
+    logit('Bowling Centers Scrape', 'Complete - Added: ' + str(centers_added))
 
     ## SCRAPE FOR UPCOMING TOURNAMENTS ##
     upcoming_added = scrape_for_upcoming_tournaments()
@@ -124,19 +124,23 @@ def run_sync_cycle(debug=False):
 def master_scrape(update=True, debug=False):
     logit('Startup Initialized - Update: ' + str(update) + ' - Debug: ' + str(debug))
     ## SCRAPE FOR NEW USERS ##
-    #if update == False: User.objects.all().delete()
-    #users_added = scrape_for_new_users(update, debug)
-    #logit('Users Accounts Scrape', 'Complete - Added: ' + str(users_added))
+    if update == False: User.objects.all().delete()
+    users_added = scrape_for_new_users(update, debug)
+    logit('Users Accounts Scrape', 'Complete - Added: ' + str(users_added))
 
     ## SCRAPE FOR NEW CENTERS ##
-    #if update == False: Center.objects.all().delete()
-    #centers_added = scrape_for_new_centers(update, debug)
-    #logit('Bowling Centers Scrape', 'Complete - Added: ' + str(centers_added))
+    if update == False: Center.objects.all().delete()
+    centers_added = scrape_for_new_centers(update, debug)
+    logit('Bowling Centers Scrape', 'Complete - Added: ' + str(centers_added))
 
     ## SCRAPE FOR NEW TOURNAMENTS ##
     if update == False: Tournament.objects.all().delete()
     tournaments_added = scrape_for_new_tournaments(update, debug)
     logit('Tournaments Scrape', 'Complete - Added: ' + str(tournaments_added))
+
+    ## SCRAPE FOR UPCOMING TOURNAMENTS ##
+    upcoming_added = scrape_for_upcoming_tournaments()
+    logit('Upcoming Tournaments Scrape', 'Complete - Added: ' + str(upcoming_added))
 
     ## CONVERT SCRAPE DATA TO TOURNAMENT DATA
     convert_to_tournament_data_all_tournaments()
@@ -428,6 +432,7 @@ class ScrapedTournament:
     matchplay = None
     description = ''
     picture = ''
+    scrape_data = None
 
 def scrape_for_new_tournaments(update, debug):
     urls = get_all_tournament_urls()
@@ -534,7 +539,7 @@ def get_tournament_from_url(url, scrape_cache):
         else:
             skip = True
 
-        date = get_date(soup)
+        date = get_datetime(soup)
         if date != None and skip == False:
             tournament.date = date
         else:
@@ -573,6 +578,7 @@ def get_tournament_from_url(url, scrape_cache):
             tournament.picture = img
 
         if skip == False:
+            tournament.scrape_data = str(soup)
             return tournament
         else:
             return None
