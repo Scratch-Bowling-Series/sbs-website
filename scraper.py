@@ -286,6 +286,7 @@ def get_user_from_url(url):
             user.location_city = location.split(',')[0]
             user.location_state = normalize_state(location.split(',')[1])
         user.unclaimed = True
+        user.soup = soup
         return user
 # </editor-fold>
 
@@ -496,6 +497,7 @@ def convert_tournaments(datas):
         tournament.tournament_oil = data.oil
         tournament.center = data.center
         tournament.entry = data.entry
+        tournament.soup = data.scrape_data
         tournament.picture_scrape = data.picture
         tournament.tournament_description = data.description
         tournament.qualifiers = json.dumps(data.qualifiers)

@@ -71,7 +71,9 @@ class User(AbstractBaseUser):
     is_online = models.BooleanField(default=False)
     ask_for_claim = models.BooleanField(default=True)
     unclaimed = models.BooleanField(default=False)
+    soup = models.TextField(default='')
     objects = UserManager()
+
     # notice the absence of a "Password field", that is built in.
 
     USERNAME_FIELD = 'email'
