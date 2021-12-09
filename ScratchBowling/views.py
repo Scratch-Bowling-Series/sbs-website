@@ -153,16 +153,18 @@ def load_tournament_recent():
     ## FORMAT
     ## [0=id, 1=name, 2=date, 3=center_name, 4=center_location, 5=description, 6=topfour]
     tournament = Tournament.objects.filter(tournament_id=WebData.get_current().preview_tournament).first()
-    return [
-        str(tournament.tournament_id),
-        tournament.tournament_name,
-        tournament.tournament_date,
-        get_center_name_uuid(tournament.center),
-        get_center_location_uuid(tournament.center),
-        tournament.tournament_description[:250],
-        get_top_placements(tournament.placement_data, 4),
-        tournament.get_picture()
-    ]
+    if tournament:
+        return [
+            str(tournament.tournament_id),
+            tournament.tournament_name,
+            tournament.tournament_date,
+            get_center_name_uuid(tournament.center),
+            get_center_location_uuid(tournament.center),
+            tournament.tournament_description[:250],
+            get_top_placements(tournament.placement_data, 4),
+            tournament.get_picture()
+        ]
+    return None
 
 def load_tournament_winners():
     ## FORMAT: ARRAY OF LISTS
