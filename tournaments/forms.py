@@ -15,7 +15,7 @@ class CreateTournament(forms.ModelForm):
     placements = forms.JSONField(required=False)
     class Meta:
         model = Tournament
-        fields = ['tournament_name', 'tournament_description', 'tournament_date', 'tournament_time', 'picture', 'center', 'format', 'entry_fee', 'total_games', 'placements']
+        fields = ['name', 'description', 'datetime', 'picture', 'center', 'format', 'entry_fee', 'total_games', 'placements']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -32,7 +32,7 @@ class ModifyTournament(forms.ModelForm):
     placements = forms.JSONField(required=False)
     class Meta:
         model = Tournament
-        fields = ['tournament_name', 'tournament_description', 'tournament_date', 'tournament_time', 'picture', 'center', 'format', 'entry_fee', 'total_games', 'placements']
+        fields = ['name', 'description', 'datetime', 'picture', 'center', 'format', 'entry_fee', 'total_games', 'placements']
 
     def clean(self):
         cleaned_data = super().clean()

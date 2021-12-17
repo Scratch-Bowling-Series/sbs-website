@@ -48,10 +48,9 @@ def get_list_of_all_tournaments():
     temp = {}
     for tournament in tournaments:
         data = []
-        data.append(str(tournament.tournament_name))
-        data.append(str(tournament.tournament_description))
-        data.append(str(tournament.tournament_date))
-        data.append(str(tournament.tournament_time))
+        data.append(str(tournament.name))
+        data.append(str(tournament.description))
+        data.append(str(tournament.datetime))
         temp[str(tournament.tournament_id)] = data
 
     return temp

@@ -131,7 +131,7 @@ def single_tournament_views(request, id):
                        'payout': payout_calculator(30, 10, 5, 50),
                        'vod_url' : get_vod_url(tournament.vod_id),
                        'tournament_picture': tournament.get_picture(),
-                       'description': tournament.tournament_description
+                       'description': tournament.description
                        }
         render_data.update(make_tournament_meta(tournament))
         return render(request, 'tournaments/view-tournament.html', render_data)
@@ -160,15 +160,15 @@ def display_tournament_view(tournament):
     if not entry_fee:
         entry_fee = 0
     is_team_entry = False
-    if 'double' in tournament.tournament_name:
+    if 'double' in tournament.name:
         is_team_entry = True
-    if 'Double' in tournament.tournament_name:
+    if 'Double' in tournament.name:
         is_team_entry = True
     return [tournament.tournament_id,
-            tournament.tournament_name,
+            tournament.name,
             date,
             tournament.tournament_time,
-            tournament.tournament_description,
+            tournament.description,
             tournament.center,
             center_name,
             center_location,
@@ -195,8 +195,8 @@ def tournaments_modify_views(request, id):
             if form.is_valid():
                 testform = None
 
-                tournament.tournament_name = form.cleaned_data.get('tournament_name')
-                tournament.tournament_description = form.cleaned_data.get('tournament_description')
+                tournament.name = form.cleaned_data.get('tournament_name')
+                tournament.description = form.cleaned_data.get('tournament_description')
                 tournament.entry_fee = form.cleaned_data.get('entry_fee')
                 tournament.total_games = form.cleaned_data.get('total_games')
                 tournament.tournament_date = form.cleaned_data.get('tournament_date')
@@ -208,7 +208,7 @@ def tournaments_modify_views(request, id):
                 return redirect('/tournaments/')
         else:
             testform = None
-            form = ModifyTournament(initial={'tournament_name': tournament.tournament_name,'tournament_description': tournament.tournament_description,'entry_fee': tournament.entry_fee,'total_games': tournament.total_games, 'tournament_date': tournament.tournament_date.strftime('%d-%m-%Y'), 'tournament_time': tournament.tournament_time})
+            form = ModifyTournament(initial={'tournament_name': tournament.name,'tournament_description': tournament.description,'entry_fee': tournament.entry_fee,'total_games': tournament.total_games, 'tournament_date': tournament.tournament_date.strftime('%d-%m-%Y'), 'tournament_time': tournament.tournament_time})
         return render(request, 'tournaments/modify-tournament.html', {'nbar': 'tournaments', 'form': form, 'tournament': tournament, 'testform':testform})
     else:
         return redirect('/')
@@ -218,8 +218,8 @@ def tournaments_create_views(request):
         form = CreateTournament(request.POST)
         if form.is_valid():
             tournament = Tournament.objects.create()
-            tournament.tournament_name = form.cleaned_data.get('tournament_name')
-            tournament.tournament_description = form.cleaned_data.get('tournament_description')
+            tournament.name = form.cleaned_data.get('tournament_name')
+            tournament.description = form.cleaned_data.get('tournament_description')
             tournament.tournament_date = form.cleaned_data.get('tournament_date')
             tournament.tournament_time = form.cleaned_data.get('tournament_time')
             tournament.save()

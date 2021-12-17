@@ -496,39 +496,37 @@ $(document).ready(function() {
         {% endfor %}
         <a href="{% url 'tournaments:upcoming' %}" class="btn btn-full text-white bkg-darkgreen border-darkgreen">UPCOMING TOURNAMENTS</a>
       </section>
-      {% if bowler_of_month is not None %}
+      {% if bowler_of_month %}
     <section class="sec pv-bom">
         <h2 class="pv-bom-title">BOWLER OF THE MONTH</h2>
         <div class="pv-bom-main">
             <div class="pv-bom-pic-wrap">
-                <div class="pv-bom-pic">
-                    <img src="account/data/profile-pic/{{ bowler_of_month.0 }}" alt="{{ bowler_of_month.1 }}'s profile picture">
-                </div>
+                <a class="pv-bom-pic" href="account/view/{{ bowler_of_month.user_id }}">
+                    <img src="{{ bowler_of_month.picture }}" alt="{{ bowler_of_month.first_name }}'s profile picture">
+                </a>
             </div>
             <div class="pv-bom-info">
-                <a class="pv-bom-name">{{ bowler_of_month.3|safe }} {{ bowler_of_month.1 }}</a>
-                <a class="pv-bom-location">{{ bowler_of_month.2 }}</a>
+                <a href="account/view/{{ bowler_of_month.user_id }}" class="pv-bom-name">{{ bowler_of_month.badge|safe }} {{ bowler_of_month.first_name }} <span class="bold">{{ bowler_of_month.last_name }}</span></a>
+                <a href="account/view/{{ bowler_of_month.user_id }}" class="pv-bom-location">{{ bowler_of_month.location }}</a>
             </div>
-
         </div>
         <div class="pv-bom-details">
             <div class="pv-bom-details-wrap">
                  <h2 class="text-lightgreen">SEASON STATS</h2>
-            <ul>
-                <li>AVG SCORE: <span>205.2</span></li>
-                <li>TOTAL GAMES: <span>419</span></li>
-                <li>TOTAL WINS: <span>5</span></li>
-            </ul>
-            <h2 class="text-lightgreen">CAREER STATS</h2>
-            <ul>
-                <li>AVG SCORE: <span>205.2</span></li>
-                <li>TOTAL GAMES: <span>419</span></li>
-                <li>TOTAL WINS: <span>5</span></li>
-            </ul>
+                <ul>
+                    <li>AVG SCORE: <span>{{ bowler_of_month.avg_score }}</span></li>
+                    <li>TOTAL GAMES: <span>{{ bowler_of_month.attended }}</span></li>
+                    <li>TOTAL WINS: <span>{{ bowler_of_month.wins }}</span></li>
+                </ul>
+                <h2 class="text-lightgreen">CAREER STATS</h2>
+                <ul>
+                    <li>AVG SCORE: <span>{{ bowler_of_month.year_avg_score }}</span></li>
+                    <li>TOTAL GAMES: <span>{{ bowler_of_month.year_attended }}</span></li>
+                    <li>TOTAL WINS: <span>{{ bowler_of_month.year_wins }}</span></li>
+                </ul>
             </div>
-
         </div>
-        <a class="btn btn-full text-white bkg-darkgreen border-darkgreen" href="account/view/{{ bowler_of_month.0 }}">VISIT PROFILE</a>
+        <a class="btn btn-full text-white bkg-darkgreen border-darkgreen" href="account/view/{{ bowler_of_month.user_id }}">VISIT PROFILE</a>
       </section>
       {% endif %}
     <section class="sec sitestat">

@@ -7,4 +7,4 @@ class Command(BaseCommand):
     help = 'Run Master Scraper'
 
     def handle(self, *args, **options):
-        master_scrape(False)
+        master_scrape(True)

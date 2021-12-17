@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.pages import create_page_obj
-from accounts.account_helper import display_get_bowlers, load_bowler_of_month, get_amount_users, get_top_ranks
+from accounts.account_helper import display_get_bowlers, get_amount_users, get_top_ranks
 
 User = get_user_model()
 
@@ -32,7 +32,7 @@ def bowlers_views(request, page=1, search=''):
     render_data = {'nbar': 'bowlers',
             'bowlers': bowlers,
             'bowlers_count': bowlers_count,
-            'bowler_of_month': load_bowler_of_month(),
+            'bowler_of_month': User.data_bowler_of_month(),
             'online_count': get_amount_users(False),
             'top_ten_ranks': get_top_ranks(10),
             'search_type': 'bowlers_search',

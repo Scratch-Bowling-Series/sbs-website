@@ -1,4 +1,3 @@
-import json
 import os
 from PIL import Image, ImageDraw, ImageFont
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -10,15 +9,11 @@ from django.contrib.auth import login, logout
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-
+from ScratchBowling.sbs_utils import make_ordinal
 from ScratchBowling.websettings import WebSettings
-from centers.center_utils import get_center_location_uuid
-from scoreboard.rank_data import deserialize_rank_data
-from tournaments.tournament_utils import get_place, get_all_tournaments
+from tournaments.models import Tournament
 from tournaments.views import is_valid_uuid
-from .account_helper import make_ordinal
 from .forms import RegisterForm, ModifyAccountForm
-from scraper import master_scrape, get_scraper_log
 from .friends import is_friends_with, add_to_friends_list, remove_from_friends_list
 from .tokens import account_activation_token
 from django.contrib.auth.signals import user_logged_in, user_logged_out
@@ -198,36 +193,54 @@ def accounts_logout_view(request):
     return redirect('/')
 
 def accounts_account_view(request, id):
-    view_user = User.objects.filter(user_id=id).first()
-    if view_user != None:
-        tournaments = get_all_tournaments(view_user.tournaments)
-        tournaments_length = len(tournaments)
-        ## FORMAT : tournaments attended
-        ## [id, date, name, location, place]
-        tournaments_attended = []
-        for tournament in tournaments:
-            tournament_location = get_center_location_uuid(tournament.center)
-            place = make_ordinal(get_place(tournament.placement_data, view_user.user_id))
-            if place == '0':
-                place = 'DNF'
-            tournaments_attended.append([tournament.tournament_id, tournament.tournament_date, tournament.tournament_name, tournament_location, place])
-
-        rank_data = deserialize_rank_data(view_user.statistics)
-        if rank_data != None:
-            description = 'Current Rank: ' + str(make_ordinal(rank_data.rank)) + ' Attended: ' + str(rank_data.attended) + ' Wins: ' + str(rank_data.wins) + ' Career Avg. Score: ' + str(rank_data.avg_score_career) + ' Career Total Games: ' + str(rank_data.total_games_career)
+    user = User.get_user_by_uuid(id)
+    if user:
+        statistics = user.statistics
+        if statistics:
+            description = 'Current Rank: ' + str(statistics.rank) + ' Attended: ' + str(statistics.attended) + ' Wins: ' + str(statistics.wins) + ' Career Avg. Score: ' + str(statistics.avg_score) + ' Career Total Games: ' + str(statistics.total_games)
         else:
             description = 'This bowler has yet to attend a tournament.'
-        return render(request, 'accounts/my-account.html', {'view_user': view_user,
-                                                            'tournaments': tournaments_attended,
-                                                            'rank_data': rank_data,
-                                                            'tournaments_length': tournaments_length,
-                                                            'page_title': str(view_user.first_name) + ' ' + str(view_user.last_name),
-                                                            'page_description': description,
-                                                            'page_keywords': 'user, bowler, account, rank, data, scores, tournaments, stats, statistics',
-                                                            'social_image' : 'https://scratchbowling.pythonanywhere.com/account/socialcard/image/' + str(view_user.user_id)
-                                                            })
+        user_data = {'first_name': user.first_name,
+                     'last_name' : user.last_name,
+                     'year_joined': user.date_joined.year,
+                     'city': user.location_city or '',
+                     'state': user.location_state or '',
+                     'handed': user.handed,
+                     'picture': user.full_picture_url,
+                     }
+
+        data = {'user_data': user_data,
+         'attended_tournaments': single_account_tournaments_display(user),
+         'statistics': statistics.to_dict(),
+         'page_title': str(user.first_name) + ' ' + str(user.last_name),
+         'page_description': description,
+         'page_keywords': 'user, bowler, account, rank, data, scores, tournaments, stats, statistics',
+         'social_image': '/account/socialcard/image/' + str(user.user_id)
+         }
+
+        return render(request, 'accounts/my-account.html', data)
     else:
         return Http404('This user does not exist.')
+
+
+def single_account_tournaments_display(user):
+    tournament_ids = user.tournaments
+    tournaments_data = []  ## [id, date, name, location, place]
+    if tournament_ids:
+        tournaments = Tournament.get_tournaments_by_uuid_list(tournament_ids)
+        for tournament in tournaments:
+            tournaments_data.append([tournament.tournament_id,
+                                     tournament.datetime,
+                                     tournament.name,
+                                     tournament.center_short_location,
+                                     tournament.get_place(user.user_id)])
+    return tournaments_data
+
+
+
+
+
+
 
 def accounts_socialcard_image(request, id):
     user = User.objects.filter(user_id=id).first()

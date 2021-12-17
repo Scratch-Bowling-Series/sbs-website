@@ -1,7 +1,7 @@
 var navExpanded = false;
 
 $(document).ready(function() {
-    toggleNavMenu();
+    //toggleNavMenu();
 
     updateFooterMargins();
     $(window).change(function(){
@@ -18,8 +18,7 @@ function toggleNavMenu(){
         navScroll.css('max-height', '0px');
         navScroll.css('border-color', 'white');
         navScroll.css('box-shadow', '0 20px 5px transparent');
-        setTimeout(function()
-        {
+        setTimeout(function() {
             $('.nav-scroll').hide();
         }, 300);
         $('#nav-icon3').removeClass('open');
@@ -27,8 +26,7 @@ function toggleNavMenu(){
     }
     else{
         navScroll.show();
-        setTimeout(function ()
-        {
+        setTimeout(function () {
             navScroll.css('max-height', '2000px');
             navScroll.css('border-color', '#214031');
             navScroll.css('box-shadow', '0 10px 5px rgba(0,0,0,0.2)');

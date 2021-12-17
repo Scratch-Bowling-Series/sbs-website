@@ -45,8 +45,8 @@
         <section class="tournament-preview">
             <div class='tournament-image'><img src="{{ tournament.sponsor_image }}"></div>
             <div class="tournament-container tournament-half-width">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">{{ tournament.tournament_name }}</a><!--
-            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">{{ tournament.tournament_date|date:'m/d/y' }}<i class="tournament-arrow icon-arrow-right"></i>{{ tournament.tournament_time|time:'h:iA' }}</a><!--
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">{{ tournament.name }}</a><!--
+            --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-date">{{ tournament.datetime|date:'m/d/y' }}<i class="tournament-arrow icon-arrow-right"></i>{{ tournament.tournament_time|time:'h:iA' }}</a><!--
             --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES - DETROIT, MI</a><!--
             --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">420 SPOTS RESERVED</a>
             </div>
@@ -72,11 +72,11 @@
         <section class="tournament-preview">
             <img class='tournament-image' src="/media/{{ tournament.sponsor_image }}"><!--
             --><div class="tournament-container tournament-full-width">
-            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">{{ tournament.tournament_name }}</a><!--
+            <a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-name">{{ tournament.name }}</a><!--
             {% if tournament|winner == None %}
-            --><a class="tournament-date">{{ tournament.tournament_date|date:'m/d/y' }}</a><!--
+            --><a class="tournament-date">{{ tournament.datetime|date:'m/d/y' }}</a><!--
             {% else %}
-            --><a class="tournament-date">{{ tournament.tournament_date|date:'m/d/y' }}<p class="tournament-winner-name" href="/account/view/{{ tournament|winner }}"><i class="tournament-winner icon-trophy"></i>{{  tournament|winner|bowler_name:True }}<span>&nbsp;({{ tournament|winner|getaverage:tournament}} AVG)</span></p></a><!--
+            --><a class="tournament-date">{{ tournament.datetime|date:'m/d/y' }}<p class="tournament-winner-name" href="/account/view/{{ tournament|winner }}"><i class="tournament-winner icon-trophy"></i>{{  tournament|winner|bowler_name:True }}<span>&nbsp;({{ tournament|winner|getaverage:tournament}} AVG)</span></p></a><!--
             {% endif %}
             --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-center">THUNDERBOWL LANES - DETROIT, MI</a><!--
             --><a href="/tournaments/view/{{ tournament.tournament_id }}" class="tournament-spots">{{ tournament|participants }} PARTICIPANTS</a>

@@ -15,7 +15,7 @@
     <label class="standard-form-label"> NAME</label>
     {{ form.tournament_name }}
     <label class="standard-form-label">DATE / TIME</label>
-    <input type="date" name="tournament_date" id="id_tournament_date" value="{{ tournament.tournament_date|date:'Y-m-d' }}"><input type="time" name="tournament_time" id="id_tournament_time" value="{{ tournament.tournament_time|time:'H:i' }}">
+    <input type="date" name="tournament_date" id="id_tournament_date" value="{{ tournament.datetime|date:'Y-m-d' }}"><input type="time" name="tournament_time" id="id_tournament_time" value="{{ tournament.tournament_time|time:'H:i' }}">
     <label class="standard-form-label">DESCRIPTION</label>
     {{ form.tournament_description }}
     <label class="standard-form-label">PICTURE</label>

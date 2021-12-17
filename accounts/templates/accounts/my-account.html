@@ -14,27 +14,33 @@
 
       <!-- INFO -->
       <div class="profile-prev-pic">
-         <img src="{{ view_user.picture.url }}" alt="{{ view_user.first_name}}'s profile picture">
+         <img src="{{ user_data.picture }}">
       </div>
-      <h1>{{view_user.first_name|none_replace:'First Name '}}&nbsp;{{view_user.last_name|none_replace:'Last Name '}}</h1>
-      <a>{{ view_user.bio|none_replace:'Bio Empty' }}</a>
+      <h1>{{ user_data.first_name}}&nbsp;{{ user_data.last_name }}</h1>
+    {% if user_data.bio %}
+      <a>{{ user_data.bio }}</a>
       <span class="std-underline"></span>
-      <a>Member Since {{ view_user.date_joined.year}}</a>
-      <span class="std-underline"></span>
-      <a>{{ view_user.location_city|none_replace:'City' }}, {{ view_user.location_state|none_replace:'State' }}</a>
+   {% endif %}
+      <a>Member Since {{ user_data.year_joined }}</a>
+
+
+    {% if user_data.state %}
+        <span class="std-underline"></span>
+        <a>{% if user_data.city %}{{ user_data.city }},{% endif %}&nbsp;{{ user_data.state }}</a>
+    {% endif %}
+
+
       <!-- HANDS -->
-      <div class="profile-hands">
-         {% if view_user.left_handed == True and view_user.right_handed == False %}
+      {% if user_data.handed != 0 %}
+       <div class="profile-hands">
          <span class="std-underline"></span>
-         <i class="profile-hand profile-left-hand icon-hand-paper"></i>&nbsp;<i class="profile-hand icon-hand-paper hand-off"></i><a class="profile-hand-label">LEFT HANDED</a><br>
-         {% elif view_user.left_handed == False and view_user.right_handed == True %}
-         <span class="std-underline"></span>
-         <i class="profile-hand profile-left-hand icon-hand-paper hand-off"></i>&nbsp;<i class="profile-hand icon-hand-paper"></i><a class="profile-hand-label">RIGHT HANDED</a><br>
-         {% elif view_user.left_handed == True and view_user.right_handed == True %}
-         <span class="std-underline"></span>
-         <i class="profile-hand profile-left-hand icon-hand-paper"></i>&nbsp;<i class="profile-hand icon-hand-paper"></i><a class="profile-hand-label">TWO HANDED</a><br>
-         {% endif %}
+         <i class="profile-hand profile-left-hand icon-hand-paper {% if user_data.handed == 2 %}hand-off{% endif %}"></i>
+         <i class="profile-hand icon-hand-paper {% if user_data.handed == 1 %}hand-off{% endif %}"></i>
+         <a class="profile-hand-label">{% if user_data.handed == 1 %}LEFT{% elif user_data.handed == 2 %}RIGHT{% elif user_data.handed == 3 %}TWO{% endif %} HANDED</a><br>
       </div>
+      {% endif %}
+
+
 
       <!-- Buttons -->
       <div class="profile-prev-btns">
@@ -63,9 +69,9 @@
 <section class="col col-30 col-m-max-width" >
    <section class="sec my-account-top-height">
       <h1>PAST TOURNAMENT RESULTS</h1>
-      {% if tournaments_length > 0 %}
+      {% if attended_tournaments %}
       <div class="profile-results">
-         {% for tournament in tournaments %}
+         {% for tournament in attended_tournaments %}
             <div class="profile-result">
                <a class="profile-result-date">{{ tournament.1|date:"m/d"}}</a>
                <a class="profile-result-name" href="/tournaments/view/{{ tournament.0 }}">{{ tournament.2|truncatechars:20 }}</a>
@@ -74,17 +80,26 @@
             </div>
          {% endfor %}
       </div>
-      <a class="btn btn-medium btn-bottom bkg-darkgreen text-white unavailable-btn" style="left:auto;">VIEW ALL TOURNAMENT RESULTS</a>
+      <div class="btn-bar-right">
+        <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn" style="left:auto;">VIEW ALL TOURNAMENT RESULTS</a>
+      </div>
       {% else %}
          {% if view_user.user_id == request.user.user_id %}
-            <p class="profile-none">ATTEND YOUR FIRST TOURNAMENT TO SEE YOUR STATISTICS</p>
-            <a class="btn btn-medium btn-bottom bkg-darkgreen text-white unavailable-btn" style="left:auto;text-transform:uppercase;">FIND AN UPCOMING TOURNAMENT</a>
+             <div class="profile-results">
+                <p class="profile-none">ATTEND YOUR FIRST TOURNAMENT TO SEE YOUR STATISTICS</p>
+             </div>
+             <div class="btn-bar-right">
+                <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn">FIND AN UPCOMING TOURNAMENT</a>
+             </div>
          {% else %}
-            <p class="profile-none">{{ view_user.first_name|none_replace:'First Name'}} HAS YET TO ATTEND A TOURNAMENT</p>
-            <a class="btn btn-medium btn-bottom bkg-darkgreen text-white unavailable-btn" style="left:auto;text-transform:uppercase;">INVITE {{ view_user.first_name|none_replace:'First Name'}} TO A TOURNAMENT</a>
+            <div class="profile-results">
+                <p class="profile-none">{{ user_data.first_name }} HAS YET TO ATTEND A TOURNAMENT</p>
+            </div>
+            <div class="btn-bar-right">
+                <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn" style="left:auto;text-transform:uppercase;">INVITE {{ view_user.first_name|none_replace:'First Name'}} TO A TOURNAMENT</a>
+            </div>
          {% endif %}
       {% endif %}
-
    </section>
 </section>
 
@@ -128,7 +143,9 @@
             <div class="bottom"></div>
          </div>
       </div>
-      <a class="btn btn-medium btn-bottom bkg-darkgreen text-white unavailable-btn" style="left:auto;">VIEW BEST GAMES</a>
+      <div class="btn-bar-right btn-bottom">
+        <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn margin-right margin-bottom">VIEW MORE STATISTICS</a>
+      </div>
    </div>
 </section>
 
@@ -137,8 +154,8 @@
    {% if view_user.user_id == request.user.user_id %}
    <section class="sec my-account-top-height bkg-darkgreen">
       <h1 class="text-white">TOURNAMENTS NEAR YOU</h1>
-      {% if tournaments_nearby_length > 0 %}
       <div class="profile-results">
+      {% if tournaments_nearby %}
          <div class="profile-result">
             <a class="profile-result-date text-white">06/26</a>
             <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
@@ -187,14 +204,14 @@
             <a class="profile-result-location text-white">City, State</a>
             <a class="profile-result-place text-white">54mi</a>
          </div>
-      </div>
       {% else %}
-      <p class="profile-none">YOU DON'T HAVE ANY TOURNAMENTS COMING SOON NEAR YOU.</p>
+      <p class="profile-none text-lightgrey">WE COULD NOT FIND ANY TOURNAMENTS NEAR YOU</p>
+          <a class="profile-none-btn text-lightgrey">CHANGE SEARCH RADIUS</a>
       {% endif %}
-      <div class="profile-button-bar">
-
       </div>
-      <a class="btn btn-medium btn-bottom bkg-white text-darkgreen unavailable-btn" style="left:auto;">GET SMS ALERTS</a>
+      <div class="btn-bar-right">
+          <a class="btn btn-medium bkg-white text-darkgreen unavailable-btn">GET SMS ALERTS</a>
+      </div>
    </section>
    {% else %}
    <section class="sec my-account-top-height bkg-darkgreen">
@@ -256,12 +273,14 @@
             </div>
          </div>
       </div>
-      <a class="btn btn-medium btn-bottom bkg-darkgreen text-white unavailable-btn" style="left:auto;bottom:0px;">VIEW ALL SERIES HISTORY</a>
+       <div class="btn-bar-right btn-bottom">
+           <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn margin-right margin-bottom" >VIEW ALL SERIES HISTORY</a>
+       </div>
    </section>
 
    <section class="sec profile-medals">
       <h1>ACHIEVEMENTS</h1>
-      <a class="profile-medal-none">NOT AVAILABLE IN ALPHA</a>
+      <a class="profile-medal-none">NOT AVAILABLE IN BETA</a>
    </section>
 </section>
 
@@ -305,13 +324,16 @@
             <div class="bottom"></div>
          </div>
       </div>
-      <a class="btn btn-medium btn-right bkg-darkgreen text-white unavailable-btn" style="margin-right:20px;margin-bottom:20px;">VIEW BEST GAMES</a>
-      <a class="btn btn-medium btn-right bkg-grey text-darkgrey border-grey unavailable-btn" style="margin-right:10px;margin-bottom:20px;">REPORT ERROR</a>
+
+       <div class="btn-bar-right btn-bottom">
+         <a class="btn btn-medium btn-right bkg-darkgreen text-white unavailable-btn margin-right margin-bottom">VIEW BEST GAMES</a>
+        <a class="btn btn-medium btn-right bkg-grey text-darkgrey border-grey unavailable-btn margin-right-10 margin-bottom">REPORT ERROR</a>
+      </div>
    </section>
 
    <section class="sec profile-medals">
       <h1>MEDALS</h1>
-      <a class="profile-medal-none">NOT AVAILABLE IN ALPHA</a>
+      <a class="profile-medal-none">NOT AVAILABLE IN BETA</a>
    </section>
 </section>
 

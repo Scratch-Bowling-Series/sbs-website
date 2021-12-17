@@ -5,6 +5,8 @@ from django.db import models
 
 class WebData(models.Model):
     preview_tournament = models.UUIDField(editable=True, unique=False, null=True, blank=True)
+    bowler_of_month = models.UUIDField(editable=True, unique=False, null=True, blank=True)
+
 
     @classmethod
     def get_current(cls):

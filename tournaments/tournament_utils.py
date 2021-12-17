@@ -16,7 +16,7 @@ def deserialize_tournaments_list(data):
 
 def in_season(tournament):
     in_season = False
-    if tournament.tournament_date.year == datetime.now().date().year:
+    if tournament.datetime.year == datetime.now().date().year:
         in_season = True
     return in_season
 
@@ -149,9 +149,9 @@ def convert_to_display_main_upcoming(tournament):
         center_location = get_center_location_obj(center)
     is_team_entry = False
     spots_reserved = tournament.spots_reserved
-    if 'double' in tournament.tournament_name:
+    if 'double' in tournament.name:
         is_team_entry = True
-    if 'Double' in tournament.tournament_name:
+    if 'Double' in tournament.name:
         is_team_entry = True
     if spots_reserved == 0:
         spots_reserved = 120
@@ -159,7 +159,7 @@ def convert_to_display_main_upcoming(tournament):
 
 
     return [tournament.tournament_id,
-            tournament.tournament_name,
+            tournament.name,
             tournament.datetime.strftime("%m/%d"),
             tournament.datetime.time(),
             tournament.get_sponsor_image(),
@@ -202,7 +202,7 @@ def convert_to_display_main_results(tournament):
         date = date.strftime('%m/%d/%y')
 
     return [tournament.tournament_id,
-            tournament.tournament_name,
+            tournament.name,
             date,
             tournament.get_sponsor_image(),
             center_id,

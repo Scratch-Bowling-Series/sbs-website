@@ -1918,7 +1918,10 @@ footer .footer-terms, footer .footer-privacy {
 }
 
 .my-account-top-height {
-  height: 548px;
+  height: 550px;
+}
+.my-account-top-height .profile-results {
+  height: 415px;
 }
 
 .stats-grid {
@@ -1974,7 +1977,7 @@ footer .footer-terms, footer .footer-privacy {
 .my-account-rank-label {
   font-family: tt_octosquares_condensedbold;
   font-size: 22px;
-  color: #2e5945;
+  color: #214031;
   text-align: center;
   display: block;
   padding: 10px 0 20px 0;
@@ -2133,10 +2136,13 @@ footer .footer-terms, footer .footer-privacy {
 }
 
 .profile-results {
+  vertical-align: top;
+  overflow: hidden;
   font-size: 0;
   width: calc(100% - 40px);
-  margin: 0 auto;
+  margin: 0 auto 20px auto;
   text-align: left;
+  box-sizing: border-box;
 }
 
 .profile-result .firstplace {
@@ -2190,10 +2196,22 @@ footer .footer-terms, footer .footer-privacy {
 .profile-none {
   font-size: 24px;
   line-height: 28px;
-  max-width: 80%;
-  margin: 150px auto;
+  margin: 150px auto 10px auto;
+  max-width: 95%;
+  text-align: center;
   color: grey;
   text-transform: uppercase;
+}
+
+.profile-none-btn {
+  max-width: 80%;
+  font-size: 14px;
+  text-align: center;
+  color: grey;
+  text-transform: uppercase;
+  margin: 0 auto;
+  display: block;
+  text-decoration: underline;
 }
 
 .profile-medal-none {

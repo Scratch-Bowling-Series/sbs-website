@@ -1,8 +1,7 @@
 import quickle
 from random import randrange
 from ScratchBowling.sbs_utils import is_valid_uuid
-from accounts.account_helper import get_name_from_user, get_rank_from_user, get_user_uuid, get_amount_users, \
-    get_rank_color
+from accounts.account_helper import get_name_from_user, get_user_uuid, get_amount_users
 from tournaments.models import Tournament
 from tournaments.tournament_data import deserialize_placement_data
 
@@ -75,20 +74,12 @@ def deserialize_roster_data(roster_data):
     return quickle.loads(roster_data)
 
 
-def roster_data_display(roster, bold_last=True):
+def roster_data_display(roster):
     datas = []
     for user_id in roster:
         user = get_user_uuid(user_id)
-        if user != None:
-            datas.append([user_id, get_name_from_user(user, True, bold_last), get_rank_from_user(user.statistics, False)])
-        else:
-            datas.append([0, 'Unknown Name', randrange(1, 4000)])
-
-
-    datas = sorted(datas, key=lambda x: x[2])
-    total_users = get_amount_users()
-    for data in datas:
-        data[2] = get_rank_color(data[2], total_users)
-
-    return datas
-
+        if user:
+            statistics = user.statistics
+            if statistics:
+                datas.append([user_id, user.first_name, user.last_name, user.short_location, statistics.rank, statistics.rank_badge])
+    return sorted(datas, key=lambda x: x[4])

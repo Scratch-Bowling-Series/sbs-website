@@ -1,42 +1,35 @@
-import os
 from datetime import datetime
-from random import randrange
-from uuid import UUID
-
-import requests
-from django import template
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-
-from ScratchBowling import settings
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.models import WebData
 from ScratchBowling.popup import check_for_popup
 from ScratchBowling.sbs_utils import is_valid_uuid
-from accounts.account_helper import get_name_from_uuid, load_bowler_of_month, get_amount_users, get_top_ranks
+from accounts.account_helper import get_name_from_uuid, get_amount_users, get_top_ranks
 from accounts.forms import User
 from bowlers.views import display_get_bowlers
 from broadcasts.models import Clip
-from cacher.models import Homepage_Cache
 from centers.center_utils import get_center_name_uuid, get_center_location_uuid
 from centers.models import Center
-from check_git import get_last_commit
-from scoreboard.rank_data import serialize_rank_data
 from support.donation import get_donation_count
 from tournaments.models import Tournament
 from tournaments.tournament_scraper import scrape_tournaments_task
+from accounts.models import User
 from tournaments.tournament_utils import get_winner, get_top_placements, get_all_live_tournaments
 import quickle
 
-User = get_user_model()
 
 
 
 
 # <editor-fold desc="PAGES">
 def index(request, notify=''):
+    webData = WebData.get_current()
+    webData.bowler_of_month = is_valid_uuid('a163055c-c4bf-47a5-8cbe-12f0745d6eee')
+    webData.save()
+
     data = {'nbar': 'home',
             'notify': notify,
             'popup': check_for_popup(request.user),
@@ -45,7 +38,7 @@ def index(request, notify=''):
             'tournament_winners': load_tournament_winners(),
             'top_ten_ranks': get_top_ranks(10),
             'tournament_recent': load_tournament_recent(),
-            'bowler_of_month': load_bowler_of_month(),
+            'bowler_of_month': User.data_bowler_of_month(),
             'users_count': get_amount_users(),
             'tournaments_count': get_tournaments_count(),
             'donation_count': get_donation_count(),
@@ -156,11 +149,11 @@ def load_tournament_recent():
     if tournament:
         return [
             str(tournament.tournament_id),
-            tournament.tournament_name,
-            tournament.tournament_date,
+            tournament.name,
+            tournament.datetime,
             get_center_name_uuid(tournament.center),
             get_center_location_uuid(tournament.center),
-            tournament.tournament_description[:250],
+            tournament.description[:250],
             get_top_placements(tournament.placement_data, 4),
             tournament.get_picture()
         ]
@@ -173,7 +166,7 @@ def load_tournament_winners():
     last_ten_tournaments = Tournament.objects.all()[:10]
     for tournament in last_ten_tournaments:
         winner_id = get_winner(tournament.placement_data)
-        winner_data.append([str(tournament.tournament_id), tournament.tournament_name, tournament.tournament_date, get_name_from_uuid(winner_id, True, True), str(winner_id)])
+        winner_data.append([str(tournament.tournament_id), tournament.name, tournament.datetime, get_name_from_uuid(winner_id, True, True), str(winner_id)])
     return winner_data
 
 def load_tournament_upcoming():
@@ -182,7 +175,7 @@ def load_tournament_upcoming():
     tournaments = Tournament.get_upcoming_tournaments()
     output = []
     for tournament in tournaments:
-        output.append([str(tournament.tournament_id), tournament.tournament_name, tournament.datetime, tournament.entry_fee])
+        output.append([str(tournament.tournament_id), tournament.name, tournament.datetime, tournament.entry_fee])
     return output
 
 def load_recent_broadcast_clips():

@@ -58,7 +58,7 @@ def apply_rank_data_to_accounts(rank_datas, batch, total_batches):
         if write_user != None:
             write_user.tournaments = serialize_tournaments_list(data.tournaments)
             data.tournaments = []
-            write_user.statistics = serialize_rank_data(data)
+            write_user.rank_data = data
             write_user.save()
     return data_count
 
@@ -121,7 +121,7 @@ def get_rank_data_from_tournaments():
             # season data
             if in_season:
                 # get rank points
-                rank_data.rank_points = task_get_rank_points(placement, t_score_average, qualifying_objects_length,tournament.tournament_date)
+                rank_data.rank_points = task_get_rank_points(placement, t_score_average, qualifying_objects_length,tournament.datetime)
                 # get avg score year
                 rank_data.avg_score_year_total += t_score_average
                 rank_data.avg_score_year_amount += 1
@@ -187,7 +187,7 @@ def get_rank_datas_from_all_tournaments():
             # season data
             if in_season(tournament):
                 # get rank points
-                rank_data.rank_points = task_get_rank_points(placement, placement.average_score, placements_length,tournament.tournament_date, decay)
+                rank_data.rank_points = task_get_rank_points(placement, placement.average_score, placements_length,tournament.datetime, decay)
                 print(str(rank_data.rank_points) + '   :     ' + str(rank_data.user_id))
                 # get avg score year
                 rank_data.avg_score_year_total += placement.average_score

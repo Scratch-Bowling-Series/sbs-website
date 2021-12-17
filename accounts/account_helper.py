@@ -3,6 +3,8 @@ from random import randrange
 
 from django.contrib.auth import get_user_model
 
+from ScratchBowling.models import WebData
+from ScratchBowling.sbs_utils import make_ordinal
 from ScratchBowling.websettings import WebSettings
 from scoreboard.rank_data import deserialize_rank_data
 from scoreboard.ranking_data_quick import get_top_rankings
@@ -100,14 +102,6 @@ def is_valid_uuid(val):
     except ValueError:
         return None
 
-def make_ordinal(n):
-    n = int(n)
-    if n == 0:
-        return '0'
-    suffix = ['th', 'st', 'nd', 'rd', 'th'][min(n % 10, 4)]
-    if 11 <= (n % 100) <= 13:
-        suffix = 'th'
-    return str(n) + suffix
 
 def display_get_bowlers(users):
     # FORMAT : Array of Lists
@@ -126,31 +120,6 @@ def display_get_bowlers(users):
                          ])
     return data
 
-def load_bowler_of_month():
-    # FORMAT
-    # [id, name, location, rank]
-    websettings = WebSettings()
-    if websettings.bowler_of_month != None:
-        websettings.bowler_of_month = is_valid_uuid(websettings.bowler_of_month)
-        user = User.objects.filter(user_id=websettings.bowler_of_month)
-        if user != None:
-            return [str(user.user_id), get_name_from_uuid(user.user_id), get_location_basic_uuid(user.user_id)]
-    user = User.objects.all()[5]
-    return [str(user.user_id),
-            get_name_from_uuid(user.user_id),
-            get_location_basic_uuid(user.user_id),
-            get_rank_color(get_rank_from_user(user.statistics, False))]
-
-def get_rank_from_user(statistics_data, ordinal=True):
-    rank = 0
-    if statistics_data != None:
-        rank_data = deserialize_rank_data(statistics_data)
-        if rank_data != None:
-            rank = rank_data.rank
-    if ordinal:
-        rank = make_ordinal(rank)
-    return rank
-
 def get_amount_users(include_offline=True):
     amount = 0
     if include_offline:
@@ -168,34 +137,8 @@ def get_top_ranks(amount):
         data.append([rank_data.user_id, get_name_from_uuid(rank_data.user_id, True, True), make_ordinal(rank_data.rank)])
     return data
 
-def get_rank_color(rank, total_users=10000):
-    diamond = total_users / 10
-    gold = total_users / 5
-    silver = total_users / 2.5
-
-    diamond_icon = 'shield2'
-    diamond_color = '#8AD2E2'
-
-    gold_icon = 'shield2'
-    gold_color = '#f5d442'
-
-    silver_icon = 'shield2'
-    silver_color = '#c2c2c2'
-
-    bronze_icon = 'shield2'
-    bronze_color = '#d7995b'
-    if rank > 0 and rank <= diamond:
-        return create_icon_html(diamond_icon, diamond_color)
-    elif rank > diamond and rank <= gold:
-        return create_icon_html(gold_icon, gold_color)
-    elif rank > gold and rank <= silver:
-        return create_icon_html(silver_icon, silver_color)
-    elif rank > silver:
-        return create_icon_html(bronze_icon, bronze_color)
-    else:
-        return create_icon_html(bronze_icon, bronze_color)
-
-
+def generate_rank_badge_html(rank_badge):
+    return None
 
 def create_icon_html(icon, color, clss=''):
-    return '<i class="icon-' + icon + ' ' + clss + ' rank-color" style="color:' + color + ';"></i>'
+    return None

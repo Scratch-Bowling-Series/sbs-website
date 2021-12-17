@@ -46,10 +46,9 @@ def Gather():
 
 def TournamentToList(tournament):
     tournamentslist = [
-        tournament.tournament_name,
-        str(tournament.tournament_date),
-        tournament.tournament_description,
-        str(tournament.tournament_time),
+        tournament.name,
+        tournament.datetime,
+        tournament.description,
         tournament.center,
         tournament.entry_fee,
         tournament.qualifiers,
@@ -62,10 +61,10 @@ def TournamentToList(tournament):
 def CreateTournamentFromList(data):
     if data != None:
         tournament = Tournament()
-        tournament.tournament_name = data[0]
+        tournament.name = data[0]
         if data[1] != None:
             tournament.tournament_date = data[1]
-        tournament.tournament_description = data[2]
+        tournament.description = data[2]
         if data[3] == None or data[3] == 'None':
             data[3] = '12:00'
         tournament.tournament_time = data[3]

@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from django.core.files.images import get_image_dimensions
 
 User = get_user_model()
 
@@ -10,7 +9,7 @@ class ModifyAccountForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['bio', 'picture', 'location_street', 'location_city', 'location_state', 'location_zip', 'left_handed', 'right_handed']
+        fields = ['bio', 'picture', 'location_street', 'location_city', 'location_state', 'location_zip', 'handed']
 
 
 
