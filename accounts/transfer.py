@@ -46,7 +46,7 @@ def Gather():
 
 def UserToList(user):
     usrlist = [
-        str(user.user_id),
+        str(user.id),
         user.first_name,
         user.last_name,
         user.email,
@@ -60,7 +60,7 @@ def UserToList(user):
 def CreateUserFromList(data):
     if data != None:
         user = User()
-        user.user_id = is_valid_uuid(data[0])
+        user.id = is_valid_uuid(data[0])
         user.first_name = data[1]
         user.last_name = data[2]
         user.location_city = data[4]

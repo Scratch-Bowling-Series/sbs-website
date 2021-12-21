@@ -240,10 +240,10 @@
                 {% endif %}
                 {% if user.is_authenticated %}
 
-                <a href="/account/view/{{ request.user.user_id }}" class="nav-account-photo">
+                <a href="/account/view/{{ request.user.id }}" class="nav-account-photo">
                      <img src="{{ request.user.picture.url }}" alt="{{ request.user.first_name }}'s profile picture">
                 </a>
-                <a href="/account/view/{{ request.user.user_id }}" class="btn border-white text-white myaccount">PROFILE</a>
+                <a href="/account/view/{{ request.user.id }}" class="btn border-white text-white myaccount">PROFILE</a>
                 {% else %}
                 <a href="/account/login" class="btn text-white border-white spacing-left-20 login">LOGIN</a>
                 <a href="/account/signup" class="btn bkg-white text-lightgreen border-white signup">SIGN-UP</a>

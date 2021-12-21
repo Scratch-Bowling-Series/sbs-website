@@ -99,11 +99,11 @@ def accounts_modify_view(request):
             image = Image.open('/home/scratchbowling/Scratch-Bowling-Series-Website/media/profile-pictures/' + str(user.picture))
             image = crop_max_square(image).resize((250, 250), Image.LANCZOS)
             image = image.convert('RGB')
-            user.picture = 'profile-pictures/main-' + str(user.user_id) + '.jpg'
+            user.picture = 'profile-pictures/main-' + str(user.id) + '.jpg'
             user.save()
             image.save('/home/scratchbowling/Scratch-Bowling-Series-Website/media/profile-pictures/main-' + str(
-                user.user_id) + '.jpg')
-            return redirect('/account/view/' + str(user.user_id))
+                user.id) + '.jpg')
+            return redirect('/account/view/' + str(user.id))
     else:
         user = request.user
         form = ModifyAccountForm(initial={'bio': user.bio, 'location_street': user.location_street, 'location_city': user.location_city, 'location_state': user.location_state, 'location_zip': user.location_zip, 'left_handed': user.left_handed, 'right_handed': user.right_handed })
@@ -215,7 +215,7 @@ def accounts_account_view(request, id):
          'page_title': str(user.first_name) + ' ' + str(user.last_name),
          'page_description': description,
          'page_keywords': 'user, bowler, account, rank, data, scores, tournaments, stats, statistics',
-         'social_image': '/account/socialcard/image/' + str(user.user_id)
+         'social_image': '/account/socialcard/image/' + str(user.id)
          }
 
         return render(request, 'accounts/my-account.html', data)
@@ -233,7 +233,7 @@ def single_account_tournaments_display(user):
                                      tournament.datetime,
                                      tournament.name,
                                      tournament.center_short_location,
-                                     tournament.get_place(user.user_id)])
+                                     tournament.get_place(user.id)])
     return tournaments_data
 
 

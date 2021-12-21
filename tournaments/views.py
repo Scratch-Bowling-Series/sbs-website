@@ -113,7 +113,7 @@ def single_tournament_views(request, id):
         if tournament.roster:
             roster_data = roster_data_display(deserialize_roster_data(tournament.roster))
             if not tournament.finished and request.user.is_authenticated:
-                on_roster = tournament.exists_in_roster(request.user.user_id)
+                on_roster = tournament.exists_in_roster(request.user.id)
 
 
 
@@ -250,9 +250,9 @@ def roster_join(request, id):
     if user.is_authenticated:
         tournament = Tournament.get_tournament_by_uuid(id)
         if tournament:
-            success = tournament.add_to_roster(user.user_id)
+            success = tournament.add_to_roster(user.id)
             if success:
-                on_roster = tournament.exists_in_roster(user.user_id)
+                on_roster = tournament.exists_in_roster(user.id)
                 roster = tournament.get_roster()
                 for user_id in roster:
                     roster_data.append([user_id, user.first_name, user.last_name])
@@ -268,9 +268,9 @@ def roster_leave(request, id):
     if user.is_authenticated:
         tournament = Tournament.get_tournament_by_uuid(id)
         if tournament:
-            success = tournament.remove_from_roster(user.user_id)
+            success = tournament.remove_from_roster(user.id)
             if success:
-                on_roster = tournament.exists_in_roster(user.user_id)
+                on_roster = tournament.exists_in_roster(user.id)
                 roster = tournament.get_roster()
                 for user_id in roster:
                     roster_data.append([user_id, user.first_name, user.last_name])
@@ -287,7 +287,7 @@ def roster_get(request, id):
         if roster:
             success = True
             if user.is_authenticated:
-                on_roster = tournament.exists_in_roster(user.user_id)
+                on_roster = tournament.exists_in_roster(user.id)
             for user_id in roster:
                 roster_data.append([user_id, user.first_name, user.last_name])
 

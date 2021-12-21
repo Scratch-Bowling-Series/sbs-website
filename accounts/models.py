@@ -15,7 +15,7 @@ from scoreboard.models import Statistics
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, password=None, first_name='', last_name=''):
         """
         Creates and saves a User with the given email and password.
         """
@@ -24,9 +24,10 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
-            user_id=uuid.uuid4()
+            id=uuid.uuid4(),
+            first_name=first_name,
+            last_name=last_name,
         )
-
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -57,7 +58,7 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser):
-    user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     email = models.EmailField(verbose_name='email address',max_length=255,unique=True, null=True)
     first_name = models.CharField(max_length=40, blank=True, null=True)
     last_name = models.CharField(max_length=40, blank=True, null=True)
@@ -65,10 +66,10 @@ class User(AbstractBaseUser):
 
     bio = models.TextField(blank=True, null=True)
     picture = models.ImageField(default='profile-pictures/default.jpg', upload_to='profile-pictures/')
-    location_street = models.CharField(blank=True, null=True, max_length=150)
-    location_city = models.CharField(blank=True, null=True, max_length=150)
-    location_state = models.CharField(blank=True, null=True, max_length=150)
-    location_zip = models.IntegerField(default=0, null=False, blank=True)
+    street = models.CharField(blank=True, null=True, max_length=150)
+    city = models.CharField(blank=True, null=True, max_length=150)
+    state = models.CharField(blank=True, null=True, max_length=150)
+    zip = models.IntegerField(default=0, null=False, blank=True)
     handed = models.SmallIntegerField(default=0)
     medals = models.JSONField(blank=True, null=True)
 
@@ -163,7 +164,7 @@ class User(AbstractBaseUser):
     def get_user_by_uuid(cls, uuid):
         uuid = is_valid_uuid(uuid)
         if uuid:
-            return cls.objects.filter(user_id=uuid).first()
+            return cls.objects.filter(id=uuid).first()
     @classmethod
     def get_user_by_email(cls, email):
         if email:
@@ -179,9 +180,9 @@ class User(AbstractBaseUser):
     ## STATISTICS ##
     @property
     def statistics(self):
-        data = Statistics.get_user_statistics(self.user_id)
+        data = Statistics.get_user_statistics(self.id)
         if not data:
-            data = Statistics.create(self.user_id)
+            data = Statistics.create(self.id)
         return data
     @property
     def rank_badge(self):
@@ -230,7 +231,9 @@ class User(AbstractBaseUser):
     ## TOURNAMENTS ##
     @property
     def tournaments(self):
-        return quickle.loads(self.data_tournaments)
+        if self.data_tournaments:
+            return quickle.loads(self.data_tournaments)
+        return []
     @tournaments.setter
     def tournaments(self, data):
         if data:
@@ -356,7 +359,7 @@ class User(AbstractBaseUser):
             if user.statistics:
                 statistics = user.statistics
                 if statistics:
-                    data = {'user_id': user.user_id,
+                    data = {'user_id': user.id,
                             'first_name': user.first_name,
                             'last_name': user.last_name,
                             'picture': user.full_picture_url,

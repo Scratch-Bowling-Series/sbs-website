@@ -19,7 +19,7 @@ def get_list_of_all_bowlers():
         data.append(str(user.picture))
         data.append(str(user.email))
         data.append(str(user.bio))
-        temp[str(user.user_id)] = data
+        temp[str(user.id)] = data
     return  temp
 
 

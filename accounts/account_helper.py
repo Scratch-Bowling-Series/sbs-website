@@ -19,7 +19,7 @@ def get_user_uuid(uuid):
 def get_name_from_uuid(uuid,last_name=True, bold_last=False, truncate_last=False):
     uuid = is_valid_uuid(uuid)
     if uuid is not None:
-        user = User.objects.filter(user_id=uuid).first()
+        user = User.objects.filter(id=uuid).first()
         if user == None:
             return 'Unknown User'
 
@@ -110,7 +110,7 @@ def display_get_bowlers(users):
     for user in users:
         rank_data = deserialize_rank_data(user.statistics)
         if rank_data != None:
-            data.append([str(user.user_id),
+            data.append([str(user.id),
                          get_name_from_user(user),
                          get_location_basic_obj(user),
                          make_ordinal(rank_data.rank),

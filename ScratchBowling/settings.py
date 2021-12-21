@@ -53,13 +53,16 @@ INSTALLED_APPS = [
     'accounts',
     'cacher',
     'vods',
-    'ScratchBowling'
+    'ScratchBowling',
+    'rest_framework',
+    'knox',
 ]
 
 MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -86,6 +89,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ScratchBowling.wsgi.application'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'knox.auth.TokenAuthentication',
+    ]
+}
+
 
 
 # Database

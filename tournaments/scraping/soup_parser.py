@@ -201,7 +201,7 @@ def get_game_data(tournament, soup):
                                 if user:
                                     game = 1
                                     for score in columns:
-                                        tournament.update_game_from_soup(user.user_id, game, try_int(score.text))
+                                        tournament.update_game_from_soup(user.id, game, try_int(score.text))
                                         game += 1
 
 def get_oil(soup):

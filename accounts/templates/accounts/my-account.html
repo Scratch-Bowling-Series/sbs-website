@@ -45,14 +45,14 @@
       <!-- Buttons -->
       <div class="profile-prev-btns">
       {% if user.is_authenticated %}
-         {% if view_user.user_id == user.user_id %}
+         {% if view_user.id == user.id %}
             <a class="btn" href="{% url 'accounts:modify' %}">MODIFY</a>
             <a class="btn" href="{% url 'accounts:logout' %}">LOG OUT</a>
-         {% elif view_user.user_id|is_friends_filter:user.friends %}
-            <a class="btn bkg-darkgreen text-white" href="{% url 'accounts:remove' id=view_user.user_id %}"><i class="icon-user-alt text-white"></i>FRIENDS</a>
+         {% elif view_user.id %}
+            <a class="btn bkg-darkgreen text-white" href="{% url 'accounts:remove' id=view_user.id %}"><i class="icon-user-alt text-white"></i>FRIENDS</a>
             <a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
          {% else %}
-            <a class="btn" href="{% url 'accounts:add' id=view_user.user_id %}"><i class="icon-user-plus"></i>REQUEST</a>
+            <a class="btn" href=""><i class="icon-user-plus"></i>REQUEST</a>
             <a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
          {% endif %}
       {% else %}
@@ -84,7 +84,7 @@
         <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn" style="left:auto;">VIEW ALL TOURNAMENT RESULTS</a>
       </div>
       {% else %}
-         {% if view_user.user_id == request.user.user_id %}
+         {% if view_user.id == request.user.id %}
              <div class="profile-results">
                 <p class="profile-none">ATTEND YOUR FIRST TOURNAMENT TO SEE YOUR STATISTICS</p>
              </div>
@@ -151,7 +151,7 @@
 
 <!-- Upcoming Tournaments Nearby -->
 <section class="col col-25 col-m-max-width">
-   {% if view_user.user_id == request.user.user_id %}
+   {% if view_user.id == request.user.id %}
    <section class="sec my-account-top-height bkg-darkgreen">
       <h1 class="text-white">TOURNAMENTS NEAR YOU</h1>
       <div class="profile-results">
