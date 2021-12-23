@@ -1,10 +1,7 @@
 from datetime import datetime
-from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from rest_framework.authtoken.models import Token
-
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.models import WebData
 from ScratchBowling.popup import check_for_popup
@@ -28,10 +25,6 @@ import quickle
 
 # <editor-fold desc="PAGES">
 def index(request, notify=''):
-    webData = WebData.get_current()
-    webData.bowler_of_month = is_valid_uuid('a163055c-c4bf-47a5-8cbe-12f0745d6eee')
-    webData.save()
-
     data = {'nbar': 'home',
             'notify': notify,
             'popup': check_for_popup(request.user),
