@@ -36,9 +36,9 @@ def update_tournament_with_soup(tournament, soup):
     if oil_pattern_id:
         tournament.oil_pattern_id = oil_pattern_id
 
-    picture = get_image(soup)
-    if picture:
-        tournament.picture = picture
+    #picture = get_image(soup)
+    #if picture:
+    #    tournament.picture = picture
 
 
     return True
