@@ -102,6 +102,8 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+SITE_ID=1
+
 DATABASES = {
       'default': {
       'ENGINE': 'django.db.backends.mysql',
