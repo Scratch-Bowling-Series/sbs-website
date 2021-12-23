@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
-
+from django.core import exceptions
+import django.contrib.auth.password_validation as validators
 User = get_user_model()
 
 
@@ -8,7 +9,9 @@ User = get_user_model()
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'bio', 'picture', 'city', 'state', 'street', 'zip']
+        fields = ['id', 'email', 'first_name', 'last_name', 'bio', 'picture', 'city', 'state', 'street', 'zip', 'country']
+
+
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -22,6 +25,22 @@ class SignupSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'email','first_name', 'last_name', 'password', 'city', 'state')
         extra_kwargs = {'password': {'write_only': True}}
+
+    def validate_password(self, password):
+        errors = []
+        try:
+            # validate the password and catch the exception
+            validators.validate_password(password=password, user=User)
+
+        # the exception raised here is different than serializers.ValidationError
+        except exceptions.ValidationError as e:
+            errors = list(e.messages)
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return password
+
 
     def create(self, validated_data):
         first_name = ''

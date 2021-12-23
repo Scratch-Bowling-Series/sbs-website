@@ -43,7 +43,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
 
     path('api/', include(router.urls)),
-    path('api/auth/', include(accounts.api.urls)),
+    path('api/user/', include(accounts.api.urls)),
 
 
     ## URL SHORTENER

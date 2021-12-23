@@ -1,13 +1,17 @@
 import datetime
+import os
 import uuid
+import random
 from urllib.request import urlopen
 
 import quickle
+from PIL import Image
 from bs4 import BeautifulSoup
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 from django.utils.functional import classproperty
 
+from ScratchBowling import settings
 from ScratchBowling.models import WebData
 from ScratchBowling.sbs_utils import is_valid_uuid
 from accounts.scraping.soup_parser import update_user_with_soup
@@ -70,6 +74,7 @@ class User(AbstractBaseUser):
     city = models.CharField(blank=True, null=True, max_length=150)
     state = models.CharField(blank=True, null=True, max_length=150)
     zip = models.IntegerField(default=0, null=False, blank=True)
+    country = models.CharField(blank=True, null=True, max_length=150)
     handed = models.SmallIntegerField(default=0)
     medals = models.JSONField(blank=True, null=True)
 
@@ -97,6 +102,8 @@ class User(AbstractBaseUser):
     unclaimed = models.BooleanField(default=False)
     soup_url = models.TextField(default='')
     soup = models.TextField(default='')
+
+
     @classmethod
     def update_all(cls, logging=False):
         base_url = 'https://scratchbowling.com'
@@ -171,6 +178,18 @@ class User(AbstractBaseUser):
             return cls.objects.filter(email=email).first()
 
     ## PICTURE ##
+
+    def setPictureFromRest(self, pictureData):
+        if pictureData:
+            img = Image.open(pictureData)
+            img = img.convert('RGB')
+            randomKey = random.randrange(0,999)
+            path = 'profile-pictures/' + str(self.id) + '-' + str(randomKey) + '.jpg'
+            img.save(os.path.join(settings.MEDIA_ROOT, path), format="jpeg")
+            self.picture = path
+
+
+
     @property
     def full_picture_url(self):
         if self.picture:
