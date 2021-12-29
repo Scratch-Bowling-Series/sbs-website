@@ -710,7 +710,7 @@ class Notification(models.Model):
     recipient = models.UUIDField(editable=True, unique=False, null=True, blank=True)
     sender = models.UUIDField(editable=True, unique=False, null=True, blank=True)
 
-    datetime = models.DateTimeField(default=timezone.now())
+    datetime = models.DateTimeField(default=timezone.now)
 
     title = models.CharField(max_length=5)
     body = models.CharField(max_length=300)
