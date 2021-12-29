@@ -50,8 +50,8 @@ def UserToList(user):
         user.first_name,
         user.last_name,
         user.email,
-        user.location_city,
-        user.location_state,
+        user.city,
+        user.state,
         user.statistics
     ]
     if ValidateUserList(usrlist):
@@ -63,8 +63,8 @@ def CreateUserFromList(data):
         user.id = is_valid_uuid(data[0])
         user.first_name = data[1]
         user.last_name = data[2]
-        user.location_city = data[4]
-        user.location_state = data[5]
+        user.city = data[4]
+        user.state = data[5]
         user.statistics = data[6]
         return user
 

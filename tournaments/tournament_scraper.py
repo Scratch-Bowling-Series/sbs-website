@@ -368,8 +368,8 @@ def create_accounts_from_json():
             user = User.objects.create_user(tempemail, 'temp')
             user.first_name = first_name
             user.last_name = last_name
-            user.location_state = state
-            user.location_city = city
+            user.state = state
+            user.city = city
             user.save()
             print('ADDED ' + first_name)
         else:

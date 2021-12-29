@@ -77,8 +77,8 @@ def accounts_modify_view(request):
             user.bio = form.data.get('bio')
             user.picture = form.cleaned_data.get('picture')
             user.location_street = form.data.get('location_street')
-            user.location_city = form.data.get('location_city')
-            user.location_state = form.data.get('location_state')
+            user.city = form.data.get('location_city')
+            user.state = form.data.get('location_state')
             zip = form.data.get('location_zip')
             if zip != None and zip != '':
                 user.location_zip = zip
@@ -106,7 +106,7 @@ def accounts_modify_view(request):
             return redirect('/account/view/' + str(user.id))
     else:
         user = request.user
-        form = ModifyAccountForm(initial={'bio': user.bio, 'location_street': user.location_street, 'location_city': user.location_city, 'location_state': user.location_state, 'location_zip': user.location_zip, 'left_handed': user.left_handed, 'right_handed': user.right_handed })
+        form = ModifyAccountForm(initial={'bio': user.bio, 'location_street': user.location_street, 'location_city': user.city, 'location_state': user.state, 'location_zip': user.location_zip, 'left_handed': user.left_handed, 'right_handed': user.right_handed })
     return render(request, 'accounts/modify-account.html', {'form': form,
                                                             'page_title': 'Modify Account',
                                                             'page_description': 'Modify your Scratch Bowling Series account.',
@@ -203,8 +203,8 @@ def accounts_account_view(request, id):
         user_data = {'first_name': user.first_name,
                      'last_name' : user.last_name,
                      'year_joined': user.date_joined.year,
-                     'city': user.location_city or '',
-                     'state': user.location_state or '',
+                     'city': user.city or '',
+                     'state': user.state or '',
                      'handed': user.handed,
                      'picture': user.full_picture_url,
                      }
@@ -267,7 +267,7 @@ def accounts_socialcard_image(request, id):
 
         d.text((600, 315 + 140), user.first_name + ' ' + user.last_name, font=fnt, fill=stroke_color, align="center", anchor="ms")
 
-        d.text((600, 315 + 180), user.location_city + ', ' + user.location_state, font=fnt2, fill=stroke_color, align="center", anchor="ms")
+        d.text((600, 315 + 180), user.city + ', ' + user.state, font=fnt2, fill=stroke_color, align="center", anchor="ms")
 
         response = HttpResponse(content_type='image/png')
         response['Content-Disposition'] = 'filename="social-card.png"'
@@ -283,8 +283,8 @@ def accounts_claim_view(request, id):
         if request.user.is_anonymous == False and request.user.is_authenticated:
             user.unclaimed = False
             user.save()
-            request.user.location_state = user.location_state
-            request.user.location_city = user.location_city
+            request.user.state = user.state
+            request.user.city = user.city
             request.user.statistics = user.statistics
             request.user.tournaments = user.tournaments
             request.user.save()

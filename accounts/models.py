@@ -1,4 +1,5 @@
 import datetime
+import json
 import os
 import uuid
 import random
@@ -9,11 +10,16 @@ from PIL import Image
 from bs4 import BeautifulSoup
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
+from django.db.models import Q
+from django.utils import timezone
 from django.utils.functional import classproperty
+from exponent_server_sdk import PushMessage
 
 from ScratchBowling import settings
 from ScratchBowling.models import WebData
-from ScratchBowling.sbs_utils import is_valid_uuid
+from ScratchBowling.sbs_utils import is_valid_uuid, load_quickle_array, dump_quickle_array, del_uuid_from_array, \
+    add_uuid_to_array, is_uuid_in_array
+from accounts.notify import send_push_message
 from accounts.scraping.soup_parser import update_user_with_soup
 from scoreboard.models import Statistics
 
@@ -80,7 +86,11 @@ class User(AbstractBaseUser):
 
     data_tournaments = models.BinaryField(blank=True, null=True)
     data_friends = models.BinaryField(blank=True, null=True)
+    data_friend_requests_outbound = models.BinaryField(blank=True, null=True)
+    data_friend_requests_inbound = models.BinaryField(blank=True, null=True)
     data_blocked = models.BinaryField(blank=True, null=True)
+    data_push_tokens = models.BinaryField(blank=True, null=True)
+
 
     is_bowler_of_month = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -89,12 +99,13 @@ class User(AbstractBaseUser):
     admin = models.BooleanField(default=False)
     is_online = models.BooleanField(default=False)
     ask_for_claim = models.BooleanField(default=True)
+    is_verified = models.BooleanField(default=False)
 
     objects = UserManager()
 
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
+
 
 
     # <editor-fold desc="SCRAPING">
@@ -166,6 +177,13 @@ class User(AbstractBaseUser):
     # </editor-fold>
 
 
+    @property
+    def full_name(self):
+        first = str(self.first_name)
+        last = str(self.last_name)
+        return first + ' ' + last
+
+
     ## GET USER ##
     @classmethod
     def get_user_by_uuid(cls, uuid):
@@ -177,8 +195,41 @@ class User(AbstractBaseUser):
         if email:
             return cls.objects.filter(email=email).first()
 
-    ## PICTURE ##
 
+    ## NOTIFICATIONS
+    @property  ## returns array of notifications
+    def notifications(self):
+        return Notification.get_notifications(self.id)
+    @property
+    def has_notifications(self):
+        if self and self.id:
+            return Notification.has_notification(self.id)
+        return False
+
+
+    ## NOTIFICATIONS
+    @property  ## returns array of notifications
+    def push_tokens(self):
+        return load_quickle_array(self.data_push_tokens)
+    @push_tokens.setter
+    def push_tokens(self, data):
+        self.data_push_tokens = dump_quickle_array(data)
+    def add_push_token(self, uuid):
+        array = add_uuid_to_array(uuid, self.push_tokens)
+        if array != None:
+            print(array)
+            self.push_tokens = array
+            return True
+        return False
+    def remove_push_token(self, uuid):
+        array = del_uuid_from_array(uuid, self.push_tokens)
+        if array != None:
+            self.push_tokens = array
+            return True
+        return False
+
+
+    ## PICTURE ##
     def setPictureFromRest(self, pictureData):
         if pictureData:
             img = Image.open(pictureData)
@@ -187,14 +238,12 @@ class User(AbstractBaseUser):
             path = 'profile-pictures/' + str(self.id) + '-' + str(randomKey) + '.jpg'
             img.save(os.path.join(settings.MEDIA_ROOT, path), format="jpeg")
             self.picture = path
-
-
-
     @property
     def full_picture_url(self):
         if self.picture:
             return '/media/' + str(self.picture)
         return '/media/profile-pictures/default.jpg'
+
 
     ## STATISTICS ##
     @property
@@ -247,6 +296,7 @@ class User(AbstractBaseUser):
             return statistics.rank_ordinal
         return 0
 
+
     ## TOURNAMENTS ##
     @property
     def tournaments(self):
@@ -288,35 +338,262 @@ class User(AbstractBaseUser):
                 tournaments_data.append([tournament.tournament_id, tournament.datetime, tournament.name, tournament.center_short_location, 0])
         return tournaments_data
 
+
+
+
+    # <editor-fold desc="FRIENDS">
     ## FRIENDS ##
-    @property
+    @property ## returns friends list ids
     def friends(self):
-        return quickle.loads(self.data_friends)
+        return load_quickle_array(self.data_friends)
     @friends.setter
     def friends(self, data):
-        if data:
-            self.data_friends = quickle.dumps(data)
-    def is_friends(self, user_id):
-        user_id = is_valid_uuid(user_id)
-        if user_id:
-            friends_list = self.data_friends
-            if user_id in friends_list:
+        self.data_friends = dump_quickle_array(data)
+    def is_friends(self, uuid):
+        friends = self.friends
+        friend_id = str(uuid)
+        if friends and friend_id in friends:
+            return True
+        return False
+    def add_friend(self, uuid):
+        print('adding friend ' + str(uuid))
+        friends = self.friends
+        friend_id = str(uuid)
+        if friend_id not in friends:
+            friends.append(friend_id)
+            self.friends = friends
+            print('friends added ' + str(friends))
+            return True
+        return False
+    def del_friend(self, uuid):
+        friends = self.friends
+        friend_id = str(uuid)
+        if friends and friend_id in friends:
+            friends.remove(friend_id)
+            self.friends = friends
+            return True
+        return False
+
+    ## FRIEND REQUESTS -- OUTBOUND GETS/SETS ##
+    @property  ## returns outbound friend request list ids
+    def friend_requests_outbound(self):
+        return load_quickle_array(self.data_friend_requests_outbound)
+    @friend_requests_outbound.setter
+    def friend_requests_outbound(self, data):
+        self.data_friend_requests_outbound = dump_quickle_array(data)
+
+    ## FRIEND REQUESTS -- INBOUND GETS/SETS ##
+    @property  ## returns inbound friend request list ids
+    def friend_requests_inbound(self):
+        return load_quickle_array(self.data_friend_requests_inbound)
+    @friend_requests_inbound.setter
+    def friend_requests_inbound(self, data):
+        self.data_friend_requests_inbound = dump_quickle_array(data)
+
+    ## FRIEND REQUESTS -- INBOUND/OUTBOUND LOGIC ##
+    def add_friend_request_to_data(self, friend):
+        outbound = self.friend_requests_outbound
+        inbound = friend.friend_requests_inbound
+        friend_id = str(friend.id)
+        user_id = str(self.id)
+        if user_id not in inbound:
+            inbound.append(user_id)
+            friend.friend_requests_inbound = inbound
+        if friend_id not in outbound:
+            outbound.append(friend_id)
+            self.friend_requests_outbound = outbound
+        else:
+            return False
+        return True
+
+
+    def remove_friend_request_data(self, friend):
+        outbound = friend.friend_requests_outbound
+        inbound = self.friend_requests_inbound
+        friend_id = str(friend.id)
+        user_id = str(self.id)
+        if inbound and friend_id in inbound:
+            inbound.remove(friend_id)
+            self.friend_requests_inbound = inbound
+        if outbound and user_id in outbound:
+            outbound.remove(user_id)
+            friend.friend_requests_outbound = outbound
+            return True
+        return False
+
+    ## FRIEND REQUESTS -- PRIMARY LOGIC ##
+    @classmethod
+    def send_friend_request(cls, user_id, friend_id):
+        user = cls.get_user_by_uuid(user_id)
+        friend = cls.get_user_by_uuid(friend_id)
+        if user and friend:
+            if user.add_friend_request_to_data(friend):
+                Notification.notify_friend_request(user, friend)
+                user.save()
+                friend.save()
+                return True
+            elif user.remove_friend_request_data(friend):
+                friend.add_friend(user_id)
+                user.add_friend(friend_id)
+                Notification.notify_friend_accept(user, friend)
+                user.save()
+                friend.save()
                 return True
         return False
-    def add_friend(self, user_id):
-        user_id = is_valid_uuid(user_id)
-        if user_id:
-            friends_list = self.friends
-            if user_id not in friends_list:
-                friends_list.append(user_id)
-                self.friends = friends_list
-    def remove_friend(self, user_id):
-        user_id = is_valid_uuid(user_id)
-        if user_id:
-            friends_list = self.friends
-            if user_id in friends_list:
-                friends_list.remove(user_id)
-                self.friends = friends_list
+
+    @classmethod
+    def accept_friend_request(cls, user_id, friend_id, notification_id=None):
+        print(notification_id)
+        user = cls.get_user_by_uuid(user_id)
+        friend = cls.get_user_by_uuid(friend_id)
+        if user and friend:
+            if user.remove_friend_request_data(friend):
+                friend.add_friend(user_id)
+                user.add_friend(friend_id)
+                Notification.remove_notification(user_id)
+                Notification.notify_friend_accept(user, friend)
+                friend.save()
+                user.save()
+
+                if notification_id:
+                    Notification.remove_notification(notification_id)
+                return True
+        return False
+
+    @classmethod
+    def cancel_friend_request(cls, user_id, friend_id, notification_id=None):
+        user = cls.get_user_by_uuid(user_id)
+        friend = cls.get_user_by_uuid(friend_id)
+        if user and friend:
+            if user.remove_friend_request_data(friend):
+                friend.save()
+                user.save()
+                if notification_id:
+                    Notification.remove_notification(notification_id)
+                return True
+        if notification_id:
+            Notification.remove_notification(notification_id)
+        return False
+
+
+    @classmethod
+    def remove_friend(cls, user_id, friend_id):
+        user = cls.get_user_by_uuid(user_id)
+        friend = cls.get_user_by_uuid(friend_id)
+        if user and friend and user.is_friends(friend_id):
+            user.del_friend(friend_id)
+            friend.del_friend(user_id)
+            user.save()
+            friend.save()
+            return True
+        return False
+
+    ## SEARCH FOR FRIENDS
+    @classmethod
+    def search_friends_extra(cls, user_id, search_args):
+        user = cls.get_user_by_uuid(user_id)
+        output = []
+        if user:
+            requests_inbound = user.friend_requests_inbound
+            requests_outbound = user.friend_requests_outbound
+            friends = user.friends
+
+            qs = User.objects.all()
+            for search_arg in search_args.split():
+                qs = qs.filter(Q(first_name__icontains=search_arg) |
+                                Q(last_name__icontains=search_arg) |
+                                Q(city__icontains=search_arg) |
+                                Q(state__icontains=search_arg))
+
+            for user in qs:
+                user_id = str(user.id)
+                status = 'stranger'
+                if user_id in requests_inbound:
+                    status = 'request_inbound'
+                elif user_id in requests_outbound:
+                    status = 'request_outbound'
+                elif user_id in friends:
+                    status = 'friends'
+                output.append(user.convert_to_friend_extra(status))
+        return output
+
+    ## FRIENDS -- API SERIALIZING  ##
+    @property
+    def friends_objects(self):
+        friends = self.friends
+        users = []
+        for friend_id in friends:
+            user = User.get_user_by_uuid(friend_id)
+            if user:
+                users.append(user)
+        return users
+
+    @property
+    def friends_outbound_objects(self):
+        friends = self.friend_requests_outbound
+        users = []
+        for friend_id in friends:
+            user = User.get_user_by_uuid(friend_id)
+            if user:
+                users.append(user)
+        return users
+    @property
+    def friends_inbound_objects(self):
+        friends = self.friend_requests_inbound
+        users = []
+        for friend_id in friends:
+            user = User.get_user_by_uuid(friend_id)
+            if user:
+                users.append(user)
+        return users
+
+
+
+
+
+
+
+    @property ## returns friends list with some extra info (for rest)
+    def friends_extra(self):
+        friends = self.friends
+        users = []
+        for friend in friends:
+            user = User.get_user_by_uuid(friend)
+            if user:
+                users.append(user.convert_to_friend_extra())
+
+        return users
+    @property  ## returns inbound friend request list ids
+    def friend_requests_inbound_extra(self):
+        output = []
+        friends = self.friend_requests_inbound
+        if friends:
+            for friend in friends:
+                user = User.get_user_by_uuid(friend)
+                if user:
+                    output.append(user.convert_to_friend_extra())
+        return []
+    @property  ## returns outbound friend request list ids
+    def friend_requests_outbound_extra(self):
+        output = []
+        friends = self.friend_requests_outbound
+        if friends:
+            for friend in friends:
+                user = User.get_user_by_uuid(friend)
+                if user:
+                    output.append(user.convert_to_friend_extra())
+        return []
+    def convert_to_friend_extra(self, status=None):
+        picture = ''
+        if self.picture:
+            picture = self.picture.url
+
+        if status:
+            return {'id': self.id, 'first_name': self.first_name,
+                    'last_name': self.last_name, 'picture': picture, 'status': status}
+        else:
+            return {'id': self.id, 'first_name': self.first_name,
+                    'last_name': self.last_name, 'picture': picture}
 
     ## BLOCKED USERS ##
     @property
@@ -347,6 +624,10 @@ class User(AbstractBaseUser):
             if user_id in blocked_list:
                 blocked_list.remove(user_id)
                 self.blocked = blocked_list
+    # </editor-fold>
+
+
+
 
     ## LOCATION ##
     @property
@@ -424,10 +705,87 @@ class User(AbstractBaseUser):
 
 
 
+class Notification(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    recipient = models.UUIDField(editable=True, unique=False, null=True, blank=True)
+    sender = models.UUIDField(editable=True, unique=False, null=True, blank=True)
+
+    datetime = models.DateTimeField(default=timezone.now())
+
+    title = models.CharField(max_length=5)
+    body = models.CharField(max_length=300)
+
+    type = models.CharField(max_length=20)
+
+    read = models.BooleanField(default=False)
+
+    data = models.TextField(default='')
 
 
 
+    @classmethod
+    def get_notifications(cls, uuid):
+        uuid = is_valid_uuid(uuid)
+        if uuid:
+            return cls.objects.filter(recipient=uuid).order_by('-datetime')
 
+    @classmethod
+    def has_notification(cls, uuid):
+        uuid = is_valid_uuid(uuid)
+        if uuid:
+            count = cls.objects.filter(recipient=uuid, read=False).count()
+            return False if count == 0 else True
+        return False
+
+
+
+    @classmethod
+    def notify_friend_request(cls, user, friend):
+        body = user.full_name + ' sent you a friend request.'
+        data = {'notification_id': None, 'picture': user.picture.url}
+        cls.send_notification_p2p(user.id, friend.id, 'SBS Bowler', body, 'friend_request', data)
+
+    @classmethod
+    def notify_friend_accept(cls, user, friend):
+        body = user.full_name + ' accepted your friend request.'
+        data = {'picture': user.picture.url}
+        cls.send_notification_p2p(user.id, friend.id, 'SBS Bowler', body, 'friend_accept', data)
+
+
+    @classmethod
+    def send_notification_p2p(cls, sender_id, recipient_id, title, body, type, data):
+        notification = cls(sender=sender_id, recipient=recipient_id,title=title, body=body, type=type)
+        if data:
+            notification.data = json.dumps(data)
+        notification.save()
+        sendNotificationToExpo(notification)
+
+    @classmethod
+    def remove_notification(cls, uuid):
+        uuid = is_valid_uuid(uuid)
+        if uuid:
+            cls.objects.filter(id=uuid).delete()
+            return True
+        return False
+
+    @classmethod
+    def clear_notifications(cls, user_id):
+        user_id = is_valid_uuid(user_id)
+        if user_id:
+            cls.objects.filter(recipient=user_id).delete()
+
+
+    def to_push_message(self, token):
+        return PushMessage(title=self.title, body=self.body, data=self.data, to=token)
+
+
+
+def sendNotificationToExpo(notification):
+    recipient = User.get_user_by_uuid(notification.recipient)
+    if recipient:
+        tokens = recipient.push_tokens
+        for token in tokens:
+            send_push_message(notification.to_push_message(token))
 
 
 

@@ -68,8 +68,8 @@ def get_location_basic_uuid(uuid):
     if uuid is not None:
         user = User.objects.filter(user_id=uuid).first()
         if user is not None:
-            city = str(user.location_city)
-            state = str(user.location_state)
+            city = str(user.city)
+            state = str(user.state)
             if city == None or city == '':
                 if state == None or state == '':
                     return 'Location Unknown'
@@ -83,8 +83,8 @@ def get_location_basic_uuid(uuid):
 
 def get_location_basic_obj(user):
         if user is not None:
-            city = str(user.location_city)
-            state = str(user.location_state)
+            city = str(user.city)
+            state = str(user.state)
             if city == None or city == '':
                 if state == None or state == '':
                     return 'Location Unknown'

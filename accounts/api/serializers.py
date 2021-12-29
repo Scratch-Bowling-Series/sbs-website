@@ -2,14 +2,40 @@ from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
 from django.core import exceptions
 import django.contrib.auth.password_validation as validators
+
+from accounts.models import Notification
+
 User = get_user_model()
 
 
+class NotificationSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ['id', 'recipient', 'sender', 'datetime', 'title', 'body', 'type', 'read', 'data']
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    has_notifications = serializers.BooleanField()
+
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'bio', 'picture', 'city', 'state', 'street', 'zip', 'country']
+        fields = ['id', 'email', 'first_name', 'last_name', 'bio', 'picture', 'city', 'state', 'street', 'zip', 'country', 'has_notifications']
+
+class UserLightSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'picture']
+
+class FriendsListSerializer(serializers.ModelSerializer):
+    friends = UserLightSerializer(source='friends_objects', many=True, read_only=True)
+    sent = UserLightSerializer(source='friends_outbound_objects', many=True, read_only=True)
+    requests = UserLightSerializer(source='friends_inbound_objects', many=True, read_only=True)
+    class Meta:
+        model = User
+        fields = ['id', 'friends', 'requests', 'sent']
+
+
+
+
 
 
 

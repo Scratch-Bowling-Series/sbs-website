@@ -19,8 +19,8 @@ def update_user_with_soup(user, soup):
         user.email = email
         user.first_name = first
         user.last_name = last
-        user.location_city = city
-        user.location_state = state
+        user.city = city
+        user.state = state
         user.picture = image
         return True
     return False

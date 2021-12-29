@@ -1,5 +1,5 @@
 import uuid
-
+import quickle
 from ScratchBowling.websettings import WebSettings
 
 
@@ -126,3 +126,65 @@ def normalize_state(state, abbrev=False):
             else:
                 return state
     return state
+
+
+
+
+def load_quickle_array(data):
+    if data:
+        array = quickle.loads(data)
+        if array:
+            return array
+    return []
+
+def dump_quickle_array(array):
+    if array:
+        return quickle.dumps(array)
+    else:
+        return quickle.dumps([])
+
+def is_uuid_in_array(uuid, array):
+    if str(uuid) in array:
+        return True
+    return False
+
+def add_uuid_to_array(uuid, array):
+    if not is_uuid_in_array(uuid, array):
+        array.append(str(uuid))
+        return array
+    return None
+
+def del_uuid_from_array(uuid, array):
+    if is_uuid_in_array(uuid, array):
+        array.remove(str(uuid))
+        return array
+    return None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
