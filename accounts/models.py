@@ -8,11 +8,15 @@ from urllib.request import urlopen
 import quickle
 from PIL import Image
 from bs4 import BeautifulSoup
+from django.core.mail import send_mail
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 from django.db.models import Q
+from django.template.loader import render_to_string
 from django.utils import timezone
+from django.utils.encoding import force_bytes
 from django.utils.functional import classproperty
+from django.utils.http import urlsafe_base64_encode
 from exponent_server_sdk import PushMessage
 
 from ScratchBowling import settings
@@ -21,6 +25,7 @@ from ScratchBowling.sbs_utils import is_valid_uuid, load_quickle_array, dump_qui
     add_uuid_to_array, is_uuid_in_array
 from accounts.notify import send_push_message
 from accounts.scraping.soup_parser import update_user_with_soup
+from accounts.tokens import account_activation_token
 from scoreboard.models import Statistics
 
 
@@ -70,19 +75,24 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     email = models.EmailField(verbose_name='email address',max_length=255,unique=True, null=True)
+
     first_name = models.CharField(max_length=40, blank=True, null=True)
     last_name = models.CharField(max_length=40, blank=True, null=True)
-    date_joined = models.DateField(default=datetime.date.today, editable=False)
-
     bio = models.TextField(blank=True, null=True)
     picture = models.ImageField(default='profile-pictures/default.jpg', upload_to='profile-pictures/')
+
     street = models.CharField(blank=True, null=True, max_length=150)
     city = models.CharField(blank=True, null=True, max_length=150)
     state = models.CharField(blank=True, null=True, max_length=150)
     zip = models.IntegerField(default=0, null=False, blank=True)
     country = models.CharField(blank=True, null=True, max_length=150)
+
     handed = models.SmallIntegerField(default=0)
     medals = models.JSONField(blank=True, null=True)
+    date_joined = models.DateField(default=datetime.date.today, editable=False)
+
+    balance = models.IntegerField(default=0)
+    pending_balance = models.IntegerField(default=0)
 
     data_tournaments = models.BinaryField(blank=True, null=True)
     data_friends = models.BinaryField(blank=True, null=True)
@@ -194,6 +204,37 @@ class User(AbstractBaseUser):
     def get_user_by_email(cls, email):
         if email:
             return cls.objects.filter(email=email).first()
+
+    ## EMAIL VERIFICATION ##
+    def send_verification_email(self):
+        subject = 'Please verify your account.'
+        from_email = 'christianjstarr@icloud.com'
+
+        uuid = str(self.id)
+        token = account_activation_token.make_token(self)
+
+        raw_message = render_to_string('acc_active_email_plain.html', {
+            'uid': uuid,
+            'token': token,
+        })
+        html_message = render_to_string('acc_active_email.html', {
+            'uid': uuid,
+            'token': token,
+        })
+
+        send_mail(
+            subject,
+            raw_message,
+            from_email,
+            [self.email],
+            fail_silently=True,
+            html_message=html_message
+        )
+    def verify_email(self, token):
+        if account_activation_token.check_token(self, token):
+            self.is_verified = True
+            return True
+        return False
 
 
     ## NOTIFICATIONS

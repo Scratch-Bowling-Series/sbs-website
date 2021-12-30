@@ -145,6 +145,22 @@ class SignupViewSet(generics.GenericAPIView):
 
 
 
+class ResendVerifyViewSet(generics.GenericAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+    def get(self, request, *args, **kwargs):
+        sent = False
+        if request.user.is_authenticated:
+            user = User.get_user_by_uuid(request.user.id)
+            if user and not user.is_verified:
+                user.send_verification_email()
+                sent = True
+        return Response({
+            "success": sent,
+        })
+
 
 
 class FriendsListViewSet(viewsets.ReadOnlyModelViewSet):

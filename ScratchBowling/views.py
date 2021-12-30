@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from django.core.mail import send_mail
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -25,6 +27,9 @@ import quickle
 
 # <editor-fold desc="PAGES">
 def index(request, notify=''):
+    User.send_test_email()
+
+
     data = {'nbar': 'home',
             'notify': notify,
             'popup': check_for_popup(request.user),

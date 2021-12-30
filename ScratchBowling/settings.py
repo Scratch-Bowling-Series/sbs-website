@@ -105,17 +105,17 @@ REST_FRAMEWORK = {
 SITE_ID=1
 
 DATABASES = {
-      'default': {
-      'ENGINE': 'django.db.backends.mysql',
-      'NAME': 'scratchbowling$default',
-      'USER': 'scratchbowling',
-      'PASSWORD': 'dvSdd260*HXp',
-      'HOST': 'scratchbowling.mysql.pythonanywhere-services.com',
-    }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
+    #   'default': {
+    #   'ENGINE': 'django.db.backends.mysql',
+    #   'NAME': 'scratchbowling$default',
+    #   'USER': 'scratchbowling',
+    #   'PASSWORD': 'dvSdd260*HXp',
+    #   'HOST': 'scratchbowling.mysql.pythonanywhere-services.com',
     # }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
@@ -155,11 +155,16 @@ USE_L10N = True
 USE_TZ = True
 
 
-EMAIL_HOST = 'in-v3.mailjet.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'af61ffdf76a4dcc5e7733e4eaeef0797'
-EMAIL_HOST_PASSWORD = 'ac82231110561748cf598d925d99f638'
+EMAIL_BACKEND = 'django_ses.SESBackend'
+
+# These are optional -- if they're set as environment variables they won't
+# need to be set here as well
+AWS_ACCESS_KEY_ID = 'AKIAW5XYOUUVSBW6F242'
+AWS_SECRET_ACCESS_KEY = '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'
+
+AWS_SES_REGION_NAME = 'us-east-2'
+AWS_SES_REGION_ENDPOINT = 'email.us-east-2.amazonaws.com'
+
 
 
 # Static files (CSS, JavaScript, Images)

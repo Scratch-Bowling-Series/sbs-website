@@ -13,6 +13,8 @@ router.register(r'user/profile', views.ProfileViewSet, basename='profile-data')
 router.register(r'user/notifications', views.NotificationsViewSet, basename='notifications')
 
 urlpatterns = [
+    url(r'resend-verify-email/', views.ResendVerifyViewSet.as_view(), name='resend-verify-email'),
+
     url(r'clear-notification/', views.ClearNotificationViewSet.as_view(), name='clear-notification'),
     url(r'store-push/', views.StorePushTokenViewSet.as_view(), name='store-push'),
 

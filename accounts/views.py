@@ -149,23 +149,8 @@ def accounts_signup_view(request):
             user.last_name = form.data.get('last_name')
             user.save()
             login(request, user)
-            message = render_to_string('acc_active_email.html', {
-                'user': user,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-            #mail_subject = 'Scratch Series Bowling, Activate Account'
-
-             ##send_mail(
-             ##   mail_subject,
-             ##   ' ',
-             ##   'christianjstarr@icloud.com',
-             ##   [email],
-             ##   fail_silently=True,
-             ##    html_message=message
-             ## )
-            settings = WebSettings()
-            return HttpResponseRedirect(settings.primary_domain + '/notify/verify_email/')
+            user.send_verification_email()
+            return HttpResponseRedirect('/notify/verify_email/')
     else:
         form = RegisterForm()
     return render(request, 'accounts/signup.html', {'form':form,
@@ -174,19 +159,33 @@ def accounts_signup_view(request):
                                                     'page_keywords': 'Sign Up, Create, Account, Login, Log In',
                                                     })
 
-def activate(request, uidb64, token):
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    if user !=  None and account_activation_token.check_token(user, token):
-        user.is_active = True
+def activate(request, uuid, token):
+    ## activate/verify the users account by email
+
+    uuid = is_valid_uuid(uuid)
+    user = None
+
+    ## if user is accepting on same device, logged in
+    if request.user.is_authenticated:
+        if request.user.id == uuid:
+          user = request.user.is_verified = True
+    else: ## if user is not logged in
+        user = User.get_user_by_uuid(uuid)
+
+    ## check if token matches, then verify the user
+    if user and user.verify_email(token):
         user.save()
-        login(request, user)
-        return render(request, 'homepage.html', {'nbar': 'home', 'notify': 'verify_email_done'})
+        if not request.user.is_authenticated:
+            login(request, user)
+
+        ## success
+        return HttpResponseRedirect('/')
     else:
-        return render(request, 'homepage.html', {'nbar': 'home', 'notify': 'verify_email_error'})
+        ## failed
+        return HttpResponseRedirect('/')
+
+
+
 
 def accounts_logout_view(request):
     logout(request)
