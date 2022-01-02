@@ -10,28 +10,35 @@ import requests
 from PIL import Image
 from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
-from django.db import models, transaction
+from django.db import models
+from django.db.models import Q
+from django.utils import timezone
 
 from ScratchBowling import settings
 from ScratchBowling.sbs_utils import is_valid_uuid
+from accounts.models import Notification
 from centers.models import Center
 from tournaments.scraping.soup_parser import update_tournament_with_soup
 
 User = get_user_model()
 
 
+
+
+
+
 class Tournament(models.Model):
     tournament_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
 
     scoring_data_id = models.UUIDField(editable=True, blank=True, null=True)
-    center_id = models.UUIDField(editable=True, blank=True, null=True)
+    center = models.ForeignKey('centers.Center', blank=True)
     format_id = models.UUIDField(editable=True, unique=True, blank=True, null=True)
-    oil_pattern_id = models.UUIDField(editable=True, unique=False, null=True, blank=True)
+    oil_patterns = models.OneToOneField()
     vod_id = models.UUIDField(editable=True, unique=False, null=True, blank=True)
 
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-    datetime = models.DateTimeField(blank=True, null=True)
+    datetime = models.DateField(default=timezone.now, editable=False)
     picture = models.ImageField(default='tournament-pictures/default.jpg', upload_to='tournament-pictures/')
 
 
@@ -43,7 +50,8 @@ class Tournament(models.Model):
     sponsor =  models.UUIDField(editable=True, unique=False, null=True, blank=True)
     finished = models.BooleanField(default=False)
     live = models.BooleanField(default=False)
-    double = models.BooleanField(default=False)
+    team_size = models.SmallIntegerField(default=1)
+
     stream_available = models.BooleanField(default=False)
 
     tournament_data = models.BinaryField(blank=True, null=True)
@@ -51,7 +59,6 @@ class Tournament(models.Model):
 
 
 
-    data_roster = models.BinaryField(blank=True, null=True)
     data_scoring = models.BinaryField(blank=True, null=True)
 
     spots_reserved = models.IntegerField(null=False, blank=True, default=0)
@@ -60,7 +67,7 @@ class Tournament(models.Model):
     live_status_leader = models.UUIDField(editable=True, unique=False, null=True, blank=True)
     live_status_leader_score = models.FloatField(default=0, blank=True)
 
-    # <editor-fold desc="SCRAPING">
+    # <editor-fold desc="-- SCRAPING --">
     scraped = models.BooleanField(default=False)
     soup_url = models.TextField(default='')
     soup = models.TextField(default='')
@@ -121,7 +128,6 @@ class Tournament(models.Model):
             print('Update All Complete')
 
     @classmethod
-    @transaction.atomic
     def only_eat_all(cls, logging=False):
         if logging:
             start_time = time()
@@ -240,64 +246,38 @@ class Tournament(models.Model):
             self.save()
             return self.picture
 
-    # ROSTER
-    @property
-    def roster(self):
-        if self.data_roster:
-            return quickle.loads(self.data_roster)
-        return []
-    @roster.setter
-    def roster(self, data):
-        if data:
-            self.data_roster = quickle.dumps(data)
+
+    # <editor-fold desc="-- ROSTER --">
     @property
     def roster_length(self):
-        roster = self.roster
-        if roster:
-            return len(roster)
-        return 0
+        return self.tournament_datas.all().count()
     @property
     def spots_available(self):
         return self.spots_reserved - self.roster_length
-    def on_roster(self, user_id):
-        user_id = is_valid_uuid(user_id)
-        if user_id:
-            roster_list = self.roster
-            if user_id in roster_list:
+
+    @classmethod
+    def join_roster(cls, tournament_id, user_id):
+        tournament = cls.get_tournament_by_uuid(tournament_id)
+        if tournament and tournament.get_tournament_data(user_id) or TournamentData.create(user_id):
+            return True
+        return False
+    @classmethod
+    def leave_roster(cls, tournament_id, user_id):
+        tournament = cls.get_tournament_by_uuid(tournament_id)
+        if tournament:
+            tournament_data = tournament.get_tournament_data(user_id)
+            if tournament_data:
                 return True
         return False
-    def add_to_roster(self, user_id):
-        user_id = is_valid_uuid(user_id)
-        if user_id:
-            roster_list = self.roster
-            if user_id not in roster_list:
-                roster_list.append(user_id)
-                self.roster = roster_list
-    def remove_from_roster(self, user_id):
-        user_id = is_valid_uuid(user_id)
-        if user_id:
-            roster_list = self.roster
-            if user_id in roster_list:
-                user_id.remove(user_id)
-                self.roster = roster_list
 
-    # CENTER
-    @property
-    def center(self):
-        return Center.get_center_by_uuid(self.center_id)
-    @property
-    def center_name(self):
-        center = self.center
-        if center:
-            return center.center_name
-        else:
-            return 'Center Unknown'
-    @property
-    def center_short_location(self):
-        center = self.center
-        if center:
-            return center.short_location
-        return 'Location Unknown'
+    def get_tournament_data(self, user_id):
+        user_id = is_valid_uuid(user_id)
+        if user_id:
+            return self.tournament_datas.filter(user__id=user_id).first()
+        return None
+    # </editor-fold>
+
+
 
     # SCORING DATA
     def game_datas_user(self, user_id, game_number=0, amount=0):
@@ -375,6 +355,35 @@ class Tournament(models.Model):
             return True
         return False
 
+    @classmethod
+    def get_tournament_and_user_data(cls,tournament_id, user_id):
+        tournament = cls.get_tournament_by_uuid(tournament_id)
+        tournament_data = None
+        if tournament:
+            tournament_data = tournament.get_tournament_data(user_id)
+        return tournament, tournament_data
+
+
+    ## TEAMS ##
+    @classmethod
+    def set_looking_for_team(cls, tournament_id, user_id, looking_for_team):
+        tournament, tournament_data = cls.get_tournament_and_user_data(tournament_id, user_id)
+        if tournament and tournament_data:
+            if tournament.team_size > 0:
+                if tournament_data.looking_for_team != looking_for_team:
+                    tournament_data.looking_for_team = looking_for_team
+                    tournament_data.save()
+                return True
+        return False
+
+
+    @classmethod
+    def leave_team(cls, tournament_id, user_id):
+        tournament, user_tournament_data = cls.get_tournament_and_user_data(tournament_id, user_id)
+        if tournament and user_tournament_data and user_tournament_data.team:
+            if user_tournament_data.team.leave(user_tournament_data.user):
+                return True
+        return False
 
 
 
@@ -395,10 +404,196 @@ class Tournament(models.Model):
         return tags
 
 
+class Format(models.Model):
+    format_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    name = models.TextField(default='')
+
+    is_qualifiers = models.BooleanField()
+    qualifier_games = models.SmallIntegerField(default=0)
+    cashers = models.SmallIntegerField(default=0)
+
+    is_carryover = models.BooleanField(default=False)
+    is_bonus_pins = models.BooleanField(default=False)
+
+
+class Sponsor(models.Model):
+    sponsor_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    sponsor_name =  models.CharField(max_length=60, blank=True, null=True)
+    sponsor_display_name = models.CharField(max_length=60, blank=True, null=True)
+    sponsor_balance = models.IntegerField(default=0, null=False, blank=True)
+    sponsor_image = models.ImageField(default='sponsor-pictures/default.png', upload_to='sponsor-pictures/')
+
+    @classmethod
+    def get_sponsor(cls, uuid):
+        if is_valid_uuid(uuid):
+            return cls.objects.filter(sponsor_id=uuid).first()
+        return None
+
+    @classmethod
+    def get_sponsor_image_uuid(cls, uuid):
+        sponsor = cls.get_sponsor(uuid)
+        if sponsor:
+            return sponsor.get_sponsor_image()
+        else:
+            return '/media/sponsor-pictures/default.png'
+
+    def get_sponsor_image(self):
+        if self.sponsor_image:
+            return '/media/' + self.sponsor_image.path
+        else:
+            return '/media/sponsor-pictures/default.png'
+
+
+class Team(models.Model):
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='teams')
+    users = models.ManyToManyField(User, related_name='teams', blank=True)
+
+
+
+    def leave(self, user):
+        self.users.remove(user)
+        if self.users.count() == 0:
+            self.delete()
+
+
+class TeamInvite(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='team_invites')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='team_invites_sent')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='team_invites_received')
+    datetime = models.DateField(default=timezone.now, editable=False)
+
+    @classmethod
+    def create(cls, tournament, send_user, receive_user):
+        team_invite = cls(tournament=tournament,
+                          sender=send_user,
+                          receiver=receive_user)
+        team_invite.save()
+        return team_invite
+
+    @classmethod
+    def send_invite(cls, tournament_id, user_id, receiver_id):
+        tournament, user_tournament_data = Tournament.get_tournament_and_user_data(tournament_id, user_id)
+        if tournament and tournament.team_size > 0:
+            receiver_tournament_data = tournament.get_tournament_data(receiver_id)
+            if user_tournament_data and receiver_tournament_data:
+                if not user_tournament_data.team and receiver_tournament_data.looking_for_team:
+                    user = user_tournament_data.user
+                    receiver = receiver_tournament_data.user
+
+                    ## check to make sure this invite doesnt already exist
+                    if tournament.team_invites.filter(sender=user, receiver=receiver).first():
+                        print('User has duplicate invite, ignoring.')
+                        return False
+
+                    team_invite = cls.create(tournament, user, receiver)
+                    if team_invite:
+                        title = 'SBS Bowler'
+                        body = user.full_name + ' sent you a team invite.'
+                        data = {'invite_id': team_invite.id, 'user_id': str(user.id), 'picture': user.picture.url}
+                        notification = Notification.create(Notification.NotificationType.TEAM_INVITE, title, body,
+                                                           data,
+                                                           [receiver.id],
+                                                           Notification.NotificationPriority.DEFAULT, False)
+                        notification.team_invite = team_invite
+                        notification.save()
+                        return True
+                else:
+                    print('User is already in a team')
+        return False
+
+    @classmethod
+    def accept(cls, tournament_id, user_id, receiver_id):
+        tournament, user_tournament_data = Tournament.get_tournament_and_user_data(tournament_id, user_id)
+        if tournament and tournament.team_size > 0:
+            receiver_tournament_data = tournament.get_tournament_data(receiver_id)
+            if user_tournament_data and receiver_tournament_data:
+                if user_tournament_data.team and receiver_tournament_data.looking_for_team:
+                    ## your already in a team
+                    user_tournament_data.team.leave()
+
+
+
+
+                    user = user_tournament_data.user
+                    receiver = receiver_tournament_data.user
+
+                    ## check to make sure this invite doesnt already exist
+                    if tournament.team_invites.filter(sender=user, receiver=receiver).first():
+                        print('User has duplicate invite, ignoring.')
+                        return False
+
+                    team_invite = cls.create(tournament, user, receiver)
+                    if team_invite:
+                        title = 'SBS Bowler'
+                        body = user.full_name + ' sent you a team invite.'
+                        data = {'invite_id': team_invite.id, 'user_id': str(user.id), 'picture': user.picture.url}
+                        notification = Notification.create(Notification.NotificationType.TEAM_INVITE, title, body,
+                                                           data,
+                                                           [receiver.id],
+                                                           Notification.NotificationPriority.DEFAULT, False)
+                        notification.team_invite = team_invite
+                        notification.save()
+                        return True
+                else:
+                    print('User is already in a team')
+        return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        request = friend.team_invites_sent.filter(receiver=user).first()
+        if request:
+            user.friends.add(friend)
+            title = 'SBS Bowler'
+            body = user.full_name + ' accepted your team invite.'
+            data = {'user_id': str(user.id), 'picture': user.picture.url}
+            Notification.create(Notification.NotificationType.BASIC, title, body, data, [friend.id],
+                                Notification.NotificationPriority.DEFAULT, True)
+            request.delete()
+            return True
+        return False
+
+    @classmethod
+    def cancel(cls, tournament_id, user_id, receiver_id):
+        tournament = Tournament.get_tournament_by_uuid(tournament_id)
+        if tournament:
+            if tournament.team_invites.filter(Q(receiver=user_id, sender=receiver_id) | Q(receiver=receiver_id, sender=user_id)).delete():
+                return True
+        return False
+
+
+class TournamentData(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tournament_datas')
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='tournament_datas')
+    team = models.ForeignKey(Team, blank=True)
+    checked_in = models.BooleanField(default=False)
+    start_lane = models.SmallIntegerField(default=0)
+    looking_for_team = models.BooleanField(default=False)
+
+    @classmethod
+    def create(cls, tournament_id, user_id):
+        tournament_data = cls(user=user_id, tournament=tournament_id)
+        tournament_data.save()
+        return tournament_data
+
+
 class GameData(models.Model):
-    game_data_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user_id = models.UUIDField()
-    tournament_id = models.UUIDField()
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    tournament_data = models.ForeignKey(TournamentData, on_delete=models.CASCADE, related_name='game_datas')
+
+
     game_number = models.SmallIntegerField(default=0)
     match_number = models.SmallIntegerField(default=0)
     lane = models.SmallIntegerField(default=0)
@@ -444,60 +639,6 @@ class GameData(models.Model):
     def raw_scores(self, raw_score_data):
         if raw_score_data:
             self.data_raw_scores = quickle.dumps(raw_score_data)
-
-class Format(models.Model):
-    format_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    name = models.TextField(default='')
-
-    is_qualifiers = models.BooleanField()
-    qualifier_games = models.SmallIntegerField(default=0)
-    cashers = models.SmallIntegerField(default=0)
-
-    is_carryover = models.BooleanField(default=False)
-    is_bonus_pins = models.BooleanField(default=False)
-
-
-
-class Sponsor(models.Model):
-    sponsor_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    sponsor_name =  models.CharField(max_length=60, blank=True, null=True)
-    sponsor_display_name = models.CharField(max_length=60, blank=True, null=True)
-    sponsor_balance = models.IntegerField(default=0, null=False, blank=True)
-    sponsor_image = models.ImageField(default='sponsor-pictures/default.png', upload_to='sponsor-pictures/')
-
-    @classmethod
-    def get_sponsor(cls, uuid):
-        if is_valid_uuid(uuid):
-            return cls.objects.filter(sponsor_id=uuid).first()
-        return None
-
-    @classmethod
-    def get_sponsor_image_uuid(cls, uuid):
-        sponsor = cls.get_sponsor(uuid)
-        if sponsor:
-            return sponsor.get_sponsor_image()
-        else:
-            return '/media/sponsor-pictures/default.png'
-
-    def get_sponsor_image(self):
-        if self.sponsor_image:
-            return '/media/' + self.sponsor_image.path
-        else:
-            return '/media/sponsor-pictures/default.png'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

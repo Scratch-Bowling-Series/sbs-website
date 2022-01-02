@@ -1,14 +1,10 @@
-from datetime import datetime
-import uuid
 import quickle
 from django.db import models
-
-# Create your models here.
 from ScratchBowling.sbs_utils import is_valid_uuid, make_ordinal
 
 
 class Statistics(models.Model):
-    user_id = models.UUIDField(primary_key=True)
+    user = models.OneToOneField('accounts.User', on_delete=models.CASCADE, primary_key=True, related_name='statistics')
     last_calculated = models.DateTimeField()
 
     rank = models.IntegerField(default=0)
@@ -37,10 +33,8 @@ class Statistics(models.Model):
         return None
 
     @classmethod
-    def create(cls, uuid):
-        uuid = is_valid_uuid(uuid)
-        if uuid:
-            return cls(user_id=uuid)
+    def create(cls, user):
+        return cls(user=user)
 
     @property
     def rank_ordinal(self):

@@ -33,18 +33,10 @@ class FriendsListSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'friends', 'requests', 'sent']
 
-
-
-
-
-
-
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'email', 'first_name', 'last_name', 'bio', 'picture', 'city', 'state']
-
-
 
 class SignupSerializer(serializers.ModelSerializer):
     class Meta:
@@ -83,7 +75,6 @@ class SignupSerializer(serializers.ModelSerializer):
             last_name or ''
         )
         return user
-
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.CharField()

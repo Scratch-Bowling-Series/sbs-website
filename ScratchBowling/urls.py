@@ -2,16 +2,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework.authtoken import views as rest_views
-
-import accounts
 from . import views, shortener
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-
 from accounts.api.urls import router as accounts_router
 from tournaments.api.urls import router as tournaments_router
-from .api.token import CustomAuthToken
 
 accounts_router.registry.extend(tournaments_router.registry)
 router = accounts_router
@@ -43,7 +37,8 @@ urlpatterns = [
     path('search/', views.search, name='search'),
 
     path('api/', include(router.urls)),
-    path('api/user/', include(accounts.api.urls)),
+    path('api/user/', include('accounts.api.urls')),
+    path('api/tournament/', include('tournaments.api.urls')),
 
 
     ## URL SHORTENER
