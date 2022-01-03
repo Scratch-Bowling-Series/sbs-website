@@ -11,7 +11,7 @@ User = get_user_model()
 class NotificationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Notification
-        fields = ['id', 'recipient', 'sender', 'datetime', 'title', 'body', 'type', 'read', 'data']
+        fields = ['id', 'type', 'datetime', 'title', 'body', 'type', 'read', 'data']
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     has_notifications = serializers.BooleanField()
@@ -26,12 +26,9 @@ class UserLightSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['id', 'first_name', 'last_name', 'picture']
 
 class FriendsListSerializer(serializers.ModelSerializer):
-    friends = UserLightSerializer(source='friends_objects', many=True, read_only=True)
-    sent = UserLightSerializer(source='friends_outbound_objects', many=True, read_only=True)
-    requests = UserLightSerializer(source='friends_inbound_objects', many=True, read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'friends', 'requests', 'sent']
+        fields = ['id', 'friends', 'friend_requests_sent', 'friend_requests_received']
 
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

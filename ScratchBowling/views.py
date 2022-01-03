@@ -27,7 +27,6 @@ import quickle
 
 # <editor-fold desc="PAGES">
 def index(request, notify=''):
-    User.send_test_email()
 
 
     data = {'nbar': 'home',

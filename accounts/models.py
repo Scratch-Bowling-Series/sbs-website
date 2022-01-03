@@ -1,4 +1,5 @@
 import datetime
+import json
 import os
 import uuid
 import random
@@ -17,7 +18,7 @@ from exponent_server_sdk import (
     DeviceNotRegisteredError,
     PushClient,
     PushMessage,
-    PushTicketError
+    PushTicketError, PushServerError
 )
 from requests.exceptions import ConnectionError, HTTPError
 from ScratchBowling import settings
@@ -26,7 +27,6 @@ from ScratchBowling.sbs_utils import is_valid_uuid
 from accounts.scraping.soup_parser import update_user_with_soup
 from accounts.tokens import account_activation_token
 from scoreboard.models import Statistics
-from tournaments.models import Tournament
 
 
 
@@ -85,7 +85,7 @@ class User(AbstractBaseUser):
 
     ## CONTACT
     email = models.EmailField(verbose_name='email address', max_length=255, unique=True, null=True)
-    phone = PhoneNumberField(null=False, blank=False, unique=True)
+    phone = PhoneNumberField(null=True, unique=True)
 
     ## GEO
     street = models.CharField(blank=True, null=True, max_length=150)
@@ -378,6 +378,7 @@ class User(AbstractBaseUser):
         return False
     @classmethod
     def accept_friend_request(cls, user_id, friend_id):
+
         user = cls.get_user_by_uuid(user_id)
         friend = cls.get_user_by_uuid(friend_id)
         if user and friend and not user.is_friends(friend.id):
@@ -413,24 +414,28 @@ class User(AbstractBaseUser):
                                 Q(city__icontains=search_arg) |
                                 Q(state__icontains=search_arg))
 
+            print(len(qs))
             users = qs[:100]
-            requests_sent = user.friend_requests_sent
-            requests_received = user.friend_requests_received
-            friends = user.friends
+            requests_sent = user.friend_requests_sent.all()
+            requests_received = user.friend_requests_received.all()
+            friends = user.friends.all()
             for query_user in users:
                 status = 'stranger'
-                for friend in friends:
-                    if friend.id == query_user.id:
-                        status = 'friends'
-                        break
-                for friend in requests_sent:
-                    if friend.id == query_user.id:
-                        status = 'request_inbound'
-                        break
-                for friend in requests_received:
-                    if friend.id == query_user.id:
-                        status = 'request_outbound'
-                        break
+                if query_user.id == user.id:
+                    status = 'self'
+                else:
+                    for friend in friends:
+                        if friend.id == query_user.id:
+                            status = 'friends'
+                            break
+                    for friend in requests_sent:
+                        if friend.id == query_user.id:
+                            status = 'request_inbound'
+                            break
+                    for friend in requests_received:
+                        if friend.id == query_user.id:
+                            status = 'request_outbound'
+                            break
                 statuses.append(status)
         return users,statuses
 
@@ -515,7 +520,7 @@ class PushToken(models.Model):
 
 class Notification(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    recipients = models.ManyToManyField(User, on_delete=models.CASCADE, related_name='notifications')
+    recipients = models.ManyToManyField(User, related_name='notifications')
     persistent = models.BooleanField(default=False) ## cant be deleted unless false
 
     class NotificationType(models.IntegerChoices):
@@ -537,13 +542,16 @@ class Notification(models.Model):
     data = models.TextField(default='')
 
     sent = models.BooleanField(default=False)
-    push_receipt_id = models.CharField(max_length=200)
+    push_receipt_id = models.CharField(max_length=200, null=True)
     friend_invite = models.ForeignKey('accounts.FriendRequest', on_delete=models.CASCADE, blank=True, null=True)
     team_invite = models.ForeignKey('tournaments.TeamInvite', on_delete=models.CASCADE, blank=True, null=True)
-
+    ##team_invite = models.CharField(default='', max_length=100)
     @classmethod
     def create(cls, type, title, body, data, recipients, priority, persistent):
-        notification = cls(recipients=recipients, type=type, title=title, body=body, data=data, priority=priority, persistent=persistent)
+        data = json.dumps(data)
+        notification = cls(type=type, title=title, body=body, data=data, priority=priority, persistent=persistent)
+        notification.save()
+        notification.recipients.set(recipients)
         notification.save()
         return notification
 
@@ -553,7 +561,7 @@ class Notification(models.Model):
 
         cls.send_bulk_notifications(cls.objects.filter(priority=cls.NotificationPriority.DEFAULT, sent=False))
 
-        cls.send_bulk_notifications(cls.objects.filter(priority=cls.NotificationPriority.SCHEDULED, sent=False, datetime__gte=timezone.now))
+        cls.send_bulk_notifications(cls.objects.filter(priority=cls.NotificationPriority.SCHEDULED, sent=False, datetime__gte=timezone.now()))
     @classmethod
     def send_bulk_notifications(cls, notifications):
         batch_size = 50
@@ -570,21 +578,22 @@ class Notification(models.Model):
     def bulk_send_task(cls, notifications):
         push_messages = []
         for notification in notifications:
-            push_messages.append(notification.to_push_message())
-
+            push_messages += notification.to_push_message()
         responses = []
+        if len(push_messages) > 0:
+            try:
+                responses = PushClient().publish_multiple(push_messages)
+            except PushServerError as exc:
+                print(exc.errors)
+            except (ConnectionError, HTTPError):
+                print('Notification Send Task - Connection Error')
 
-        try:
-            responses = PushClient().publish_multiple(push_messages)
-        except (ConnectionError, HTTPError):
-            print('Notification Send Task - Connection Error')
-
-        if responses:
-            index = 0
-            for notification in notifications:
-                response = responses[index]
-                index += 1
-                notification.set_push_tickets(response)
+            if responses:
+                index = 0
+                for notification in notifications:
+                    response = responses[index]
+                    index += 1
+                    notification.set_push_tickets(response)
     def set_push_tickets(self, response):
         try:
             response.validate_response()
@@ -600,7 +609,7 @@ class Notification(models.Model):
 
     @classmethod
     def remove_notification(cls, user, notification_id):
-        if user.notifications.filter(id=notification_id, persistent=False).delete():
+        if user.notifications.filter(id=notification_id, persistent=True).delete():
             return True
         return False
     @classmethod
@@ -610,7 +619,15 @@ class Notification(models.Model):
         return False
 
     def to_push_message(self):
-        return PushMessage(title=self.title, body=self.body, data=self.data, to=self.recipients.all())
+        push_messages = []
+        recipients = self.recipients.all()
+        for recipient in recipients:
+            tokens = list(recipient.push_tokens.all().values_list('token', flat=True))
+            if tokens:
+                for token in tokens:
+                    push_messages.append(PushMessage(title=self.title, body=self.body, data=self.data, to=token))
+
+        return push_messages
 
 
 class FriendRequest(models.Model):
@@ -627,7 +644,6 @@ class FriendRequest(models.Model):
         return friend_request
 
     @classmethod
-    @transaction.atomic
     def send(cls, user, friend):
         invite = friend.friend_requests_sent.filter(receiver=user.id).first()
         if not invite and user.friend_requests_sent.filter(receiver=friend.id).count() == 0:
@@ -635,7 +651,7 @@ class FriendRequest(models.Model):
             if request:
                 title = 'SBS Bowler'
                 body = user.full_name + ' sent you a friend request.'
-                data = {'invite_id': request.id, 'user_id': str(user.id), 'picture': user.picture.url}
+                data = {'invite_id': str(request.id), 'user_id': str(user.id), 'picture': user.picture.url}
                 notification = Notification.create(Notification.NotificationType.FRIEND_INVITE, title, body, data, [friend.id],
                                     Notification.NotificationPriority.DEFAULT, False)
                 notification.friend_invite = request
@@ -644,9 +660,9 @@ class FriendRequest(models.Model):
         return False
 
     @classmethod
-    @transaction.atomic
     def accept(cls, user, friend):
-        request = friend.friend_requests_received.filter(receiver=user).first()
+
+        request = friend.friend_requests_sent.filter(receiver=user).first()
         if request:
             user.friends.add(friend)
             title = 'SBS Bowler'
@@ -660,8 +676,9 @@ class FriendRequest(models.Model):
 
     @classmethod
     def cancel(cls, user, friend):
-        user.friend_requests_sent.filter(receiver=friend).delete()
-        friend.friend_request_sent.filter(receiver=user).delete()
+        if user.friend_requests_sent.filter(receiver=friend).delete() or friend.friend_requests_sent.filter(receiver=user).delete():
+            return True
+        return False
 
 
 class Transaction(models.Model):

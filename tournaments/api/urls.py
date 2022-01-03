@@ -4,7 +4,7 @@ from rest_framework import routers
 from tournaments.api import views
 
 router = routers.DefaultRouter()
-router.register(r'tournaments', views.TournamentViewSet)
+router.register(r'tournament/all', views.TournamentViewSet, basename='all-tournaments')
 
 urlpatterns = [
     url(r'team/looking-for-team/', views.LookingForTeamViewSet.as_view(), name='looking-for-team'),

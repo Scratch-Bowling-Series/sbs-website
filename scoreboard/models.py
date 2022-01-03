@@ -4,7 +4,7 @@ from ScratchBowling.sbs_utils import is_valid_uuid, make_ordinal
 
 
 class Statistics(models.Model):
-    user = models.OneToOneField('accounts.User', on_delete=models.CASCADE, primary_key=True, related_name='statistics')
+    user = models.OneToOneField('accounts.User', on_delete=models.CASCADE, primary_key=True,related_name='statistics')
     last_calculated = models.DateTimeField()
 
     rank = models.IntegerField(default=0)

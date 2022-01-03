@@ -9,7 +9,7 @@ class ModifyAccountForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['bio', 'picture', 'street', 'city', 'state', 'zip', 'handed']
+        fields = ['bio', 'picture', 'street', 'city', 'state', 'zip', 'chirality']
 
 
 

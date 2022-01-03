@@ -140,40 +140,55 @@ class ResendVerifyViewSet(generics.GenericAPIView):
         })
 
 
-class NotificationsViewSet(viewsets.ModelViewSet):
-    queryset = Notification.objects.all()
+
+
+class NotificationsViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
     serializer_class = NotificationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return super().get_queryset().filter(recipient=self.request.user.id).order_by('-datetime')
+        return self.request.user.notifications.all()
+
+
+
+
 class ClearNotificationViewSet(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         success = False
-
-        if 'notification_id' in request.data:
+        if request.user.is_authenticated and 'notification_id' in request.data:
             notification_id = request.data['notification_id']
-            success = Notification.remove_notification(notification_id)
+            success = Notification.remove_notification(request.user, notification_id)
         return Response({
             "success": success,
         })
 
 
 ## FRIENDS ##
-class FriendsListViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = FriendsListSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    def get_queryset(self):
-        return super().get_queryset().filter(id=self.request.user.id)
+class FriendsListViewSet(generics.GenericAPIView):
+    serializer_class = UserLightSerializer
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            return Response({
+                'friends': UserLightSerializer(request.user.friends.all(), many=True).data,
+                'requests_sent' : UserLightSerializer(request.user.friend_requests_sent.all(), many=True).data,
+                'requests_received' : UserLightSerializer(request.user.friend_requests_received.all(), many=True).data
+            })
+
+
+
+
 class SearchFriendViewSet(generics.GenericAPIView):
     serializer_class = UserSerializer
     def post(self, request, *args, **kwargs):
         friends = []
         if request.user.is_authenticated and 'query' in request.data:
             users, statuses = User.search_friends_extra(request.user.id, request.data['query'])
-            return Response({"users": UserLightSerializer(users).data, "statuses": statuses})
+
+            if users:
+                return Response({"users": UserLightSerializer(users, many=True).data, "statuses": statuses})
         return Response({"users": ''})
 
 class RemoveFriendViewSet(generics.GenericAPIView):

@@ -16,7 +16,6 @@ class Center(models.Model):
     location_zip = models.IntegerField(default=0)
     phone_number = models.IntegerField(default=0)
     oil_machine = models.TextField(default='')
-    tournaments = models.JSONField(default='')
     picture = models.ImageField(default='center-pictures/default.jpg', upload_to='center-pictures/')
 
 

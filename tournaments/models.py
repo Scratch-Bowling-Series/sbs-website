@@ -16,7 +16,6 @@ from django.utils import timezone
 
 from ScratchBowling import settings
 from ScratchBowling.sbs_utils import is_valid_uuid
-from accounts.models import Notification
 from centers.models import Center
 from tournaments.scraping.soup_parser import update_tournament_with_soup
 
@@ -31,14 +30,14 @@ class Tournament(models.Model):
     tournament_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
 
     scoring_data_id = models.UUIDField(editable=True, blank=True, null=True)
-    center = models.ForeignKey('centers.Center', blank=True)
+    center = models.ForeignKey('centers.Center', blank=True, on_delete=models.SET_NULL, null=True, related_name='tournaments')
     format_id = models.UUIDField(editable=True, unique=True, blank=True, null=True)
-    oil_patterns = models.OneToOneField()
+    oil_patterns = models.ManyToManyField('oils.Oil_Pattern', blank=True, related_name='tournaments')
     vod_id = models.UUIDField(editable=True, unique=False, null=True, blank=True)
 
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-    datetime = models.DateField(default=timezone.now, editable=False)
+    datetime = models.DateField(default=timezone.now, editable=True)
     picture = models.ImageField(default='tournament-pictures/default.jpg', upload_to='tournament-pictures/')
 
 
@@ -446,8 +445,9 @@ class Sponsor(models.Model):
 
 class Team(models.Model):
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='teams')
-    users = models.ManyToManyField(User, related_name='teams', blank=True)
+    users = models.ManyToManyField('accounts.User', related_name='teams', blank=True)
 
+    ## m2o - tournament_datas
 
 
     def leave(self, user):
@@ -459,8 +459,8 @@ class Team(models.Model):
 class TeamInvite(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='team_invites')
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='team_invites_sent')
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='team_invites_received')
+    sender = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='team_invites_sent')
+    receiver = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='team_invites_received')
     datetime = models.DateField(default=timezone.now, editable=False)
 
     @classmethod
@@ -491,12 +491,7 @@ class TeamInvite(models.Model):
                         title = 'SBS Bowler'
                         body = user.full_name + ' sent you a team invite.'
                         data = {'invite_id': team_invite.id, 'user_id': str(user.id), 'picture': user.picture.url}
-                        notification = Notification.create(Notification.NotificationType.TEAM_INVITE, title, body,
-                                                           data,
-                                                           [receiver.id],
-                                                           Notification.NotificationPriority.DEFAULT, False)
-                        notification.team_invite = team_invite
-                        notification.save()
+
                         return True
                 else:
                     print('User is already in a team')
@@ -528,41 +523,13 @@ class TeamInvite(models.Model):
                         title = 'SBS Bowler'
                         body = user.full_name + ' sent you a team invite.'
                         data = {'invite_id': team_invite.id, 'user_id': str(user.id), 'picture': user.picture.url}
-                        notification = Notification.create(Notification.NotificationType.TEAM_INVITE, title, body,
-                                                           data,
-                                                           [receiver.id],
-                                                           Notification.NotificationPriority.DEFAULT, False)
-                        notification.team_invite = team_invite
-                        notification.save()
+
                         return True
                 else:
                     print('User is already in a team')
         return False
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        request = friend.team_invites_sent.filter(receiver=user).first()
-        if request:
-            user.friends.add(friend)
-            title = 'SBS Bowler'
-            body = user.full_name + ' accepted your team invite.'
-            data = {'user_id': str(user.id), 'picture': user.picture.url}
-            Notification.create(Notification.NotificationType.BASIC, title, body, data, [friend.id],
-                                Notification.NotificationPriority.DEFAULT, True)
-            request.delete()
-            return True
-        return False
 
     @classmethod
     def cancel(cls, tournament_id, user_id, receiver_id):
@@ -575,9 +542,9 @@ class TeamInvite(models.Model):
 
 class TournamentData(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tournament_datas')
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name='tournament_datas')
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, related_name='tournament_datas')
-    team = models.ForeignKey(Team, blank=True)
+    team = models.ForeignKey(Team, blank=True, on_delete=models.SET_NULL, null=True, related_name='tournament_datas')
     checked_in = models.BooleanField(default=False)
     start_lane = models.SmallIntegerField(default=0)
     looking_for_team = models.BooleanField(default=False)
