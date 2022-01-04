@@ -3,7 +3,6 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from . import views
-from . import data
 
 app_name = 'accounts'
 
@@ -14,7 +13,6 @@ urlpatterns = [
 
     path('claim/<id>', views.accounts_claim_view, name='claim'),
 
-    path('data/profile-pic/<id>', data.get_profile_pic, name='data-profile-pic'),
 
     path('login/', views.accounts_login_view, name='login'),
     path('signup/', views.accounts_signup_view, name='signup'),

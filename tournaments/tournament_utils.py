@@ -5,7 +5,6 @@ from centers.center_utils import get_center, get_center_location_obj
 from tournaments.models import Tournament
 from tournaments.roster import get_spots_available_obj, get_roster_length_obj
 from tournaments.tournament_data import deserialize_placement_data, deserialize_tournament_data
-from accounts.account_helper import get_name_from_uuid
 
 
 def serialize_tournaments_list(tournaments):

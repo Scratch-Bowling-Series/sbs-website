@@ -57,7 +57,6 @@ class Tournament(models.Model):
     placement_data = models.BinaryField(blank=True, null=True)
 
 
-
     data_scoring = models.BinaryField(blank=True, null=True)
 
     spots_reserved = models.IntegerField(null=False, blank=True, default=0)
@@ -329,6 +328,9 @@ class Tournament(models.Model):
         return None
 
 
+
+
+
     # LIVE STREAM
 
 
@@ -401,6 +403,50 @@ class Tournament(models.Model):
         if 'Sprummer' in self.tournament_name or 'sprummer' in self.tournament_name:
             tags.append(5)
         return tags
+
+
+
+
+
+
+    ## DISPLAY
+    @classmethod
+    def recent_display(cls):
+        try:
+            recent_display = cls.objects.earliest('datetime').first()
+
+            return recent_display
+        except cls.DoesNotExist:
+            return None
+
+    @classmethod
+    def featured_live(cls):
+        return cls.objects.filter(live=True).first()
+
+    @classmethod
+    def get_upcoming(cls, amount, offset=0):
+        return cls.objects.filter(finished=False, live=False)[offset:offset+amount]
+
+    @classmethod
+    def get_results(cls, amount, offset=0):
+        return cls.objects.filter(finished=True)[offset:offset+amount]
+
+    @classmethod
+    def get_live(cls, amount, offset=0):
+        return cls.objects.filter(live=True)[offset:offset+amount]
+
+    @classmethod
+    def past_winners(cls, amount):
+        users = []
+        for result in cls.get_results(amount):
+            winners = result.tournament_datas.filter(is_winner=True)
+            if winners:
+                users += winners
+        return users
+
+    @classmethod
+    def completed_count(cls):
+        return cls.objects.filter(finished=True).count()
 
 
 class Format(models.Model):
@@ -548,6 +594,7 @@ class TournamentData(models.Model):
     checked_in = models.BooleanField(default=False)
     start_lane = models.SmallIntegerField(default=0)
     looking_for_team = models.BooleanField(default=False)
+    is_winner = models.BooleanField(default=False)
 
     @classmethod
     def create(cls, tournament_id, user_id):

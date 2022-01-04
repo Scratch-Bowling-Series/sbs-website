@@ -14,7 +14,6 @@ from ScratchBowling.websettings import WebSettings
 from tournaments.models import Tournament
 from tournaments.views import is_valid_uuid
 from .forms import RegisterForm, ModifyAccountForm
-from .friends import is_friends_with, add_to_friends_list, remove_from_friends_list
 from .tokens import account_activation_token
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.dispatch import receiver

@@ -3,7 +3,6 @@ from django.db.models import Q
 from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
 from ScratchBowling.pages import create_page_obj
-from accounts.account_helper import display_get_bowlers, get_amount_users, get_top_ranks
 
 User = get_user_model()
 

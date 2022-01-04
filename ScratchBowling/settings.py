@@ -118,7 +118,7 @@ DATABASES = {
     }
 }
 
-
+CONSTANCE_BACKEND = 'constance.backends.redisd.RedisBackend'
 
 AUTH_USER_MODEL = 'accounts.User'
 

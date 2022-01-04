@@ -239,6 +239,16 @@ class User(AbstractBaseUser):
         last = str(self.last_name)
         return first + ' ' + last
 
+    @property
+    def top_notify(self):
+        if not self.is_verified:
+            return 'verify_email'
+        elif not self.modified_account:
+            return 'finish_account'
+        elif self.ask_for_claim:
+            return 'claim_data'
+
+
 
     ## GET USER ##
     @classmethod
@@ -504,6 +514,11 @@ class User(AbstractBaseUser):
     def is_admin(self):
         "Is the user a admin member?"
         return self.admin
+
+    @classmethod
+    def active_user_count(cls):
+        return cls.objects.filter(is_active=True).count()
+
 
 
 class PushToken(models.Model):

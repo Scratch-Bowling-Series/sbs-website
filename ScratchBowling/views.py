@@ -1,54 +1,47 @@
 from datetime import datetime
-
-from django.core.mail import send_mail
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
-from ScratchBowling.models import WebData
-from ScratchBowling.popup import check_for_popup
-from ScratchBowling.sbs_utils import is_valid_uuid
-from accounts.account_helper import get_name_from_uuid, get_amount_users, get_top_ranks
 from accounts.forms import User
-from bowlers.views import display_get_bowlers
 from broadcasts.models import Clip
 from centers.center_utils import get_center_name_uuid, get_center_location_uuid
 from centers.models import Center
-from support.donation import get_donation_count
+from scoreboard.models import Statistics
+from support.models import Donation
 from tournaments.models import Tournament
-from tournaments.tournament_scraper import scrape_tournaments_task
 from accounts.models import User
-from tournaments.tournament_utils import get_winner, get_top_placements, get_all_live_tournaments
-import quickle
+from tournaments.tournament_utils import get_all_live_tournaments
+from vods.models import Vod
 
 
-
-
-
-# <editor-fold desc="PAGES">
-def index(request, notify=''):
-
-
-    data = {'nbar': 'home',
-            'notify': notify,
-            'popup': check_for_popup(request.user),
-            'tournament_live': load_tournament_live(),
-            'tournaments_upcoming': load_tournament_upcoming(),
-            'tournament_winners': load_tournament_winners(),
-            'top_ten_ranks': get_top_ranks(10),
-            'tournament_recent': load_tournament_recent(),
-            'bowler_of_month': User.data_bowler_of_month(),
-            'users_count': get_amount_users(),
-            'tournaments_count': get_tournaments_count(),
-            'donation_count': get_donation_count(),
-            'broadcast_clips': load_recent_broadcast_clips(),
+def index(request):
+    user_data = {}
+    if request.user.is_authenticated:
+        user = User.objects.filter(id=request.user.id).first()
+        if user:
+            user_data = {'nbar': 'home',
+                    'topbar_notify': user.top_notify,
+                    'has_notifications': user.has_notifications,
             }
+    data = {
+        'tournament_live': Tournament.featured_live(),
+        'tournaments_upcoming': Tournament.get_upcoming(5),
+        'tournament_winners': Tournament.past_winners(10),
+        'top_ten_ranks': Statistics.get_top(10),
+        'tournament_recent': Tournament.recent_display(),
+        'bowler_of_month': User.data_bowler_of_month(),
+        'users_count': User.active_user_count(),
+        'tournaments_count': Tournament.completed_count(),
+        'donation_count': Donation.get_total(),
+        'broadcast_clips': Vod.recent_clips(5),
+    }
 
     meta = {'page_title': '',
             'page_description': 'Bowling Tournaments Done Better. Welcome to the Scratch Bowling Series. Come bowl today!',
             'page_keywords': 'scratchbowling, bowling, tournaments, events, competitive, sports, gaming, live, rankings, scores, points, elo, statistics, bowlers, professional'
     }
-    return render(request, 'homepage.html', data | meta)
+    return render(request, 'homepage.html', user_data | data | meta)
 
 def search(request):
     if request.method == 'POST':
@@ -57,7 +50,7 @@ def search(request):
             search = form.cleaned_data['search_args']
             bowlers = User.objects.filter(Q(first_name__icontains=search) | Q(last_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))
             more_results_bowlers = len(bowlers) - 4
-            bowlers = display_get_bowlers(bowlers[:4])
+            #bowlers = display_get_bowlers(bowlers[:4])
 
             tournaments_upcoming = Tournament.objects.filter(tournament_date__gte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__lt=datetime.now().time())
             tournaments_results = Tournament.objects.filter(tournament_date__lte=datetime.now().date()).exclude(tournament_date=datetime.now().date(), tournament_time__gt=datetime.now().time())
@@ -111,9 +104,7 @@ def contact(request):
                                             'page_description': 'If you have any questions or need help with something. Please contact us here and we will get back with you as soon as possible.',
                                             'page_keywords': 'Contact, Message, Help, Email, Faqs, Support, Call, Maintenance'
                                             })
-# </editor-fold>
 
-# <editor-fold desc="INDEX DATA">
 def load_tournament_live():
     live_tournaments = get_all_live_tournaments()
     if live_tournaments != None:
@@ -138,35 +129,32 @@ def load_tournament_live():
     return None
 
 def load_tournament_recent():
-    webData = WebData.get_current()
-    webData.preview_tournament = is_valid_uuid("56e44a8d-9fda-4ff3-b0f7-ad0236c6c667")
-    webData.save()
 
     ## FORMAT
     ## [0=id, 1=name, 2=date, 3=center_name, 4=center_location, 5=description, 6=topfour]
-    tournament = Tournament.objects.filter(tournament_id=WebData.get_current().preview_tournament).first()
-    if tournament:
-        return [
-            str(tournament.tournament_id),
-            tournament.name,
-            tournament.datetime,
-            get_center_name_uuid(tournament.center),
-            get_center_location_uuid(tournament.center),
-            tournament.description[:250],
-            get_top_placements(tournament.placement_data, 4),
-            tournament.get_picture()
-        ]
+    # tournament = Tournament.objects.filter(tournament_id=WebData.get_current().preview_tournament).first()
+    # if tournament:
+    #     return [
+    #         str(tournament.tournament_id),
+    #         tournament.name,
+    #         tournament.datetime,
+    #         get_center_name_uuid(tournament.center),
+    #         get_center_location_uuid(tournament.center),
+    #         tournament.description[:250],
+    #         get_top_placements(tournament.placement_data, 4),
+    #         tournament.get_picture()
+    #     ]
     return None
 
 def load_tournament_winners():
     ## FORMAT: ARRAY OF LISTS
     ## [id, name, date, winner_name, winner_uuid]
-    winner_data = []
-    last_ten_tournaments = Tournament.objects.all()[:10]
-    for tournament in last_ten_tournaments:
-        winner_id = get_winner(tournament.placement_data)
-        winner_data.append([str(tournament.tournament_id), tournament.name, tournament.datetime, get_name_from_uuid(winner_id, True, True), str(winner_id)])
-    return winner_data
+    # winner_data = []
+    # last_ten_tournaments = Tournament.objects.all()[:10]
+    # for tournament in last_ten_tournaments:
+    #     winner_id = get_winner(tournament.placement_data)
+    #     winner_data.append([str(tournament.tournament_id), tournament.name, tournament.datetime, User.get_, str(winner_id)])
+    return None
 
 def load_tournament_upcoming():
     ## FORMAT: ARRAY OF LISTS
@@ -191,17 +179,4 @@ def get_tournaments_count():
     return Tournament.objects.all().count()
 
 
-# </editor-fold>
-
-
-
-
-
-
-def scrape_tournaments(request):
-    output = scrape_tournaments_task()
-    return HttpResponse(output)
-
-def scrape_bowlers(request):
-    return None
 

@@ -1,7 +1,6 @@
 import quickle
 from random import randrange
 from ScratchBowling.sbs_utils import is_valid_uuid
-from accounts.account_helper import get_name_from_user, get_user_uuid, get_amount_users
 from tournaments.models import Tournament
 from tournaments.tournament_data import deserialize_placement_data
 
