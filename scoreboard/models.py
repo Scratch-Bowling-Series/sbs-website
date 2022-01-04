@@ -116,6 +116,13 @@ class Statistics(models.Model):
 
 
 
+    @classmethod
+    def get_top(cls, amount):
+        return cls.objects.all().order_by('rank')[:amount]
+
+
+
+
 
 
 
