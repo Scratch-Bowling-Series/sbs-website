@@ -28,7 +28,7 @@ DEBUG = True
 
 
 
-ALLOWED_HOSTS = ['*','10.0.0.211']
+ALLOWED_HOSTS = ['*','10.0.0.211', 'http://localhost:3000']
 
 
 # Application definition

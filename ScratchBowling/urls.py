@@ -37,6 +37,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/user/', include('accounts.api.urls')),
     path('api/tournament/', include('tournaments.api.urls')),
+    path('api/prolink/', include('prolink.api.urls')),
 
 
     ## URL SHORTENER

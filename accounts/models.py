@@ -146,6 +146,7 @@ class User(AbstractBaseUser):
     is_online = models.BooleanField(default=False)
     ask_for_claim = models.BooleanField(default=True)
     is_verified = models.BooleanField(default=False)
+    is_drawer_manager = models.BooleanField(default=False)
 
 
 
@@ -248,6 +249,10 @@ class User(AbstractBaseUser):
         elif self.ask_for_claim:
             return 'claim_data'
 
+    ## TRANSACTIONS
+    @property
+    def recent_transactions(self):
+        return self.transactions.all().order_by('-datetime')[:20]
 
 
     ## GET USER ##
@@ -696,13 +701,8 @@ class FriendRequest(models.Model):
         return False
 
 
-class Transaction(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    datetime = models.DateField(default=datetime.date.today, editable=False)
-    amount = models.IntegerField(default=0)
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, related_name='transactions_received')
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, related_name='transactions_sent')
-    pending = models.BooleanField(default=False)
+
+
 
 
 class Shorten(models.Model):
