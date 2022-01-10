@@ -413,7 +413,7 @@ class Tournament(models.Model):
     @classmethod
     def recent_display(cls):
         try:
-            recent_display = cls.objects.earliest('datetime').first()
+            recent_display = cls.objects.earliest('datetime')
 
             return recent_display
         except cls.DoesNotExist:
