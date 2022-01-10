@@ -22,7 +22,7 @@ def update_tournament_with_soup(tournament, soup):
     if center_id:
         tournament.center_id = center_id
 
-    get_game_data(tournament, soup)
+    ##get_game_data(tournament, soup)
 
     entry = get_entry(soup)
     if entry:
