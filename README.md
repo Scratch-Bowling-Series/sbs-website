@@ -58,10 +58,10 @@ Moreover, all code should conform to the [Code Guide](https://github.com/mdo/cod
 Editor preferences are available in the [editor config](https://reponame/blob/master/.editorconfig) for easy use in common text editors. 
 
 ## Recent Screenshots
-![alt text](https://github.com/ChristianJStarr/Scratch-Bowling-Series/blob/main/screenshots/Screenshot_1.png?raw=true)
-![alt text](https://github.com/ChristianJStarr/Scratch-Bowling-Series/blob/main/screenshots/Screenshot_2.png?raw=true)
-![alt text](https://github.com/ChristianJStarr/Scratch-Bowling-Series/blob/main/screenshots/Screenshot_3.png?raw=true)
-![alt text](https://github.com/ChristianJStarr/Scratch-Bowling-Series/blob/main/screenshots/Screenshot_4.png?raw=true)
+![alt text](https://github.com/Scratch-Bowling-Series/sbs-website/blob/main/screenshots/Screenshot_1.png?raw=true)
+![alt text](https://github.com/Scratch-Bowling-Series/sbs-website/blob/main/screenshots/Screenshot_2.png?raw=true)
+![alt text](https://github.com/Scratch-Bowling-Series/sbs-website/blob/main/screenshots/Screenshot_3.png?raw=true)
+![alt text](https://github.com/Scratch-Bowling-Series/sbs-website/blob/main/screenshots/Screenshot_4.png?raw=true)
 
 ## Creators
 
@@ -72,7 +72,7 @@ Editor preferences are available in the [editor config](https://reponame/blob/ma
 ## The SBS Ecosystem
 - [SBS Prolink (Managment Software)](https://github.com/Scratch-Bowling-Series/sbs-prolink)
 - [SBS Bowler (Bowler Companion App)](https://github.com/Scratch-Bowling-Series/sbs-bowler)
-- [SBS App (Primary Mobile App)](https://github.com/Scratch-Bowling-Series/sbs-bowler)
+- [SBS App (Primary Mobile App)](https://github.com/Scratch-Bowling-Series/sbs-mobile)
 - SBS Web (New Website & REST API)
 ## Copyright and license
 
