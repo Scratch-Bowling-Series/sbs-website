@@ -1,0 +1,40 @@
+{% load basic-tags %}
+
+{% if bom %}
+
+    <section class="sec pv-bom">
+        <h2 class="pv-bom-title">BOWLER OF THE MONTH</h2>
+
+        <div class="pv-bom-main">
+            <div class="pv-bom-pic-wrap">
+                <a class="pv-bom-pic" href="account/view/{{ bom.id }}">
+                    <img src="{{ bom.full_picture_url }}" alt="{{ bom.first_name }}'s profile picture">
+                </a>
+            </div>
+            <div class="pv-bom-info">
+                <a href="account/view/{{ bom.id }}" class="pv-bom-name">{{bom.rank_badge|badge}} {{ bom.first_name }} {{ bom.last_name }}</a>
+                <a href="account/view/{{ bom.id }}" class="pv-bom-location">{{ bom.short_location }}</a>
+            </div>
+        </div>
+
+        <div class="pv-bom-details">
+            <div class="pv-bom-details-wrap">
+                 <h2 class="text-lightgreen">SEASON STATS</h2>
+                <ul>
+                    <li>AVG SCORE: <span>{{ bom.statistics.avg_score }}</span></li>
+                    <li>TOTAL GAMES: <span>{{ bom.statistics.attended }}</span></li>
+                    <li>TOTAL WINS: <span>{{ bom.statistics.wins }}</span></li>
+                </ul>
+                <h2 class="text-lightgreen">CAREER STATS</h2>
+                <ul>
+                    <li>AVG SCORE: <span>{{ bom.statistics.year_avg_score }}</span></li>
+                    <li>TOTAL GAMES: <span>{{ bom.statistics.year_attended }}</span></li>
+                    <li>TOTAL WINS: <span>{{ bom.statistics.year_wins }}</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <a class="btn btn-full text-white bkg-darkgreen border-darkgreen" href="account/view/{{ bom.id }}">VISIT PROFILE</a>
+    </section>
+
+{% endif %}

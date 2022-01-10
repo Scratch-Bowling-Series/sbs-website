@@ -164,7 +164,7 @@ def display_tournament_view(tournament):
         is_team_entry = True
     if 'Double' in tournament.name:
         is_team_entry = True
-    return [tournament.tournament_id,
+    return [tournament.id,
             tournament.name,
             date,
             tournament.tournament_time,
@@ -223,7 +223,7 @@ def tournaments_create_views(request):
             tournament.tournament_date = form.cleaned_data.get('tournament_date')
             tournament.tournament_time = form.cleaned_data.get('tournament_time')
             tournament.save()
-            return redirect('/tournaments/view/' + str(tournament.tournament_id))
+            return redirect('/tournaments/view/' + str(tournament.id))
     else:
         form = CreateTournament()
 

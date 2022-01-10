@@ -157,7 +157,7 @@ def convert_to_display_main_upcoming(tournament):
 
 
 
-    return [tournament.tournament_id,
+    return [tournament.id,
             tournament.name,
             tournament.datetime.strftime("%m/%d"),
             tournament.datetime.time(),
@@ -200,7 +200,7 @@ def convert_to_display_main_results(tournament):
     else:
         date = date.strftime('%m/%d/%y')
 
-    return [tournament.tournament_id,
+    return [tournament.id,
             tournament.name,
             date,
             tournament.get_sponsor_image(),

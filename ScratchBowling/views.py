@@ -26,15 +26,13 @@ def index(request):
             }
     data = {
         'tournament_live': Tournament.featured_live(),
-        'tournaments_upcoming': Tournament.get_upcoming(5),
-        'tournament_winners': Tournament.past_winners(10),
-        'top_ten_ranks': Statistics.get_top(10),
         'tournament_recent': Tournament.recent_display(),
-        'bowler_of_month': User.data_bowler_of_month(),
-        'users_count': User.active_user_count(),
-        'tournaments_count': Tournament.completed_count(),
         'donation_count': Donation.get_total(),
         'broadcast_clips': Vod.recent_clips(5),
+
+
+        'tournaments_count': Tournament.completed_count(),
+        'users_count': User.active_user_count(),
     }
 
     meta = {'page_title': '',
@@ -162,7 +160,7 @@ def load_tournament_upcoming():
     tournaments = Tournament.get_upcoming_tournaments()
     output = []
     for tournament in tournaments:
-        output.append([str(tournament.tournament_id), tournament.name, tournament.datetime, tournament.entry_fee])
+        output.append([str(tournament.id), tournament.name, tournament.datetime, tournament.entry_fee])
     return output
 
 def load_recent_broadcast_clips():

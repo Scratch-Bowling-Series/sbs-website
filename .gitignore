@@ -87,3 +87,4 @@ GitHub.sublime-settings
 !.vscode/extensions.json 
 .history
 ScratchBowling/settings.py
+db.sqlite3.old

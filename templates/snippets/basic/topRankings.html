@@ -1,0 +1,31 @@
+<!---
+BASIC RECENT TOURNAMENT WINNERS SNIPPET
+
+[0]winner id
+[1]winner first_name
+[2]winner last_name
+[3]rank badge
+[4]user rank
+-->
+<section class="sec">
+    <h2>TOP 10 SBS RANKING</h2>
+    {% for data in datas %}
+        {% if forloop.first %}
+            <script>
+                $(document).ready(function(){
+                $('.rankings-offline').hide();
+                $('.rankings-row').show();
+                });
+            </script>
+        {% endif %}
+        <div class="row-b rankings-row" style="display:none;">
+            <a class="row-b-c row-b-c1 bold text-darkgreen {% if data.4 == '1st' or data.4 == '2nd' or data.4 == '3rd' or data.4 == '4th' %}text-tan{%endif%}">{{ data.4 }}</a>
+            <a class="row-b-c row-b-c2">{{ data.1 }} {{ data.2 }}</a>
+            <a class="row-b-btn btn btn-small" href="/account/view/{{ data.0 }}">VIEW</a>
+        </div>
+    {% endfor %}
+    <div class="rankings-offline">
+        <h2 class="text-lightgrey">RANKING SYSTEM IS CURRENTLY OFFLINE</h2>
+    </div>
+    <a href="{% url 'scoreboard:index' %}" class="btn btn-full text-white bkg-darkgreen border-darkgreen">VIEW RANKINGS</a>
+</section>

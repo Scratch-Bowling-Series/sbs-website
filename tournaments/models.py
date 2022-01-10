@@ -27,7 +27,7 @@ User = get_user_model()
 
 
 class Tournament(models.Model):
-    tournament_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
 
     scoring_data_id = models.UUIDField(editable=True, blank=True, null=True)
     center = models.ForeignKey('centers.Center', blank=True, on_delete=models.SET_NULL, null=True, related_name='tournaments')
@@ -134,7 +134,7 @@ class Tournament(models.Model):
             if tournament.soup and tournament.eat_soup():
                 tournament.save()
                 if logging:
-                    print('Updated: ' + str(tournament.tournament_id)[:6])
+                    print('Updated: ' + str(tournament.id)[:6])
         if logging:
             end_time = time()
             print('Updated ' + str(len(tournaments)) + ' in ' + str(round((end_time - start_time) / 60, 3)) + 'm')
@@ -188,62 +188,68 @@ class Tournament(models.Model):
 
     # TOURNAMENT HEADER PICTURE
     def get_picture(self):
-        if self.has_default_picture():
+        if self.has_default_picture:
             try:
-                return '/media/' + str(self.download_scraped_image())
+                return self.download_scraped_image()
             except:
-                return '/media/' + str(self.picture)
+                return self.picture.url
         else:
             return'/media/' + str(self.picture)
+    @property
     def has_default_picture(self):
-        if self.picture == 'tournament-pictures/default.jpg':
-            return True
-        return False
+        return 'tournament-pictures/default.jpg' in self.picture.url
+
     def download_scraped_image(self, remove_bkg=True):
-        response = requests.get('https://scratchbowling.com' + self.picture_scrape)
-        original = Image.open(io.BytesIO(response.content))
-        if original:
-            print('opened')
+        soup = BeautifulSoup(self.soup, 'html.parser')
+        img = soup.find(class_='image-style-tournament-image')
+        if img:
+            img = img.get('src')
+            response = requests.get('https://scratchbowling.com' + img)
+            original = Image.open(io.BytesIO(response.content))
+            if original:
+                print('opened')
 
-            ## remove bkg from original
-            if remove_bkg:
-                api_key = '1ec8d33f744b07af2de3ebd0e11e21996f3b2841'
-                url = 'https://sdk.photoroom.com/v1/segment'
-                files = {'image_file': io.BytesIO(response.content)}
-                headers = {'x-api-key': api_key}
-                response = requests.post(url, files=files, headers=headers)
-                response.raise_for_status()
-                modified = Image.open(io.BytesIO(response.content))
-            else:
-                modified = original
+                ## remove bkg from original
+                if remove_bkg:
+                    api_key = '1ec8d33f744b07af2de3ebd0e11e21996f3b2841'
+                    url = 'https://sdk.photoroom.com/v1/segment'
+                    files = {'image_file': io.BytesIO(response.content)}
+                    headers = {'x-api-key': api_key}
+                    response = requests.post(url, files=files, headers=headers)
+                    response.raise_for_status()
+                    modified = Image.open(io.BytesIO(response.content))
+                else:
+                    modified = original
 
-            master = Image.new(modified.mode, modified.size)
-            width, height = modified.size
-
-
-
-            ## get bkg, resize it, and paste to master
-            background = Image.open(os.path.join(settings.MEDIA_ROOT, 'tournament-pictures/background.png'))
-            if height > width: resize = height
-            else: resize = width
-            background.thumbnail((resize, resize))
-            bkg_width, bkg_height = background.size
-            bkg_x = int((width - bkg_width) / 2)
-            bkg_y = int((height - bkg_height) / 2)
-            print('bkg_width: ' + str(bkg_width) + ' bkg_height: ' + str(bkg_height) + ' bkg_x: ' + str(bkg_x) + ' bkg_y: ' + str(bkg_y))
-            master.paste(background, (bkg_x, bkg_y), background)
+                master = Image.new(modified.mode, modified.size)
+                width, height = modified.size
 
 
-            master.paste(modified, (0,0), modified)
-            path = 'tournament-pictures/' + str(self.tournament_id)
-            xpath = os.path.join(settings.MEDIA_ROOT, path)
-            if not os.path.exists(xpath):
-                os.makedirs(xpath)
-            master.save(xpath + '/primary.png')
-            self.picture = path + '/primary.png'
-            self.save()
-            return self.picture
 
+                ## get bkg, resize it, and paste to master
+                background = Image.open(os.path.join(settings.MEDIA_ROOT, 'tournament-pictures/background.png'))
+                if height > width: resize = height
+                else: resize = width
+                background.thumbnail((resize, resize))
+                bkg_width, bkg_height = background.size
+                bkg_x = int((width - bkg_width) / 2)
+                bkg_y = int((height - bkg_height) / 2)
+                print('bkg_width: ' + str(bkg_width) + ' bkg_height: ' + str(bkg_height) + ' bkg_x: ' + str(bkg_x) + ' bkg_y: ' + str(bkg_y))
+                master.paste(background, (bkg_x, bkg_y), background)
+
+
+                master.paste(modified, (0,0), modified)
+                path = 'tournament-pictures/' + str(self.id)
+                xpath = os.path.join(settings.MEDIA_ROOT, path)
+                if not os.path.exists(xpath):
+                    os.makedirs(xpath)
+                master.save(xpath + '/primary.png')
+                self.picture = path + '/primary.png'
+                self.save()
+                return self.picture.url
+    @property
+    def full_picture_url(self):
+        return self.get_picture()
 
     # <editor-fold desc="-- ROSTER --">
     @property
@@ -281,23 +287,23 @@ class Tournament(models.Model):
     def game_datas_user(self, user_id, game_number=0, amount=0):
         if game_number != 0:
             if amount != 0:
-                return GameData.objects.filter(tournament_id=self.tournament_id, user_id=user_id, game_number__gte=game_number,
+                return GameData.objects.filter(tournament_id=self.id, user_id=user_id, game_number__gte=game_number,
                                                game_number__lte=game_number + amount)
             else:
-                return GameData.objects.filter(tournament_id=self.tournament_id, user_id=user_id, game_number=game_number)
-        return GameData.objects.filter(tournament_id=self.tournament_id, user_id=user_id)
+                return GameData.objects.filter(tournament_id=self.id, user_id=user_id, game_number=game_number)
+        return GameData.objects.filter(tournament_id=self.id, user_id=user_id)
 
     def game_datas(self, game_number=0, amount=0):
         if game_number != 0:
             if amount != 0:
-                return GameData.objects.filter(tournament_id=self.tournament_id, game_number__gte=game_number, game_number__lte=game_number+amount)
+                return GameData.objects.filter(tournament_id=self.id, game_number__gte=game_number, game_number__lte=game_number + amount)
             else:
-                return GameData.objects.filter(tournament_id=self.tournament_id, game_number=game_number)
-        return GameData.objects.filter(tournament_id=self.tournament_id)
+                return GameData.objects.filter(tournament_id=self.id, game_number=game_number)
+        return GameData.objects.filter(tournament_id=self.id)
 
     def update_game_from_soup(self, user_id, game_number, match_number, total):
         if user_id and game_number > 0:
-            game_data = GameData.objects.filter(tournament_id=self.tournament_id, user_id=user_id,
+            game_data = GameData.objects.filter(tournament_id=self.id, user_id=user_id,
                                                 game_number=game_number).first()
             if game_data:
                 if game_data.total != total:
@@ -305,7 +311,7 @@ class Tournament(models.Model):
                     game_data.save()
                     return True
             else:
-                game_data = GameData.create(self.tournament_id, user_id, game_number)
+                game_data = GameData.create(self.id, user_id, game_number)
                 game_data.total = total
                 game_data.save()
                 return True
@@ -413,7 +419,7 @@ class Tournament(models.Model):
     @classmethod
     def recent_display(cls):
         try:
-            recent_display = cls.objects.earliest('datetime')
+            recent_display = cls.objects.all()[201]
 
             return recent_display
         except cls.DoesNotExist:

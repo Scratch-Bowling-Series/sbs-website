@@ -329,14 +329,8 @@ class User(AbstractBaseUser):
 
     ## STATISTICS ##
     @property
-    def statistics(self):
-        data = Statistics.get_user_statistics(self.id)
-        if not data:
-            data = Statistics.create(self.id)
-        return data
-    @property
     def rank_badge(self):
-        statistics = self.statistics
+        statistics = None
         if statistics:
             return statistics.rank_badge
     @property
@@ -367,13 +361,13 @@ class User(AbstractBaseUser):
         return '<i class="icon-' + icon + ' rank-color" style="color:' + color + ';"></i>'
     @property
     def rank(self):
-        statistics = self.statistics
+        statistics = None
         if statistics:
             return statistics.rank
         return 0
     @property
     def rank_ordinal(self):
-        statistics = self.statistics
+        statistics = None
         if statistics:
             return statistics.rank_ordinal
         return 0
@@ -458,8 +452,8 @@ class User(AbstractBaseUser):
     ## LOCATION ##
     @property
     def short_location(self):
-        if self.location_city and self.location_state:
-            return self.location_city + ', ' + self.location_state
+        if self.city and self.state:
+            return self.city + ', ' + self.state
         return 'Location Unknown'
 
 

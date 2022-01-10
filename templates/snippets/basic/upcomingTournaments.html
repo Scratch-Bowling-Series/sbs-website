@@ -1,0 +1,11 @@
+<section class="sec">
+    <h2>UPCOMING TOURNAMENTS</h2>
+    {% for tournament in tournaments %}
+        <div class="row-b {% if for.last %}highlighted-row{% endif %}">
+            <a class="row-b-c row-b-c1 primary-font text-darkgreen">{{ tournament.datetime|date:"m/d" }}</a>
+            <a class="row-b-c row-b-c2 primary-font text-darkgreen">{{ tournament.name|truncatechars:35 }}</a>
+            <a class="row-b-btn btn btn-small" href="/tournaments/view/{{ tournament.id }}">VIEW</a>
+        </div>
+    {% endfor %}
+    <a href="{% url 'tournaments:upcoming' %}" class="btn btn-full text-white bkg-darkgreen border-darkgreen">UPCOMING TOURNAMENTS</a>
+</section>

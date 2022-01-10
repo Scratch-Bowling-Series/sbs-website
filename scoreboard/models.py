@@ -24,7 +24,6 @@ class Statistics(models.Model):
     data_top_five_tournaments = models.BinaryField()
     data_year_top_five_tournaments = models.BinaryField()
 
-
     @classmethod
     def get_user_statistics(cls, uuid):
         uuid = is_valid_uuid(uuid)

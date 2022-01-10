@@ -1,223 +1,353 @@
 {% extends 'base_layout.html' %}
 {% load static %}
 {% block content %}
-
-<script>
-$(document).ready(function() {
-    $('.sec-click').click(function(){
-        var link = $(this).attr('sec-click');
-        window.location = link;
-    })
+    {% load basic-tags %}
 
 
-    updateDonorBar({{ donation_count }});
-
-    function updateDonorBar(amount)
-    {
-    console.log(amount);
-        var height = 110;
-        if(amount > 120000)
-        {
-            var mult = amount / 80000;
-            $('.goal-7').css('height', height * mult + 'px');
-            $('.goal-7-dot').addClass('off');
-            HideSpecific('.prev-goal-7');
-        }
-        else if(amount > 85000)
-        {
-            var mult = amount / 120000;
-            $('.goal-6').css('height', height * mult + 'px');
-            $('.goal-6-dot').addClass('off');
-            HideSpecific('.prev-goal-6');
-        }
-        else if(amount > 45000)
-        {
-            var mult = amount / 85000;
-            console.log(mult);
-            $('.goal-5').css('height', height * mult + 'px');
-            $('.goal-5-dot').addClass('off');
-            HideSpecific('.prev-goal-5');
-        }
-        else if(amount > 30000)
-        {
-            var mult = amount / 45000;
-            console.log(mult);
-            $('.goal-4').css('height', height * mult + 'px');
-            $('.goal-4-dot').addClass('off');
-            HideSpecific('.prev-goal-4');
-        }
-        else if(amount > 15000)
-        {
-            var mult = amount / 30000;
-            console.log(mult);
-            $('.goal-3').css('height', height * mult + 'px');
-            $('.goal-3-dot').addClass('off');
-            HideSpecific('.prev-goal-3');
-        }
-        else if(amount > 0)
-        {
-            var mult = amount / 15000;
-            console.log(mult);
-            $('.goal-2').css('height', height * mult + 'px');
-            $('.goal-2-dot').addClass('off');
-            HideSpecific('.prev-goal-2');
-        }
-    }
-    function HideSpecific(goal)
-    {
-        $('.prev-goal-1').css('display','none');
-        $('.prev-goal-2').css('display','none');
-        $('.prev-goal-3').css('display','none');
-        $('.prev-goal-4').css('display','none');
-        $('.prev-goal-5').css('display','none');
-        $('.prev-goal-6').css('display','none');
-        $('.prev-goal-7').css('display','none');
-        $(goal).css('display','block')
-    }
-});
-</script>
+    <script>
+        $(document).ready(function () {
+            $('.sec-click').click(function () {
+                var link = $(this).attr('sec-click');
+                window.location = link;
+            })
 
 
-<!-- Left Column : ( Last10Winners, Top10Rankings )-->
-<section class="col col-20 col-m-max-width m-order-2">
-    {% if tournament_winners %}
-      <section class="sec bkg-darkgreen">
-        <h2 class="text-white">TOURNAMENT WINNERS</h2>
-        {% for row in tournament_winners %}
-        <div class="row-b">
-            <a class="row-b-c row-b-c1 text-white primary-font">{{ row.2|date:'m/d' }}</a>
-            <a class="row-b-c row-b-c2 text-white span-white" href="/account/view/{{ row.4 }}">{{ row.3|safe }}</a>
-            <a class="row-b-btn btn btn-small bkg-white text-lightgreen border-white" href="/tournaments/view/{{ row.0 }}">RESULTS</a>
-          </div>
-        {% endfor %}
-        <a href="{% url 'tournaments:results' %}" class="btn btn-full bkg-white text-lightgreen border-darkgreen">ALL TOURNAMENT RESULTS</a>
-      </section>
-    {% endif %}
-    {% if top_ten_ranks %}
-      <section class="sec">
-        <h2>TOP 10 SBS RANKING</h2>
-        {% for rank_data in top_ten_ranks %}
-          {% if forloop.first %}
-          <script>
-              $(document).ready(function(){
-                $('.rankings-offline').hide();
-                $('.rankings-row').show();
-              });
-          </script>
-          {% endif %}
-          <div class="row-b rankings-row" style="display:none;">
-            <a class="row-b-c row-b-c1 bold text-darkgreen {% if rank_data.2 == '1st' or rank_data.2 == '2nd' or rank_data.2 == '3rd' or rank_data.2 == '4th' %}text-tan{%endif%}">{{ rank_data.2 }}</a>
-            <a class="row-b-c row-b-c2">{{ rank_data.1|safe }}</a>
-            <a class="row-b-btn btn btn-small" href="/account/view/{{ rank_data.0 }}">VIEW</a>
-          </div>
-        {% endfor %}
-        <div class="rankings-offline">
-            <h2 class="text-lightgrey">RANKING SYSTEM IS CURRENTLY OFFLINE</h2>
-        </div>
-        <a href="{% url 'scoreboard:index' %}" class="btn btn-full text-white bkg-darkgreen border-darkgreen">VIEW RANKINGS</a>
-      </section>
-    {% endif %}
-</section>
+            updateDonorBar({{ donation_count }});
 
-<!-- Center Column : ( TopNotify, LivePrev, RecentPrev, DesktopGoal, DesktopAppPrev, LiveHighlights )-->
-<section class="col col-60 col-m-max-width m-order-1">
-    {% if notify or user.finish_profile == True %}
-      {% if notify == 'verify_email'%}
-        <section class="sec top-notify">
-            <i class="icon-exclamation"></i>
-            <h2>Welcome {{ request.user.first_name|none_replace:'John' }}! Please verify your email to finish setting up your account.</h2>
-            <div class="btn-bar-right margin-bottom-20">
-                <a class="btn">RESEND<span class="mobile-on">&nbsp;EMAIL</span></a>
-            </div>
-        </section>
-      {% elif notify == 'verify_email_done' %}
-        <section class="sec top-notify">
-            <i class="icon-exclamation"></i>
-            <h2>Your email is now verified! Please take a moment to finish completing your profile.</h2>
-            <div class="btn-bar-right margin-bottom-20">
-                <a href="{% url 'accounts:modify' %}" class="btn btn-medium bkg-none text-darkgreen margin-right-10">NO THANKS</a>
-                <a href="{% url 'accounts:modify' %}" class="btn btn-medium">UPDATE PROFILE</a>
-            </div>
-        </section>
-      {% elif notify == 'verify_email_error' %}
-        <section class="sec top-notify">
-            <i class="icon-exclamation"></i>
-            <h2>That email verification link is invalid.</h2>
-            <div class="btn-bar-right margin-bottom-20">
-                <a class="btn">CONTACT SUPPORT</a>
-            </div>
-        </section>
-      {% elif user.finish_profile == True %}
-        <section class="sec top-notify">
-            <i class="icon-exclamation"></i>
-            <h2>Please take a moment to update your profile information.</h2>
-            <div class="btn-bar-right margin-bottom-20">
-                <a href="{% url 'accounts:modify' %}" class="btn btn-medium bkg-none text-darkgreen margin-right-10">NO THANKS</a>
-                <a href="{% url 'accounts:modify' %}" class="btn btn-medium">UPDATE PROFILE</a>
-            </div>
-        </section>
-      {% endif %}
-    {% endif %}
+            function updateDonorBar(amount) {
+                console.log(amount);
+                var height = 110;
+                if (amount > 120000) {
+                    var mult = amount / 80000;
+                    $('.goal-7').css('height', height * mult + 'px');
+                    $('.goal-7-dot').addClass('off');
+                    HideSpecific('.prev-goal-7');
+                } else if (amount > 85000) {
+                    var mult = amount / 120000;
+                    $('.goal-6').css('height', height * mult + 'px');
+                    $('.goal-6-dot').addClass('off');
+                    HideSpecific('.prev-goal-6');
+                } else if (amount > 45000) {
+                    var mult = amount / 85000;
+                    console.log(mult);
+                    $('.goal-5').css('height', height * mult + 'px');
+                    $('.goal-5-dot').addClass('off');
+                    HideSpecific('.prev-goal-5');
+                } else if (amount > 30000) {
+                    var mult = amount / 45000;
+                    console.log(mult);
+                    $('.goal-4').css('height', height * mult + 'px');
+                    $('.goal-4-dot').addClass('off');
+                    HideSpecific('.prev-goal-4');
+                } else if (amount > 15000) {
+                    var mult = amount / 30000;
+                    console.log(mult);
+                    $('.goal-3').css('height', height * mult + 'px');
+                    $('.goal-3-dot').addClass('off');
+                    HideSpecific('.prev-goal-3');
+                } else if (amount > 0) {
+                    var mult = amount / 15000;
+                    console.log(mult);
+                    $('.goal-2').css('height', height * mult + 'px');
+                    $('.goal-2-dot').addClass('off');
+                    HideSpecific('.prev-goal-2');
+                }
+            }
 
-    <!-- Tournament Live Preview -->
-    {% if tournament_live != None %}
-    <section class="sec live-prev glow">
-        <a class="live-prev-title">LIVE <span class="prefix"><i class="icon-circle"></i></span><span class="content desktop-on">{{ tournament_live.center.name }}<span class="location desktop-on">({{ tournament_live.center.location }})</span></span></a>
-        <span class="content mobile-on">{{ tournament_live.center.name }}<span class="location">({{ tournament_live.center.location }})</span></span>
-        <div class="live-prev-q2">
-            <a data="https://scratchbowling.pythonanywhere.com/support/" class="share-page-direct btn btn-medium bkg-darkgreen text-white live-prev-watch-share"><i class="icon-share-alt"></i></a>
-            <a class="btn btn-medium bkg-darkgreen text-white live-prev-watch">{% if tournament_live.stream %}WATCH NOW{%else%}LIVE SCORES{%endif%}</a>
-        </div>
-        <br>
-        <a class="live-prev-status std-hover">{{ tournament_live.status }}</a>
-        <a class="live-prev-leader std-hover">LEADER: {{ tournament_live.leader }}<span>{{ tournament_live.score }}</span></a>
+            function HideSpecific(goal) {
+                $('.prev-goal-1').css('display', 'none');
+                $('.prev-goal-2').css('display', 'none');
+                $('.prev-goal-3').css('display', 'none');
+                $('.prev-goal-4').css('display', 'none');
+                $('.prev-goal-5').css('display', 'none');
+                $('.prev-goal-6').css('display', 'none');
+                $('.prev-goal-7').css('display', 'none');
+                $(goal).css('display', 'block')
+            }
+        });
+    </script>
+
+
+    <!-- Left Column : ( Last10Winners, Top10Rankings )-->
+    <section class="col col-20 col-m-max-width m-order-2">
+        {% basic_recent_winners %}
+        {% basic_top_ranks %}
     </section>
-    {% endif %}
-    {% if tournament_recent is not None %}
-    <section class="sec t-recent-prev">
-        <div class="image">
-            <img class="preview" src="{% if tournament_recent.7 %}{{ tournament_recent.7 }}{% else %}{% static 'img/recent-preview-template.png' %}{% endif %}" ref="Tournament Name">
-            <!--<img class="watermark" src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">-->
-        </div>
-        <section class="content">
-            <a class="title" href="tournaments/view/{{ tournament_recent.0 }}">{{ tournament_recent.1 }}</a>
-            <a class="date" href="tournaments/view/{{ tournament_recent.0 }}">{{ tournament_recent.2|date:'m/d' }} - {{ tournament_recent.4 }}</a>
-            <a class="description text-darkgreen" href="tournaments/view/{{ tournament_recent.0 }}">{{ tournament_recent.5|none_replace:"This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set." }}</a>
-            {% if tournament_recent.6 %}
-            <div class="stats">
-                <div class="player"><a class="rank top-rank">1st</a><a class="name" href="/account/view/{{ tournament_recent.6.0.0 }}">{{ tournament_recent.6.0.1|safe }}</a></div>
-                <div class="player"><a class="rank">2nd</a><a class="name" href="/account/view/{{ tournament_recent.6.1.0 }}">{{ tournament_recent.6.1.1|safe }}</a></div>
-                <div class="player"><a class="rank">3rd</a><a class="name" href="/account/view/{{ tournament_recent.6.2.0 }}">{{ tournament_recent.6.2.1|safe }}</a></div>
-                {% if tournament_recent.6.3 %}
-                <div class="player"><a class="rank">4th</a><a class="name" href="/account/view/{{ tournament_recent.6.3.0 }}">{{ tournament_recent.6.3.1|safe }}</a></div>
-                {% endif %}
-            </div>
+
+    <!-- Center Column : ( TopNotify, LivePrev, RecentPrev, DesktopGoal, DesktopAppPrev, LiveHighlights )-->
+    <section class="col col-60 col-m-max-width m-order-1">
+        {% if notify or user.finish_profile == True %}
+            {% if notify == 'verify_email' %}
+                <section class="sec top-notify">
+                    <i class="icon-exclamation"></i>
+                    <h2>Welcome {{ request.user.first_name|none_replace:'John' }}! Please verify your email to finish
+                        setting up your account.</h2>
+                    <div class="btn-bar-right margin-bottom-20">
+                        <a class="btn">RESEND<span class="mobile-on">&nbsp;EMAIL</span></a>
+                    </div>
+                </section>
+            {% elif notify == 'verify_email_done' %}
+                <section class="sec top-notify">
+                    <i class="icon-exclamation"></i>
+                    <h2>Your email is now verified! Please take a moment to finish completing your profile.</h2>
+                    <div class="btn-bar-right margin-bottom-20">
+                        <a href="{% url 'accounts:modify' %}"
+                           class="btn btn-medium bkg-none text-darkgreen margin-right-10">NO THANKS</a>
+                        <a href="{% url 'accounts:modify' %}" class="btn btn-medium">UPDATE PROFILE</a>
+                    </div>
+                </section>
+            {% elif notify == 'verify_email_error' %}
+                <section class="sec top-notify">
+                    <i class="icon-exclamation"></i>
+                    <h2>That email verification link is invalid.</h2>
+                    <div class="btn-bar-right margin-bottom-20">
+                        <a class="btn">CONTACT SUPPORT</a>
+                    </div>
+                </section>
+            {% elif user.finish_profile == True %}
+                <section class="sec top-notify">
+                    <i class="icon-exclamation"></i>
+                    <h2>Please take a moment to update your profile information.</h2>
+                    <div class="btn-bar-right margin-bottom-20">
+                        <a href="{% url 'accounts:modify' %}"
+                           class="btn btn-medium bkg-none text-darkgreen margin-right-10">NO THANKS</a>
+                        <a href="{% url 'accounts:modify' %}" class="btn btn-medium">UPDATE PROFILE</a>
+                    </div>
+                </section>
             {% endif %}
-            <div class="btn-bar-right more margin-bottom ">
-                <a class="btn btn-medium bkg-darkgreen text-white border-darkgreen" href="tournaments/view/{{tournament_recent.0 }}">VIEW INFO</a>
-            </div>
-        </section>
+        {% endif %}
+
+        <!-- Tournament Live Preview -->
+        {% if tournament_live != None %}
+            <section class="sec live-prev glow">
+                <a class="live-prev-title">LIVE <span class="prefix"><i class="icon-circle"></i></span><span
+                        class="content desktop-on">{{ tournament_live.center.name }}<span
+                        class="location desktop-on">({{ tournament_live.center.location }})</span></span></a>
+                <span class="content mobile-on">{{ tournament_live.center.name }}<span
+                        class="location">({{ tournament_live.center.location }})</span></span>
+                <div class="live-prev-q2">
+                    <a data="https://scratchbowling.pythonanywhere.com/support/"
+                       class="share-page-direct btn btn-medium bkg-darkgreen text-white live-prev-watch-share"><i
+                            class="icon-share-alt"></i></a>
+                    <a class="btn btn-medium bkg-darkgreen text-white live-prev-watch">{% if tournament_live.stream %}
+                        WATCH NOW{% else %}LIVE SCORES{% endif %}</a>
+                </div>
+                <br>
+                <a class="live-prev-status std-hover">{{ tournament_live.status }}</a>
+                <a class="live-prev-leader std-hover">LEADER: {{ tournament_live.leader }}<span>{{ tournament_live.score }}</span></a>
+            </section>
+        {% endif %}
+        {% if tournament_recent %}
+            <section class="sec t-recent-prev">
+                <div class="image"><img class="preview" src="{{ tournament_recent.full_picture_url }}" alt="{{ tournament_recent.name }}"></div>
+                <section class="content">
+                    <a class="title" href="tournaments/view/{{ tournament_recent.id }}">{{ tournament_recent.name }}</a>
+                    <a class="date"
+                       href="tournaments/view/{{ tournament.id }}">{{ tournament_recent.datetime|date:'m/d' }}
+                        - {{ tournament_recent.center.name }}</a>
+                    <a class="description text-darkgreen"
+                       href="tournaments/view/{{ tournament_recent.id }}">{{ tournament_recent.description|none_replace:"This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set." }}</a>
+                    <div class="stats">
+                            <div class="player"><a class="rank top-rank">1st</a><a class="name"
+                                                                                   href="/account/view/{{ tournament_recent.6.0.0 }}">{{ tournament_recent.6.0.1|safe }}</a>
+                            </div>
+                            <div class="player"><a class="rank">2nd</a><a class="name"
+                                                                          href="/account/view/{{ tournament_recent.6.1.0 }}">{{ tournament_recent.6.1.1|safe }}</a>
+                            </div>
+                            <div class="player"><a class="rank">3rd</a><a class="name"
+                                                                          href="/account/view/{{ tournament_recent.6.2.0 }}">{{ tournament_recent.6.2.1|safe }}</a>
+                            </div>
+                            {% if tournament_recent.6.3 %}
+                                <div class="player"><a class="rank">4th</a><a class="name"
+                                                                              href="/account/view/{{ tournament_recent.6.3.0 }}">{{ tournament_recent.6.3.1|safe }}</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    <div class="btn-bar-right more margin-bottom ">
+                        <a class="btn btn-medium bkg-darkgreen text-white border-darkgreen"
+                           href="tournaments/view/{{ tournament_recent.0 }}">VIEW INFO</a>
+                    </div>
+                </section>
+            </section>
+        {% endif %}
+        <div class="col-desktop">
+            <section class="sec sec-half merch-prev sec-click" sec-click="{% url 'support:support' %}">
+                <h2>HELP HIT OUR NEXT GOAL</h2>
+                <div class="goal-prev">
+                    <div class="goal-prev-slide prev-goal-1">
+                        <div class="goal-prev-slide-bar">
+                            <div class="goal-prev-slide-bar-circle">
+                                <div class="goal-1-dot goal-prev-slide-bar-circle-inner">
+                                </div>
+                            </div>
+                            <div class="goal-1 goal-prev-slide-bar-inner top">
+                            </div>
+                        </div>
+                        <div class="goal-prev-slide-content">
+                            <a>$0</a>
+                            <h2>THE START</h2>
+                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
+                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
+                                Phillips </p>
+                        </div>
+                    </div>
+                    <div class="goal-prev-slide prev-goal-2">
+                        <div class="goal-prev-slide-bar">
+                            <div class="goal-prev-slide-bar-circle">
+                                <div class="goal-2-dot goal-prev-slide-bar-circle-inner">
+                                </div>
+                            </div>
+                            <div class="goal-2 goal-prev-slide-bar-inner">
+                            </div>
+                        </div>
+                        <div class="goal-prev-slide-content">
+                            <a>$15,000</a>
+                            <h2>WEB DEVELOPMENT</h2>
+                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
+                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
+                                Phillips </p>
+                        </div>
+                    </div>
+                    <div class="goal-prev-slide prev-goal-3" style="display:block;">
+                        <div class="goal-prev-slide-bar">
+                            <div class="goal-prev-slide-bar-circle">
+                                <div class="goal-3-dot goal-prev-slide-bar-circle-inner">
+                                </div>
+                            </div>
+                            <div class="goal-3 goal-prev-slide-bar-inner">
+                            </div>
+                        </div>
+                        <div class="goal-prev-slide-content">
+                            <a>$30,000</a>
+                            <h2>SOFTWARE DEVELOPMENT</h2>
+                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
+                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
+                                Phillips </p>
+                        </div>
+                    </div>
+                    <div class="goal-prev-slide prev-goal-4">
+                        <div class="goal-prev-slide-bar">
+                            <div class="goal-prev-slide-bar-circle">
+                                <div class="goal-4-dot goal-prev-slide-bar-circle-inner">
+                                </div>
+                            </div>
+                            <div class="goal-4 goal-prev-slide-bar-inner ">
+                            </div>
+                        </div>
+                        <div class="goal-prev-slide-content">
+                            <a>$45,000</a>
+                            <h2>MOBILE APP</h2>
+                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
+                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
+                                Phillips </p>
+                        </div>
+                    </div>
+                    <div class="goal-prev-slide prev-goal-5">
+                        <div class="goal-prev-slide-bar">
+                            <div class="goal-prev-slide-bar-circle">
+                                <div class="goal-5-dot goal-prev-slide-bar-circle-inner">
+                                </div>
+                            </div>
+                            <div class="goal-5 goal-prev-slide-bar-inner "></div>
+                        </div>
+                        <div class="goal-prev-slide-content">
+                            <a>$85,000</a>
+                            <h2>TRAVELING VAN</h2>
+                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
+                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
+                                Phillips </p>
+                        </div>
+                    </div>
+                    <div class="goal-prev-slide prev-goal-6">
+                        <div class="goal-prev-slide-bar">
+                            <div class="goal-prev-slide-bar-circle">
+                                <div class="goal-6-dot goal-prev-slide-bar-circle-inner">
+                                </div>
+                            </div>
+                            <div class="goal-6 goal-prev-slide-bar-inner ">
+                            </div>
+                        </div>
+                        <div class="goal-prev-slide-content">
+                            <a>$120,000</a>
+                            <h2>BROADCAST EQUIPMENT</h2>
+                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
+                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
+                                Phillips </p>
+                        </div>
+                    </div>
+                    <div class="goal-prev-slide prev-goal-7">
+                        <div class="goal-prev-slide-bar" style="height:20px;">
+                            <div class="goal-prev-slide-bar-circle">
+                                <div class="goal-7-dot goal-prev-slide-bar-circle-inner">
+                                </div>
+                            </div>
+                            <div class="goal-7 goal-prev-slide-bar-inner ">
+                            </div>
+                        </div>
+                        <div class="goal-prev-slide-content">
+                            <a>$200,000</a>
+                            <h2>PAYROLL</h2>
+                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
+                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
+                                Phillips </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="sec sec-half app-prev">
+                <h2>OUR NEW MOBILE APP</h2>
+                <p>Try the BETA release of our app!<br>Now available on IOS and Android.</p>
+                <a class="btn bkg-darkgreen border-darkgreen text-white border-none">LEARN MORE</a>
+                <div class="app-prev-phone">
+                    <span class="app-prev-phone-n1"><i></i> <span></span></span>
+                    <span class="app-prev-phone-n2"><div></div></span>
+                    <span class="app-prev-phone-n3"><div></div></span>
+                    <img src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
+                </div>
+            </section>
+            <section class="sec">
+                <h2>LIVE STREAM HIGHLIGHTS</h2>
+                <div class="homepage-broadcast-clips-container">
+                    <div class="homepage-broadcast-clip">
+                        <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
+                        <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
+                        <h2>02/25 @ Thunderbowl Lanes</h2>
+                    </div>
+                    <div class="homepage-broadcast-clip">
+                        <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
+                        <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
+                        <h2>02/25 @ Thunderbowl Lanes</h2>
+                    </div>
+                    <div class="homepage-broadcast-clip">
+                        <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
+                        <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
+                        <h2>02/25 @ Thunderbowl Lanes</h2>
+                    </div>
+                </div>
+            </section>
+        </div>
     </section>
-    {% else %}
-    {% endif %}
-    <div class="col-desktop">
+
+    <!-- Center Column Mobile : ( MobileGoal, MobileAppPrev, LiveHighlights ) -->
+    <section class="col col-60 col-mobile col-m-max-width m-order-4">
         <section class="sec sec-half merch-prev sec-click" sec-click="{% url 'support:support' %}">
             <h2>HELP HIT OUR NEXT GOAL</h2>
             <div class="goal-prev">
                 <div class="goal-prev-slide prev-goal-1">
                     <div class="goal-prev-slide-bar">
-                    <div class="goal-prev-slide-bar-circle">
-                        <div class="goal-1-dot goal-prev-slide-bar-circle-inner">
+                        <div class="goal-prev-slide-bar-circle">
+                            <div class="goal-1-dot goal-prev-slide-bar-circle-inner">
+                            </div>
+                        </div>
+                        <div class="goal-1 goal-prev-slide-bar-inner top">
                         </div>
                     </div>
-                    <div class="goal-1 goal-prev-slide-bar-inner top">
-                    </div>
-                </div>
                     <div class="goal-prev-slide-content">
-                    <a>$0</a>
-                    <h2>THE START</h2>
-                    <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                </div>
+                        <a>$0</a>
+                        <h2>THE START</h2>
+                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
+                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
+                    </div>
                 </div>
                 <div class="goal-prev-slide prev-goal-2">
                     <div class="goal-prev-slide-bar">
@@ -231,7 +361,8 @@ $(document).ready(function() {
                     <div class="goal-prev-slide-content">
                         <a>$15,000</a>
                         <h2>WEB DEVELOPMENT</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
+                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
+                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
                     </div>
                 </div>
                 <div class="goal-prev-slide prev-goal-3" style="display:block;">
@@ -246,7 +377,8 @@ $(document).ready(function() {
                     <div class="goal-prev-slide-content">
                         <a>$30,000</a>
                         <h2>SOFTWARE DEVELOPMENT</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
+                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
+                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
                     </div>
                 </div>
                 <div class="goal-prev-slide prev-goal-4">
@@ -261,7 +393,8 @@ $(document).ready(function() {
                     <div class="goal-prev-slide-content">
                         <a>$45,000</a>
                         <h2>MOBILE APP</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
+                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
+                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
                     </div>
                 </div>
                 <div class="goal-prev-slide prev-goal-5">
@@ -275,11 +408,12 @@ $(document).ready(function() {
                     <div class="goal-prev-slide-content">
                         <a>$85,000</a>
                         <h2>TRAVELING VAN</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
+                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
+                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
                     </div>
                 </div>
                 <div class="goal-prev-slide prev-goal-6">
-                    <div class="goal-prev-slide-bar" >
+                    <div class="goal-prev-slide-bar">
                         <div class="goal-prev-slide-bar-circle">
                             <div class="goal-6-dot goal-prev-slide-bar-circle-inner">
                             </div>
@@ -290,7 +424,8 @@ $(document).ready(function() {
                     <div class="goal-prev-slide-content">
                         <a>$120,000</a>
                         <h2>BROADCAST EQUIPMENT</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
+                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
+                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
                     </div>
                 </div>
                 <div class="goal-prev-slide prev-goal-7">
@@ -305,157 +440,13 @@ $(document).ready(function() {
                     <div class="goal-prev-slide-content">
                         <a>$200,000</a>
                         <h2>PAYROLL</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
+                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
+                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
                     </div>
                 </div>
             </div>
         </section>
         <section class="sec sec-half app-prev">
-            <h2>OUR NEW MOBILE APP</h2>
-            <p>Try the BETA release of our app!<br>Now available on IOS and Android.</p>
-            <a class="btn bkg-darkgreen border-darkgreen text-white border-none">LEARN MORE</a>
-            <div class="app-prev-phone">
-                <span class="app-prev-phone-n1"><i></i> <span></span></span>
-                <span class="app-prev-phone-n2"><div></div></span>
-                <span class="app-prev-phone-n3"><div></div></span>
-                <img src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
-            </div>
-        </section>
-        <section class="sec">
-            <h2>LIVE STREAM HIGHLIGHTS</h2>
-            <div class="homepage-broadcast-clips-container">
-                <div class="homepage-broadcast-clip">
-                    <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
-                    <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
-                    <h2>02/25 @ Thunderbowl Lanes</h2>
-                </div>
-                <div class="homepage-broadcast-clip">
-                    <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
-                    <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
-                    <h2>02/25 @ Thunderbowl Lanes</h2>
-                </div>
-                <div class="homepage-broadcast-clip">
-                    <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
-                    <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
-                    <h2>02/25 @ Thunderbowl Lanes</h2>
-                </div>
-            </div>
-        </section>
-    </div>
-</section>
-
-<!-- Center Column Mobile : ( MobileGoal, MobileAppPrev, LiveHighlights ) -->
-<section class="col col-60 col-mobile col-m-max-width m-order-4">
-    <section class="sec sec-half merch-prev sec-click" sec-click="{% url 'support:support' %}">
-            <h2>HELP HIT OUR NEXT GOAL</h2>
-            <div class="goal-prev">
-                <div class="goal-prev-slide prev-goal-1">
-                    <div class="goal-prev-slide-bar">
-                    <div class="goal-prev-slide-bar-circle">
-                        <div class="goal-1-dot goal-prev-slide-bar-circle-inner">
-                        </div>
-                    </div>
-                    <div class="goal-1 goal-prev-slide-bar-inner top">
-                    </div>
-                </div>
-                    <div class="goal-prev-slide-content">
-                    <a>$0</a>
-                    <h2>THE START</h2>
-                    <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                </div>
-                </div>
-                <div class="goal-prev-slide prev-goal-2">
-                    <div class="goal-prev-slide-bar">
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-2-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-2 goal-prev-slide-bar-inner">
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$15,000</a>
-                        <h2>WEB DEVELOPMENT</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-                <div class="goal-prev-slide prev-goal-3" style="display:block;">
-                    <div class="goal-prev-slide-bar">
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-3-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-3 goal-prev-slide-bar-inner">
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$30,000</a>
-                        <h2>SOFTWARE DEVELOPMENT</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-                <div class="goal-prev-slide prev-goal-4">
-                    <div class="goal-prev-slide-bar">
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-4-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-4 goal-prev-slide-bar-inner ">
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$45,000</a>
-                        <h2>MOBILE APP</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-                <div class="goal-prev-slide prev-goal-5">
-                    <div class="goal-prev-slide-bar">
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-5-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-5 goal-prev-slide-bar-inner "></div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$85,000</a>
-                        <h2>TRAVELING VAN</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-                <div class="goal-prev-slide prev-goal-6">
-                    <div class="goal-prev-slide-bar" >
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-6-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-6 goal-prev-slide-bar-inner ">
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$120,000</a>
-                        <h2>BROADCAST EQUIPMENT</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-                <div class="goal-prev-slide prev-goal-7">
-                    <div class="goal-prev-slide-bar" style="height:20px;">
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-7-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-7 goal-prev-slide-bar-inner ">
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$200,000</a>
-                        <h2>PAYROLL</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    <section class="sec sec-half app-prev">
             <h2>OUR NEW MOBILE APP</h2>
             <p>Try the BETA release of our app!<br>Now available on the app store.</p>
             <a class="btn bkg-darkgreen border-darkgreen text-white border-darkgreen">VISIT APP STORE</a>
@@ -466,78 +457,37 @@ $(document).ready(function() {
                 <img src="{% static 'img/SBS_Logo_Beta.png' %}" ref="Scratch Bowling Series">
             </div>
         </section>
-    {% if broadcast_clips %}
-    <section class="sec pv-live">
-        <h2>LIVE STREAM HIGHLIGHTS</h2>
-        <div class="pv-live-wrap">
-            {% for clip in broadcast_clips %}
-                <div class="pv-live-item" clipId="{{ clip.0 }}">
-                    <img src="{{ clip.4 }}" ref="'{{ clip.1 }}' clip thumbnail image.">
-                    <a class="title">{{ clip.1}}</a>
-                    <a class="detail">{{ clip.2 }} @ Center Unknown</a>
+        {% if broadcast_clips %}
+            <section class="sec pv-live">
+                <h2>LIVE STREAM HIGHLIGHTS</h2>
+                <div class="pv-live-wrap">
+                    {% for clip in broadcast_clips %}
+                        <div class="pv-live-item" clipId="{{ clip.0 }}">
+                            <img src="{{ clip.4 }}" ref="'{{ clip.1 }}' clip thumbnail image.">
+                            <a class="title">{{ clip.1 }}</a>
+                            <a class="detail">{{ clip.2 }} @ Center Unknown</a>
+                        </div>
+                    {% endfor %}
+                    <a class="btn btn-full text-white bkg-darkgreen border-darkgreen" href="#">MORE HIGHLIGHTS</a>
                 </div>
-            {% endfor %}
-            <a class="btn btn-full text-white bkg-darkgreen border-darkgreen" href="#">MORE HIGHLIGHTS</a>
-        </div>
+            </section>
+        {% endif %}
     </section>
-    {% endif %}
-</section>
 
-<!-- Right Column : ( UpcomingTournaments, BowlerOfMonth, SiteStat )-->
-<section class="col col-20 col-m-max-width m-order-3" >
-    <section class="sec">
-        <h2>UPCOMING TOURNAMENTS</h2>
-        {% for upcoming in tournaments_upcoming %}
-          <div class="row-b {% if for.last %}highlighted-row{% endif %}">
-            <a class="row-b-c row-b-c1 primary-font text-darkgreen">{{ upcoming.2|date:"m/d"}}</a>
-            <a class="row-b-c row-b-c2 primary-font text-darkgreen">{{ upcoming.1|truncatechars:35 }}</a>
-            <a class="row-b-btn btn btn-small" href="/tournaments/view/{{ upcoming.0 }}">VIEW</a>
-          </div>
-        {% endfor %}
-        <a href="{% url 'tournaments:upcoming' %}" class="btn btn-full text-white bkg-darkgreen border-darkgreen">UPCOMING TOURNAMENTS</a>
-      </section>
-      {% if bowler_of_month %}
-    <section class="sec pv-bom">
-        <h2 class="pv-bom-title">BOWLER OF THE MONTH</h2>
-        <div class="pv-bom-main">
-            <div class="pv-bom-pic-wrap">
-                <a class="pv-bom-pic" href="account/view/{{ bowler_of_month.user_id }}">
-                    <img src="{{ bowler_of_month.picture }}" alt="{{ bowler_of_month.first_name }}'s profile picture">
-                </a>
+    <!-- Right Column : ( UpcomingTournaments, BowlerOfMonth, SiteStat )-->
+    <section class="col col-20 col-m-max-width m-order-3">
+        {% basic_upcoming_tournaments %}
+        {% basic_bowler_of_month %}
+        <section class="sec sitestat">
+            <div class="sitestat-half">
+                <a>ACTIVE BOWLERS</a>
+                <h2>{% if users_count is None %}0{% else %}{{ users_count }}{% endif %}</h2>
             </div>
-            <div class="pv-bom-info">
-                <a href="account/view/{{ bowler_of_month.user_id }}" class="pv-bom-name">{{ bowler_of_month.badge|safe }} {{ bowler_of_month.first_name }} <span class="bold">{{ bowler_of_month.last_name }}</span></a>
-                <a href="account/view/{{ bowler_of_month.user_id }}" class="pv-bom-location">{{ bowler_of_month.location }}</a>
+            <div class="sitestat-half">
+                <a>TOURNAMENTS</a>
+                <h2>{% if tournaments_count is None %}0{% else %}{{ tournaments_count }}{% endif %}</h2>
             </div>
-        </div>
-        <div class="pv-bom-details">
-            <div class="pv-bom-details-wrap">
-                 <h2 class="text-lightgreen">SEASON STATS</h2>
-                <ul>
-                    <li>AVG SCORE: <span>{{ bowler_of_month.avg_score }}</span></li>
-                    <li>TOTAL GAMES: <span>{{ bowler_of_month.attended }}</span></li>
-                    <li>TOTAL WINS: <span>{{ bowler_of_month.wins }}</span></li>
-                </ul>
-                <h2 class="text-lightgreen">CAREER STATS</h2>
-                <ul>
-                    <li>AVG SCORE: <span>{{ bowler_of_month.year_avg_score }}</span></li>
-                    <li>TOTAL GAMES: <span>{{ bowler_of_month.year_attended }}</span></li>
-                    <li>TOTAL WINS: <span>{{ bowler_of_month.year_wins }}</span></li>
-                </ul>
-            </div>
-        </div>
-        <a class="btn btn-full text-white bkg-darkgreen border-darkgreen" href="account/view/{{ bowler_of_month.user_id }}">VISIT PROFILE</a>
-      </section>
-      {% endif %}
-    <section class="sec sitestat">
-        <div class="sitestat-half">
-          <a>ACTIVE BOWLERS</a>
-          <h2>{% if users_count is None %}0{% else %}{{ users_count }}{% endif %}</h2>
-        </div><div class="sitestat-half">
-          <a>TOURNAMENTS</a>
-          <h2>{% if tournaments_count is None %}0{% else %}{{ tournaments_count }}{% endif %}</h2>
-        </div>
-      </section>
-</section>
+        </section>
+    </section>
 
 {% endblock %}

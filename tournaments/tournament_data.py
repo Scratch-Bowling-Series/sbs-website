@@ -136,9 +136,9 @@ def deserialize_placement_data(data):
 
 def convert_to_tournament_data_object(tournament):
     if tournament != None:
-        print('TournamentData - Converting - ' + str(tournament.tournament_id)[:5])
+        print('TournamentData - Converting - ' + str(tournament.id)[:5])
         tournament_data = Tournament_Data()
-        tournament_data.tournament_id =  str(tournament.tournament_id)
+        tournament_data.tournament_id =  str(tournament.id)
         ## CONVERT QUALIFYING INTO MATCH DATA
         qualifying_objects = get_qualifying_object(tournament)
         if qualifying_objects != None:

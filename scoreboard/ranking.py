@@ -127,7 +127,7 @@ def get_rank_data_from_tournaments():
                 rank_data.avg_score_year_amount += 1
                 rank_data.avg_score_year = round(rank_data.avg_score_year_total / rank_data.avg_score_year_amount, 2)
                 # get best games year
-                rank_data.top_five_year = task_best_score(rank_data.top_five_year, placement.scores,tournament.tournament_id)
+                rank_data.top_five_year = task_best_score(rank_data.top_five_year, placement.scores, tournament.id)
             # get avg score career
             rank_data.avg_score_career_total += t_score_average
             rank_data.avg_score_career_amount += 1
@@ -142,9 +142,9 @@ def get_rank_data_from_tournaments():
             # get total games career
             rank_data.total_games_career += t_total_games
             # get best games career
-            rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.scores,tournament.tournament_id)
+            rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.scores, tournament.id)
             # add tournament to list
-            rank_data.tournaments = task_store_tournament(tournament.tournament_id, rank_data.tournaments)
+            rank_data.tournaments = task_store_tournament(tournament.id, rank_data.tournaments)
     return sorted(rank_data_lib, key=lambda x: x.rank_points, reverse=True)
 
 def get_rank_datas_from_all_tournaments():
@@ -194,7 +194,7 @@ def get_rank_datas_from_all_tournaments():
                 rank_data.avg_score_year_amount += 1
                 rank_data.avg_score_year = round(rank_data.avg_score_year_total / rank_data.avg_score_year_amount, 2)
                 # get best games year
-                rank_data.top_five_year = task_best_score(rank_data.top_five_year, placement.high_score,tournament.tournament_id)
+                rank_data.top_five_year = task_best_score(rank_data.top_five_year, placement.high_score, tournament.id)
             # get avg score career
             rank_data.avg_score_career_total += placement.average_score
             rank_data.avg_score_career_amount += 1
@@ -209,9 +209,9 @@ def get_rank_datas_from_all_tournaments():
             # get total games career
             rank_data.total_games_career += placement.total_games
             # get best games career
-            rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.high_score,tournament.tournament_id)
+            rank_data.top_five_career = task_best_score(rank_data.top_five_career, placement.high_score, tournament.id)
             # add tournament to list
-            rank_data.tournaments = task_store_tournament(tournament.tournament_id, rank_data.tournaments)
+            rank_data.tournaments = task_store_tournament(tournament.id, rank_data.tournaments)
     return sorted(rank_data_lib, key=lambda x: x.rank_points, reverse=True)
 
 def get_rank_data(rank_datas, user_id):

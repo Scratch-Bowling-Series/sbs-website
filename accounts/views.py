@@ -227,7 +227,7 @@ def single_account_tournaments_display(user):
     if tournament_ids:
         tournaments = Tournament.get_tournaments_by_uuid_list(tournament_ids)
         for tournament in tournaments:
-            tournaments_data.append([tournament.tournament_id,
+            tournaments_data.append([tournament.id,
                                      tournament.datetime,
                                      tournament.name,
                                      tournament.center_short_location,
