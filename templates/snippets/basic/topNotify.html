@@ -1,0 +1,31 @@
+{% load basic-tags %}
+
+
+{% if notify %}
+<section class="sec top-notify">
+    {% if notify == 'email_success' %}
+            <p>
+                Thank you{{ request.user.first_name|space_before }}!
+                You are all set! Your account is now verified.
+                <a href="#">What's next?</a>
+            </p>
+    {% endif %}
+</section>
+{% elif request.user.is_authenticated%}
+<section class="sec top-notify">
+    {% if not request.user.is_verified%}
+            <p>
+                Welcome{{ request.user.first_name|space_before }}!
+                We've sent you a verification link to the email provided.
+                <a href="#">Didn't get it?</a>
+            </p>
+    {% elif not request.user.modified_account%}
+            <p>
+                Hi{{ request.user.first_name|space_before }}!
+                Please take a moment to finish setting up your account.
+                <a href="#">Modify account.</a>
+            </p>
+    {% endif %}
+</section>
+{% endif %}
+

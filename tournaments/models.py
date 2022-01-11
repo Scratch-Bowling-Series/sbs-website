@@ -10,7 +10,7 @@ import requests
 from PIL import Image
 from bs4 import BeautifulSoup
 from django.contrib.auth import get_user_model
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Q
 from django.utils import timezone
 
@@ -126,6 +126,7 @@ class Tournament(models.Model):
             print('Update All Complete')
 
     @classmethod
+    @transaction.atomic
     def only_eat_all(cls, logging=False):
         if logging:
             start_time = time()
@@ -419,7 +420,7 @@ class Tournament(models.Model):
     @classmethod
     def recent_display(cls):
         try:
-            recent_display = cls.objects.all()[201]
+            recent_display = cls.objects.all().first()
 
             return recent_display
         except cls.DoesNotExist:
@@ -427,11 +428,12 @@ class Tournament(models.Model):
 
     @classmethod
     def featured_live(cls):
+
         return cls.objects.filter(live=True).first()
 
     @classmethod
     def get_upcoming(cls, amount, offset=0):
-        return cls.objects.filter(finished=False, live=False)[offset:offset+amount]
+        return cls.objects.filter(finished=False, live=False).exclude(Q(name='') | Q(name__contains='CANCEL') | Q(name__contains='POST'))[offset:offset+amount]
 
     @classmethod
     def get_results(cls, amount, offset=0):
@@ -448,6 +450,8 @@ class Tournament(models.Model):
             winners = result.tournament_datas.filter(is_winner=True)
             if winners:
                 users += winners
+
+
         return users
 
     @classmethod

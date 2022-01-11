@@ -52,4 +52,5 @@ def update_center_with_soup(center, soup):
     center.location_zip = zip
     center.phone_number = int(phone)
     center.center_description = str(description)
+    return True
 

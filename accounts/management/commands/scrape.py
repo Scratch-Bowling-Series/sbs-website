@@ -13,3 +13,5 @@ class Command(BaseCommand):
         User.update_all(True)
         Center.update_all(True)
         Tournament.update_all(True)
+        #Tournament.only_eat_all(True)
+

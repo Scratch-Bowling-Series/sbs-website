@@ -6,7 +6,7 @@
     <section class="sec looking-for-centers">
         <h2>LOOKING FOR CENTERS</h2>
         <p>Would you like to have SBS come to your bowling center?</p>
-        <a href="" class="btn btn-full bkg-darkgreen text-white">LEARN MORE</a>
+        <a href="" class="btn btn-full bkg-darkgreen text-white margin-vertical">LEARN MORE</a>
     </section>
 </section>
 <section class="col col-60 col-m-max-width m-order-1">
@@ -92,8 +92,8 @@
     {% if request.user is not None and request.user.admin == True %}
     <section class="sec">
         <h3 class="standard-title text-dark-green">ADMIN FUNCTIONS</h3>
-        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen">CREATE TOURNAMENT</a>
-        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen" style="margin-top:0;">VIEW DEEP STATS</a>
+        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen margin-vertical">CREATE TOURNAMENT</a>
+        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen margin-bottom" style="margin-top:0;">VIEW DEEP STATS</a>
     </section>
     {% endif %}
     <section class="sec sitestat">

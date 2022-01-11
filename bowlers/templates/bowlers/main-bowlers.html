@@ -27,7 +27,7 @@
         <div class="rankings-offline">
         <h2 class="text-lightgrey">RANKING SYSTEM IS CURRENTLY OFFLINE</h2>
     </div>
-        <a class="btn btn-full text-white bkg-darkgreen border-none">VIEW RANKINGS</a>
+        <a class="btn btn-full text-white bkg-darkgreen margin-vertical">VIEW RANKINGS</a>
     </section>
     {% if bowler_of_month is not None %}
     <section class="sec pv-bom">
@@ -42,7 +42,7 @@
         </div>
         <a class="pv-bom-name">{{ bowler_of_month.1 }}</a>
         <a class="pv-bom-location">{{ bowler_of_month.2 }}</a>
-        <a class="btn btn-full text-white bkg-darkgreen border-none" href="account/view/{{ bowler_of_month.0 }}">VISIT PROFILE</a>
+        <a class="btn btn-full text-white bkg-darkgreen margin-vertical" href="account/view/{{ bowler_of_month.0 }}">VISIT PROFILE</a>
       </section>
       {% endif %}
 
@@ -137,8 +137,8 @@
     {% if request.user is not None and request.user.admin == True %}
     <section class="sec">
         <h3 class="standard-title text-dark-green">ADMIN FUNCTIONS</h3>
-        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen">CREATE TOURNAMENT</a>
-        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen" style="margin-top:0;">VIEW DEEP STATS</a>
+        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreen margin-vertical">CREATE TOURNAMENT</a>
+        <a href="/tournaments/create" class="btn btn-full text-white bkg-lightgreenm margin-bottom" style="margin-top:0;">VIEW DEEP STATS</a>
     </section>
     {% endif %}
     <section class="sec sitestat">

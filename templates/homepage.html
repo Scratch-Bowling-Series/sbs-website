@@ -1,8 +1,9 @@
 {% extends 'base_layout.html' %}
 {% load static %}
+{% load basic-tags %}
 {% block content %}
-    {% load basic-tags %}
 
+{
 
     <script>
         $(document).ready(function () {
@@ -76,46 +77,8 @@
 
     <!-- Center Column : ( TopNotify, LivePrev, RecentPrev, DesktopGoal, DesktopAppPrev, LiveHighlights )-->
     <section class="col col-60 col-m-max-width m-order-1">
-        {% if notify or user.finish_profile == True %}
-            {% if notify == 'verify_email' %}
-                <section class="sec top-notify">
-                    <i class="icon-exclamation"></i>
-                    <h2>Welcome {{ request.user.first_name|none_replace:'John' }}! Please verify your email to finish
-                        setting up your account.</h2>
-                    <div class="btn-bar-right margin-bottom-20">
-                        <a class="btn">RESEND<span class="mobile-on">&nbsp;EMAIL</span></a>
-                    </div>
-                </section>
-            {% elif notify == 'verify_email_done' %}
-                <section class="sec top-notify">
-                    <i class="icon-exclamation"></i>
-                    <h2>Your email is now verified! Please take a moment to finish completing your profile.</h2>
-                    <div class="btn-bar-right margin-bottom-20">
-                        <a href="{% url 'accounts:modify' %}"
-                           class="btn btn-medium bkg-none text-darkgreen margin-right-10">NO THANKS</a>
-                        <a href="{% url 'accounts:modify' %}" class="btn btn-medium">UPDATE PROFILE</a>
-                    </div>
-                </section>
-            {% elif notify == 'verify_email_error' %}
-                <section class="sec top-notify">
-                    <i class="icon-exclamation"></i>
-                    <h2>That email verification link is invalid.</h2>
-                    <div class="btn-bar-right margin-bottom-20">
-                        <a class="btn">CONTACT SUPPORT</a>
-                    </div>
-                </section>
-            {% elif user.finish_profile == True %}
-                <section class="sec top-notify">
-                    <i class="icon-exclamation"></i>
-                    <h2>Please take a moment to update your profile information.</h2>
-                    <div class="btn-bar-right margin-bottom-20">
-                        <a href="{% url 'accounts:modify' %}"
-                           class="btn btn-medium bkg-none text-darkgreen margin-right-10">NO THANKS</a>
-                        <a href="{% url 'accounts:modify' %}" class="btn btn-medium">UPDATE PROFILE</a>
-                    </div>
-                </section>
-            {% endif %}
-        {% endif %}
+        {% basic_top_notify request %}
+
 
         <!-- Tournament Live Preview -->
         {% if tournament_live != None %}
@@ -144,27 +107,29 @@
                     <a class="title" href="tournaments/view/{{ tournament_recent.id }}">{{ tournament_recent.name }}</a>
                     <a class="date"
                        href="tournaments/view/{{ tournament.id }}">{{ tournament_recent.datetime|date:'m/d' }}
-                        - {{ tournament_recent.center.name }}</a>
+                        - {{ tournament_recent.center.name|none_replace:"Center Unknown" }}</a>
                     <a class="description text-darkgreen"
                        href="tournaments/view/{{ tournament_recent.id }}">{{ tournament_recent.description|none_replace:"This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set." }}</a>
                     <div class="stats">
-                            <div class="player"><a class="rank top-rank">1st</a><a class="name"
-                                                                                   href="/account/view/{{ tournament_recent.6.0.0 }}">{{ tournament_recent.6.0.1|safe }}</a>
+                            <div class="player">
+                                <a class="rank top-rank">1st</a>
+                                <a class="name" href="/account/view/{{ tournament_recent.6.0.0 }}">Dan McDonald</a>
                             </div>
-                            <div class="player"><a class="rank">2nd</a><a class="name"
-                                                                          href="/account/view/{{ tournament_recent.6.1.0 }}">{{ tournament_recent.6.1.1|safe }}</a>
+                            <div class="player">
+                                <a class="rank">2nd</a>
+                                <a class="name" href="/account/view/{{ tournament_recent.6.1.0 }}">Tyler Jackson</a>
                             </div>
-                            <div class="player"><a class="rank">3rd</a><a class="name"
-                                                                          href="/account/view/{{ tournament_recent.6.2.0 }}">{{ tournament_recent.6.2.1|safe }}</a>
+                            <div class="player">
+                                <a class="rank">3rd</a>
+                                <a class="name" href="/account/view/{{ tournament_recent.6.2.0 }}">Aaron Adams</a>
                             </div>
-                            {% if tournament_recent.6.3 %}
-                                <div class="player"><a class="rank">4th</a><a class="name"
-                                                                              href="/account/view/{{ tournament_recent.6.3.0 }}">{{ tournament_recent.6.3.1|safe }}</a>
-                                </div>
-                            {% endif %}
+                            <div class="player">
+                                <a class="rank">4th</a>
+                                <a class="name" href="/account/view/{{ tournament_recent.6.3.0 }}">Mike Johnson</a>
+                            </div>
                         </div>
                     <div class="btn-bar-right more margin-bottom ">
-                        <a class="btn btn-medium bkg-darkgreen text-white border-darkgreen"
+                        <a class="btn btn-medium bkg-darkgreen text-white"
                            href="tournaments/view/{{ tournament_recent.0 }}">VIEW INFO</a>
                     </div>
                 </section>
@@ -297,7 +262,7 @@
             <section class="sec sec-half app-prev">
                 <h2>OUR NEW MOBILE APP</h2>
                 <p>Try the BETA release of our app!<br>Now available on IOS and Android.</p>
-                <a class="btn bkg-darkgreen border-darkgreen text-white border-none">LEARN MORE</a>
+                <a class="btn bkg-darkgreen text-white">LEARN MORE</a>
                 <div class="app-prev-phone">
                     <span class="app-prev-phone-n1"><i></i> <span></span></span>
                     <span class="app-prev-phone-n2"><div></div></span>
@@ -305,26 +270,7 @@
                     <img src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
                 </div>
             </section>
-            <section class="sec">
-                <h2>LIVE STREAM HIGHLIGHTS</h2>
-                <div class="homepage-broadcast-clips-container">
-                    <div class="homepage-broadcast-clip">
-                        <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
-                        <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
-                        <h2>02/25 @ Thunderbowl Lanes</h2>
-                    </div>
-                    <div class="homepage-broadcast-clip">
-                        <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
-                        <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
-                        <h2>02/25 @ Thunderbowl Lanes</h2>
-                    </div>
-                    <div class="homepage-broadcast-clip">
-                        <img src="{% static 'img/stream-preview.png' %}" ref="Scratch Bowling Series">
-                        <h3>Crowd goes insane after bowler Dan Higgins shits his pants!</h3>
-                        <h2>02/25 @ Thunderbowl Lanes</h2>
-                    </div>
-                </div>
-            </section>
+            {% basic_stream_highlights %}
         </div>
     </section>
 
@@ -449,7 +395,7 @@
         <section class="sec sec-half app-prev">
             <h2>OUR NEW MOBILE APP</h2>
             <p>Try the BETA release of our app!<br>Now available on the app store.</p>
-            <a class="btn bkg-darkgreen border-darkgreen text-white border-darkgreen">VISIT APP STORE</a>
+            <a class="btn bkg-darkgreen text-white">VISIT APP STORE</a>
             <div class="app-prev-phone">
                 <span class="app-prev-phone-n1"><i></i> <span></span></span>
                 <span class="app-prev-phone-n2"><div></div></span>
@@ -468,7 +414,7 @@
                             <a class="detail">{{ clip.2 }} @ Center Unknown</a>
                         </div>
                     {% endfor %}
-                    <a class="btn btn-full text-white bkg-darkgreen border-darkgreen" href="#">MORE HIGHLIGHTS</a>
+                    <a class="btn btn-full text-white bkg-darkgreen" href="#">MORE HIGHLIGHTS</a>
                 </div>
             </section>
         {% endif %}

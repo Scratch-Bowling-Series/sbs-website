@@ -5,6 +5,7 @@ from django import template
 from django.contrib.auth import get_user_model
 from django.utils.safestring import mark_safe
 
+from ScratchBowling.sbs_utils import make_ordinal
 from scoreboard.models import Statistics
 from tournaments.models import Tournament
 
@@ -50,6 +51,14 @@ def badge(badge):
 
     return mark_safe(output_str)
 
+@register.filter()
+def space_before(value):
+    if value:
+        try:
+            return ' ' + str(value)
+        except:
+            return ''
+    return ''
 
 @register.inclusion_tag('snippets/basic/recentWinners.html')
 def basic_recent_winners():
@@ -69,6 +78,18 @@ def basic_recent_winners():
             data.user.id,
             data.user.first_name,
             data.user.last_name,
+        ])
+
+    ##TEMP PLACEHOLDER
+    users = User.objects.all().order_by('last_name')[200:205]
+    for x in range(1, 6):
+        datas.append([
+            1,
+            'data.tournament.name',
+            '12/1',
+            2,
+            users[x - 1].first_name,
+            users[x - 1].last_name,
         ])
     return {'datas': datas}
 
@@ -90,6 +111,18 @@ def basic_top_ranks():
             stat.user.rank_badge,
             stat.user.rank_ordinal,
         ])
+
+    ##TEMP PLACEHOLDER
+    users = User.objects.all().order_by('last_name')[200::10]
+    for x in range(1, 11):
+        datas.append([
+            users[x-1].first_name,
+            users[x-1].first_name,
+            users[x-1].last_name,
+            users[x-1].first_name,
+            make_ordinal(x),
+        ])
+
     return {'datas': datas}
 
 
@@ -101,6 +134,15 @@ def basic_bowler_of_month():
 
 @register.inclusion_tag('snippets/basic/upcomingTournaments.html')
 def basic_upcoming_tournaments():
-    tournaments = Tournament.get_upcoming(10)
+    tournaments = Tournament.get_upcoming(5)
     return {'tournaments': tournaments}
 
+
+@register.inclusion_tag('snippets/basic/topNotify.html')
+def basic_top_notify(request):
+    return {'user': request.user, 'notify': request.GET.get('notify', None)}
+
+@register.inclusion_tag('snippets/basic/streamHighlights.html')
+def basic_stream_highlights():
+    visible = True
+    return {'visible': True}
