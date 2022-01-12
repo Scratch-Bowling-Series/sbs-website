@@ -70,10 +70,11 @@
 
 
     <!-- Left Column : ( Last10Winners, Top10Rankings )-->
-    <section class="col col-20 col-m-max-width m-order-2">
+    <div class="col col-20 col-m-max-width m-order-2">
         {% basic_recent_winners %}
         {% basic_top_ranks %}
-    </section>
+        {% basic_goal_support %}
+    </div>
 
     <!-- Center Column : ( TopNotify, LivePrev, RecentPrev, DesktopGoal, DesktopAppPrev, LiveHighlights )-->
     <section class="col col-60 col-m-max-width m-order-1">
@@ -133,141 +134,26 @@
                            href="tournaments/view/{{ tournament_recent.0 }}">VIEW INFO</a>
                     </div>
                 </section>
+
             </section>
         {% endif %}
         <div class="col-desktop">
-            <section class="sec sec-half merch-prev sec-click" sec-click="{% url 'support:support' %}">
-                <h2>HELP HIT OUR NEXT GOAL</h2>
-                <div class="goal-prev">
-                    <div class="goal-prev-slide prev-goal-1">
-                        <div class="goal-prev-slide-bar">
-                            <div class="goal-prev-slide-bar-circle">
-                                <div class="goal-1-dot goal-prev-slide-bar-circle-inner">
-                                </div>
-                            </div>
-                            <div class="goal-1 goal-prev-slide-bar-inner top">
-                            </div>
-                        </div>
-                        <div class="goal-prev-slide-content">
-                            <a>$0</a>
-                            <h2>THE START</h2>
-                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
-                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
-                                Phillips </p>
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide prev-goal-2">
-                        <div class="goal-prev-slide-bar">
-                            <div class="goal-prev-slide-bar-circle">
-                                <div class="goal-2-dot goal-prev-slide-bar-circle-inner">
-                                </div>
-                            </div>
-                            <div class="goal-2 goal-prev-slide-bar-inner">
-                            </div>
-                        </div>
-                        <div class="goal-prev-slide-content">
-                            <a>$15,000</a>
-                            <h2>WEB DEVELOPMENT</h2>
-                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
-                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
-                                Phillips </p>
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide prev-goal-3" style="display:block;">
-                        <div class="goal-prev-slide-bar">
-                            <div class="goal-prev-slide-bar-circle">
-                                <div class="goal-3-dot goal-prev-slide-bar-circle-inner">
-                                </div>
-                            </div>
-                            <div class="goal-3 goal-prev-slide-bar-inner">
-                            </div>
-                        </div>
-                        <div class="goal-prev-slide-content">
-                            <a>$30,000</a>
-                            <h2>SOFTWARE DEVELOPMENT</h2>
-                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
-                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
-                                Phillips </p>
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide prev-goal-4">
-                        <div class="goal-prev-slide-bar">
-                            <div class="goal-prev-slide-bar-circle">
-                                <div class="goal-4-dot goal-prev-slide-bar-circle-inner">
-                                </div>
-                            </div>
-                            <div class="goal-4 goal-prev-slide-bar-inner ">
-                            </div>
-                        </div>
-                        <div class="goal-prev-slide-content">
-                            <a>$45,000</a>
-                            <h2>MOBILE APP</h2>
-                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
-                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
-                                Phillips </p>
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide prev-goal-5">
-                        <div class="goal-prev-slide-bar">
-                            <div class="goal-prev-slide-bar-circle">
-                                <div class="goal-5-dot goal-prev-slide-bar-circle-inner">
-                                </div>
-                            </div>
-                            <div class="goal-5 goal-prev-slide-bar-inner "></div>
-                        </div>
-                        <div class="goal-prev-slide-content">
-                            <a>$85,000</a>
-                            <h2>TRAVELING VAN</h2>
-                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
-                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
-                                Phillips </p>
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide prev-goal-6">
-                        <div class="goal-prev-slide-bar">
-                            <div class="goal-prev-slide-bar-circle">
-                                <div class="goal-6-dot goal-prev-slide-bar-circle-inner">
-                                </div>
-                            </div>
-                            <div class="goal-6 goal-prev-slide-bar-inner ">
-                            </div>
-                        </div>
-                        <div class="goal-prev-slide-content">
-                            <a>$120,000</a>
-                            <h2>BROADCAST EQUIPMENT</h2>
-                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
-                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
-                                Phillips </p>
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide prev-goal-7">
-                        <div class="goal-prev-slide-bar" style="height:20px;">
-                            <div class="goal-prev-slide-bar-circle">
-                                <div class="goal-7-dot goal-prev-slide-bar-circle-inner">
-                                </div>
-                            </div>
-                            <div class="goal-7 goal-prev-slide-bar-inner ">
-                            </div>
-                        </div>
-                        <div class="goal-prev-slide-content">
-                            <a>$200,000</a>
-                            <h2>PAYROLL</h2>
-                            <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started
-                                these bowling tournaments as a competitive bowler himself and with the help of Aaron
-                                Phillips </p>
-                        </div>
-                    </div>
+            <section class="sec play-steps bkg-darkgreen">
+                <div class="step">
+                    <i class="fa fa-amazon"></i>
+                    <a>STEP 1</a>
                 </div>
-            </section>
-            <section class="sec sec-half app-prev">
-                <h2>OUR NEW MOBILE APP</h2>
-                <p>Try the BETA release of our app!<br>Now available on IOS and Android.</p>
-                <a class="btn bkg-darkgreen text-white">LEARN MORE</a>
-                <div class="app-prev-phone">
-                    <span class="app-prev-phone-n1"><i></i> <span></span></span>
-                    <span class="app-prev-phone-n2"><div></div></span>
-                    <span class="app-prev-phone-n3"><div></div></span>
-                    <img src="{% static 'img/SBS_Logo.png' %}" ref="Scratch Bowling Series">
+                <div class="step">
+                    <i class="fa fa-amazon"></i>
+                    <a>STEP 2</a>
+                </div>
+                <div class="step">
+                    <i class="fa fa-amazon"></i>
+                    <a>STEP 3</a>
+                </div>
+                <div class="step">
+                    <i class="fa fa-amazon"></i>
+                    <a>STEP 4</a>
                 </div>
             </section>
             {% basic_stream_highlights %}
@@ -276,133 +162,8 @@
 
     <!-- Center Column Mobile : ( MobileGoal, MobileAppPrev, LiveHighlights ) -->
     <section class="col col-60 col-mobile col-m-max-width m-order-4">
-        <section class="sec sec-half merch-prev sec-click" sec-click="{% url 'support:support' %}">
-            <h2>HELP HIT OUR NEXT GOAL</h2>
-            <div class="goal-prev">
-                <div class="goal-prev-slide prev-goal-1">
-                    <div class="goal-prev-slide-bar">
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-1-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-1 goal-prev-slide-bar-inner top">
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$0</a>
-                        <h2>THE START</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
-                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-                <div class="goal-prev-slide prev-goal-2">
-                    <div class="goal-prev-slide-bar">
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-2-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-2 goal-prev-slide-bar-inner">
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$15,000</a>
-                        <h2>WEB DEVELOPMENT</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
-                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-                <div class="goal-prev-slide prev-goal-3" style="display:block;">
-                    <div class="goal-prev-slide-bar">
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-3-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-3 goal-prev-slide-bar-inner">
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$30,000</a>
-                        <h2>SOFTWARE DEVELOPMENT</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
-                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-                <div class="goal-prev-slide prev-goal-4">
-                    <div class="goal-prev-slide-bar">
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-4-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-4 goal-prev-slide-bar-inner ">
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$45,000</a>
-                        <h2>MOBILE APP</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
-                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-                <div class="goal-prev-slide prev-goal-5">
-                    <div class="goal-prev-slide-bar">
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-5-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-5 goal-prev-slide-bar-inner "></div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$85,000</a>
-                        <h2>TRAVELING VAN</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
-                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-                <div class="goal-prev-slide prev-goal-6">
-                    <div class="goal-prev-slide-bar">
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-6-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-6 goal-prev-slide-bar-inner ">
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$120,000</a>
-                        <h2>BROADCAST EQUIPMENT</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
-                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-                <div class="goal-prev-slide prev-goal-7">
-                    <div class="goal-prev-slide-bar" style="height:20px;">
-                        <div class="goal-prev-slide-bar-circle">
-                            <div class="goal-7-dot goal-prev-slide-bar-circle-inner">
-                            </div>
-                        </div>
-                        <div class="goal-7 goal-prev-slide-bar-inner ">
-                        </div>
-                    </div>
-                    <div class="goal-prev-slide-content">
-                        <a>$200,000</a>
-                        <h2>PAYROLL</h2>
-                        <p>SBS was born in 2012 as MSBS, the Michigan Scratch Bowling Series. Brian Regan started these
-                            bowling tournaments as a competitive bowler himself and with the help of Aaron Phillips </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="sec sec-half app-prev">
-            <h2>OUR NEW MOBILE APP</h2>
-            <p>Try the BETA release of our app!<br>Now available on the app store.</p>
-            <a class="btn bkg-darkgreen text-white">VISIT APP STORE</a>
-            <div class="app-prev-phone">
-                <span class="app-prev-phone-n1"><i></i> <span></span></span>
-                <span class="app-prev-phone-n2"><div></div></span>
-                <span class="app-prev-phone-n3"><div></div></span>
-                <img src="{% static 'img/SBS_Logo_Beta.png' %}" ref="Scratch Bowling Series">
-            </div>
-        </section>
+
+
         {% basic_stream_highlights %}
     </section>
 
@@ -410,6 +171,10 @@
     <section class="col col-20 col-m-max-width m-order-3">
         {% basic_upcoming_tournaments %}
         {% basic_bowler_of_month %}
+        {% basic_app_info %}
+
+
+
         <section class="sec sitestat">
             <div class="sitestat-half">
                 <a>ACTIVE BOWLERS</a>

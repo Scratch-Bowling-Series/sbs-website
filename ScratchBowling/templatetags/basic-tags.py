@@ -146,3 +146,13 @@ def basic_top_notify(request):
 def basic_stream_highlights():
     visible = True
     return {'visible': True}
+
+@register.inclusion_tag('snippets/basic/appInfo.html')
+def basic_app_info():
+    visible = True
+    return {'visible': True}
+
+@register.inclusion_tag('snippets/basic/goalSupport.html')
+def basic_goal_support():
+    visible = True
+    return {'visible': True}
