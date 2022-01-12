@@ -403,21 +403,7 @@
                 <img src="{% static 'img/SBS_Logo_Beta.png' %}" ref="Scratch Bowling Series">
             </div>
         </section>
-        {% if broadcast_clips %}
-            <section class="sec pv-live">
-                <h2>LIVE STREAM HIGHLIGHTS</h2>
-                <div class="pv-live-wrap">
-                    {% for clip in broadcast_clips %}
-                        <div class="pv-live-item" clipId="{{ clip.0 }}">
-                            <img src="{{ clip.4 }}" ref="'{{ clip.1 }}' clip thumbnail image.">
-                            <a class="title">{{ clip.1 }}</a>
-                            <a class="detail">{{ clip.2 }} @ Center Unknown</a>
-                        </div>
-                    {% endfor %}
-                    <a class="btn btn-full text-white bkg-darkgreen" href="#">MORE HIGHLIGHTS</a>
-                </div>
-            </section>
-        {% endif %}
+        {% basic_stream_highlights %}
     </section>
 
     <!-- Right Column : ( UpcomingTournaments, BowlerOfMonth, SiteStat )-->
