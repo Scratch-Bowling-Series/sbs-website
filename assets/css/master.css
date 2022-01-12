@@ -207,7 +207,20 @@ p {
   right: 20px;
   top: 20px;
 }
-
+@media (max-width: 600px) {
+  .stream-highlights {
+    padding-bottom: 45px;
+  }
+  .stream-highlights .wrap {
+    flex-direction: column;
+  }
+  .stream-highlights .btn {
+    top: auto;
+    bottom: 20px;
+    background: #214031;
+    color: #fff;
+  }
+}
 @media only screen and (max-width: 767px) {
   footer {
     width: 100%;

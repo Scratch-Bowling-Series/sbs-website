@@ -3,6 +3,10 @@
 
 
 $br:10px;
+
+$mobile-break:600px;
+$desktop-break:992px;
+
 $nav-logo-filter: invert(20%) sepia(19%) saturate(958%) hue-rotate(99deg) brightness(94%) contrast(90%);
 $footer-logo-filter: invert(99%) sepia(1%) saturate(2%) hue-rotate(307deg) brightness(110%) contrast(101%);
 
@@ -167,13 +171,6 @@ p {
 //</editor-fold>
 
 //<editor-fold desc="Snippets">
-.stream-highlights{
-
-
-}
-
-
-
 .stream-highlights {
   position: relative;
   text-align: left;
@@ -219,17 +216,30 @@ p {
         padding-left:5px;
       }
     }
-
-
-
   }
-
   .btn{
     position: absolute;
     right:20px;
     top:20px;
   }
+  @media(max-width: $mobile-break){
+    .wrap{
+      flex-direction: column;
+    }
+    .btn{
+      top:auto;
+      bottom:20px;
+      background: color.$darkgreen;
+      color: color.$white
+    }
+    padding-bottom:45px;
+    //MOBILE
+  }
+  @media(max-width: $desktop-break){
+    //TABLETS
+  }
 }
+
 //</editor-fold>
 
 
