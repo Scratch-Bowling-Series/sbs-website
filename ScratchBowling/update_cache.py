@@ -15,7 +15,7 @@ def update_all_cache():
     cache.set('bowler_of_month', User.objects.filter(is_bowler_of_month=True) or User.objects.all().first())
     cache.set('user_count', User.objects.all().count())
     cache.set('tournament_count', Tournament.objects.all().count())
-
+    cache.set('donation_count', 12500)
     cache.set('featured_tournament', Tournament.objects.all().first())
     cache.set('featured_series', Tournament.objects.all()[200:203])
     cache.set('featured_live', Tournament.objects.all().last())

@@ -399,15 +399,15 @@ class Tournament(models.Model):
     # TAGS
     def get_tags(self):
         tags = []
-        if 'Double' in self.tournament_name or 'double' in self.tournament_name:
+        if 'Double' in self.name or 'double' in self.name:
             tags.append(1)
-        if 'Sweep' in self.tournament_name or 'sweep' in self.tournament_name:
+        if 'Sweep' in self.name or 'sweep' in self.name:
             tags.append(2)
-        if 'Open' in self.tournament_name or 'open' in self.tournament_name:
+        if 'Open' in self.name or 'open' in self.name:
             tags.append(3)
-        if 'Challenge' in self.tournament_name or 'challenge' in self.tournament_name:
+        if 'Challenge' in self.name or 'challenge' in self.name:
             tags.append(4)
-        if 'Sprummer' in self.tournament_name or 'sprummer' in self.tournament_name:
+        if 'Sprummer' in self.name or 'sprummer' in self.name:
             tags.append(5)
         return tags
 
