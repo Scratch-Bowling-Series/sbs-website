@@ -43,12 +43,8 @@
       <!-- Master CSS -->
       <link rel="stylesheet" href="{% static 'css/master.css' %}">
 
-      <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
       <!--JQuery -->
       <script src="{% static 'js/jquery.min.js'%}"></script>
-      <script src="{% static 'js/footer-align.js' %}"></script>
-      <script src="{% static 'js/jquery.cookie.js' %}"></script>
-      <script src="{% static 'js/unavailablebuttons.js' %}"></script>
       <script type="text/javascript">
         window.CSRF_TOKEN = "{{ csrf_token }}";
         window.authenticated = {% if user.is_authenticated %}true{% else %}false{% endif %};

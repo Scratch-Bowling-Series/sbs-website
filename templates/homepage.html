@@ -105,6 +105,7 @@
             <section class="sec t-recent-prev">
                 <div class="image"><img class="preview" src="{{ tournament_recent.full_picture_url }}" alt="{{ tournament_recent.name }}"></div>
                 <section class="content">
+                    <a class="featured">FEATURED TOURNAMENT</a>
                     <a class="title" href="tournaments/view/{{ tournament_recent.id }}">{{ tournament_recent.name }}</a>
                     <a class="date"
                        href="tournaments/view/{{ tournament.id }}">{{ tournament_recent.datetime|date:'m/d' }}
@@ -138,25 +139,41 @@
             </section>
         {% endif %}
         <div class="col-desktop">
-            <section class="sec play-steps bkg-darkgreen">
+            <section class="sec play-steps">
                 <div class="step">
-                    <i class="fa fa-amazon"></i>
-                    <a>STEP 1</a>
+                    <i class="icon-user-alt"></i>
+                    <h3>CREATE AN ACCOUNT</h3>
+                    <p>Join over <span>32</span> active bowlers near <span>Flint, Michigan</span>!</p>
+                </div>
+                <div class="next">
+                    <i class="icon-arrow-right"></i>
                 </div>
                 <div class="step">
-                    <i class="fa fa-amazon"></i>
-                    <a>STEP 2</a>
+                    <i class="icon-user-plus"></i>
+                    <h3>JOIN A TOURNAMENT</h3>
+                    <p>Find a tournament near you and join the roster!</p>
+                </div>
+                <div class="next">
+                    <i class="icon-arrow-right"></i>
                 </div>
                 <div class="step">
-                    <i class="fa fa-amazon"></i>
-                    <a>STEP 3</a>
+                    <i class="icon-user-check"></i>
+                    <h3>CHECK IN ON ARRIVAL</h3>
+                    <p>Check in using the new <a href="#">Bowler Companion App</a>.</p>
+                </div>
+                <div class="next">
+                    <i class="icon-arrow-right"></i>
                 </div>
                 <div class="step">
-                    <i class="fa fa-amazon"></i>
-                    <a>STEP 4</a>
+                    <i class="icon-trophy text-tan"></i>
+                    <h3>PLAY & WIN</h3>
+                    <p>Play for huge prizes and track all your statistics!</p>
                 </div>
             </section>
             {% basic_stream_highlights %}
+            <section class="sec feed">
+                <h2>FEED</h2>
+            </section>
         </div>
     </section>
 
