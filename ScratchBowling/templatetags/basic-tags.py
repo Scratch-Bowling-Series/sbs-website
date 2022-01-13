@@ -156,3 +156,7 @@ def basic_app_info():
 def basic_goal_support():
     visible = True
     return {'visible': True}
+
+@register.inclusion_tag('snippets/basic/featuredTournament.html')
+def basic_featured_tournament():
+    return {'tournament': Tournament.recent_display()}

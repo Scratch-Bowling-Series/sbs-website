@@ -26,7 +26,6 @@ def index(request):
             }
     data = {
         'tournament_live': Tournament.featured_live(),
-        'tournament_recent': Tournament.recent_display(),
         'donation_count': Donation.get_total(),
         'broadcast_clips': Vod.recent_clips(5),
 
