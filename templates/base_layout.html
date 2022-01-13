@@ -203,7 +203,7 @@
                     </li>
                 </ul>
                 <div class="nav-account">
-                    <a href="/support" class="btn nav-account-donate bkg-tan text-darkgrey">DONATE</a>
+                    <a href="/broadcasts" class="btn nav-account-donate bkg-tan text-darkgrey">WATCH</a>
 
                     {% if search_type == 'tournaments_results' %}
                     <form class="nav-search" method="post" action="{% url 'tournaments:results' %}">
@@ -320,6 +320,39 @@
             xfbml:false  // Will stop the fb like button from rendering automatically
         });
     };</script>
+    </div>
+
+    <!-- App Available Notify -->
+    <div class="bottom-up">
+        <div class="inner">
+            <h2>CONTINUE TO SBS USING...</h2>
+            <div class="options">
+                <div class="option">
+                    <img src="{% static 'img/sbs_bowler_icon.png' %}" alt="">
+                    <div>
+                        <a class="name">SBS BOWLER</a>
+                        <p>Bowler Companion App</p>
+                    </div>
+                    <a class="btn">OPEN</a>
+                </div>
+                <div class="option">
+                    <img src="{% static 'img/sbs_mobile_icon.png' %}" alt="">
+                    <div>
+                        <a class="name">SBS MOBILE</a>
+                        <p>This website, in an app.</p>
+                    </div>
+                    <a class="btn">OPEN</a>
+                </div>
+                <div class="option">
+                    <img src="{% static 'img/chrome_icon.png' %}" alt="">
+                    <div>
+                        <a class="name">BROWSER</a>
+                        <p>Your current browser.</p>
+                    </div>
+                    <a class="btn">VIEW</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Messenger -->

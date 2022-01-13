@@ -1,4 +1,4 @@
-<section class="sec merch-prev sec-click" sec-click="{% url 'support:support' %}">
+<section class="sec goal-support">
     <h2>HELP HIT OUR NEXT GOAL</h2>
     <div class="goal-prev">
                 <div class="goal-prev-slide prev-goal-1">
@@ -113,4 +113,65 @@
                     </div>
                 </div>
             </div>
+    <script>
+        $(document).ready(function () {
+            $('.sec-click').click(function () {
+                var link = $(this).attr('sec-click');
+                window.location = link;
+            })
+            updateDonorBar({{ donation_count }});
+
+            function updateDonorBar(amount) {
+                console.log(amount);
+                var height = 110;
+                if (amount > 120000) {
+                    var mult = amount / 80000;
+                    $('.goal-7').css('height', height * mult + 'px');
+                    $('.goal-7-dot').addClass('off');
+                    HideSpecific('.prev-goal-7');
+                } else if (amount > 85000) {
+                    var mult = amount / 120000;
+                    $('.goal-6').css('height', height * mult + 'px');
+                    $('.goal-6-dot').addClass('off');
+                    HideSpecific('.prev-goal-6');
+                } else if (amount > 45000) {
+                    var mult = amount / 85000;
+                    console.log(mult);
+                    $('.goal-5').css('height', height * mult + 'px');
+                    $('.goal-5-dot').addClass('off');
+                    HideSpecific('.prev-goal-5');
+                } else if (amount > 30000) {
+                    var mult = amount / 45000;
+                    console.log(mult);
+                    $('.goal-4').css('height', height * mult + 'px');
+                    $('.goal-4-dot').addClass('off');
+                    HideSpecific('.prev-goal-4');
+                } else if (amount > 15000) {
+                    var mult = amount / 30000;
+                    console.log(mult);
+                    $('.goal-3').css('height', height * mult + 'px');
+                    $('.goal-3-dot').addClass('off');
+                    HideSpecific('.prev-goal-3');
+                } else if (amount > 0) {
+                    var mult = amount / 15000;
+                    console.log(mult);
+                    $('.goal-2').css('height', height * mult + 'px');
+                    $('.goal-2-dot').addClass('off');
+                    HideSpecific('.prev-goal-2');
+                }
+            }
+
+            function HideSpecific(goal) {
+                $('.prev-goal-1').css('display', 'none');
+                $('.prev-goal-2').css('display', 'none');
+                $('.prev-goal-3').css('display', 'none');
+                $('.prev-goal-4').css('display', 'none');
+                $('.prev-goal-5').css('display', 'none');
+                $('.prev-goal-6').css('display', 'none');
+                $('.prev-goal-7').css('display', 'none');
+                $(goal).css('display', 'block')
+            }
+        });
+    </script>
 </section>
+

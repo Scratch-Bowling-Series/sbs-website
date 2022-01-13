@@ -1,73 +1,9 @@
 {% extends 'base_layout.html' %}
+
 {% load static %}
 {% load basic-tags %}
+
 {% block content %}
-
-{
-
-    <script>
-        $(document).ready(function () {
-            $('.sec-click').click(function () {
-                var link = $(this).attr('sec-click');
-                window.location = link;
-            })
-
-
-            updateDonorBar({{ donation_count }});
-
-            function updateDonorBar(amount) {
-                console.log(amount);
-                var height = 110;
-                if (amount > 120000) {
-                    var mult = amount / 80000;
-                    $('.goal-7').css('height', height * mult + 'px');
-                    $('.goal-7-dot').addClass('off');
-                    HideSpecific('.prev-goal-7');
-                } else if (amount > 85000) {
-                    var mult = amount / 120000;
-                    $('.goal-6').css('height', height * mult + 'px');
-                    $('.goal-6-dot').addClass('off');
-                    HideSpecific('.prev-goal-6');
-                } else if (amount > 45000) {
-                    var mult = amount / 85000;
-                    console.log(mult);
-                    $('.goal-5').css('height', height * mult + 'px');
-                    $('.goal-5-dot').addClass('off');
-                    HideSpecific('.prev-goal-5');
-                } else if (amount > 30000) {
-                    var mult = amount / 45000;
-                    console.log(mult);
-                    $('.goal-4').css('height', height * mult + 'px');
-                    $('.goal-4-dot').addClass('off');
-                    HideSpecific('.prev-goal-4');
-                } else if (amount > 15000) {
-                    var mult = amount / 30000;
-                    console.log(mult);
-                    $('.goal-3').css('height', height * mult + 'px');
-                    $('.goal-3-dot').addClass('off');
-                    HideSpecific('.prev-goal-3');
-                } else if (amount > 0) {
-                    var mult = amount / 15000;
-                    console.log(mult);
-                    $('.goal-2').css('height', height * mult + 'px');
-                    $('.goal-2-dot').addClass('off');
-                    HideSpecific('.prev-goal-2');
-                }
-            }
-
-            function HideSpecific(goal) {
-                $('.prev-goal-1').css('display', 'none');
-                $('.prev-goal-2').css('display', 'none');
-                $('.prev-goal-3').css('display', 'none');
-                $('.prev-goal-4').css('display', 'none');
-                $('.prev-goal-5').css('display', 'none');
-                $('.prev-goal-6').css('display', 'none');
-                $('.prev-goal-7').css('display', 'none');
-                $(goal).css('display', 'block')
-            }
-        });
-    </script>
-
 
     <!-- Left Column : ( Last10Winners, Top10Rankings )-->
     <div class="col col-20 col-m-max-width m-order-2">
@@ -77,82 +13,16 @@
     </div>
 
     <!-- Center Column : ( TopNotify, LivePrev, RecentPrev, DesktopGoal, DesktopAppPrev, LiveHighlights )-->
-    <section class="col col-60 col-m-max-width m-order-1">
+    <section class="col col-60 col-m-max-width m-order-1" >
         {% basic_top_notify request %}
-
-
-        <!-- Tournament Live Preview -->
-        {% if tournament_live != None %}
-            <section class="sec live-prev glow">
-                <a class="live-prev-title">LIVE <span class="prefix"><i class="icon-circle"></i></span><span
-                        class="content desktop-on">{{ tournament_live.center.name }}<span
-                        class="location desktop-on">({{ tournament_live.center.location }})</span></span></a>
-                <span class="content mobile-on">{{ tournament_live.center.name }}<span
-                        class="location">({{ tournament_live.center.location }})</span></span>
-                <div class="live-prev-q2">
-                    <a data="https://scratchbowling.pythonanywhere.com/support/"
-                       class="share-page-direct btn btn-medium bkg-darkgreen text-white live-prev-watch-share"><i
-                            class="icon-share-alt"></i></a>
-                    <a class="btn btn-medium bkg-darkgreen text-white live-prev-watch">{% if tournament_live.stream %}
-                        WATCH NOW{% else %}LIVE SCORES{% endif %}</a>
-                </div>
-                <br>
-                <a class="live-prev-status std-hover">{{ tournament_live.status }}</a>
-                <a class="live-prev-leader std-hover">LEADER: {{ tournament_live.leader }}<span>{{ tournament_live.score }}</span></a>
-            </section>
-        {% endif %}
+        {% basic_featured_live %}
         {% basic_featured_tournament %}
-
-
-        <section class="sec featured-series">
-            <a class="featured">FEATURED SERIES</a>
-            <h2>SPRUMMER 2022</h2>
-        </section>
-        <div class="col-desktop">
-
-            <section class="sec play-steps">
-                <div class="step">
-                    <i class="icon-user-alt"></i>
-                    <h3>CREATE AN ACCOUNT</h3>
-                    <p>Join over <span>32</span> active bowlers near <span>Flint, Michigan</span>!</p>
-                </div>
-                <div class="next">
-                    <i class="icon-arrow-right"></i>
-                </div>
-                <div class="step">
-                    <i class="icon-user-plus"></i>
-                    <h3>JOIN A TOURNAMENT</h3>
-                    <p>Find a tournament near you and join the roster!</p>
-                </div>
-                <div class="next">
-                    <i class="icon-arrow-right"></i>
-                </div>
-                <div class="step">
-                    <i class="icon-user-check"></i>
-                    <h3>CHECK IN ON ARRIVAL</h3>
-                    <p>Check in using the new <a href="#">Bowler Companion App</a>.</p>
-                </div>
-                <div class="next">
-                    <i class="icon-arrow-right"></i>
-                </div>
-                <div class="step">
-                    <i class="icon-trophy text-tan"></i>
-                    <h3>PLAY & WIN</h3>
-                    <p>Play for huge prizes and track all your statistics!</p>
-                </div>
-            </section>
-            {% basic_stream_highlights %}
-            <section class="sec feed">
-                <h2>FEED</h2>
-            </section>
-        </div>
-    </section>
-
-    <!-- Center Column Mobile : ( MobileGoal, MobileAppPrev, LiveHighlights ) -->
-    <section class="col col-60 col-mobile col-m-max-width m-order-4">
-
-
+        {% basic_featured_series %}
+        {% basic_play_steps %}
         {% basic_stream_highlights %}
+        <section class="sec feed">
+            <h2>FEED</h2>
+        </section>
     </section>
 
     <!-- Right Column : ( UpcomingTournaments, BowlerOfMonth, SiteStat )-->
@@ -160,19 +30,7 @@
         {% basic_upcoming_tournaments %}
         {% basic_bowler_of_month %}
         {% basic_app_info %}
-
-
-
-        <section class="sec sitestat">
-            <div class="sitestat-half">
-                <a>ACTIVE BOWLERS</a>
-                <h2>{% if users_count is None %}0{% else %}{{ users_count }}{% endif %}</h2>
-            </div>
-            <div class="sitestat-half">
-                <a>TOURNAMENTS</a>
-                <h2>{% if tournaments_count is None %}0{% else %}{{ tournaments_count }}{% endif %}</h2>
-            </div>
-        </section>
+        {% basic_site_stats %}
     </section>
 
 {% endblock %}

@@ -144,19 +144,35 @@ def basic_top_notify(request):
 
 @register.inclusion_tag('snippets/basic/streamHighlights.html')
 def basic_stream_highlights():
-    visible = True
     return {'visible': True}
 
 @register.inclusion_tag('snippets/basic/appInfo.html')
 def basic_app_info():
-    visible = True
     return {'visible': True}
 
 @register.inclusion_tag('snippets/basic/goalSupport.html')
 def basic_goal_support():
-    visible = True
-    return {'visible': True}
+    return {'donation_count': 12500}
 
 @register.inclusion_tag('snippets/basic/featuredTournament.html')
 def basic_featured_tournament():
     return {'tournament': Tournament.recent_display()}
+
+@register.inclusion_tag('snippets/basic/featuredSeries.html')
+def basic_featured_series():
+    return {'tournaments': Tournament.objects.filter(name__contains='SPRUMMER')[20:23]}
+
+@register.inclusion_tag('snippets/basic/featuredLive.html')
+def basic_featured_live():
+    return {'tournament': Tournament.objects.all()[200:201]}
+
+@register.inclusion_tag('snippets/basic/playSteps.html')
+def basic_play_steps():
+    return {'visible': True}
+
+@register.inclusion_tag('snippets/basic/siteStat.html')
+def basic_site_stats():
+    return {'sitestats': [
+        {'title': 'Active Users', 'count': 2000},
+        {'title': 'Tournaments', 'count': 2000}
+    ]}

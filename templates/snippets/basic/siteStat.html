@@ -1,0 +1,8 @@
+<section class="sec site-stat">
+    {% for stat in sitestats %}
+        <div>
+            <a>{{ stat.title }}</a>
+            <h2>{{ stat.count }}</h2>
+        </div>
+    {% endfor %}
+</section>
