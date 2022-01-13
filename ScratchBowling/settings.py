@@ -166,6 +166,13 @@ AWS_SES_REGION_NAME = 'us-east-2'
 AWS_SES_REGION_ENDPOINT = 'email.us-east-2.amazonaws.com'
 
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': 'C:/cache',
+    }
+}
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
