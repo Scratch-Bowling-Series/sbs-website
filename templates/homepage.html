@@ -101,44 +101,15 @@
                 <a class="live-prev-leader std-hover">LEADER: {{ tournament_live.leader }}<span>{{ tournament_live.score }}</span></a>
             </section>
         {% endif %}
-        {% if tournament_recent %}
-            <section class="sec t-recent-prev">
-                <div class="image"><img class="preview" src="{{ tournament_recent.full_picture_url }}" alt="{{ tournament_recent.name }}"></div>
-                <section class="content">
-                    <a class="featured">FEATURED TOURNAMENT</a>
-                    <a class="title" href="tournaments/view/{{ tournament_recent.id }}">{{ tournament_recent.name }}</a>
-                    <a class="date"
-                       href="tournaments/view/{{ tournament.id }}">{{ tournament_recent.datetime|date:'m/d' }}
-                        - {{ tournament_recent.center.name|none_replace:"Center Unknown" }}</a>
-                    <a class="description text-darkgreen"
-                       href="tournaments/view/{{ tournament_recent.id }}">{{ tournament_recent.description|none_replace:"This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set." }}</a>
-                    <div class="stats">
-                            <div class="player">
-                                <a class="rank top-rank">1st</a>
-                                <a class="name" href="/account/view/{{ tournament_recent.6.0.0 }}">Dan McDonald</a>
-                            </div>
-                            <div class="player">
-                                <a class="rank">2nd</a>
-                                <a class="name" href="/account/view/{{ tournament_recent.6.1.0 }}">Tyler Jackson</a>
-                            </div>
-                            <div class="player">
-                                <a class="rank">3rd</a>
-                                <a class="name" href="/account/view/{{ tournament_recent.6.2.0 }}">Aaron Adams</a>
-                            </div>
-                            <div class="player">
-                                <a class="rank">4th</a>
-                                <a class="name" href="/account/view/{{ tournament_recent.6.3.0 }}">Mike Johnson</a>
-                            </div>
-                        </div>
-                    <div class="btn-bar-right more margin-bottom ">
-                        <a class="btn btn-medium bkg-darkgreen text-white"
-                           href="tournaments/view/{{ tournament_recent.0 }}">VIEW INFO</a>
-                    </div>
-                </section>
+        {% basic_featured_tournament %}
 
-            </section>
-        {% endif %}
+
+        <section class="sec featured-series">
+            <a class="featured">FEATURED SERIES</a>
+            <h2>SPRUMMER 2022</h2>
+        </section>
         <div class="col-desktop">
+
             <section class="sec play-steps">
                 <div class="step">
                     <i class="icon-user-alt"></i>

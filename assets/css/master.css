@@ -221,6 +221,149 @@ p {
     color: #fff;
   }
 }
+.featured-tournament .image {
+  width: 60%;
+  position: relative;
+  display: inline-block;
+}
+.featured-tournament .image .preview {
+  width: 100%;
+  height: auto !important;
+}
+.featured-tournament .image .watermark {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 15%;
+  padding: 10px;
+  opacity: 0.5;
+}
+.featured-tournament .content {
+  display: inline-block;
+  width: 40%;
+  text-align: left;
+  vertical-align: top;
+}
+.featured-tournament .content .featured {
+  font-size: 14px;
+  display: block;
+  padding: 20px 20px 0px 20px;
+  color: grey;
+}
+.featured-tournament .content .title {
+  font-size: 24px;
+  display: block;
+  padding: 10px 20px 5px 22px;
+}
+.featured-tournament .content .date {
+  display: block;
+  padding: 0 22px;
+  font-size: 16px;
+  color: grey;
+  font-family: tt_octosquares_condensedMd;
+}
+.featured-tournament .content .description {
+  display: block;
+  font-size: 16px;
+  padding: 10px 35px 20px 25px;
+  line-height: 18px;
+  font-family: tt_octosquares_condensedMd;
+}
+.featured-tournament .content .stats {
+  width: 100%;
+  display: block;
+  padding-left: 10px;
+}
+.featured-tournament .content .stats .player {
+  width: 100%;
+  height: 35px;
+  margin-bottom: 5px;
+  padding: 0 20px;
+}
+.featured-tournament .content .stats .player .name {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 0 10px;
+}
+.featured-tournament .content .stats .player .name span {
+  color: #214031;
+}
+.featured-tournament .content .stats .player .rank {
+  display: inline-block;
+  border-radius: 8px;
+  border: solid 1px #214031;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 2px;
+  font-size: 14px;
+  min-width: 30px;
+  text-align: center;
+}
+.featured-tournament .content .stats .player .top-rank {
+  border-color: #d9af62;
+  color: #d9af62;
+}
+.featured-tournament .content .stats .player:hover .name {
+  text-decoration: underline;
+}
+.featured-tournament .content .more {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: white;
+  font-family: tt_octosquares_condensedbold;
+  display: inline-block;
+}
+@media (max-width: 600px) {
+  .featured-tournament .image {
+    width: 100%;
+    position: relative;
+    display: block;
+  }
+  .featured-tournament .image .preview {
+    width: 100%;
+    height: auto !important;
+  }
+  .featured-tournament .image .watermark {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 15%;
+    padding: 10px;
+    opacity: 0.5;
+  }
+  .featured-tournament .content {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+  .featured-tournament .lower-btns {
+    width: calc(100% - 40px);
+    height: auto;
+    margin: 0 20px;
+    text-align: right;
+  }
+  .featured-tournament .stats {
+    padding-bottom: 15.5px;
+  }
+}
+.featured-series {
+  text-align: left;
+}
+.featured-series .featured {
+  text-align: left;
+  font-size: 14px;
+  display: block;
+  padding: 20px 20px 0px 20px;
+  color: grey;
+}
+.featured-series h2 {
+  display: block;
+  padding: 10px 20px 5px 22px;
+  text-align: left;
+}
+
 @media only screen and (max-width: 767px) {
   footer {
     width: 100%;
@@ -252,16 +395,6 @@ p {
     font-size: 12px;
     display: inline-block;
     padding: 0 5px 20px 5px;
-  }
-
-  nav {
-    font-size: 0;
-    width: 100%;
-    height: 65px;
-    margin: 0;
-    position: relative;
-    background-color: #214031;
-    z-index: 3000;
   }
 }
 @media only screen and (min-width: 1700px) {
@@ -374,7 +507,7 @@ nav #nav-inner .nav-buttons .nav-btn {
   position: relative;
   text-align: center;
 }
-nav #nav-inner .nav-buttons .nav-btn.mobile-on {
+nav #nav-inner .nav-buttons .nav-btn.mobile-nav {
   display: none;
 }
 nav #nav-inner .nav-buttons .nav-btn a {
@@ -578,12 +711,14 @@ nav #nav-inner .nav-btn-underline {
     position: relative;
     background-color: #214031;
     z-index: 3000;
+  }
+  nav #nav-inner {
     /* NAV LOGO */
     /* NAV BUTTONS */
     /* MOBILE NAV */
     /* NAV ACCOUNT */
   }
-  nav .nav-logo {
+  nav #nav-inner .nav-logo {
     padding: 0 15px 0 40px;
     margin-left: -15px;
     display: inline-block;
@@ -592,7 +727,7 @@ nav #nav-inner .nav-btn-underline {
     vertical-align: top;
     overflow: hidden;
   }
-  nav .nav-logo .nav-logo-wrap {
+  nav #nav-inner .nav-logo .nav-logo-wrap {
     box-sizing: content-box;
     display: inline-block;
     height: 65px;
@@ -600,32 +735,32 @@ nav #nav-inner .nav-btn-underline {
     text-align: center;
     background-color: #fff;
   }
-  nav .nav-logo img {
+  nav #nav-inner .nav-logo img {
     height: 50px;
     width: auto !important;
     padding: 8px 0 15px 0;
     filter: invert(20%) sepia(19%) saturate(958%) hue-rotate(99deg) brightness(94%) contrast(90%);
   }
-  nav .nav-logo .nav-logo-f {
+  nav #nav-inner .nav-logo .nav-logo-f {
     width: 18px;
     height: 85px;
     margin-top: -10px;
     display: inline-block;
     vertical-align: top;
   }
-  nav .nav-logo .nav-logo-f1 {
+  nav #nav-inner .nav-logo .nav-logo-f1 {
     background-color: #d9af62;
     transform: rotate(20deg);
   }
-  nav .nav-logo .nav-logo-f2 {
+  nav #nav-inner .nav-logo .nav-logo-f2 {
     background-color: #d6d6d6;
     transform: rotate(20deg);
   }
-  nav .nav-logo .nav-logo-f3 {
+  nav #nav-inner .nav-logo .nav-logo-f3 {
     background-color: #fff;
     transform: rotate(20deg);
   }
-  nav .nav-buttons {
+  nav #nav-inner .nav-buttons {
     height: auto;
     width: 100%;
     margin: 130px 0 20px 0;
@@ -638,7 +773,10 @@ nav #nav-inner .nav-btn-underline {
     justify-content: center;
     align-content: center;
   }
-  nav .nav-buttons .nav-btn {
+  nav #nav-inner .nav-buttons .hidden {
+    display: block;
+  }
+  nav #nav-inner .nav-buttons .nav-btn {
     display: block;
     width: calc(100% - 60px);
     height: auto;
@@ -648,7 +786,7 @@ nav #nav-inner .nav-btn-underline {
     text-align: center;
     border-bottom: solid 1px #e8e8e8;
   }
-  nav .nav-buttons .nav-btn a {
+  nav #nav-inner .nav-buttons .nav-btn a {
     display: inline-block;
     font-size: 18px;
     line-height: 18px;
@@ -658,10 +796,10 @@ nav #nav-inner .nav-btn-underline {
     width: auto;
     color: #214031;
   }
-  nav .nav-buttons .nav-btn a:hover, nav .nav-buttons .nav-btn a:focus {
+  nav #nav-inner .nav-buttons .nav-btn a:hover, nav #nav-inner .nav-buttons .nav-btn a:focus {
     opacity: 0.5;
   }
-  nav .nav-buttons .nav-btn .nav-btn-underline {
+  nav #nav-inner .nav-buttons .nav-btn .nav-btn-underline {
     position: absolute;
     bottom: 10px;
     width: calc(100% - 16px);
@@ -671,13 +809,16 @@ nav #nav-inner .nav-btn-underline {
     background: #214031;
     display: none;
   }
-  nav .nav-buttons .nav-btn .nav-btn-underline.active {
+  nav #nav-inner .nav-buttons .nav-btn .nav-btn-underline.active {
     display: block;
   }
-  nav .nav-buttons .nav-btn.last {
+  nav #nav-inner .nav-buttons .nav-btn.mobile-nav {
+    display: block;
+  }
+  nav #nav-inner .nav-buttons .nav-btn.last {
     border: none;
   }
-  nav .nav-buttons .nav-btn-beta {
+  nav #nav-inner .nav-buttons .nav-btn-beta {
     display: block;
     width: calc(100% - 60px);
     height: auto;
@@ -686,29 +827,26 @@ nav #nav-inner .nav-btn-underline {
     position: relative;
     text-align: center;
   }
-  nav .nav-buttons .nav-btn-beta a {
+  nav #nav-inner .nav-buttons .nav-btn-beta a {
     font-size: 12px;
     display: block;
     color: grey;
   }
-  nav .nav-buttons .nav-btn-drop {
+  nav #nav-inner .nav-buttons .nav-btn-drop {
     vertical-align: top;
     height: 65px;
     display: none;
     overflow: hidden;
     margin-left: 10px;
   }
-  nav .nav-buttons .nav-btn-drop i {
+  nav #nav-inner .nav-buttons .nav-btn-drop i {
     display: inline-block;
     color: #fff;
     font-size: 5px;
     line-height: 5px;
     padding: 30px 2px;
   }
-  nav .nav-buttons .hidden {
-    display: none;
-  }
-  nav .nav-drop-button {
+  nav #nav-inner .nav-drop-button {
     position: absolute;
     right: 0;
     top: 0;
@@ -717,156 +855,9 @@ nav #nav-inner .nav-btn-underline {
     height: 65px;
     width: 65px;
     display: inline-block;
+    opacity: 1;
   }
-  nav .nav-drop-button i {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    left: 15px;
-    bottom: 15px;
-    display: block;
-    color: #fff;
-    font-size: 35px;
-  }
-  nav #close-btn-mobile-nav {
-    display: none;
-  }
-  nav #drop-btn-mobile-nav {
-    display: block;
-  }
-  nav .nav-account {
-    position: absolute;
-    top: 0px;
-    right: 0;
-    left: 0;
-    padding-top: 10px;
-    overflow: hidden;
-    background-color: #fff;
-    text-align: center;
-    display: inline-block;
-    height: 130px;
-    vertical-align: top;
-    width: auto;
-    z-index: 2001;
-    justify-content: center;
-    align-content: center;
-  }
-  nav .nav-account a {
-    clear: both;
-    margin: 12.5px 10px;
-  }
-  nav .nav-account .login {
-    border-color: #214031;
-    color: #214031;
-  }
-  nav .nav-account .signup {
-    background-color: #214031;
-    color: #fff;
-    border-color: #214031;
-  }
-  nav .nav-account .myaccount {
-    color: #214031;
-    border-color: #214031;
-  }
-  nav .nav-account-photo {
-    display: inline-block;
-    height: 40px;
-    width: 40px;
-    border-radius: 20px;
-    overflow: hidden;
-  }
-  nav .nav-account-photo img {
-    height: 40px;
-    width: 40px;
-  }
-  nav .nav-search {
-    height: 65px;
-    margin: 0 0 0 0;
-    display: inline-block;
-    vertical-align: top;
-    overflow: hidden;
-    width: auto;
-    min-width: 350px;
-    position: absolute;
-    top: 65px;
-    right: 20px;
-    left: 20px;
-  }
-  nav .nav-search input[type=text] {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    appearance: none;
-    border: none;
-    -webkit-appearance: none;
-    height: 40px;
-    margin: 12.5px 0;
-    width: 70%;
-    display: inline-block;
-    border-radius: 20px 0 0 20px;
-    vertical-align: top;
-    background-color: #fff;
-    text-align: left;
-    font-size: 14px;
-    line-height: 20px;
-    padding-top: 4px;
-    padding-left: 20px;
-    border: solid 3px #214031;
-    border-right: transparent;
-    border-right: none;
-  }
-  nav .nav-search input[type=text]::-webkit-input-placeholder, nav .nav-search input[type=text]::placeholder {
-    color: grey;
-    font-size: 14px;
-    display: block;
-    line-height: 20px;
-    vertical-align: top;
-    font-family: tt_octosquares_condensedMd;
-  }
-  nav .nav-search input[type=text]:focus {
-    appearance: none;
-    outline: none;
-  }
-  nav .nav-search input[type=submit] {
-    font-size: 16px;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    appearance: none;
-    border: none;
-    -webkit-appearance: none;
-    height: 40px;
-    width: 30%;
-    margin: 12.5px 0;
-    display: inline-block;
-    border-radius: 0 20px 20px 0;
-    box-sizing: border-box;
-    color: #214031;
-    overflow: hidden;
-    vertical-align: top;
-    padding: 9px 10px 12px 8px;
-    background-color: #fff;
-    line-height: 16px;
-    border: solid 3px #214031;
-    border-left: none;
-    font-family: tt_octosquares_condensedbold;
-  }
-  nav .nav-scroll {
-    display: none;
-    position: absolute;
-    top: 65px;
-    height: auto;
-    max-height: 0px;
-    right: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    transition: height linear 0.3s, border-color linear 0.3s, box-shadow linear 0.3s;
-    overflow: hidden;
-    background-color: #fff;
-    border-bottom: solid 2px white;
-    border-top: solid 2px white;
-    box-shadow: 0 20px 10px transparent;
-  }
-  nav #nav-icon3 {
+  nav #nav-inner .nav-drop-button #nav-icon3 {
     position: absolute;
     top: 0;
     right: 0;
@@ -884,7 +875,7 @@ nav #nav-inner .nav-btn-underline {
     transition: 0.5s ease-in-out;
     cursor: pointer;
   }
-  nav #nav-icon3 span {
+  nav #nav-inner .nav-drop-button #nav-icon3 span {
     display: block;
     position: absolute;
     height: 7px;
@@ -902,37 +893,133 @@ nav #nav-inner .nav-btn-underline {
     -o-transition: 0.25s ease-in-out;
     transition: 0.25s ease-in-out;
   }
-  nav #nav-icon3 span:nth-child(1) {
+  nav #nav-inner .nav-drop-button #nav-icon3 span:nth-child(1) {
     top: 0px;
   }
-  nav #nav-icon3 span:nth-child(2),
-nav #nav-icon3 span:nth-child(3) {
+  nav #nav-inner .nav-drop-button #nav-icon3 span:nth-child(2),
+nav #nav-inner .nav-drop-button #nav-icon3 span:nth-child(3) {
     top: 14px;
   }
-  nav #nav-icon3 span:nth-child(4) {
+  nav #nav-inner .nav-drop-button #nav-icon3 span:nth-child(4) {
     top: 28px;
   }
-  nav #nav-icon3.open span:nth-child(1) {
+  nav #nav-inner .nav-drop-button #nav-icon3.open span:nth-child(1) {
     top: 14px;
     width: 0%;
     left: 50%;
   }
-  nav #nav-icon3.open span:nth-child(2) {
+  nav #nav-inner .nav-drop-button #nav-icon3.open span:nth-child(2) {
     -webkit-transform: rotate(45deg);
     -moz-transform: rotate(45deg);
     -o-transform: rotate(45deg);
     transform: rotate(45deg);
   }
-  nav #nav-icon3.open span:nth-child(3) {
+  nav #nav-inner .nav-drop-button #nav-icon3.open span:nth-child(3) {
     -webkit-transform: rotate(-45deg);
     -moz-transform: rotate(-45deg);
     -o-transform: rotate(-45deg);
     transform: rotate(-45deg);
   }
-  nav #nav-icon3.open span:nth-child(4) {
+  nav #nav-inner .nav-drop-button #nav-icon3.open span:nth-child(4) {
     top: 14px;
     width: 0%;
     left: 50%;
+  }
+  nav #nav-inner .nav-account {
+    position: absolute;
+    top: 0px;
+    right: 0;
+    left: 0;
+    padding-top: 10px;
+    overflow: hidden;
+    background-color: #fff;
+    text-align: center;
+    display: inline-block;
+    height: 130px;
+    vertical-align: top;
+    width: auto;
+    z-index: 2001;
+    justify-content: center;
+    align-content: center;
+  }
+  nav #nav-inner .nav-account a {
+    clear: both;
+    margin: 12.5px 10px;
+  }
+  nav #nav-inner .nav-account .login {
+    border-color: #214031;
+    color: #214031;
+  }
+  nav #nav-inner .nav-account .signup {
+    background-color: #214031;
+    color: #fff;
+    border-color: #214031;
+  }
+  nav #nav-inner .nav-account .myaccount {
+    color: #214031;
+    border-color: #214031;
+  }
+  nav #nav-inner .nav-account .nav-account-photo {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  nav #nav-inner .nav-account .nav-account-photo img {
+    height: 40px;
+    width: 40px;
+  }
+  nav #nav-inner .nav-account .nav-search {
+    height: 65px;
+    margin: 0 0 0 0;
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+    width: auto;
+    min-width: 350px;
+    position: absolute;
+    top: 65px;
+    right: 20px;
+    left: 20px;
+  }
+  nav #nav-inner .nav-account .nav-search input[type=text] {
+    border: solid 2px #214031;
+    border-right: none;
+  }
+  nav #nav-inner .nav-account .nav-search input[type=text]::-webkit-input-placeholder, nav #nav-inner .nav-account .nav-search input[type=text]::placeholder {
+    color: grey;
+    font-size: 14px;
+    display: block;
+    line-height: 20px;
+    vertical-align: top;
+    font-family: tt_octosquares_condensedMd;
+  }
+  nav #nav-inner .nav-account .nav-search input[type=text]:focus {
+    appearance: none;
+    outline: none;
+  }
+  nav #nav-inner .nav-account .nav-search input[type=submit] {
+    border: solid 2px #214031;
+    border-left: none;
+    color: #214031;
+  }
+  nav #nav-inner .nav-scroll {
+    display: none;
+    position: absolute;
+    top: 65px;
+    height: auto;
+    max-height: 0px;
+    right: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: height linear 0.3s, border-color linear 0.3s, box-shadow linear 0.3s;
+    overflow: hidden;
+    background-color: #fff;
+    border-bottom: solid 2px white;
+    border-top: solid 2px white;
+    box-shadow: 0 20px 10px transparent;
   }
 }
 .play-steps {
@@ -991,104 +1078,6 @@ nav #nav-icon3 span:nth-child(3) {
 
 .feed h2 {
   text-align: left;
-}
-
-/*****************************
-  HOMEPAGE - RECENT PREV.
-*****************************/
-.t-recent-prev .image {
-  width: 60%;
-  position: relative;
-  display: inline-block;
-}
-.t-recent-prev .image .preview {
-  width: 100%;
-  height: auto !important;
-}
-.t-recent-prev .image .watermark {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 15%;
-  padding: 10px;
-  opacity: 0.5;
-}
-
-.t-recent-prev .content {
-  display: inline-block;
-  width: 40%;
-  text-align: left;
-  vertical-align: top;
-}
-.t-recent-prev .content .featured {
-  font-size: 14px;
-  display: block;
-  padding: 20px 20px 5px 20px;
-  color: grey;
-}
-.t-recent-prev .content .title {
-  font-size: 24px;
-  display: block;
-  padding: 10px 20px 5px 20px;
-}
-.t-recent-prev .content .date {
-  display: block;
-  padding-left: 20px;
-  font-size: 16px;
-  color: grey;
-  font-family: tt_octosquares_condensedMd;
-}
-.t-recent-prev .content .description {
-  display: block;
-  font-size: 16px;
-  padding: 10px 20px 20px 20px;
-  line-height: 18px;
-}
-.t-recent-prev .content .more {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  color: white;
-  font-family: tt_octosquares_condensedbold;
-  display: inline-block;
-}
-
-.t-recent-prev .stats {
-  width: 100%;
-  display: block;
-  padding-left: 10px;
-}
-.t-recent-prev .stats .player {
-  width: 100%;
-  height: 35px;
-  margin-bottom: 5px;
-  padding: 0 20px;
-}
-.t-recent-prev .stats .player .name {
-  font-size: 16px;
-  line-height: 16px;
-  padding: 0 10px;
-}
-.t-recent-prev .stats .player .name span {
-  color: #214031;
-}
-.t-recent-prev .stats .player .rank {
-  display: inline-block;
-  border-radius: 10px;
-  border: solid 2px #214031;
-  height: 20px;
-  line-height: 22px;
-  padding: 0 2px;
-  font-size: 16px;
-  min-width: 30px;
-  text-align: center;
-}
-.t-recent-prev .stats .player .top-rank {
-  border-color: #d9af62;
-  color: #d9af62;
-}
-.t-recent-prev .stats .player:hover .name {
-  text-decoration: underline;
 }
 
 .text-white {
