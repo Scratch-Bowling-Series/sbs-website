@@ -232,7 +232,40 @@ class User(AbstractBaseUser):
             return update_user_with_soup(self, soup)
         return False
     # </editor-fold>
+    # <editor-fold desc="Specific Serializations (For efficient caching)">
+    @classmethod
+    def ss_bowler_of_month(cls):
+        user = cls.get_bowler_of_month()
+        if user:
+            statistics = user.statistics
+            if statistics:
+                statistics = {
+                    'season': [
+                        statistics.year_avg_score,
+                        statistics.year_total_games,
+                        statistics.year_total_wins,
+                    ],
+                    'career': [
+                        statistics.avg_score,
+                        statistics.total_games,
+                        statistics.wins,
+                    ]
+                }
+            else:
+                statistics = None
+            return {
+                'id' : user.id,
+                'name' : user.full_name,
+                'picture' : user.picture,
+                'location' : user.short_location,
+                'statistics': statistics
+            }
+        return None
 
+
+
+
+    # </editor-fold>
 
     @property
     def full_name(self):
@@ -517,6 +550,7 @@ class User(AbstractBaseUser):
     @classmethod
     def active_user_count(cls):
         return cls.objects.filter(is_active=True).count()
+    # </editor-fold>
 
 
 
