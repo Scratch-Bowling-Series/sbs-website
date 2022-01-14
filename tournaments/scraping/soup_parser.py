@@ -13,6 +13,8 @@ def update_tournament_with_soup(tournament, soup):
     name = get_name(soup)
     if name:
         tournament.name = name
+    else:
+        return False
 
     date_time = get_datetime(soup)
     if date_time:
