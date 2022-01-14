@@ -1,5 +1,6 @@
 import io
 import os
+import re
 import uuid
 from datetime import datetime
 from time import time
@@ -13,6 +14,7 @@ from django.contrib.auth import get_user_model
 from django.db import models, transaction
 from django.db.models import Q
 from django.utils import timezone
+from pyparsing import unicode
 
 from ScratchBowling import settings
 from ScratchBowling.sbs_utils import is_valid_uuid
@@ -31,8 +33,8 @@ class Tournament(models.Model):
 
     scoring_data_id = models.UUIDField(editable=True, blank=True, null=True)
     center = models.ForeignKey('centers.Center', blank=True, on_delete=models.SET_NULL, null=True, related_name='tournaments')
+    oil_pattern = models.ForeignKey('oils.Oil_Pattern', blank=True, on_delete=models.SET_NULL, null=True, related_name='tournaments')
     format_id = models.UUIDField(editable=True, unique=True, blank=True, null=True)
-    oil_patterns = models.ManyToManyField('oils.Oil_Pattern', blank=True, related_name='tournaments')
     vod_id = models.UUIDField(editable=True, unique=False, null=True, blank=True)
 
     name = models.CharField(max_length=100)
@@ -108,6 +110,8 @@ class Tournament(models.Model):
         count = 0
         for soup_url in soup_urls:
             tournament = cls.objects.filter(soup_url=soup_url).first()
+            if 'upcoming-tournaments' not in soup_url:
+                tournament.finished = True
             if tournament:
                 continue
             tournament = cls(soup_url=soup_url, scraped=True)
@@ -156,6 +160,40 @@ class Tournament(models.Model):
             soup = BeautifulSoup(self.soup, 'html.parser')
             return update_tournament_with_soup(self, soup)
         return False
+
+    @classmethod
+    @transaction.atomic()
+    def populate_datas(cls, logging=True):
+        users = User.objects.all()
+        total = User.objects.all().count()
+        count = 0
+        for user in users:
+            count += 1
+            if user.soup:
+                soup = BeautifulSoup(user.soup, 'html.parser')
+                s_tournaments = soup.find_all(class_='bowler-ind-tournament')
+                if s_tournaments:
+                    for s_tournament in s_tournaments:
+                        tournament_url = s_tournament.find('h5').find('a').get('href')
+                        try:
+                            place = re.sub("[^0-9]", "", unicode(s_tournament.h6.string).split(' ')[0])
+                        except:
+                            place= 0
+                        tournament = cls.objects.filter(soup_url__icontains=tournament_url).first()
+                        if place and tournament:
+                            tournament_data = tournament.tournament_datas.filter(user=user).first()
+                            if not tournament_data:
+                                tournament_data = TournamentData.create(tournament, user)
+                            tournament_data.place = int(place)
+                            tournament_data.save()
+            print('Populating Tournament Datas (', count, '/', total, ')')
+
+
+
+
+
+
+
     # </editor-fold>
 
 
@@ -172,7 +210,7 @@ class Tournament(models.Model):
     def get_tournament_by_uuid(cls, uuid):
         uuid = is_valid_uuid(uuid)
         if uuid:
-            return cls.objects.filter(tournament_id=uuid).first()
+            return cls.objects.filter(id=uuid).first()
 
     @classmethod
     def get_tournaments_by_uuid_list(cls, uuid_list):
@@ -418,13 +456,26 @@ class Tournament(models.Model):
 
     ## DISPLAY
     @classmethod
-    def recent_display(cls):
-        try:
-            recent_display = cls.objects.all().first()
-
-            return recent_display
-        except cls.DoesNotExist:
-            return None
+    def featured_tournament_data(cls):
+        tournament = cls.objects.filter(finished=True).order_by('-datetime').first()
+        winners = []
+        datas = tournament.tournament_datas.filter(place__lt=5).exclude(place=0).order_by('place')
+        for tournament_data in datas:
+            user = tournament_data.user
+            winners.append({
+                'id': user.id,
+                'name': user.full_name,
+            })
+        return {
+            'id': tournament.id,
+            'name': tournament.name,
+            'picture': tournament.full_picture_url,
+            'date': tournament.datetime,
+            'description': tournament.description,
+            'center_id': tournament.center.center_id,
+            'center_name': tournament.center.center_name,
+            'winners': winners,
+        }
 
     @classmethod
     def featured_live(cls):
@@ -433,7 +484,8 @@ class Tournament(models.Model):
 
     @classmethod
     def get_upcoming(cls, amount, offset=0):
-        return cls.objects.filter(finished=False, live=False).exclude(Q(name='') | Q(name__contains='CANCEL') | Q(name__contains='POST'))[offset:offset+amount]
+
+        return cls.objects.filter(finished=False, live=False)[offset:offset+amount]
 
     @classmethod
     def get_results(cls, amount, offset=0):
@@ -447,11 +499,10 @@ class Tournament(models.Model):
     def past_winners(cls, amount):
         users = []
         for result in cls.get_results(amount):
-            winners = result.tournament_datas.filter(is_winner=True)
+            winners = result.tournament_datas.filter(place=1)
+            print(len(winners))
             if winners:
                 users += winners
-
-
         return users
 
     @classmethod
@@ -605,10 +656,11 @@ class TournamentData(models.Model):
     start_lane = models.SmallIntegerField(default=0)
     looking_for_team = models.BooleanField(default=False)
     is_winner = models.BooleanField(default=False)
+    place = models.IntegerField(default=0)
 
     @classmethod
-    def create(cls, tournament_id, user_id):
-        tournament_data = cls(user=user_id, tournament=tournament_id)
+    def create(cls, tournament, user):
+        tournament_data = cls(user=user, tournament=tournament)
         tournament_data.save()
         return tournament_data
 
