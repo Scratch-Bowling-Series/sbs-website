@@ -10,8 +10,10 @@ class Command(BaseCommand):
     help = 'Run Master Scraper'
 
     def handle(self, *args, **options):
-        User.update_all(True)
-        Center.update_all(True)
-        Tournament.update_all(True)
-        #Tournament.only_eat_all(True)
+        logging = args[0]
+        User.update_all(logging)
+        Center.update_all(logging)
+        Tournament.update_all(logging)
+        #Tournament.only_eat_all(logging)
+        Tournament.populate_datas(logging)
 
