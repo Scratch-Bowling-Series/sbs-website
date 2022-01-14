@@ -20,12 +20,6 @@ urlpatterns = [
     path('view/<id>', views.single_tournament_views, name='view'),
     path('modify/<id>', views.tournaments_modify_views, name='modify'),
 
-    ## ACTIONS
-    path('roster/join/<id>', views.roster_join, name='join-roster'),
-    path('roster/leave/<id>', views.roster_leave, name='leave-roster'),
-    path('roster/get/<id>', views.roster_get, name='get-roster'),
-
-
     path('data/sponsor-pic/<id>', data.get_sponsor_pic, name='data-sponsor-pic'),
     path('data/tournament-pic/<id>', data.get_tournament_pic, name='data-winners-pic')
 ]

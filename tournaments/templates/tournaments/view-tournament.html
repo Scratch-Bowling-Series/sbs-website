@@ -1,12 +1,12 @@
 {% extends 'base_layout.html' %}
 {% load static %}
-
+{% load basic-tags %}
 
 {% block content %}
 
 
 <!-- Center Column : Tournament Preview -->
-<section class="col col-50 col-m-max-width m-order-1 order-2">
+<div class="col col-50 col-m-max-width m-order-1 order-2">
     <div class="sec {% if live %}glow{% endif %}">
         <a class="share-page t-share"><i class="icon-share-alt"></i></a>
         <h2 class="t-title">{{ tournament.1 }}</h2>
@@ -59,45 +59,11 @@
         <a href="{% url 'live-chat' %}" class="t-contact-item"><i class="icon-commenting"></i>LIVE CHAT</a>
     </div>
 
-</section>
+</div>
 
 <!-- Right Column : Oil Pattern Display -->
-<section class="col col-25 col-m-max-width m-order-8 order-3">
-    <div class="sec">
-        <h2>OIL PATTERN</h2>
-         <div class="t-oil">
-            <a href="#">2013 EBT 15 - Columbia 300 Vienna Open</a>
-            <div class="t-oil-stats">
-                <i>Length: 42ft</i>
-                <i>Volume: 25.30 mL</i>
-                <i>Forward: 14.95 mL</i>
-                <i>Backwards: 10.35 mL</i>
-                <i>Ratio: 1:3.33</i><br><br>
-                <span><a href="" class="btn btn-small t-oil-view">FORWARD</a><div style="background:{{ oil_colors.3 }};"></div></span>
-                <span><a href="" class="btn btn-small t-oil-view">REVERSE</a><div style="background:{{ oil_colors.4 }};"></div></span>
-                <span><a href="" class="btn btn-small t-oil-view">COMBINED</a><div style="background:{{ oil_colors.3 }};"></div></span>
-                <span><a href="" class="btn btn-small t-oil-view">BUFF AREA</a><div style="background:{{ oil_colors.1 }};"></div></span>
-
-            </div>
-             <a href="" class="btn btn-small t-oil-view-pdf">VIEW PDF</a>
-             <div class="t-oil-display-wrap">
-                 <div class="t-oil-display">
-                     {% for oil in oil_pattern %}
-                     <span class="t-oil-cell {% if forloop.last %} t-oil-cell-right {% endif %}">
-                    <span class="t-oil-row t-oil-row-top" style="background: {{ oil.0 }};"></span>
-                    <span class="t-oil-row" style="background: {{ oil.1 }};"></span>
-                    <span class="t-oil-row" style="background: {{ oil.2 }};"></span>
-                    <span class="t-oil-row" style="background: {{ oil.3 }};"></span>
-                    <span class="t-oil-row" style="background: {{ oil.4 }};"></span>
-                    <span class="t-oil-row" style="background: {{ oil.5 }};"></span>
-
-                    <span class="t-oil-row t-oil-row-bottom" style="background: {{ oil.6 }};"></span>
-                </span>
-                {% endfor %}
-                </div>
-             </div>
-         </div>
-    </div>
+<div class="col col-25 col-m-max-width m-order-8 order-3">
+    {% basic_oil_pattern %}
     <div class="sec">
         <h2>PAYOUT CALCULATOR</h2>
 
@@ -136,9 +102,9 @@
             <a>Prize: $30</a><a>Lineage: $10</a><a>Expenses: $5</a>
         </div>
     </div>
-</section>
+</div>
 
-{% if finished %}
+{% if tournament.finished %}
     <!-- Left Column :  -->
     <section class="col col-25 col-m-max-width m-order-2 order-1">
         {% if center %}
@@ -231,7 +197,7 @@
         </div>
     </section>
 
-{% elif live %}
+{% elif tournament.live %}
 
 {% else %}
     <!-- Left Column : Tournament Roster -->
@@ -297,9 +263,9 @@
                 {% if user.is_authenticated or True%}
                     <a class="btn btn-medium bkg-none border-none text-darkgreen roster-btn">${{ tournament.10|floatformat:0 }}{% if tournament.11 %}/Team{% endif %} FEE DUE AT ENTRY</a>
                     {% if on_roster %}
-                        <a class="btn btn-medium bkg-darkgreen border-none text-white join-roster roster-btn" leave-roster="{% url 'tournaments:leave-roster' tournament.0 %}" join-roster="{% url 'tournaments:join-roster' tournament.0 %}" state="leave">LEAVE</a>
+                        <a class="btn btn-medium bkg-darkgreen border-none text-white join-roster roster-btn">LEAVE</a>
                     {% else %}
-                        <a class="btn btn-medium bkg-darkgreen border-none text-white join-roster roster-btn" leave-roster="{% url 'tournaments:leave-roster' tournament.0 %}" join-roster="{% url 'tournaments:join-roster' tournament.0 %}" state="join">JOIN</a>
+                        <a class="btn btn-medium bkg-darkgreen border-none text-white join-roster roster-btn">JOIN</a>
                     {% endif %}
                 {% else %}
                     <a class="btn btn-medium bkg-darkgreen border-none text-white">LOGIN TO JOIN</a>
@@ -332,7 +298,7 @@
 {% endif %}
 
 <script src="{% static 'js/tournament-view-align.js' %}"></script>
-<script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
+{#<script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>#}
 
 
 {% endblock %}

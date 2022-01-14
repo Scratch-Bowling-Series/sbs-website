@@ -108,35 +108,30 @@ def tournaments_upcoming_views(request, page=1, search=''):
 def single_tournament_views(request, id):
     tournament = Tournament.get_tournament_by_uuid(id)
     if tournament:
-        roster_data = []
-        on_roster = False
-        if tournament.roster:
-            roster_data = roster_data_display(deserialize_roster_data(tournament.roster))
-            if not tournament.finished and request.user.is_authenticated:
-                on_roster = tournament.exists_in_roster(request.user.id)
+        render_data = {'nbar': 'tournaments'}
 
-
-
-
-        render_data = {'nbar': 'tournaments',
-                       'live': tournament.live,
-                       'stream_available': tournament.stream_available,
-                       'finished': tournament.finished,
-                       'on_roster': on_roster,
-                       'tournament': display_tournament_view(tournament),
-                       'center': display_center_view(tournament.center),
-                       'oil_pattern': Oil_Pattern.get_oil_pattern_converted_uuid(tournament.oil_pattern),
-                       'oil_colors': get_oil_colors(),
-                       'roster': roster_data,
-                       'payout': payout_calculator(30, 10, 5, 50),
-                       'vod_url' : get_vod_url(tournament.vod_id),
-                       'tournament_picture': tournament.get_picture(),
-                       'description': tournament.description
-                       }
-        render_data.update(make_tournament_meta(tournament))
         return render(request, 'tournaments/view-tournament.html', render_data)
     else:
         raise Http404('The Tournament you are looking for does not exist.')
+
+
+                       #  'live': tournament.live,
+                       # 'stream_available': tournament.stream_available,
+                       # 'finished': tournament.finished,
+                       # 'on_roster': on_roster,
+                       # 'tournament': display_tournament_view(tournament),
+                       # 'center': display_center_view(tournament.center),
+                       # 'oil_pattern': Oil_Pattern.get_oil_pattern_converted_uuid(tournament.oil_pattern),
+                       # 'oil_colors': get_oil_colors(),
+                       # 'roster': roster_data,
+                       # 'payout': payout_calculator(30, 10, 5, 50),
+                       # 'vod_url' : get_vod_url(tournament.vod_id),
+                       # 'tournament_picture': tournament.get_picture(),
+                       # 'description': tournament.description
+
+
+
+
 
 def display_tournament_view(tournament):
     ## FORMAT
@@ -203,7 +198,7 @@ def tournaments_modify_views(request, id):
                 tournament.tournament_time = form.cleaned_data.get('tournament_time')
                 tournament.sponsor_image = '/media/sponsors/sponsor-image-03.png'
                 tournament.save(force_update=True)
-                if tournament.tournament_id != id:
+                if tournament.id != id:
                     return redirect('/')
                 return redirect('/tournaments/')
         else:
@@ -241,57 +236,6 @@ def payout_calculator(prize, lineage, expense, current):
 
 
 
-def roster_join(request, id):
-    user = request.user
-    success = False
-    on_roster = False
-    roster_data = []
-
-    if user.is_authenticated:
-        tournament = Tournament.get_tournament_by_uuid(id)
-        if tournament:
-            success = tournament.add_to_roster(user.id)
-            if success:
-                on_roster = tournament.exists_in_roster(user.id)
-                roster = tournament.get_roster()
-                for user_id in roster:
-                    roster_data.append([user_id, user.first_name, user.last_name])
-    return JsonResponse({'success': success, 'onRoster': on_roster, 'rosterData': roster_data})
-
-
-def roster_leave(request, id):
-    user = request.user
-    success = False
-    on_roster = False
-    roster_data = []
-
-    if user.is_authenticated:
-        tournament = Tournament.get_tournament_by_uuid(id)
-        if tournament:
-            success = tournament.remove_from_roster(user.id)
-            if success:
-                on_roster = tournament.exists_in_roster(user.id)
-                roster = tournament.get_roster()
-                for user_id in roster:
-                    roster_data.append([user_id, user.first_name, user.last_name])
-    return JsonResponse({'success': success, 'onRoster': on_roster, 'rosterData': roster_data})
-
-def roster_get(request, id):
-    user = request.user
-    success = False
-    on_roster = False
-    roster_data = []
-    tournament = Tournament.get_tournament_by_uuid(id)
-    if tournament:
-        roster = tournament.get_roster()
-        if roster:
-            success = True
-            if user.is_authenticated:
-                on_roster = tournament.exists_in_roster(user.id)
-            for user_id in roster:
-                roster_data.append([user_id, user.first_name, user.last_name])
-
-    return JsonResponse({'success': success, 'onRoster': on_roster, 'rosterData': roster_data})
 
 
 
