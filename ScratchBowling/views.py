@@ -24,21 +24,11 @@ def index(request):
                     'topbar_notify': user.top_notify,
                     'has_notifications': user.has_notifications,
             }
-    data = {
-        'tournament_live': Tournament.featured_live(),
-        'donation_count': Donation.get_total(),
-        'broadcast_clips': Vod.recent_clips(5),
-
-
-        'tournaments_count': Tournament.completed_count(),
-        'users_count': User.active_user_count(),
-    }
-
     meta = {'page_title': '',
             'page_description': 'Bowling Tournaments Done Better. Welcome to the Scratch Bowling Series. Come bowl today!',
             'page_keywords': 'scratchbowling, bowling, tournaments, events, competitive, sports, gaming, live, rankings, scores, points, elo, statistics, bowlers, professional'
     }
-    return render(request, 'homepage.html', user_data | data | meta)
+    return render(request, 'homepage.html', user_data | meta)
 
 def search(request):
     if request.method == 'POST':
