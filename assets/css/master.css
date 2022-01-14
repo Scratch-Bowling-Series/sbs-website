@@ -838,6 +838,40 @@ footer .footer-terms, footer .footer-privacy {
   align-content: flex-start;
 }
 
+.rows {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+  box-sizing: border-box;
+  gap: 10px;
+}
+.rows .row {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+}
+.rows .row .date {
+  display: flex;
+  font-size: 14px;
+  line-height: 20px;
+  min-width: 45px;
+}
+.rows .row .entry {
+  display: flex;
+  font-size: 14px;
+  line-height: 20px;
+  flex: 1;
+  min-width: 0;
+}
+.rows .row .entry span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
 .bottom-up {
   position: fixed;
   right: 0;
@@ -1052,22 +1086,11 @@ footer .footer-terms, footer .footer-privacy {
 .featured-tournament {
   flex-direction: row;
 }
-.featured-tournament .image {
+.featured-tournament img {
   width: 60%;
+  height: auto !important;
   position: relative;
   display: inline-block;
-}
-.featured-tournament .image .preview {
-  width: 100%;
-  height: auto !important;
-}
-.featured-tournament .image .watermark {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 15%;
-  padding: 10px;
-  opacity: 0.5;
 }
 .featured-tournament .content {
   display: inline-block;
@@ -1211,6 +1234,8 @@ footer .footer-terms, footer .footer-privacy {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  flex-shrink: 0;
+  width: 50%;
 }
 .featured-series .series-wrap .tournament img {
   display: flex;
@@ -1227,7 +1252,7 @@ footer .footer-terms, footer .footer-privacy {
   align-items: flex-start;
   gap: 10px;
   padding: 10px;
-  min-width: 200px;
+  flex: 1;
 }
 .featured-series .series-wrap .tournament .content .title {
   font-size: 20px;
@@ -1267,9 +1292,14 @@ footer .footer-terms, footer .footer-privacy {
   text-align: left;
 }
 @media (max-width: 600px) {
+  .featured-series .series-wrap .tournament {
+    width: 100%;
+    gap: 0;
+  }
   .featured-series .series-wrap .tournament img {
-    width: 100px;
-    height: auto !important;
+    width: 120px;
+    height: auto;
+    flex-shrink: 0;
   }
   .featured-series .series-wrap .tournament .content {
     padding: 5px;

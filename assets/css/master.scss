@@ -87,8 +87,6 @@ p {
 }
 
 
-
-
 /*
   @media(max-width: $mobile-break) {
     //MOBILE
@@ -97,11 +95,6 @@ p {
     //TABLETS
   }
 */
-
-
-
-
-
 
 //<editor-fold desc="BUTTONS">
 .btn-bar-right {
@@ -905,6 +898,8 @@ footer {
 }
 //</editor-fold>
 
+
+
 #content-wrapper{
   width: calc(100% - 20px);
   max-width: 1700px;
@@ -925,6 +920,8 @@ footer {
     //TABLETS
   }
 }
+
+
 .col {
   overflow: hidden;
   display: flex;
@@ -943,6 +940,41 @@ footer {
   align-items: flex-start;
   align-content: flex-start;
 }
+.rows{
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  padding:0 20px;
+  box-sizing: border-box;
+  gap:10px;
+  .row {
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 0;
+    .date {
+      display: flex;
+      font-size:14px;
+      line-height: 20px;
+      min-width: 45px;
+    }
+    .entry{
+      display: flex;
+      font-size:14px;
+      line-height: 20px;
+      flex:1;
+      min-width: 0; //Fix for text-overflow-ellipsis
+      span{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-right:10px;
+      }
+    }
+  }
+}
+
+
 
 .bottom-up{
   position: fixed;
@@ -1167,23 +1199,11 @@ footer {
 }
 .featured-tournament {
   flex-direction: row;
-  .image {
+  img{
     width: 60%;
+    height: auto !important;
     position: relative;
     display: inline-block;
-
-    .preview {
-      width: 100%;
-      height: auto !important;
-    }
-    .watermark {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 15%;
-      padding: 10px;
-      opacity: 0.5;
-    }
   }
   .content {
     display: inline-block;
@@ -1335,6 +1355,8 @@ footer {
       display: flex;
       flex-direction: row;
       gap:10px;
+      flex-shrink: 0;
+      width:50%;
       img{
         display: flex;
         width:200px;
@@ -1350,7 +1372,7 @@ footer {
         align-items:flex-start;
         gap:10px;
         padding:10px;
-        min-width:200px;
+        flex:1;
         .title {
           font-size: 20px;
           display: block;
@@ -1401,9 +1423,12 @@ footer {
     //MOBILE
     .series-wrap {
       .tournament {
+        width:100%;
+        gap:0;
         img {
-          width:100px;
-          height:auto!important;
+          width:120px;
+          height:auto;
+          flex-shrink: 0;
         }
         .content {
           padding:5px;

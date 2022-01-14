@@ -123,53 +123,6 @@
   order: 10;
 }
 
-.row-b {
-  width: calc(100% - 40px);
-  height: 30px;
-  margin: 5px 20px;
-  text-align: left;
-  font-size: 0;
-}
-
-.row-b-c {
-  display: inline-block;
-  height: 25px;
-  vertical-align: top;
-  font-size: 14px;
-  margin-right: 10px;
-}
-
-.row-b-c1 {
-  font-size: 14px;
-  line-height: 14px;
-  height: 16px;
-  padding: 8px 0;
-  font-family: tt_octosquares_condensedMd;
-  min-width: 14%;
-  text-align: center;
-}
-
-.row-b-c2 {
-  font-size: 16px;
-  line-height: 16px;
-  height: 16px;
-  padding: 7px 0;
-  font-family: tt_octosquares_condensedMd;
-  width: 50%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: #214031;
-}
-.row-b-c2 span {
-  color: inherit;
-}
-
-.row-b-btn {
-  float: right;
-  margin: 6px 0;
-}
-
 .std-underline {
   display: block;
   width: 100%;

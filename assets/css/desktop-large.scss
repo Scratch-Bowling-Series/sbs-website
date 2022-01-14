@@ -25,7 +25,7 @@
 }
 
 .col-25 {
-  width: 25%;
+  flex:2.5;
 }
 
 .col-30 {
@@ -45,7 +45,7 @@
 }
 
 .col-50 {
-  width: 50%;
+  flex:5;
 }
 
 .col-55 {
@@ -128,55 +128,7 @@
 //</editor-fold>
 
 //<editor-fold desc="ROWS">
-.row-b {
-  width: calc(100% - 40px);
-  height: 30px;
-  margin: 5px 20px;
-  text-align: left;
-  font-size: 0;
-}
 
-.row-b-c {
-  display: inline-block;
-  height: 25px;
-  vertical-align: top;
-  font-size: 14px;
-  margin-right: 10px;
-
-}
-
-.row-b-c1 {
-  font-size: 14px;
-  line-height: 14px;
-  height: 16px;
-  padding: 8px 0;
-  font-family: font.$primary-light;
-  min-width: 14%;
-  text-align: center;
-}
-
-.row-b-c2 {
-  font-size: 16px;
-  line-height: 16px;
-  height: 16px;
-  padding: 7px 0;
-  font-family: font.$primary-light;
-
-  span {
-    color: inherit;
-  }
-
-  width: 50%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: color.$darkgreen;
-}
-
-.row-b-btn {
-  float: right;
-  margin: 6px 0;
-}
 
 //</editor-fold>
 
