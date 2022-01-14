@@ -16,8 +16,8 @@ User = get_user_model()
 
 
 @register.simple_tag
-def session_id(input):
-    return '#' + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5))
+def cache_id(input):
+    return cache.get('cache_id')
 
 @register.simple_tag
 def web_version(input):
@@ -61,6 +61,16 @@ def space_before(value):
             return ''
     return ''
 
+
+
+
+@register.inclusion_tag('snippets/global/navigationBar.html')
+def navigation_bar(request):
+    return {'request': request}
+
+
+
+
 @register.inclusion_tag('snippets/basic/recentWinners.html')
 def basic_recent_winners():
     # [0]tournament id
@@ -72,7 +82,6 @@ def basic_recent_winners():
 
     return {'datas': cache.get('tournament_winners')}
 
-
 @register.inclusion_tag('snippets/basic/topRankings.html')
 def basic_top_ranks():
     # [0]winner id
@@ -83,16 +92,13 @@ def basic_top_ranks():
 
     return {'datas': cache.get('top_rankings')}
 
-
 @register.inclusion_tag('snippets/basic/bowlerOfMonth.html')
 def basic_bowler_of_month():
     return {'bom': cache.get('bowler_of_month')}
 
-
 @register.inclusion_tag('snippets/basic/upcomingTournaments.html')
 def basic_upcoming_tournaments():
     return {'tournaments': cache.get('upcoming_tournaments')}
-
 
 @register.inclusion_tag('snippets/basic/topNotify.html')
 def basic_top_notify(request):
@@ -132,3 +138,29 @@ def basic_site_stats():
         {'title': 'Active Users', 'count': cache.get('user_count')},
         {'title': 'Tournaments', 'count': cache.get('tournament_count')}
     ]}
+
+
+
+
+@register.inclusion_tag('snippets/basic/oilPattern.html')
+def basic_oil_pattern():
+    return {'oil': None}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
