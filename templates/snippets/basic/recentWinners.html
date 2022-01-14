@@ -1,22 +1,19 @@
 <!---
 BASIC RECENT TOURNAMENT WINNERS SNIPPET
-
-[0] tournament id
-[1] tournament name
-[2] tournament date
-[3] winner id
-[4] winner first_name
-[5] winner last_name
 -->
 <section class="sec bkg-darkgreen">
     <h2 class="text-white">TOURNAMENT WINNERS</h2>
-    {% for data in datas %}
-        <div class="row-b">
-            <a class="row-b-c row-b-c1 text-white primary-font">{{ data.2 }}</a>
-            <a class="row-b-c row-b-c2 text-white span-white" href="/account/view/{{ data.3 }}">{{ data.4 }} {{ data.5 }}</a>
-            <a class="row-b-btn btn btn-small bkg-white text-lightgreen border-white" href="/tournaments/view/{{ data.0 }}">RESULTS</a>
+    <div class="rows">
+        {% for data in datas %}
+        <div class="row">
+            <a class="date text-white primary-font">{{ data.date|date:'m/d' }}</a>
+            <a class="entry" href="/account/view/{{ data.user_id }}">
+                <span class="text-white span-white">{{ data.name }}</span>
+            </a>
+            <a class="btn btn-small bkg-white text-lightgreen" href="/tournaments/view/{{ data.tournament_id }}">RESULTS</a>
         </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
     <a href="{% url 'tournaments:results' %}" class="btn btn-full bkg-white text-lightgreen margin-vertical">ALL TOURNAMENT RESULTS</a>
 </section>
 

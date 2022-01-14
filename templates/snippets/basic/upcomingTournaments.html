@@ -1,11 +1,17 @@
 <section class="sec">
     <h2>UPCOMING TOURNAMENTS</h2>
-    {% for tournament in tournaments %}
-        <div class="row-b {% if for.last %}highlighted-row{% endif %}">
-            <a class="row-b-c row-b-c1 primary-font text-darkgreen">{{ tournament.datetime|date:"m/d" }}</a>
-            <a class="row-b-c row-b-c2  text-darkgreen">{{ tournament.name|truncatechars:35 }}</a>
-            <a class="row-b-btn btn btn-small bkg-darkgreen text-white" href="/tournaments/view/{{ tournament.id }}">VIEW</a>
-        </div>
-    {% endfor %}
+    <div class="rows">
+        {% for tournament in tournaments %}
+            <div class="row {% if for.last %}highlighted-row{% endif %}">
+                <a class="date primary-font text-darkgreen">{{ tournament.datetime|date:"m/d" }}</a>
+                <a class="entry">
+                    <span class="text-darkgreen">
+                    {{ tournament.name }}
+                    </span>
+                </a>
+                <a class="btn btn-small bkg-darkgreen text-white" href="/tournaments/view/{{ tournament.id }}">VIEW</a>
+            </div>
+        {% endfor %}
+    </div>
     <a href="{% url 'tournaments:upcoming' %}" class="btn btn-full text-white bkg-darkgreen margin-vertical">UPCOMING TOURNAMENTS</a>
 </section>

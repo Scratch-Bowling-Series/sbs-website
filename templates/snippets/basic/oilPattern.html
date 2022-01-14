@@ -1,0 +1,45 @@
+<section class="sec">
+    <h2>OIL PATTERN</h2>
+    <div class="t-oil">
+        <a href="#">2013 EBT 15 - Columbia 300 Vienna Open</a>
+        <div class="t-oil-stats">
+            <i>Length: 42ft</i>
+            <i>Volume: 25.30 mL</i>
+            <i>Forward: 14.95 mL</i>
+            <i>Backwards: 10.35 mL</i>
+            <i>Ratio: 1:3.33</i><br><br>
+            <span>
+                <a href="" class="btn btn-small t-oil-view">FORWARD</a>
+                <div style="background:{{ oil_colors.3 }};"></div>
+            </span>
+            <span>
+                <a href="" class="btn btn-small t-oil-view">REVERSE</a>
+                <div style="background:{{ oil_colors.4 }};"></div>
+            </span>
+            <span>
+                <a href="" class="btn btn-small t-oil-view">COMBINED</a>
+                <div style="background:{{ oil_colors.3 }};"></div>
+            </span>
+            <span>
+                <a href="" class="btn btn-small t-oil-view">BUFF AREA</a>
+                <div style="background:{{ oil_colors.1 }};"></div>
+            </span>
+        </div>
+        <a href="" class="btn btn-small t-oil-view-pdf">VIEW PDF</a>
+        <div class="t-oil-display-wrap">
+            <div class="t-oil-display">
+                {% for o in oil %}
+                    <span class="t-oil-cell {% if forloop.last %} t-oil-cell-right {% endif %}">
+                        <span class="t-oil-row t-oil-row-top" style="background: {{ o.0 }};"></span>
+                        <span class="t-oil-row" style="background: {{ o.1 }};"></span>
+                        <span class="t-oil-row" style="background: {{ o.2 }};"></span>
+                        <span class="t-oil-row" style="background: {{ o.3 }};"></span>
+                        <span class="t-oil-row" style="background: {{ o.4 }};"></span>
+                        <span class="t-oil-row" style="background: {{ o.5 }};"></span>
+                        <span class="t-oil-row t-oil-row-bottom" style="background: {{ o.6 }};"></span>
+                    </span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
