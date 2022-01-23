@@ -7,4 +7,4 @@ class Command(BaseCommand):
     help = 'Run Statistics'
 
     def handle(self, *args, **options):
-        calculate_statistics()
+        calculate_statistics(True)
