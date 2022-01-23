@@ -1,11 +1,16 @@
 import quickle
+from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils import timezone
+
 from ScratchBowling.sbs_utils import is_valid_uuid, make_ordinal
 
 
+
 class Statistics(models.Model):
+
     user = models.OneToOneField('accounts.User', on_delete=models.CASCADE, primary_key=True,related_name='statistics')
-    last_calculated = models.DateTimeField()
+    last_calculated = models.DateTimeField(default=timezone.now)
 
     rank = models.IntegerField(default=0)
     rank_points = models.IntegerField(default=0)
@@ -30,6 +35,8 @@ class Statistics(models.Model):
         if uuid:
             return cls.objects.filter(user_id=uuid).first()
         return None
+
+
 
     @classmethod
     def create(cls, user):
@@ -56,9 +63,7 @@ class Statistics(models.Model):
         return 4
 
 
-    def calculate(self):
-        #calculate the statistics
-        self.save()
+
 
     def to_dict(self):
         return {'user_id': self.user_id,

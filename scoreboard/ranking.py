@@ -3,64 +3,88 @@ from datetime import datetime
 from itertools import islice
 from django.contrib.auth import get_user_model
 from django.db import transaction
+from django.utils import timezone
 
+from scoreboard.models import Statistics
 from scoreboard.rank_data import store_rank_data, serialize_rank_data, RankData
-from tournaments.models import Tournament
-from tournaments.tournament_data import get_matchplay_object, get_qualifying_object, convert_to_tournament_data_all_tournaments, deserialize_tournament_data, deserialize_placement_data
-from tournaments.tournament_utils import in_season, serialize_tournaments_list
+from tournaments.models import Tournament, GameData, TournamentData
 
 User = get_user_model()
 
 ## RUN STATISTICS FUNCTION ##
 
-def convert_tournaments():
-    convert_to_tournament_data_all_tournaments()
-
-def calculate_statistics():
-    print("RankingSys - Initializing...")
-    rank_datas = get_rank_datas_from_all_tournaments()
-    apply_rank_data_to_accounts_in_batches(rank_datas, 1000)
-    print("RankingSys - Saving Ranking Data to 'rankings.dat'.")
-    store_rank_data(rank_datas)
-    print('RankingSys - Finished')
-
-
-## STATISTICS PROCESS TASKS ##
-
-def apply_rank_data_to_accounts_in_batches(rank_datas, batch_size):
-    if batch_size < 200: batch_size = 200
-    count = 0
-    total = 0
-    total_batches = int(len(rank_datas) / batch_size)
-    while True:
-        count += 1
-        start = 0 + (batch_size * (count - 1))
-        batch = list(islice(rank_datas, start, batch_size * count))
-        if not batch: break
-        total += apply_rank_data_to_accounts(batch, count, total_batches)
-    return total
-
 @transaction.atomic
-def apply_rank_data_to_accounts(rank_datas, batch, total_batches):
-    print('RankingSys - Saving Ranking Data')
-    if rank_datas == None: return 0
-    data_count = 0
-    total = len(rank_datas)
-    last_prog = 0
-    for data in rank_datas:
-        prog = int((data_count / total) * 100)
-        if last_prog != prog:
-            last_prog = prog
-            print('RankingSys - Saving Ranking Data - Batch: (' + str(batch) + '/'+ str(total_batches) + ') - Progress: ' + str(prog) + '%')
-        data_count += 1
-        data.rank = data_count
-        write_user = User.objects.filter(user_id=data.user_id).first()
-        if write_user != None:
-            write_user.tournaments = serialize_tournaments_list(data.tournaments)
-            data.tournaments = []
-            write_user.rank_data = data
-            write_user.save()
-    return data_count
+def calculate_statistics(logging=False):
+    decay = False
+    if logging:
+        print("RankingSys - Initializing...")
+        progress = 0
+        total = User.objects.all().count()
+
+    for user in User.objects.all():
+        try:
+            statistics = user.statistics
+        except:
+            statistics = Statistics.create(user)
+
+        if statistics:
+            statistics = user.statistics
+            statistics.rank_points = 0
+            statistics.rank = 0
+            statistics.wins = 0
+            statistics.attended = 0
+            statistics.total_games = 0
+            statistics.total_score = 0
+        else:
+            statistics = Statistics.create(user)
+
+        for tournament_data in user.tournament_datas.all():
+            tournament = tournament_data.tournament
+            game_datas = tournament_data.game_datas.all()
+            games_count = game_datas.count()
+
+            is_winner = tournament_data.place == 1
+            total_score = 0
+            for game_data in game_datas:
+                total_score += game_data.total
+
+            statistics.wins += 1 if is_winner else 0
+            statistics.attended += 1
+            statistics.total_games += games_count
+            statistics.total_score += total_score
+
+            avg_score = 0
+            if games_count > 0:
+                avg_score = total_score / games_count
+            statistics.rank_points += task_get_rank_points(tournament_data.place, avg_score, tournament.tournament_datas.count(),
+                                                           tournament.datetime, decay)
+            if tournament.in_season():
+                statistics.year_wins += 1 if is_winner else 0
+                statistics.year_attended += 1
+                statistics.year_total_games += games_count
+                statistics.year_total_score += total_score
+
+        statistics.last_calculated = timezone.now()
+        statistics.save()
+        if logging:
+            progress += 1
+            print('Calculating Statistics (',progress,'/',total,')')
+
+    statistics = Statistics.objects.order_by('-rank_points')
+    rank = 1
+    for statistic in statistics:
+        statistic.rank = rank
+        if logging:
+            print('Saving Ranks #', rank,'-',statistic.rank_points)
+        rank += 1
+        statistic.save()
+    if logging:
+        print('RankingSys - Finished')
+
+
+
+
+
 
 def get_rank_data_from_tournaments():
     rank_data_lib = []
@@ -223,12 +247,12 @@ def get_rank_data(rank_datas, user_id):
     rank_datas.append(instance)
     return instance
 
-def task_get_rank_points(placement, avgerage, length, date, decay):
+def task_get_rank_points(place, avgerage, length, date, decay):
     # calculate points
     place_points = 0
     score_points = 0
-    if placement.place != 0:
-        place_points = (4000 / placement.place) * (length / 50)
+    if place != 0:
+        place_points = (4000 / place) * (length / 50)
     if avgerage !=  0:
         score_points = (((avgerage / 10) * avgerage) / 10)
     total_points = place_points + score_points
