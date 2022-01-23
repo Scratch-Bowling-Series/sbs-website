@@ -2,339 +2,355 @@
 {% load static %}
 {% block content %}
 
-<script src="{% static 'js/profile-counters.js' %}"></script>
-<script src="{% static 'js/account-view-align.js' %}"></script>
-<script src="{% static 'js/three.js' %}"></script>
+    <script src="{% static 'js/profile-counters.js' %}"></script>
+    <script src="{% static 'js/account-view-align.js' %}"></script>
+    <script src="{% static 'js/three.js' %}"></script>
 
-<!-- Profile Preview -->
-<section class="col col-20 col-m-max-width">
-   <section class="profile-prev sec my-account-top-height">
-      <!-- SHARE -->
-      <a class="share-page profile-share"><i class="icon-share-alt"></i></a>
+    <!-- Profile Preview -->
+    <div class="wrap-block">
+        <section class="col col-20 col-m-max-width">
+            <section class="sec profile-prev bkg-white">
+                <!-- SHARE -->
+                <a class="share-page profile-share"><i class="icon-share-alt"></i></a>
 
-      <!-- INFO -->
-      <div class="profile-prev-pic">
-         <img src="{{ user_data.picture }}">
-      </div>
-      <h1>{{ user_data.first_name}}&nbsp;{{ user_data.last_name }}</h1>
-    {% if user_data.bio %}
-      <a>{{ user_data.bio }}</a>
-      <span class="std-underline"></span>
-   {% endif %}
-      <a>Member Since {{ user_data.year_joined }}</a>
+                <!-- INFO -->
+                <div class="profile-prev-pic">
+                    <img src="{{ user.full_picture_url }}">
+                </div>
+                <h1 class="text-darkgreen">{{ user.full_name }}</h1>
 
-
-    {% if user_data.state %}
-        <span class="std-underline"></span>
-        <a>{% if user_data.city %}{{ user_data.city }},{% endif %}&nbsp;{{ user_data.state }}</a>
-    {% endif %}
+                <a class="text-darkgreen">{% if user.bio %}{{ user.bio }}{% else %}Bio Empty...{% endif %}</a>
+                <span class="std-underline"></span>
+                <a class="text-darkgreen">Member Since {{ user.date_joined|date:'Y'}}</a>
 
 
-      <!-- HANDS -->
-      {% if user_data.handed != 0 %}
-       <div class="profile-hands">
-         <span class="std-underline"></span>
-         <i class="profile-hand profile-left-hand icon-hand-paper {% if user_data.handed == 2 %}hand-off{% endif %}"></i>
-         <i class="profile-hand icon-hand-paper {% if user_data.handed == 1 %}hand-off{% endif %}"></i>
-         <a class="profile-hand-label">{% if user_data.handed == 1 %}LEFT{% elif user_data.handed == 2 %}RIGHT{% elif user_data.handed == 3 %}TWO{% endif %} HANDED</a><br>
-      </div>
-      {% endif %}
+                {% if data.short_location %}
+                    <span class="std-underline"></span>
+                    <a class="text-darkgreen">{{ user.short_location }}</a>
+                {% endif %}
 
+                <!-- Chirality -->
+                {% if user.chirality != 0 %}
+                    <div class="profile-hands">
+                        <span class="std-underline"></span>
+                        <i class="profile-hand profile-left-hand icon-hand-paper {% if user.chirality == 2 %}hand-off{% endif %}"></i>
+                        <i class="profile-hand icon-hand-paper {% if user.chirality == 1 %}hand-off{% endif %}"></i>
+                        <a class="profile-hand-label">{% if user.chirality == 1 %}LEFT{% elif user_data.chirality == 2 %}
+                            RIGHT{% elif user.chirality == 3 %}TWO{% endif %} HANDED</a><br>
+                    </div>
+                {% endif %}
 
+                <!-- Buttons -->
+                <div class="profile-prev-btns">
+                    {% if request.user.is_authenticated %}
+                        {% if user.id == request.user.id %}
+                            <a class="btn" href="{% url 'accounts:modify' %}">MODIFY</a>
+                            <a class="btn" href="{% url 'accounts:logout' %}">LOG OUT</a>
+                        {% else %}
+                            <a class="btn" href=""><i class="icon-user-plus"></i>REQUEST</a>
+                            <a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
+                        {% endif %}
+                    {% else %}
+                        <a class="btn btn-full bkg-darkgreen text-white margin-vertical"
+                           href="{% url 'accounts:login' %}">LOG IN FOR MORE</a>
+                    {% endif %}
+                </div>
+            </section>
+        </section>
 
-      <!-- Buttons -->
-      <div class="profile-prev-btns">
-      {% if user.is_authenticated %}
-         {% if view_user.id == user.id %}
-            <a class="btn" href="{% url 'accounts:modify' %}">MODIFY</a>
-            <a class="btn" href="{% url 'accounts:logout' %}">LOG OUT</a>
-         {% elif view_user.id %}
-            <a class="btn bkg-darkgreen text-white" href="{% url 'accounts:remove' id=view_user.id %}"><i class="icon-user-alt text-white"></i>FRIENDS</a>
-            <a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
-         {% else %}
-            <a class="btn" href=""><i class="icon-user-plus"></i>REQUEST</a>
-            <a class="btn" href="{% url 'accounts:modify' %}">MESSAGE</a>
-         {% endif %}
-      {% else %}
-         <a class="btn btn-full bkg-darkgreen text-white margin-vertical" href="{% url 'accounts:login' %}">LOG IN FOR MORE</a>
-      {% endif %}
-      </div>
+        <!-- Past Tournament Results -->
+        <section class="col col-30 col-m-max-width">
+            <section class="sec past-tournaments bkg-white">
+                <h2 class="text-darkgreen">PAST TOURNAMENT RESULTS</h2>
+                {% if tournaments %}
+                    <div class="rows">
+                        {% for data in tournaments %}
+                            <div class="row {% if for.last %}highlighted-row{% endif %}">
+                                <a class="date primary-font text-darkgreen">{{ data.tournament.datetime|date:"m/d" }}</a>
+                                <a class="entry">
+                                    <span class="text-darkgreen primary-font-light">
+                                    {{ data.tournament.name }}
+                                        <span class="text-grey primary-font-light">({{ data.tournament.center.name }})</span>
+                                    </span>
+                                </a>
+                                <a class="btn btn-small bkg-white text-darkgreen {% if data.place_ordinal == '1st' %} text-tan{% endif %}{% if data.place_ordinal == 'DNF' %} text-red{% endif %}" href="/tournaments/view/{{ tournament.id }}">{{ data.place_ordinal }}</a>
+                            </div>
+                        {% endfor %}
+                    </div>{#                        {% for data in tournaments %}#}
+{#                            <div class="profile-result">#}
+{#                                <a class="profile-result-date">{{ data.tournament.datetime|date:"m/d" }}</a>#}
+{#                                <a class="profile-result-name"#}
+{#                                   href="/tournaments/view/{{ data.tournament.id }}">{{ data.tournament.name|truncatechars:20 }}</a>#}
+{#                                <a class="profile-result-location text-darkgrey">{{ data.tournament.center.name }}</a>#}
+{#                                <a class="profile-result-place{% if data.place_ordinal == '1st' %} firstplace{% endif %}{% if data.place_ordinal == 'DNF' %} notfinish{% endif %}">{{ data.place_ordinal }}</a>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+                    <div class="btn-bar-right">
+                        <a class="btn btn-medium bkg-darkgreen text-whiten">VIEW ALL
+                            TOURNAMENT RESULTS</a>
+                    </div>
+                {% else %}
+                    {% if user.id == request.user.id %}
+                        <div class="profile-results">
+                            <p class="profile-none">ATTEND YOUR FIRST TOURNAMENT TO SEE YOUR STATISTICS</p>
+                        </div>
+                        <div class="btn-bar-right">
+                            <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn">FIND AN UPCOMING
+                                TOURNAMENT</a>
+                        </div>
+                    {% else %}
+                        <div class="profile-results">
+                            <p class="profile-none">{{ user.first_name }} HAS YET TO ATTEND A TOURNAMENT</p>
+                        </div>
+                        <div class="btn-bar-right">
+                            <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn"
+                               style="left:auto;text-transform:uppercase;">INVITE {{ user.first_name|none_replace:'First Name' }}
+                                TO A TOURNAMENT</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </section>
+        </section>
 
-
-
-   </section>
-</section>
-
-<!-- Past Tournament Results -->
-<section class="col col-30 col-m-max-width" >
-   <section class="sec my-account-top-height">
-      <h1>PAST TOURNAMENT RESULTS</h1>
-      {% if attended_tournaments %}
-      <div class="profile-results">
-         {% for tournament in attended_tournaments %}
-            <div class="profile-result">
-               <a class="profile-result-date">{{ tournament.1|date:"m/d"}}</a>
-               <a class="profile-result-name" href="/tournaments/view/{{ tournament.0 }}">{{ tournament.2|truncatechars:20 }}</a>
-               <a class="profile-result-location text-darkgrey">{{ tournament.3 }}</a>
-               <a class="profile-result-place{% if tournament.4 == '1st' %} firstplace{% endif %}{% if tournament.4 == 'DNF' %} notfinish{% endif %}">{{ tournament.4 }}</a>
+        <!-- Current Season Stats -->
+        <section class="col col-25 col-m-max-width">
+            <div class="sec season-stats bkg-white">
+                <h2 class="text-darkgreen">2021 SEASON STATISTICS</h2>
+                <div class="stats-grid">
+                    <div class="stat-quad">
+                    <h3 class="my-account-rank-label text-darkgreen">2021 RANK</h3>
+                    <div class="counter counter-1">
+                        <ul class="counter-top">
+                            {{ user.rank|counter:True|safe }}
+                        </ul>
+                        <div class="bottom"></div>
+                    </div>
+                </div>
+                    <div class="stat-quad">
+                        <h3 class="my-account-rank-label text-darkgreen">AVG. SCORE</h3>
+                        <div class="counter counter-2">
+                            <ul>
+                                {{ user.statistics.avg_score_year|counter|safe }}
+                            </ul>
+                            <div class="bottom"></div>
+                        </div>
+                    </div>
+                    <div class="stat-quad">
+                        <h3 class="my-account-rank-label text-darkgreen">TOTAL GAMES</h3>
+                        <div class="counter counter-3">
+                            <ul>
+                                {{ user.statistics.total_games_year|counter|safe }}
+                            </ul>
+                            <div class="bottom"></div>
+                        </div>
+                    </div>
+                    <div class="stat-quad">
+                        <h3 class="my-account-rank-label text-darkgreen">WINS</h3>
+                        <div class="counter counter-3">
+                            <ul>
+                                {{ user.statistics.wins|counter|safe }}
+                            </ul>
+                            <div class="bottom"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-bar-right btn-bottom">
+                    <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn margin-right margin-bottom">VIEW
+                        MORE STATISTICS</a>
+                </div>
             </div>
-         {% endfor %}
-      </div>
-      <div class="btn-bar-right">
-        <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn" style="left:auto;">VIEW ALL TOURNAMENT RESULTS</a>
-      </div>
-      {% else %}
-         {% if view_user.id == request.user.id %}
-             <div class="profile-results">
-                <p class="profile-none">ATTEND YOUR FIRST TOURNAMENT TO SEE YOUR STATISTICS</p>
-             </div>
-             <div class="btn-bar-right">
-                <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn">FIND AN UPCOMING TOURNAMENT</a>
-             </div>
-         {% else %}
-            <div class="profile-results">
-                <p class="profile-none">{{ user_data.first_name }} HAS YET TO ATTEND A TOURNAMENT</p>
-            </div>
-            <div class="btn-bar-right">
-                <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn" style="left:auto;text-transform:uppercase;">INVITE {{ view_user.first_name|none_replace:'First Name'}} TO A TOURNAMENT</a>
-            </div>
-         {% endif %}
-      {% endif %}
-   </section>
-</section>
+        </section>
 
-<!-- Current Season Stats -->
-<section class="col col-25 col-m-max-width">
-   <div class="sec my-account-top-height stats-grid">
-      <h1>2021 SEASON STATS</h1>
-      <div class="stat-quad">
-         <h3 class="my-account-rank-label">2021 RANK</h3>
-         <div class="counter counter-1">
-            <ul class="counter-top">
-               {{ rank_data.rank|counter:True|safe }}
-            </ul>
-            <div class="bottom"></div>
-         </div>
-      </div>
-      <div class="stat-quad">
-         <h3 class="my-account-rank-label">AVG. SCORE</h3>
-         <div class="counter counter-2">
-            <ul>
-               {{ rank_data.avg_score_year|counter|safe }}
-            </ul>
-            <div class="bottom"></div>
-         </div>
-      </div>
-      <div class="stat-quad">
-         <h3 class="my-account-rank-label">TOTAL GAMES</h3>
-         <div class="counter counter-3">
-            <ul>
-               {{ rank_data.total_games_year|counter|safe }}
-            </ul>
-            <div class="bottom"></div>
-         </div>
-      </div>
-      <div class="stat-quad">
-         <h3 class="my-account-rank-label">WINS</h3>
-         <div class="counter counter-3">
-            <ul>
-               {{ rank_data.wins|counter|safe }}
-            </ul>
-            <div class="bottom"></div>
-         </div>
-      </div>
-      <div class="btn-bar-right btn-bottom">
-        <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn margin-right margin-bottom">VIEW MORE STATISTICS</a>
-      </div>
-   </div>
-</section>
-
-<!-- Upcoming Tournaments Nearby -->
-<section class="col col-25 col-m-max-width">
-   {% if view_user.id == request.user.id %}
-   <section class="sec my-account-top-height bkg-darkgreen">
-      <h1 class="text-white">TOURNAMENTS NEAR YOU</h1>
-      <div class="profile-results">
-      {% if tournaments_nearby %}
-         <div class="profile-result">
-            <a class="profile-result-date text-white">06/26</a>
-            <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-white">City, State</a>
-            <a class="profile-result-place text-white">54mi</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date text-white">06/26</a>
-            <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-white">City, State</a>
-            <a class="profile-result-place text-white">54mi</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date text-white">06/26</a>
-            <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-white">City, State</a>
-            <a class="profile-result-place text-white">54mi</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date text-white">06/26</a>
-            <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-white">City, State</a>
-            <a class="profile-result-place text-white">54mi</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date text-white">06/26</a>
-            <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-white">City, State</a>
-            <a class="profile-result-place text-white">54mi</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date text-white">06/26</a>
-            <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-white">City, State</a>
-            <a class="profile-result-place text-white">54mi</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date text-white">06/26</a>
-            <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-white">City, State</a>
-            <a class="profile-result-place text-white">54mi</a>
-         </div>
-         <div class="profile-result">
-            <a class="profile-result-date text-white">06/26</a>
-            <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament Name</a>
-            <a class="profile-result-location text-white">City, State</a>
-            <a class="profile-result-place text-white">54mi</a>
-         </div>
-      {% else %}
-      <p class="profile-none text-lightgrey">WE COULD NOT FIND ANY TOURNAMENTS NEAR YOU</p>
-          <a class="profile-none-btn text-lightgrey">CHANGE SEARCH RADIUS</a>
-      {% endif %}
-      </div>
-      <div class="btn-bar-right">
-          <a class="btn btn-medium bkg-white text-darkgreen unavailable-btn">GET SMS ALERTS</a>
-      </div>
-   </section>
-   {% else %}
-   <section class="sec my-account-top-height bkg-darkgreen">
-      <h1 class="text-white">STATISTICS COMPARISON</h1>
-
-   </section>
-   {% endif %}
-</section>
-
-<!-- Series History  &  Achievements-->
-<section class="col col-50 col-m-max-width">
-   <section class="sec" style="height:332px;">
-      <h1>SERIES HISTORY</h1>
-      <a class="active-series-label"><span></span>ACTIVE SERIES</a>
-      <div class="profile-results">
-         <div class="series-result series-label-wrap">
-            <a class="series-name-label">SERIES NAME</a>
-            <div class="series-data">
-               <a class="series-label">ATTENDED</a>
-               <a class="series-label">POINTS</a>
-               <a class="series-label">AVERAGE</a>
-               <a class="series-label">PLACE</a>
-            </div>
-         </div>
-         <div class="series-result  active-series">
-            <a class="series-name">SPRUMMER 2021</a>
-            <div class="series-data">
-               <a class="series-attended">6</a>
-               <a class="series-points">475</a>
-               <a class="series-average">201.3</a>
-               <a class="series-place">26th</a>
-            </div>
-         </div>
-         <div class="series-result">
-            <a class="series-name">SPRUMMER 2021</a>
-            <div class="series-data">
-               <a class="series-attended">6</a>
-               <a class="series-points">475</a>
-               <a class="series-average">201.3</a>
-               <a class="series-place">26th</a>
-            </div>
-         </div>
-         <div class="series-result">
-            <a class="series-name">SPRUMMER 2021</a>
-            <div class="series-data">
-               <a class="series-attended">6</a>
-               <a class="series-points">475</a>
-               <a class="series-average">201.3</a>
-               <a class="series-place">26th</a>
-            </div>
-         </div>
-         <div class="series-result">
-            <a class="series-name">SPRUMMER 2021</a>
-            <div class="series-data">
-               <a class="series-attended">6</a>
-               <a class="series-points">475</a>
-               <a class="series-average">201.3</a>
-               <a class="series-place">26th</a>
-            </div>
-         </div>
-      </div>
-       <div class="btn-bar-right btn-bottom">
-           <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn margin-right margin-bottom" >VIEW ALL SERIES HISTORY</a>
-       </div>
-   </section>
-
-   <section class="sec profile-medals">
-      <h1>ACHIEVEMENTS</h1>
-      <a class="profile-medal-none">NOT AVAILABLE IN BETA</a>
-   </section>
-</section>
-
-<!-- Career Stats  & Medals -->
-<section class="col col-50 col-m-max-width">
-   <section class="sec" style="height:332px;">
-      <h1>CAREER STATS</h1>
-      <div class="stat-quad stat-quad-25">
-         <h3 class="my-account-rank-label">WINS</h3>
-         <div class="counter counter-4">
-            <ul>
-               {{ rank_data.wins|counter|safe }}
-            </ul>
-            <div class="bottom"></div>
-         </div>
-      </div>
-      <div class="stat-quad stat-quad-25">
-         <h3 class="my-account-rank-label">ATTENDED</h3>
-         <div class="counter counter-5">
-            <ul>
-               {{ rank_data.attended|counter|safe }}
-            </ul>
-            <div class="bottom"></div>
-         </div>
-      </div>
-      <div class="stat-quad stat-quad-25">
-         <h3 class="my-account-rank-label">AVG. SCORE</h3>
-         <div class="counter counter-6">
-            <ul>
-               {{ rank_data.avg_score_career|counter|safe }}
-            </ul>
-            <div class="bottom"></div>
-         </div>
-      </div>
-      <div class="stat-quad stat-quad-25">
-         <h3 class="my-account-rank-label">TOTAL GAMES</h3>
-         <div class="counter counter-7">
-            <ul>
-               {{ rank_data.total_games_career|counter|safe }}
-            </ul>
-            <div class="bottom"></div>
-         </div>
-      </div>
-
-       <div class="btn-bar-right btn-bottom">
-         <a class="btn btn-medium btn-right bkg-darkgreen text-white unavailable-btn margin-right margin-bottom">VIEW BEST GAMES</a>
-        <a class="btn btn-medium btn-right bkg-grey text-darkgrey border-grey unavailable-btn margin-right-10 margin-bottom">REPORT ERROR</a>
-      </div>
-   </section>
-
-   <section class="sec profile-medals">
-      <h1>MEDALS</h1>
-      <a class="profile-medal-none">NOT AVAILABLE IN BETA</a>
-   </section>
-</section>
-
+        <!-- Upcoming Tournaments Nearby -->
+        <section class="col col-25 col-m-max-width">
+            {% if user.id == request.user.id %}
+                <section class="sec nearby-tournaments bkg-darkgreen">
+                    <h1 class="text-darkgreen">TOURNAMENTS NEAR YOU</h1>
+                    <div class="profile-results">
+                        {% if tournaments_nearby %}
+                            <div class="profile-result">
+                                <a class="profile-result-date text-white">06/26</a>
+                                <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament
+                                    Name</a>
+                                <a class="profile-result-location text-white">City, State</a>
+                                <a class="profile-result-place text-white">54mi</a>
+                            </div>
+                            <div class="profile-result">
+                                <a class="profile-result-date text-white">06/26</a>
+                                <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament
+                                    Name</a>
+                                <a class="profile-result-location text-white">City, State</a>
+                                <a class="profile-result-place text-white">54mi</a>
+                            </div>
+                            <div class="profile-result">
+                                <a class="profile-result-date text-white">06/26</a>
+                                <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament
+                                    Name</a>
+                                <a class="profile-result-location text-white">City, State</a>
+                                <a class="profile-result-place text-white">54mi</a>
+                            </div>
+                            <div class="profile-result">
+                                <a class="profile-result-date text-white">06/26</a>
+                                <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament
+                                    Name</a>
+                                <a class="profile-result-location text-white">City, State</a>
+                                <a class="profile-result-place text-white">54mi</a>
+                            </div>
+                            <div class="profile-result">
+                                <a class="profile-result-date text-white">06/26</a>
+                                <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament
+                                    Name</a>
+                                <a class="profile-result-location text-white">City, State</a>
+                                <a class="profile-result-place text-white">54mi</a>
+                            </div>
+                            <div class="profile-result">
+                                <a class="profile-result-date text-white">06/26</a>
+                                <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament
+                                    Name</a>
+                                <a class="profile-result-location text-white">City, State</a>
+                                <a class="profile-result-place text-white">54mi</a>
+                            </div>
+                            <div class="profile-result">
+                                <a class="profile-result-date text-white">06/26</a>
+                                <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament
+                                    Name</a>
+                                <a class="profile-result-location text-white">City, State</a>
+                                <a class="profile-result-place text-white">54mi</a>
+                            </div>
+                            <div class="profile-result">
+                                <a class="profile-result-date text-white">06/26</a>
+                                <a class="profile-result-name text-white" href="/tournaments/view/{{ tournament.4 }}">Tournament
+                                    Name</a>
+                                <a class="profile-result-location text-white">City, State</a>
+                                <a class="profile-result-place text-white">54mi</a>
+                            </div>
+                        {% else %}
+                            <p class="profile-none text-lightgrey">WE COULD NOT FIND ANY TOURNAMENTS NEAR YOU</p>
+                            <a class="profile-none-btn text-lightgrey">CHANGE SEARCH RADIUS</a>
+                        {% endif %}
+                    </div>
+                    <div class="btn-bar-right">
+                        <a class="btn btn-medium bkg-white text-darkgreen unavailable-btn">GET SMS ALERTS</a>
+                    </div>
+                </section>
+            {% else %}
+                <section class="sec stats-compare bkg-darkgreen">
+                    <h2 class="text-darkgreen">STATISTICS COMPARISON</h2>
+                    <a class="not-available">NOT AVAILABLE IN BETA</a>
+                </section>
+            {% endif %}
+        </section>
+    </div>
+    <section class="col col-100 col-m-max-width" style="flex-direction: row;flex-wrap:wrap;gap:10px 15px;">
+        <section class="sec series-history bkg-white">
+                <h2 class="text-darkgreen">SERIES HISTORY</h2>
+                <a class="active-series-label"><span></span>ACTIVE SERIES</a>
+                <div class="profile-results">
+                    <div class="series-result series-label-wrap">
+                        <a class="series-name-label">SERIES NAME</a>
+                        <div class="series-data">
+                            <a class="series-label">ATTENDED</a>
+                            <a class="series-label">POINTS</a>
+                            <a class="series-label">AVERAGE</a>
+                            <a class="series-label">PLACE</a>
+                        </div>
+                    </div>
+                    <div class="series-result  active-series">
+                        <a class="series-name">SPRUMMER 2021</a>
+                        <div class="series-data">
+                            <a class="series-attended">6</a>
+                            <a class="series-points">475</a>
+                            <a class="series-average">201.3</a>
+                            <a class="series-place">26th</a>
+                        </div>
+                    </div>
+                    <div class="series-result">
+                        <a class="series-name">SPRUMMER 2021</a>
+                        <div class="series-data">
+                            <a class="series-attended">6</a>
+                            <a class="series-points">475</a>
+                            <a class="series-average">201.3</a>
+                            <a class="series-place">26th</a>
+                        </div>
+                    </div>
+                    <div class="series-result">
+                        <a class="series-name">SPRUMMER 2021</a>
+                        <div class="series-data">
+                            <a class="series-attended">6</a>
+                            <a class="series-points">475</a>
+                            <a class="series-average">201.3</a>
+                            <a class="series-place">26th</a>
+                        </div>
+                    </div>
+                    <div class="series-result">
+                        <a class="series-name">SPRUMMER 2021</a>
+                        <div class="series-data">
+                            <a class="series-attended">6</a>
+                            <a class="series-points">475</a>
+                            <a class="series-average">201.3</a>
+                            <a class="series-place">26th</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-bar-right btn-bottom">
+                    <a class="btn btn-medium bkg-darkgreen text-white unavailable-btn margin-right margin-bottom">VIEW
+                        ALL SERIES HISTORY</a>
+                </div>
+            </section>
+        <section class="sec career-stats bkg-white">
+                <h2 class="text-darkgreen">CAREER STATISTICS</h2>
+                <div class="stats-grid nowrap">
+                    <div class="stat-quad stat-quad-25">
+                        <h3 class="my-account-rank-label text-darkgreen">WINS</h3>
+                        <div class="counter counter-4">
+                            <ul>
+                                {{ user.statistics.wins|counter|safe }}
+                            </ul>
+                            <div class="bottom"></div>
+                        </div>
+                    </div>
+                    <div class="stat-quad stat-quad-25">
+                        <h3 class="my-account-rank-label text-darkgreen">ATTENDED</h3>
+                        <div class="counter counter-5">
+                            <ul>
+                                {{ user.statistics.attended|counter|safe }}
+                            </ul>
+                            <div class="bottom"></div>
+                        </div>
+                    </div>
+                    <div class="stat-quad stat-quad-25">
+                        <h3 class="my-account-rank-label text-darkgreen">AVG. SCORE</h3>
+                        <div class="counter counter-6">
+                            <ul>
+                                {{ user.statistics.avg_score|counter|safe }}
+                            </ul>
+                            <div class="bottom"></div>
+                        </div>
+                    </div>
+                    <div class="stat-quad stat-quad-25">
+                    <h3 class="my-account-rank-label text-darkgreen">TOTAL GAMES</h3>
+                    <div class="counter counter-7">
+                        <ul>
+                            {{ user.statistics.total_games|counter|safe }}
+                        </ul>
+                        <div class="bottom"></div>
+                    </div>
+                </div>
+                </div>
+                <div class="btn-bar-right btn-bottom">
+                    <a class="btn btn-medium btn-right bkg-darkgreen text-white unavailable-btn margin-right margin-bottom">VIEW
+                        BEST GAMES</a>
+                    <a class="btn btn-medium btn-right bkg-grey text-darkgrey border-grey unavailable-btn margin-right-10 margin-bottom">REPORT
+                        ERROR</a>
+                </div>
+            </section>
+        <section class="sec profile-achievements bkg-white">
+                <h2 class="text-darkgreen">ACHIEVEMENTS</h2>
+                <a class="not-available">NOT AVAILABLE IN BETA</a>
+            </section>
+        <section class="sec profile-medals bkg-white">
+                <h2 class="text-darkgreen">MEDALS</h2>
+                <a class="not-available">NOT AVAILABLE IN BETA</a>
+            </section>
+    </section>
 {% endblock %}

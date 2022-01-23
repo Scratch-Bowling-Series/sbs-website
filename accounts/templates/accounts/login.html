@@ -1,19 +1,18 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-<div class="col col-30 col-m-max-width">
-  <section class="sec">
-    <h1>ACCOUNT LOG IN</h1>
+<div class="col col-100 col-m-max-width">
+  <section class="sec a-login bkg-white">
+    <h2 class="text-darkgreen">ACCOUNT LOG IN</h2>
     <form class="standard-form" action="{% url 'accounts:login' %}" method="post">
       {% csrf_token %}
-      <label class="standard-form-label">EMAIL ADDRESS</label>
+      <label class="standard-form-label text-darkgreen">EMAIL ADDRESS</label>
       {{ form.username }}
-      <label class="standard-form-label">PASSWORD</label>
+      <label class="standard-form-label text-darkgreen">PASSWORD</label>
       {{ form.password }}
-      <a class="standard-form-forgot">Forgot Password?</a>
+      <a class="standard-form-forgot text-darkgreen">Forgot Password?</a>
       <div class="standard-form-buttons">
-        <a class="standard-button button-offset" href="/account/signup">SIGN-UP</a>
-        <input class="btn" type="submit" name="" value="LOG IN">
+        <input class="btn bkg-darkgreen text-white" type="submit" name="" value="LOG IN">
       </div>
     </form>
   </section>
