@@ -43,9 +43,9 @@ def get_center_location_obj(center):
     else:
         return 'Location Unknown'
 
-def get_center_name_uuid(center_id):
+def get_name_uuid(center_id):
     center = get_center(center_id)
     if center != None:
-        return str(center.center_name)
+        return str(center.name)
     else:
         return 'Center Unknown'
