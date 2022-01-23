@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             name='Center',
             fields=[
                 ('center_id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True)),
-                ('center_name', models.TextField()),
+                ('name', models.TextField()),
                 ('center_description', models.TextField()),
                 ('location_street', models.TextField()),
                 ('location_city', models.TextField()),
