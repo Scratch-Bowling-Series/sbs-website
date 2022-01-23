@@ -7,14 +7,14 @@
 
 <!-- Center Column : Tournament Preview -->
 <div class="col col-50 col-m-max-width m-order-1 order-2">
-    <div class="sec {% if live %}glow{% endif %}">
-        <a class="share-page t-share"><i class="icon-share-alt"></i></a>
-        <h2 class="t-title">{{ tournament.1 }}</h2>
-        <a class="t-date">{{ tournament.2 }}</a>
-        <a class="t-center" href="/centers/view/{{ tournament.5 }}">&nbsp;at&nbsp;{{ tournament.6 }}</a>
-        <a class="t-location" href="/centers/view/{{ tournament.5 }}">{% if tournament.7 %}&nbsp;-&nbsp;{{ tournament.7 }}{% endif %}</a>
+    <div class="sec t-single-head{% if live %}glow{% endif %}">
+        <a class="share-page share"><i class="icon-share-square"></i></a>
+        <h2 class="title">{{ tournament.name }}</h2>
+        <a class="date">{{ tournament.datetime|date:'m/d/y' }} {{ tournament.datetime|time:'h:m' }}</a>
+        <a class="center" href="/centers/view/{{ tournament.center.id }}">&nbsp;at&nbsp;{{ tournament.center.name|none_replace:'Center Unknown' }}</a>
+        <a class="location" href="/centers/view/{{ tournament.center.id }}">{{ tournament.center.location_short }}</a>
         <div class="block-tags align-center margin-bottom">
-        {% for tag in tournament.9 %}
+        {% for tag in tournament.get_tags %}
         {% if tag == 1 %}
         <span class="tag bkg-lightgrey text-darkgreen">DOUBLES</span>
         {% elif tag == 2 %}
@@ -40,25 +40,18 @@
     </div>
 
     {% else %}
-        <div class="sec">
-            <img class="t-display-img" src="{{ tournament_picture }}" alt="">
+        <div class="sec t-single-preview">
+            <img class="t-display-img" src="{{ tournament.full_picture_url }}" alt="">
         </div>
     {% endif %}
 
-    <div class="sec t-details">
+    <div class="sec t-single-details">
         <div class="tournament-info-slide-selector">
                 <a href="">DETAILS</a>
             </div>
 
-        <p>{{ description }}</p>
+        <p>{{ tournament.description }}</p>
     </div>
-
-    <div class="sec t-contact mobile-on">
-        <a href="" class="t-contact-item">Need Help?</a>
-        <a href="{% url 'faqs' %}" class="t-contact-item"><i class="icon-question-circle"></i>HELP CENTER</a>
-        <a href="{% url 'live-chat' %}" class="t-contact-item"><i class="icon-commenting"></i>LIVE CHAT</a>
-    </div>
-
 </div>
 
 <!-- Right Column : Oil Pattern Display -->
@@ -104,7 +97,7 @@
     </div>
 </div>
 
-{% if tournament.finished %}
+{% if tournament.finished and False%}
     <!-- Left Column :  -->
     <section class="col col-25 col-m-max-width m-order-2 order-1">
         {% if center %}
