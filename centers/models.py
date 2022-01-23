@@ -8,7 +8,7 @@ from centers.scraping.soup_parser import update_center_with_soup
 
 class Center(models.Model):
     center_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    center_name = models.TextField()
+    name = models.TextField(max_length=200)
     center_description = models.TextField()
     location_street = models.TextField()
     location_city = models.TextField()
@@ -51,17 +51,17 @@ class Center(models.Model):
 
         centers = []
         for soup_url in soup_urls:
-            user = cls.objects.filter(soup_url=soup_url).first()
-            if user:
-                continue
-            center = cls(soup_url=soup_url, scraped=True)
+            center = cls.objects.filter(soup_url=soup_url).first()
+            if not center:
+                center = cls(soup_url=soup_url, scraped=True)
             if center.make_soup() and center.eat_soup():
                 centers.append(center)
 
         if logging:
             print('Saving ' + str(len(centers)) + ' Centers')
 
-        cls.objects.bulk_create(centers, 100)
+        for center in centers:
+            center.save()
 
         if logging:
             print('Update All Complete')
@@ -85,7 +85,7 @@ class Center(models.Model):
 
     @classmethod
     def find_center_by_name(cls, name):
-        return cls.objects.filter(center_name=name).first()
+        return cls.objects.filter(name=name).first()
     @classmethod
     def get_center_by_uuid(cls, uuid):
         uuid = is_valid_uuid(uuid)
@@ -96,7 +96,7 @@ class Center(models.Model):
     def get_name_and_location_by_uuid(cls, uuid):
         center = cls.get_center_by_uuid(uuid)
         if center:
-            return [center.center_name, center.location_city, center.location_state]
+            return [center.name, center.location_city, center.location_state]
 
 
 
