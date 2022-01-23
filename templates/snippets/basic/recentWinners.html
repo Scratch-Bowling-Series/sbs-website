@@ -10,11 +10,11 @@ BASIC RECENT TOURNAMENT WINNERS SNIPPET
             <a class="entry" href="/account/view/{{ data.user_id }}">
                 <span class="text-white span-white">{{ data.name }}</span>
             </a>
-            <a class="btn btn-small bkg-white text-lightgreen" href="/tournaments/view/{{ data.tournament_id }}">RESULTS</a>
+            <a class="btn btn-small bkg-white text-darkgreen" href="/tournaments/view/{{ data.tournament_id }}">RESULTS</a>
         </div>
         {% endfor %}
     </div>
-    <a href="{% url 'tournaments:results' %}" class="btn btn-full bkg-white text-lightgreen margin-vertical">ALL TOURNAMENT RESULTS</a>
+    <a href="{% url 'tournaments:results' %}" class="btn btn-full bkg-white text-darkgreen margin-vertical">ALL TOURNAMENT RESULTS</a>
 </section>
 
 
