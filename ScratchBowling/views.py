@@ -5,7 +5,7 @@ from django.shortcuts import render
 from ScratchBowling.forms import BowlersSearch
 from accounts.forms import User
 from broadcasts.models import Clip
-from centers.center_utils import get_center_name_uuid, get_center_location_uuid
+from centers.center_utils import get_name_uuid, get_center_location_uuid
 from centers.models import Center
 from scoreboard.models import Statistics
 from support.models import Donation
@@ -51,7 +51,7 @@ def search(request):
             tournaments_upcoming = tournaments_upcoming[:4]
             tournaments_results = tournaments_results[:4]
 
-            centers = Center.objects.filter(Q(center_name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))
+            centers = Center.objects.filter(Q(name__icontains=search) | Q(location_city__icontains=search) | Q(location_state__icontains=search))
             more_results_centers = len(centers) - 4
             centers = centers[:4]
 
@@ -98,7 +98,7 @@ def load_tournament_live():
         tournament = live_tournaments.filter(stream_available=True).first()
         if tournament != None:
             return {'stream': True,
-                    'center': {'name': get_center_name_uuid(tournament.center),
+                    'center': {'name': get_name_uuid(tournament.center),
                                'location': get_center_location_uuid(tournament.center)},
                     'status': tournament.live_status_header,
                     'leader': tournament.live_status_leader,
@@ -107,7 +107,7 @@ def load_tournament_live():
             tournament = live_tournaments.first()
             if tournament != None:
                 return {'stream': False,
-                    'center': {'name': get_center_name_uuid(tournament.center),
+                    'center': {'name': get_name_uuid(tournament.center),
                                'location': get_center_location_uuid(tournament.center)},
                     'status': tournament.live_status_header,
                     'leader': tournament.live_status_leader,
@@ -118,14 +118,14 @@ def load_tournament_live():
 def load_tournament_recent():
 
     ## FORMAT
-    ## [0=id, 1=name, 2=date, 3=center_name, 4=center_location, 5=description, 6=topfour]
+    ## [0=id, 1=name, 2=date, 3=name, 4=center_location, 5=description, 6=topfour]
     # tournament = Tournament.objects.filter(tournament_id=WebData.get_current().preview_tournament).first()
     # if tournament:
     #     return [
     #         str(tournament.tournament_id),
     #         tournament.name,
     #         tournament.datetime,
-    #         get_center_name_uuid(tournament.center),
+    #         get_name_uuid(tournament.center),
     #         get_center_location_uuid(tournament.center),
     #         tournament.description[:250],
     #         get_top_placements(tournament.placement_data, 4),
