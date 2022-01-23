@@ -27,7 +27,7 @@ def single_center_views(request, id):
     if center:
         total_count = Center.objects.all().count()
 
-        output = [center.center_id, center.center_name, center.center_description]
+        output = [center.center_id, center.name, center.center_description]
 
         return render(request, 'centers/single-center.html', {'nbar': 'centers',
                                                               'center': output,
@@ -45,7 +45,7 @@ def centers_to_list(centers):
     result = []
     for center in centers:
         result.append([center.center_id,
-                       center.center_name,
+                       center.name,
                        center.location_city,
                        center.location_state,
                        center.phone_number])
