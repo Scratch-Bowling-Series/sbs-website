@@ -1,8 +1,8 @@
 
 
 <p align="center">
-  <a href="https://scratchbowling.pythonanywhere.com">
-    <img src="https://scratchbowling.pythonanywhere.com/static/img/SBS_Logo.png" alt="Logo" width=142 >
+  <a href="https://www.bowl.sbs">
+    <img src="https://www.bowl.sbs/static/img/SBS_Logo.png" alt="Logo" width=142 >
   </a>
 
   <h3 align="center">SBS WEBSITE</h3>
@@ -32,11 +32,12 @@
 
 ## Try it out
 
-Everything is currently being hosted at [scratchbowling.pythonanywhere.com](https://scratchbowling.pythonanywhere.com/), and will soon be moved to 'beta.scratchbowling.com'. 
+Everything is currently being hosted at [www.bowl.sbs](https://www.bowl.sbs/), and will be moved to 'beta.scratchbowling.com', then 'scratchbowling.com' soon after.
+
 
 ## Status
 
-With all the progress being made with [Prolink]() and our [SBS-Bowler]() app in React, we have been really busy adding to the Rest API. Doing so has broken quite a few things on the front-end of the site. We are working to fix this. We plan to get everything up and running as soon as possible. At this time only staff members with specific account privledges can login to the software for testing. You can learn more about this [here](https://scratchbowling.com/).
+With all the progress being made with [Prolink](https://github.com/Scratch-Bowling-Series/sbs-prolink) and our [SBS-Bowler](https://github.com/Scratch-Bowling-Series/sbs-bowler) app in React, we have been really busy adding to the Rest API. Doing so has broken quite a few things on the front-end of the site. We are working to fix this. We plan to get everything up and running as soon as possible. At this time only staff members with specific account privledges can login to the software for testing. You can learn more about this [here](https://scratchbowling.com/).
 #### Recent Progress
 - Banking API
 - Teams/Friends API
