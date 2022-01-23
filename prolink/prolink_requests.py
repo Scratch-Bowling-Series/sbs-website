@@ -61,21 +61,21 @@ def get_list_of_all_centers():
     temp = {}
     for center in centers:
         data = []
-        data.append(str(center.center_name))
+        data.append(str(center.name))
         data.append(str(center.center_description))
         temp[str(center.center_id)] = data
     return temp
 
 
 def get_centers_from_auto_field(search_args):
-    centers = Center.objects.filter(Q(center_name__icontains=search_args) | Q(location_city__icontains=search_args) | Q(location_state__icontains=search_args))
+    centers = Center.objects.filter(Q(name__icontains=search_args) | Q(location_city__icontains=search_args) | Q(location_state__icontains=search_args))
     return_data = []
     print(len(centers))
     print(len(Center.objects.all()))
     for center in centers:
         name = ''
-        if center.center_name is not None:
-            name = center.center_name
+        if center.name is not None:
+            name = center.name
 
         date = ''
         if center.location_city is not None:
