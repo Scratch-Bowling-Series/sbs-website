@@ -158,7 +158,7 @@ USE_TZ = True
 EMAIL_BACKEND = 'django_ses.SESBackend'
 
 # These are optional -- if they're set as environment variables they won't
-# need to be set here as well
+# need to be set ha2a70a91-d105-4d2c-8d32-8c70e46aa75bere as well
 AWS_ACCESS_KEY_ID = 'AKIAW5XYOUUVSBW6F242'
 AWS_SECRET_ACCESS_KEY = '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'
 
@@ -175,8 +175,6 @@ CACHES = {
 }
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 
