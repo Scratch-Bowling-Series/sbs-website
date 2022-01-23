@@ -6,15 +6,10 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
-from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from ScratchBowling.sbs_utils import make_ordinal
-from ScratchBowling.websettings import WebSettings
-from tournaments.models import Tournament
+from tournaments.models import Tournament, TournamentData
 from tournaments.views import is_valid_uuid
 from .forms import RegisterForm, ModifyAccountForm
-from .tokens import account_activation_token
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.dispatch import receiver
 
@@ -191,6 +186,8 @@ def accounts_logout_view(request):
     return redirect('/')
 
 def accounts_account_view(request, id):
+
+
     user = User.get_user_by_uuid(id)
     if user:
         statistics = user.statistics
@@ -198,19 +195,10 @@ def accounts_account_view(request, id):
             description = 'Current Rank: ' + str(statistics.rank) + ' Attended: ' + str(statistics.attended) + ' Wins: ' + str(statistics.wins) + ' Career Avg. Score: ' + str(statistics.avg_score) + ' Career Total Games: ' + str(statistics.total_games)
         else:
             description = 'This bowler has yet to attend a tournament.'
-        user_data = {'first_name': user.first_name,
-                     'last_name' : user.last_name,
-                     'year_joined': user.date_joined.year,
-                     'city': user.city or '',
-                     'state': user.state or '',
-                     'handed': user.handed,
-                     'picture': user.full_picture_url,
-                     }
 
-        data = {'user_data': user_data,
-         'attended_tournaments': single_account_tournaments_display(user),
-         'statistics': statistics.to_dict(),
-         'page_title': str(user.first_name) + ' ' + str(user.last_name),
+        data = {'user': user,
+                'tournaments': user.tournament_datas.all().filter(checked_in=True)[:12],
+         'page_title': user.full_name,
          'page_description': description,
          'page_keywords': 'user, bowler, account, rank, data, scores, tournaments, stats, statistics',
          'social_image': '/account/socialcard/image/' + str(user.id)
