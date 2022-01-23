@@ -7,9 +7,11 @@ from django.core.cache import cache
 from django.utils.safestring import mark_safe
 
 from ScratchBowling.sbs_utils import make_ordinal
+from oils.models import Oil_Pattern
+from oils.oil_pattern_scraper import get_oil_colors
 from scoreboard.models import Statistics
 from tournaments.models import Tournament
-
+import quickle
 register = template.Library()
 User = get_user_model()
 
@@ -144,7 +146,14 @@ def basic_site_stats():
 
 @register.inclusion_tag('snippets/basic/oilPattern.html')
 def basic_oil_pattern():
-    return {'oil': None}
+    oil_pattern = Oil_Pattern.objects.all()[9]
+    print(oil_pattern.pattern_name)
+    if oil_pattern:
+        pattern_cache = quickle.loads(oil_pattern.pattern_cache)
+    else:
+        pattern_cache = []
+
+    return {'oil': oil_pattern, 'oil_colors': get_oil_colors(), 'pattern_cache': pattern_cache}
 
 
 
