@@ -7,14 +7,14 @@ BASIC RECENT TOURNAMENT WINNERS SNIPPET
 [3]rank badge
 [4]user rank
 -->
-<section class="sec">
-    <h2>2021 SEASON RANKINGS</h2>
+<section class="sec bkg-white">
+    <h2 class="text-darkgreen">2021 SEASON RANKINGS</h2>
     <div class="rows">
         {% for data in datas %}
             <div class="row">
                 <a class="rank text-darkgreen {% if data.rank == '1st' or data.rank == '2nd' or data.rank == '3rd' or data.rank == '4th' %}text-tan{%endif%}">{{ data.rank }}</a>
                 <a class="entry">
-                    <span>{{ data.name }}</span>
+                    <span class="text-darkgreen">{{ data.name }}</span>
                 </a>
                 <a class="btn btn-small bkg-darkgreen text-white" href="/account/view/{{ data.id }}">VIEW</a>
             </div>
