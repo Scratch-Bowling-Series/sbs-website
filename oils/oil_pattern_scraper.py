@@ -69,6 +69,7 @@ def update_oil_pattern(pattern_db_id):
     oil_pattern.save()
 
 
+
 # oil_pattern.pattern_name #
 def get_oil_name(soup):
     name = soup.find(id='ContentPlaceHolder1_sDescription')
