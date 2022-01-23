@@ -88,3 +88,6 @@ GitHub.sublime-settings
 .history
 ScratchBowling/settings.py
 db.sqlite3.old
+.idea/webServers.xml
+.idea/sshConfigs.xml
+.idea/deployment.xml
