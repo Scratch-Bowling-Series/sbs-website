@@ -5,15 +5,16 @@
     <div id="nav-inner">
         <div class="nav-logo">
             <div class="nav-logo-f nav-logo-f1 bkg-tan"></div>
-            <div class="nav-logo-f nav-logo-f2 bkg-grey"></div>
+            <div class="nav-logo-f nav-logo-f2 bkg-midgrey"></div>
             <div class="nav-logo-f nav-logo-f3 bkg-white" style="margin-right:-20px;"></div>
-            <a class="nav-logo-wrap bkg-white" href="/"><img class="filter-white"
+            <a class="nav-logo-wrap bkg-white" href="/"><img class="filter-darkgreen"
                                                              src="{% static 'img/SBS_Logo_Beta.png' %}"
                                                              ref="Scratch Bowling Series Logo"></a>
             <div class="nav-logo-f nav-logo-f3 bkg-white" style="margin-left:-20px;"></div>
-            <div class="nav-logo-f nav-logo-f2 bkg-grey"></div>
+            <div class="nav-logo-f nav-logo-f2 bkg-midgrey"></div>
             <div class="nav-logo-f nav-logo-f1 bkg-tan"></div>
         </div>
+        <a href="/broadcasts" class="btn nav-watch bkg-tan text-darkgrey">WATCH</a>
         <div class="nav-drop-button" id="nav-expand">
             <div id="nav-icon3">
                 <span></span>
@@ -27,7 +28,7 @@
                 window.history.replaceState(null, null, window.location.href);
             }
         </script>
-        <div class="nav-scroll">
+        <div class="nav-scroll hidden">
             <ul class="nav-buttons">
                 <li class="nav-btn"><a href="/">HOME<span
                         class="nav-btn-underline {% if nbar == 'home' %}active{% endif %}"></span></a></li>
@@ -76,7 +77,6 @@
             </ul>
             <div class="nav-account">
                 <a href="/broadcasts" class="btn nav-account-donate bkg-tan text-darkgrey">WATCH</a>
-
                 {% if search_type == 'tournaments_results' %}
                     <form class="nav-search" method="post" action="{% url 'tournaments:results' %}">
                         {% csrf_token %}
@@ -105,8 +105,10 @@
                     <form class="nav-search" method="post" action="{% url 'search' %}">
                         {% csrf_token %}
                         <input type="text" name="search_args" placeholder="BOWLERS / TOURNAMENTS / CENTERS "
-                               value="{{ search }}">
-                        <input type="submit" name="SEARCH" value="SEARCH">
+                               value="{{ search }}" class="bkg-white text-darkgreen border-darkgreen">
+                        <input type="submit" name="SEARCH" value="SEARCH" class="bkg-white text-darkgreen">
+
+                        <i class="search-button fa-solid fa-search"></i>
                     </form>
                 {% endif %}
                 {% if user.is_authenticated %}
@@ -117,8 +119,8 @@
                     <a href="/account/view/{{ request.user.id }}"
                        class="btn border-white text-white myaccount">PROFILE</a>
                 {% else %}
-                    <a href="/account/login" class="btn btn-bordered text-white border-white spacing-left-20 login">LOGIN</a>
-                    <a href="/account/signup" class="btn bkg-white text-lightgreen signup">SIGN-UP</a>
+                    <a href="/account/login" class="btn btn-bordered bkg-none border-white spacing-left-20 text-white login-btn">LOGIN</a>
+                    <a href="/account/signup" class="btn bkg-white signup text-darkgreen signup-btn">SIGN-UP</a>
                 {% endif %}
             </div>
         </div>
