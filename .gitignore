@@ -92,3 +92,4 @@ db.sqlite3.old
 .idea/sshConfigs.xml
 .idea/deployment.xml
 settings.py
+ScratchBowling/websettings.py
