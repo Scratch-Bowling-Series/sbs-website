@@ -1,206 +1,268 @@
 {% extends 'base_layout.html' %}
 {% load static %}
+{% load basic-tags %}
 {% block content %}
 
-<!-- LEFT SIDEBAR -->
-<section class="col col-20 col-m-max-width m-order-1">
+    <!-- LEFT SIDEBAR -->
+    <section class="col col-20 col-m-max-width mt-col-1">
 
-</section>
+    </section>
 
-<!-- CENTER COLUMN -->
-<section class="col col-60 col-m-max-width m-order-2">
-    {% if live_count > 0 %}
-    <section class="sec tournaments-list glow">
-        {% for tournament in tournaments_live %}
-        <section class="tournament-preview">
-            <img class="tournament-image" src="/tournaments/data/sponsor-pic/{{ tournament.4 }}"><!--
-            --><div class="tournament-container tournament-full-width">
-                    <a href="/tournaments/view/{{ tournament.0 }}" class="tournament-name">{{ tournament.1 }}</a><!--
-                    {% if tournament.9 == None %}
-                    --><a class="tournament-date">{{ tournament.2|date:'m/d/y' }}</a><!--
-                    {% else %}
-                    --><a class="tournament-date">{{ tournament.2|date:'m/d/y' }}<p class="tournament-winner-name" href="/account/view/{{ tournament.9 }}"><i class="tournament-winner icon-trophy"></i>{{  tournament.8 }}<span>&nbsp;({{ tournament.10 }} AVG)</span></p></a><!--
-                    {% endif %}
-                    --><a href="/tournaments/view/{{ tournament.0 }}" class="tournament-center">{{ tournament.5 }} - {{ tournament.6 }}</a><!--
-                    --><a href="/tournaments/view/{{ tournament.0 }}" class="tournament-spots">{{ tournament.7 }} PARTICIPANTS</a>
+    <!-- CENTER COLUMN -->
+    <section class="col col-60 col-m-max-width mt-col-2">
+
+        <!-- TOP BAR -->
+        <section class="mt-topbar">
+            <div class="selector bkg-white">
+                {% if selected_upcoming %}
+                    <a class="text-darkgreen text-grey">UPCOMING</a>
+                    <a class="text-darkgreen" href="/tournaments/results">RESULTS</a>
+                {% else %}
+                    <a class="text-darkgreen" href="/tournaments/upcoming">UPCOMING</a>
+                    <a class="text-darkgreen text-grey">RESULTS</a>
+                {% endif %}
+           </div>
+            <div class="grid-list bkg-white">
+                <i id="show-list-view" class="fa-solid fa-list text-darkgreen text-grey"></i>
+                <i id="show-grid-view" class="fa-solid fa-grip-vertical text-darkgreen"></i>
             </div>
-        {% if not forloop.last %}
-            <div class="standard-underline"></div>
-        {% endif %}
+            <div class="filter">
+                <a class="btn bkg-white text-darkgreen">FILTERS<i
+                        class="fa-solid fa-chevron-down text-darkgreen"></i></a>
+            </div>
         </section>
-        {% endfor %}
-    </section>
-    {% endif %}
 
-    <section class="tournament-topbar">
-        <section class="tournament-view-selector std-radius">
-            {% if selected_upcoming == True %}
-            <a class="left text-grey" href="/tournaments/upcoming">UPCOMING</a>
-            <a class="right " href="/tournaments/results">RESULTS</a>
-            {% else %}
-            <a class="left" href="/tournaments/upcoming">UPCOMING</a>
-            <a class="right text-grey" href="/tournaments/results">RESULTS</a>
-            {% endif %}
-        </section>
-        <section class="tournament-sort std-radius">
-            <a>SORT BY <i class="icon-angle-down"></i></a>
-        </section>
-    </section>
-
-    {% if selected_upcoming == True %}
-    <section class="sec tournaments-list">
-        {% if upcoming_count == 0 %}
-            <h2 class="no-results">NO UPCOMING TOURNAMENTS</h2>
-            <a href="/tournaments/results" class="no-results-link hover-effect">VIEW PREVIOUS TOURNAMENTS</a>
+        <!-- TOURNAMENT LISTS -->
+        {% if selected_upcoming %}
+            <section class="sec mt-list">
+                {% if not tournaments %}
+                    <h2 class="no-results text-darkgreen">NO UPCOMING TOURNAMENTS</h2>
+                    <a href="/tournaments/results" class="no-results-link hover-effect">VIEW PREVIOUS TOURNAMENTS</a>
+                {% else %}
+                    {% for tournament in tournaments %}
+                        <div class="mt-tournament bkg-white">
+                            <div class="sponsor">
+                                <img class="filter-darkgreen" src="https://bowl.sbs/static/img/SBS_Logo.png"
+                                     alt="{{ tournament.name }} Sponsor.">
+                                <a>sponsored</a>
+                            </div>
+                            <div class="wrap">
+                                <div class="title">
+                                    <a class="name text-darkgreen">{{ tournament.name }}</a>
+                                    <div class="tags">
+                                        {% for tag in tournament.tags %}
+                                            {% if tag == 1 %}
+                                                <span class="btn btn-small bkg-greyish text-darkgreen">DOUBLES</span>
+                                            {% elif tag == 2 %}
+                                                <span class="btn btn-small bkg-greyish text-darkgreen">SWEEPER</span>
+                                            {% elif tag == 3 %}
+                                                <span class="btn btn-small bkg-greyish text-darkgreen">SBS OPEN</span>
+                                            {% elif tag == 4 %}
+                                                <span class="btn btn-small bkg-greyish text-darkgreen">CHALLENGE</span>
+                                            {% elif tag == 5 %}
+                                                <span class="btn btn-small bkg-greyish text-darkgreen">SPRUMMER</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <a class="date text-darkgreen">{{ tournament.datetime|date:'m/d/y' }}
+                                    at {{ tournament.center.name }}</a>
+                                <a class="location text-darkgreen">{{ tournament.center.short_location }}</a>
+                                <a class="time text-darkgreen">Check In Starts at {{ tournament.datetime|time:'h:iA' }}</a>
+                            </div>
+                            <div class="buttons">
+                                <a class="spots text-darkgreen">{{ tournament.spots_available }} spots available</a>
+                                <a class="entry text-darkgreen">${{ tournament.entry_fee }}/entry</a>
+                                <a class="btn btn-medium bkg-darkgreen text-white"
+                                   href="/tournaments/view/{{ tournament.id }}">VIEW <span
+                                        class="text-white">TOURNAMENT</span></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </section>
         {% else %}
-        {% for tournament in tournaments_upcoming %}
-            <section class="tournament-block">
-                <div class="sponsor-card">
-                    <img src="{{ tournament.4 }}" alt="{{ tournament.1 }} Event Picture.">
-                </div>
-                <a class="block-name">{{ tournament.1 }}</a>
+            <section class="sec mt-list">
+                {% if not tournaments %}
+                    <h2 class="no-results text-darkgreen">NO TOURNAMENT RESULTS</h2>
+                {% else %}
+                    {% for tournament in tournaments %}
+                        <div class="mt-tournament bkg-white">
+                            <div class="sponsor">
+                                <img class="filter-darkgreen" src="https://bowl.sbs/static/img/SBS_Logo.png"
+                                     alt="{{ tournament.name }} Sponsor.">
+                                <a>sponsored</a>
+                            </div>
+                            <div class="wrap">
+                                <div class="title">
+                                    <a class="name text-darkgreen">{{ tournament.name }}</a>
+                                    <div class="tags">
+                                        {% for tag in tournament.tags %}
+                                            {% if tag == 1 %}
+                                                <span class="btn btn-small bkg-greyish text-darkgreen">DOUBLES</span>
+                                            {% elif tag == 2 %}
+                                                <span class="btn btn-small bkg-greyish text-darkgreen">SWEEPER</span>
+                                            {% elif tag == 3 %}
+                                                <span class="btn btn-small bkg-greyish text-darkgreen">SBS OPEN</span>
+                                            {% elif tag == 4 %}
+                                                <span class="btn btn-small bkg-greyish text-darkgreen">CHALLENGE</span>
+                                            {% elif tag == 5 %}
+                                                <span class="btn btn-small bkg-greyish text-darkgreen">SPRUMMER</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <a class="date text-darkgreen">{{ tournament.datetime|date:'m/d/y' }}
+                                    at {{ tournament.center.name }}</a>
+                                <a class="location text-darkgreen">{{ tournament.center.short_location }}</a>
+                                {% if tournament.winner %}
+                                    <a class="winner text-darkgreen" href=""><i
+                                            class="fa fa-trophy text-tan"></i>{{ tournament.winner.user.full_name }}<span
+                                            class="text-grey">({{ tournament.winner.average_score|floatformat:1|none_replace:'0' }} AVG.)</span></a>
+                                {% endif %}
 
 
-                <div class="block-details">
-                    <a href="/centers/view/{{ tournament.3 }}" class="tournament-date" >{{ tournament.2 }} at {{ tournament.6 }} - {{ tournament.7 }}</a>
-                    <a href="/centers/view/{{ tournament.3 }}" class="tournament-date">Bowlers on Roster {{ tournament.8 }}/{{ tournament.9 }}</a>
-                    <div class="block-tags">
-                        {% for tag in tournament.12 %}
-                            {% if tag == 1 %}
-                            <span class="tag bkg-lightgrey text-darkgreen">DOUBLES</span>
-                            {% elif tag == 2 %}
-                            <span class="tag bkg-lightgrey text-darkgreen">SWEEPER</span>
-                            {% elif tag == 3 %}
-                            <span class="tag bkg-lightgrey text-darkgreen">SBS OPEN</span>
-                            {% elif tag == 4 %}
-                            <span class="tag bkg-lightgrey text-darkgreen">CHALLENGE</span>
-                            {% elif tag == 5 %}
-                            <span class="tag bkg-lightgrey text-darkgreen">SPRUMMER</span>
-                            {% endif %}
-                        {% endfor %}
+                                {#                    <a class="spots">{{ tournament.spots_available }} spots available</a>#}
+                                {#                    <a class="entry">${{ tournament.entry_fee }}/entry</a>#}
+                            </div>
+                            <div class="buttons">
+                                <a class="attended text-darkgreen">{{ tournament.attended }} ATTENDED</a>
+                                <a class="btn btn-medium bkg-darkgreen text-white"
+                                   href="/tournaments/view/{{ tournament.id }}">VIEW RESULTS</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </section>
+        {% endif %}
+
+        <!-- PAGE SELECTOR -->
+
+        {% if page %}
+            <section class="pages bkg-white">
+                    <a class="text-darkgreen sep {{ page.pagestyles.0 }}"
+                       href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.0 }}">|<i
+                            class="text-darkgreen icon-arrow-right left"></i></a>
+                    <a class="text-darkgreen sep {{ page.pagestyles.1 }}"
+                       href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.1 }}"><i
+                            class="text-darkgreen icon-arrow-right left"></i></a>
+                    <a class="text-darkgreen {{ page.pagestyles.2 }}"
+                       href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.2 }}">{{ page.pagelinks.2 }}</a>
+                    <a class="text-darkgreen {{ page.pagestyles.3 }}"
+                       href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.3 }}">{{ page.pagelinks.3 }}</a>
+                    <a class="text-darkgreen {{ page.pagestyles.4 }}"
+                       href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.4 }}">{{ page.pagelinks.4 }}</a>
+                    <a class="text-darkgreen {{ page.pagestyles.5 }}"
+                       href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.5 }}">{{ page.pagelinks.5 }}</a>
+                    <a class="text-darkgreen {{ page.pagestyles.6 }}"
+                       href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.6 }}">{{ page.pagelinks.6 }}</a>
+                    <a class="text-darkgreen {{ page.pagestyles.7 }}"
+                       href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.7 }}">{{ page.pagelinks.7 }}</a>
+                    <a class="text-darkgreen sep {{ page.pagestyles.8 }}"
+                       href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.8 }}"><i
+                            class="text-darkgreen icon-arrow-right"></i></a>
+                    <a class="text-darkgreen sep {{ page.pagestyles.9 }}"
+                       href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.9 }}"><i
+                            class="text-darkgreen icon-arrow-right"></i>|</a>
+                </section>
+        {% endif %}
+
+
+
+    </section>
+
+    <!-- RIGHT SIDEBAR -->
+    <section class="col col-20 col-m-max-width mt-col-3">
+        <div class="filter-wrap">
+            <section class="sec filters bkg-white">
+            <h2 class="text-darkgreen">FILTERS</h2>
+            <form action="">
+                <div class="option">
+                    <input type="checkbox" id="filter-op-all" class="border-darkgreen" checked>
+                    <div class="details">
+                        <label for="filter-op-all" class="text-darkgreen">ALL TOURNAMENTS</label>
                     </div>
                 </div>
-                <div class="block-btns">
-                    <a href="/tournaments/view/{{ tournament.0 }}" class="btn btn-medium bkg-none border-transparent text-darkgreen">${{ tournament.10|floatformat:0 }}{% if tournament.11 %}/TEAM{% endif %} ENTRY</a>
-                    {% if user.is_authenticated %}
-                    <a href="/tournaments/view/{{ tournament.0 }}" class="btn btn-medium bkg-none text-darkgreen border-darkgreen margin-left">JOIN</a>
-                    <a href="/tournaments/view/{{ tournament.0 }}" class="btn btn-medium bkg-darkgreen border-darkgreen margin-left">VIEW</a>
-                    {% else %}
-                    <a href="/tournaments/view/{{ tournament.0 }}" class="btn btn-medium bkg-darkgreen border-darkgreen margin-left">VIEW</a>
-                    {% endif %}
-                </div>
-            </section>
-        {% endfor %}
-        {% endif %}
-    </section>
-    {% else %}
-    <section class="sec tournaments-list">
-        {% if results_count == 0 %}
-            <h2 class="no-results">NO RESULTS FOUND</h2>
-        {% else %}
-        {% for tournament in tournaments_past %}
-            <section class="tournament-block">
-                <div class="sponsor-card">
-                    <img src="{{ tournament.3 }}" alt="{{ tournament.1 }} Event Picture.">
-                </div>
-                <a class="block-name">{{ tournament.1 }}</a>
-                <div class="block-details">
-                    <a href="/centers/view/{{ tournament.4 }}" class="tournament-date" >{{ tournament.2 }} at {{ tournament.5 }} - {{ tournament.6 }}</a>
-                    <a class="block-winner" href="/account/view/{{ tournament.9 }}">
-                        <i class="tournament-winner icon-trophy"></i>
-                        {{ tournament.8|safe }}
-                        <span class="text-grey winner-avg">&nbsp;({{ tournament.10|floatformat:1 }} AVG)</span>
-                    </a>
-                    <div class="block-tags">
-                        {% for tag in tournament.11 %}
-                            {% if tag == 1 %}
-                            <span class="tag bkg-lightgrey text-darkgreen">DOUBLES</span>
-                            {% elif tag == 2 %}
-                            <span class="tag bkg-lightgrey text-darkgreen">SWEEPER</span>
-                            {% elif tag == 3 %}
-                            <span class="tag bkg-lightgrey text-darkgreen">SBS OPEN</span>
-                            {% elif tag == 4 %}
-                            <span class="tag bkg-lightgrey text-darkgreen">CHALLENGE</span>
-                            {% elif tag == 5 %}
-                            <span class="tag bkg-lightgrey text-darkgreen">SPRUMMER</span>
-                            {% endif %}
-                        {% endfor %}
+                <div class="option">
+                    <input type="checkbox" id="filter-op-zip" class="border-darkgreen">
+                    <div class="details">
+                        <label for="filter-op-zip" class="text-darkgreen">SEARCH BY ZIP</label>
                     </div>
                 </div>
-
-                <div class="block-btns">
-                    <a href="/tournaments/view/{{ tournament.0 }}" class="btn btn-medium bkg-none border-transparent text-darkgreen">{{ tournament.7 }} PARTICIPANTS</a>
-                    <a href="/tournaments/view/{{ tournament.0 }}" class="btn btn-medium bkg-darkgreen border-darkgreen margin-left">VIEW</a>
+                <div class="option">
+                    <input type="checkbox" id="filter-op-zip" class="border-darkgreen">
+                    <div class="details">
+                        <label for="filter-op-zip" class="text-darkgreen">ENTRY MIN-MAX</label>
+                    </div>
                 </div>
-            </section>
-        {% endfor %}
-        {% endif %}
-    </section>
-    {% endif %}
-
-    {% if page != None %}
-    <section class="account-pagebar">
-        <section class="account-pages std-radius">
-            <a class="sep {{ page.pagestyles.0 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.0 }}">|<i class="icon-arrow-right left"></i></a>
-            <a class="sep {{ page.pagestyles.1 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.1 }}"><i class="icon-arrow-right left"></i></a>
-            <a class="{{ page.pagestyles.2 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.2 }}">{{ page.pagelinks.2 }}</a>
-            <a class="{{ page.pagestyles.3 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.3 }}">{{ page.pagelinks.3 }}</a>
-            <a class="{{ page.pagestyles.4 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.4 }}">{{ page.pagelinks.4 }}</a>
-            <a class="{{ page.pagestyles.5 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.5 }}">{{ page.pagelinks.5 }}</a>
-            <a class="{{ page.pagestyles.6 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.6 }}">{{ page.pagelinks.6 }}</a>
-            <a class="{{ page.pagestyles.7 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.7 }}">{{ page.pagelinks.7 }}</a>
-            <a class="sep {{ page.pagestyles.8 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.8 }}"><i class="icon-arrow-right"></i></a>
-            <a class="sep {{ page.pagestyles.9 }}" href="{% if selected_upcoming == False %}/tournaments/results/{% else %}/tournaments/upcoming/{% endif %}{% if search != '' %}search/{{ search }}/{% endif %}page/{{ page.pagelinks.9 }}"><i class="icon-arrow-right"></i>|</a>
+                <div class="option">
+                    <input type="checkbox" id="filter-op-zip" class="border-darkgreen">
+                    <div class="details">
+                        <label for="filter-op-zip" class="text-darkgreen">MILE RADIUS</label>
+                    </div>
+                </div>
+            </form>
         </section>
-    </section>
-    {% endif %}
-</section>
-
-<!-- RIGHT SIDEBAR -->
-<section class="col col-20 col-m-max-width m-order-3">
-    <section class="sec desktop-on">
-        <h3 class="tournament-filter-header standard-title text-dark-green">FILTERS</h3>
-        <div class="tournament-filter-container">
-            <div class="tournament-filter-icon">
-                <i class="icon-circle"></i>
-            </div><div class="tournament-filter-section">
-                <a class="tournament-filter-title">ALL TOURNAMENTS</a>
-            </div>
-        </div>
-        <div class="tournament-filter-container">
-            <div class="tournament-filter-icon">
-                <i class="icon-circle1"></i>
-            </div><div class="tournament-filter-section">
-                <a class="tournament-filter-title">SEARCH BY ZIP</a>
-                <input type="zip" class="tournament-filter-zip" placeholder="ZIP CODE">
-            </div>
-        </div>
-        <div class="tournament-filter-container">
-            <div class="tournament-filter-icon">
-                <i class="icon-circle1"></i>
-            </div><div class="tournament-filter-section">
-                <a class="tournament-filter-title">MILE RADIUS</a>
-                <input class="tournament-filter-miles" type="range" min="10" max="250" value="125" class="slider" id="myRange">
-                <div class="tournament-filter-miles-label-container">
-                    <a class="first">10</a>
-                    <a class="second">125</a>
-                    <a class="third">250+</a>
+            <section class="sec sorting bkg-white">
+            <h2 class="text-darkgreen">SORTING</h2>
+            <form action="">
+                <div class="option">
+                    <input type="checkbox" id="filter-op-all" class="border-darkgreen" checked>
+                    <div class="details">
+                        <label for="filter-op-all" class="text-darkgreen">ENTRY LOWEST</label>
+                    </div>
                 </div>
-            </div>
+                <div class="option">
+                    <input type="checkbox" id="filter-op-zip" class="border-darkgreen">
+                    <div class="details">
+                        <label for="filter-op-zip" class="text-darkgreen">ENTRY HIGHEST</label>
+                    </div>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="filter-op-zip" class="border-darkgreen">
+                    <div class="details">
+                        <label for="filter-op-zip" class="text-darkgreen">DISTANCE CLOSEST</label>
+                    </div>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="filter-op-zip" class="border-darkgreen">
+                    <div class="details">
+                        <label for="filter-op-zip" class="text-darkgreen">DISTANCE FURTHEST</label>
+                    </div>
+                </div>
+            </form>
+        </section>
         </div>
+        {% basic_site_stats %}
     </section>
-    <section class="sec sitestat">
-        <div class="sitestat-half">
-          <a>TOURNAMENTS</a>
-          <h2>{% if tournaments_count is None %}0{% else %}{{ tournaments_count }}{% endif %}</h2>
-        </div><div class="sitestat-half">
-          <a>UPCOMING</a>
-          <h2>{% if upcoming_count is None %}0{% else %}{{ upcoming_count }}{% endif %}</h2>
-        </div>
-    </section>
-</section>
+
+    <script>
+        const toggleGridView = () => {
+            console.log('test');
+            if ($('.mt-list').hasClass('grid-view')) {
+                $('.mt-list').removeClass('grid-view');
+                $('#show-list-view').addClass('text-grey');
+                $('#show-grid-view').removeClass('text-grey');
+            } else {
+                $('.mt-list').addClass('grid-view');
+                $('#show-list-view').removeClass('text-grey');
+                $('#show-grid-view').addClass('text-grey');
+            }
+        }
+        $(document).ready(() => {
+            $('#show-list-view').click(toggleGridView);
+            $('#show-grid-view').click(toggleGridView);
+
+
+        });
+    </script>
 
 {% endblock %}
+
+
+
+
+
 
 
 

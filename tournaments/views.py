@@ -51,13 +51,8 @@ def tournaments_results_views(request, page=1, search=''):
     start = (per_page * page) - per_page
     end = per_page * page
     tournaments = tournaments[start:end]
-    tournaments = convert_to_display_main_results_list(tournaments)
-    tournaments_live = convert_to_display_main_results_list(get_all_live_tournaments())
     live_count = 0
-    if tournaments_live != None:
-        live_count = len(tournaments_live)
-    data = {'tournaments_past': tournaments,
-            'tournaments_live': tournaments_live,
+    data = {'tournaments': tournaments,
             'live_count': live_count,
             'selected_upcoming': False,
             'tournaments_count': tournaments_count,
@@ -88,13 +83,8 @@ def tournaments_upcoming_views(request, page=1, search=''):
     start = (per_page * page) - per_page
     end = per_page * page
     tournaments = tournaments[start:end]
-    tournaments = convert_to_display_main_upcoming_list(tournaments)
-    tournaments_live = convert_to_display_main_results_list(get_all_live_tournaments())
     live_count = 0
-    if tournaments_live != None:
-        live_count = len(tournaments_live)
-    data = {'tournaments_upcoming': tournaments,
-            'tournaments_live': tournaments_live,
+    data = {'tournaments': tournaments,
             'live_count': live_count,
             'selected_upcoming': True,
             'upcoming_count': upcoming_count,
@@ -108,7 +98,8 @@ def tournaments_upcoming_views(request, page=1, search=''):
 def single_tournament_views(request, id):
     tournament = Tournament.get_tournament_by_uuid(id)
     if tournament:
-        render_data = {'nbar': 'tournaments'}
+        render_data = {'nbar': 'tournaments',
+                       'tournament': tournament}
 
         return render(request, 'tournaments/view-tournament.html', render_data)
     else:
@@ -136,13 +127,13 @@ def single_tournament_views(request, id):
 def display_tournament_view(tournament):
     ## FORMAT
     ## [ 0=id, 1=name, date=2, time=3, desc=4,
-    #   5=center_id, 6=center_name, 7=center_location,
+    #   5=center_id, 6=name, 7=center_location,
     #   8=vod_id, 9=tags, 10=entry_fee, 11=team_entry]
-    center_name = 'Center Unknown'
+    name = 'Center Unknown'
     center_location = ''
     center_data = Center.get_name_and_location_by_uuid(tournament.center)
     if center_data:
-        center_name = center_data[0]
+        name = center_data[0]
         center_location = str(center_data[1]) + ', ' + str(center_data[2])
 
     date = tournament.datetime.date()
@@ -165,7 +156,7 @@ def display_tournament_view(tournament):
             tournament.tournament_time,
             tournament.description,
             tournament.center,
-            center_name,
+            name,
             center_location,
             None,
             tournament.get_tags(),
@@ -176,7 +167,7 @@ def display_tournament_view(tournament):
 def display_center_view(center_id):
     center = Center.get_center_by_uuid(center_id)
     if center:
-        return [center.center_id, center.center_name, center.location_city, center.location_state, center.get_picture()]
+        return [center.center_id, center.name, center.location_city, center.location_state, center.get_picture()]
     return None
 
 def tournaments_modify_views(request, id):
