@@ -16,7 +16,7 @@ $(document).ready(function()
             $.ajax(
             {
                 type: "GET",
-                url: "https://scratchbowling.pythonanywhere.com/account/claim/" + userId,
+                url: "https://www.bowl.sbs/account/claim/" + userId,
                 contentType: "text/plain",
                 dataType: "text",
                 success: function (data) {

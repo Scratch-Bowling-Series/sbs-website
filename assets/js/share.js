@@ -5,11 +5,11 @@ $(document).ready(function(){
    });
    $('.share-page').click(function(){
       var pageUrl = window.location.href;
-      pageUrl = pageUrl.replace('https://scratchbowling.pythonanywhere.com', '');
+      pageUrl = pageUrl.replace('https://www.bowl.sbs', '');
       pageUrl = pageUrl.replaceAll('/', '&sl');
        $.ajax({
            type: "GET",
-           url: "https://scratchbowling.pythonanywhere.com/s/create/new/" + pageUrl,
+           url: "https://www.bowl.sbs/s/create/new/" + pageUrl,
            contentType: "text/plain",
            dataType: "text",
            success: function (data) {
@@ -23,11 +23,11 @@ $(document).ready(function(){
 
    $('.share-page-direct').click(function(){
       var pageUrl = $('.share-page-direct').attr('data');
-      pageUrl = pageUrl.replace('https://scratchbowling.pythonanywhere.com', '');
+      pageUrl = pageUrl.replace('https://www.bowl.sbs', '');
       pageUrl = pageUrl.replaceAll('/', '&sl');
        $.ajax({
            type: "GET",
-           url: "https://scratchbowling.pythonanywhere.com/s/create/new/" + pageUrl,
+           url: "https://www.bowl.sbs/s/create/new/" + pageUrl,
            contentType: "text/plain",
            dataType: "text",
            success: function (data) {
