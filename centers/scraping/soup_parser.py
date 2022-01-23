@@ -45,7 +45,7 @@ def update_center_with_soup(center, soup):
     description = description or ''
 
 
-    center.center_name = name
+    center.name = name
     center.location_street = street
     center.location_city = city
     center.location_state = state
