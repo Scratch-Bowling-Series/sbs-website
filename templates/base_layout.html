@@ -63,17 +63,46 @@
   </head>
 
   <body class="bkg-lightgrey">
-    <!-- Facebook SDK -->
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v11.0" nonce="gbpECBwg"></script>
+{#    <!-- Facebook SDK -->#}
+{#    <div id="fb-root"></div>#}
+{#    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v11.0" nonce="gbpECBwg"></script>#}
+{##}
+{#    <!-- Google Analytics -->#}
+{#    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PDEFJ46BXS"></script>#}
+{#    <script>#}
+{#      window.dataLayer = window.dataLayer || [];#}
+{#      function gtag(){dataLayer.push(arguments);}#}
+{#      gtag('js', new Date());#}
+{#      gtag('config', 'G-PDEFJ46BXS');#}
+{#    </script>#}
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PDEFJ46BXS"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-PDEFJ46BXS');
+      const setDarkMode = (value) => {
+          if (value) {
+              document.body.className = 'dark-mode';
+              sessionStorage.setItem('dark-mode', 'true');
+          } else {
+              $('body').removeClass('dark-mode');
+              sessionStorage.setItem('dark-mode', 'false');
+          }
+      }
+      if (sessionStorage.getItem('dark-mode') === 'true') {
+          setDarkMode(true);
+          $('#dark-mode-selector').prop('checked', true);
+      } else {
+          setDarkMode(false);
+          $('#dark-mode-selector').prop('checked', false);
+      }
+      $(document).ready(() => {
+          $('#dark-mode-selector').change(() => {
+              setDarkMode($('#dark-mode-selector').prop('checked'))
+          });
+      });
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          //$('body').addClass('dark-mode');
+      } else {
+          $('body').removeClass('dark-mode');
+      }
     </script>
 
     <!-- Fonts -->
@@ -343,35 +372,8 @@
             </div>
         </section>
     </footer>
+
   </body>
-  <script>
-      const setDarkMode = (value) => {
-          if (value) {
-              $('body').addClass('dark-mode');
-              sessionStorage.setItem('dark-mode', 'true');
-          } else {
-              $('body').removeClass('dark-mode');
-              sessionStorage.setItem('dark-mode', 'false');
-          }
-      }
-      if (sessionStorage.getItem('dark-mode') === 'true') {
-          setDarkMode(true);
-          $('#dark-mode-selector').prop('checked', true);
-      } else {
-          setDarkMode(false);
-          $('#dark-mode-selector').prop('checked', false);
-      }
-      $(document).ready(() => {
-          $('#dark-mode-selector').change(() => {
-              setDarkMode($('#dark-mode-selector').prop('checked'))
-          });
-      });
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          //$('body').addClass('dark-mode');
-      } else {
-          $('body').removeClass('dark-mode');
-      }
-  </script>
 </html>
 
 

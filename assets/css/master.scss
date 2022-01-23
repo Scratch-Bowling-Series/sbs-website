@@ -4480,6 +4480,7 @@ footer {
   gap: 20px;
   box-sizing: border-box;
   flex-wrap: wrap;
+  position: relative;
 
   .sponsor {
     display: flex;
@@ -4580,11 +4581,17 @@ footer {
     }
   }
   .buttons{
-    display: flex;
+    position: absolute;
+    bottom:20px;
+    right:20px;
+    display:flex;
     flex-direction:row;
     align-self: flex-end;
     margin:auto 0 0 0;
     gap:15px;
+    width:auto;
+    overflow:visible;
+    flex-wrap: nowrap;
     .attended{
       font-size:14px;
       line-height: 30px;
@@ -4603,6 +4610,7 @@ footer {
       text-align: right;
       align-items: flex-end;
       justify-content: flex-end;
+      white-space: nowrap;
     }
     .entry {
       display: flex;
@@ -4654,6 +4662,11 @@ footer {
         flex:1 0;
       }
     }
+    .buttons{
+      position: relative;
+      right:0;
+      bottom:0;
+    }
     .btn{
       span{
         display: none;
@@ -4685,6 +4698,12 @@ footer {
       width:calc(50% - 10px);
     }
   }
+}
+
+.filter-wrap{
+  display:flex;
+  flex-direction: column;
+  gap:10px;
 }
 .filters {
   flex-direction: column;
