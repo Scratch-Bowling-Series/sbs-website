@@ -26,7 +26,7 @@ def create_link(link):
     link = link.replace('&sl', '/')
     shorten = Shorten.objects.filter(url=link).first()
     if shorten != None:
-        return 'https://scratchbowling.pythonanywhere.com/s/' + str(shorten.code) + '/'
+        return 'https://www.bowl.sbs/s/' + str(shorten.code) + '/'
     else:
         code = generate_code()
         if code == None: return None
@@ -34,7 +34,7 @@ def create_link(link):
         shorten.code = code
         shorten.url = link
         shorten.save()
-        return 'https://scratchbowling.pythonanywhere.com/s/' + str(shorten.code) + '/'
+        return 'https://www.bowl.sbs/s/' + str(shorten.code) + '/'
 
 def generate_code():
     for x in range(0, 100):
