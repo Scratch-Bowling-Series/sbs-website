@@ -137,13 +137,13 @@ def convert_to_display_main_upcoming_list(tournament_list):
 def convert_to_display_main_upcoming(tournament):
     ## UPCOMING TOURNAMENTS FORMAT
     ## [0=id, 1=name, 2=date, 3=time, 4=sponsor_id, 5=center_id,
-    # 6=center_name, 7=center_location, 8=spots_available, 9=spots_reserved, 10=entry_fee, 11=is_team_entry, 12=tags]
-    center_name = 'Unknown Center'
+    # 6=name, 7=center_location, 8=spots_available, 9=spots_reserved, 10=entry_fee, 11=is_team_entry, 12=tags]
+    name = 'Unknown Center'
     center_id = 0
     center_location = 'Unknown Location'
     center = get_center(tournament.center)
     if center != None:
-        center_name = center.center_name
+        name = center.name
         center_id = center.center_id
         center_location = get_center_location_obj(center)
     is_team_entry = False
@@ -163,7 +163,7 @@ def convert_to_display_main_upcoming(tournament):
             tournament.datetime,
             tournament.get_sponsor_image(),
             center_id,
-            center_name,
+            name,
             center_location,
             0,
             spots_reserved,
@@ -180,13 +180,13 @@ def convert_to_display_main_results_list(tournament_list):
 def convert_to_display_main_results(tournament):
     ## RESULTS TOURNAMENTS FORMAT
     ## [0=id, 1=name, 2=date, 3=sponsor_id, 4=center_id,
-    # 5=center_name, 6=center_location, 7=participants, 8=winner_name, 9=winner_id, 10=winner_avg, 11=tags]
-    center_name = 'Unknown Center'
+    # 5=name, 6=center_location, 7=participants, 8=winner_name, 9=winner_id, 10=winner_avg, 11=tags]
+    name = 'Unknown Center'
     center_id = 0
     center_location = 'Unknown Location'
     center = get_center(tournament.center)
     if center != None:
-        center_name = center.center_name
+        name = center.name
         center_id = center.center_id
         center_location = get_center_location_obj(center)
 
@@ -205,7 +205,7 @@ def convert_to_display_main_results(tournament):
             date,
             tournament.get_sponsor_image(),
             center_id,
-            center_name,
+            name,
             center_location,
             get_roster_length_obj(tournament),
             winner,
