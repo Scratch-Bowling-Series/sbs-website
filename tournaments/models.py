@@ -17,7 +17,7 @@ from django.utils import timezone
 from pyparsing import unicode
 
 from ScratchBowling import settings
-from ScratchBowling.sbs_utils import is_valid_uuid
+from ScratchBowling.sbs_utils import is_valid_uuid, make_ordinal
 from centers.models import Center
 from tournaments.scraping.soup_parser import update_tournament_with_soup
 
@@ -110,12 +110,13 @@ class Tournament(models.Model):
         count = 0
         for soup_url in soup_urls:
             tournament = cls.objects.filter(soup_url=soup_url).first()
-            if 'upcoming-tournaments' not in soup_url:
-                tournament.finished = True
+
             if tournament:
                 continue
             tournament = cls(soup_url=soup_url, scraped=True)
             if tournament and tournament.make_soup() and tournament.eat_soup():
+                if 'upcoming-tournaments' not in soup_url:
+                    tournament.finished = True
                 tournaments.append(tournament)
                 if logging:
                     count += 1
@@ -164,9 +165,11 @@ class Tournament(models.Model):
     @classmethod
     @transaction.atomic()
     def populate_datas(cls, logging=True):
+
         users = User.objects.all()
         total = User.objects.all().count()
         count = 0
+        GameData.objects.all().delete()
         for user in users:
             count += 1
             if user.soup:
@@ -177,8 +180,28 @@ class Tournament(models.Model):
                         tournament_url = s_tournament.find('h5').find('a').get('href')
                         try:
                             place = re.sub("[^0-9]", "", unicode(s_tournament.h6.string).split(' ')[0])
+
                         except:
                             place= 0
+                            matches = []
+
+                        matches = []
+                        tr_matches = s_tournament.find_all('tr')[1:]
+                        for tr_match in tr_matches:
+                            tr_games = tr_match.find_all('td')
+                            tr_games = tr_games[1:len(tr_games) - 2]
+                            games = []
+                            for tr_game in tr_games:
+                                try:
+                                    score = int(re.sub("[^0-9]", "", unicode(tr_game.string)))
+                                    games.append(score)
+                                except:
+                                    score = 0
+
+                            print(games)
+                            matches.append(games)
+
+
                         tournament = cls.objects.filter(soup_url__icontains=tournament_url).first()
                         if place and tournament:
                             tournament_data = tournament.tournament_datas.filter(user=user).first()
@@ -186,6 +209,20 @@ class Tournament(models.Model):
                                 tournament_data = TournamentData.create(tournament, user)
                             tournament_data.place = int(place)
                             tournament_data.save()
+
+
+                            match_number = 0
+                            for games in matches:
+                                game_number = 0
+                                for game in games:
+                                    game_data = GameData.create(tournament_data, game_number, match_number)
+                                    game_data.total = game
+                                    print(game)
+                                    game_data.save()
+                                    game_number += 1
+                                match_number += 1
+                            print(match_number, 'matches added for', user.first_name)
+
             print('Populating Tournament Datas (', count, '/', total, ')')
 
 
@@ -239,9 +276,12 @@ class Tournament(models.Model):
         return 'tournament-pictures/default.jpg' in self.picture.url
 
     def download_scraped_image(self, remove_bkg=True):
+
+        print('downloading')
         soup = BeautifulSoup(self.soup, 'html.parser')
         img = soup.find(class_='image-style-tournament-image')
         if img:
+            print('downloading img')
             img = img.get('src')
             response = requests.get('https://scratchbowling.com' + img)
             original = Image.open(io.BytesIO(response.content))
@@ -288,6 +328,7 @@ class Tournament(models.Model):
                 return self.picture.url
     @property
     def full_picture_url(self):
+        print(self.get_picture())
         return self.get_picture()
 
     # <editor-fold desc="-- ROSTER --">
@@ -372,7 +413,8 @@ class Tournament(models.Model):
             return None
         return None
 
-
+    def in_season(self):
+        return self.datetime.year == timezone.now().year
 
 
 
@@ -448,23 +490,49 @@ class Tournament(models.Model):
         if 'Sprummer' in self.name or 'sprummer' in self.name:
             tags.append(5)
         return tags
+    @property
+    def tags(self):
+        tags = []
+        if 'Double' in self.name or 'double' in self.name:
+            tags.append(1)
+        if 'Sweep' in self.name or 'sweep' in self.name:
+            tags.append(2)
+        if 'Open' in self.name or 'open' in self.name:
+            tags.append(3)
+        if 'Challenge' in self.name or 'challenge' in self.name:
+            tags.append(4)
+        if 'Sprummer' in self.name or 'sprummer' in self.name:
+            tags.append(5)
+        return tags
 
 
 
+    @property
+    def winners(self):
+        return self.tournament_datas.filter(place=1)
+
+    @property
+    def winner(self):
+        return self.tournament_datas.filter(place=1).first()
+
+    @property
+    def attended(self):
+        return self.tournament_datas.all().count()
 
 
-
-    ## DISPLAY
+    # <editor-fold desc="Specific Serializations (For efficient caching)">
     @classmethod
-    def featured_tournament_data(cls):
-        tournament = cls.objects.filter(finished=True).order_by('-datetime').first()
+    def ss_featured_tournament(cls):
+        tournament = cls.objects.order_by('-datetime').filter(finished=True).first()
         winners = []
         datas = tournament.tournament_datas.filter(place__lt=5).exclude(place=0).order_by('place')
+        print(datas)
         for tournament_data in datas:
             user = tournament_data.user
             winners.append({
                 'id': user.id,
                 'name': user.full_name,
+                'place': tournament_data.place_ordinal,
             })
         return {
             'id': tournament.id,
@@ -473,14 +541,52 @@ class Tournament(models.Model):
             'date': tournament.datetime,
             'description': tournament.description,
             'center_id': tournament.center.center_id,
-            'center_name': tournament.center.center_name,
+            'name': tournament.center.name,
             'winners': winners,
         }
+
+    @classmethod
+    def ss_recent_winners(cls):
+        datas = []
+        tournaments = cls.objects.order_by('-datetime').filter(finished=True)[:10]
+        for tournament in tournaments:
+            winners = tournament.tournament_datas.filter(place=1)
+            for winner in winners:
+                datas.append({
+                    'tournament_id': tournament.id,
+                    'tournament_name': tournament.name,
+                    'date': tournament.datetime,
+                    'user_id': winner.user.id,
+                    'name': winner.user.full_name
+                })
+        return datas
+
+    # </editor-fold>
 
     @classmethod
     def featured_live(cls):
 
         return cls.objects.filter(live=True).first()
+
+    @classmethod
+    def featured_series(cls):
+        tournaments = cls.objects.all()[203:206]
+        data = []
+        for tournament in tournaments:
+            winner = None
+            if tournament.winner:
+                winner = tournament.winner.user.full_name
+            data.append({
+                'id': tournament.id,
+                'name': tournament.name,
+                'datetime': tournament.datetime,
+                'picture': tournament.full_picture_url,
+                'center': {
+                    'name': tournament.center.name,
+                },
+                'winner': winner,
+            })
+        return data
 
     @classmethod
     def get_upcoming(cls, amount, offset=0):
@@ -664,6 +770,14 @@ class TournamentData(models.Model):
         tournament_data.save()
         return tournament_data
 
+    @property
+    def place_ordinal(self):
+        return make_ordinal(self.place)
+
+    @property
+    def average_score(self):
+        return GameData.get_average(self)
+
 
 class GameData(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
@@ -685,8 +799,8 @@ class GameData(models.Model):
 
 
     @classmethod
-    def create(cls, tournament_id, user_id, game_number):
-        return cls(tournament_id=tournament_id, user_id=user_id, game_number=game_number)
+    def create(cls, tournament_data, game_number, match_number):
+        return cls(tournament_data=tournament_data, game_number=game_number, match_number=match_number)
 
     @classmethod
     def get_game_data(cls, tournament_id, user_id, game_number):
@@ -716,6 +830,14 @@ class GameData(models.Model):
         if raw_score_data:
             self.data_raw_scores = quickle.dumps(raw_score_data)
 
-
+    @classmethod
+    def get_average(cls, data):
+        game_datas = data.game_datas.all()
+        total = 0
+        count = 0
+        for game in game_datas:
+            total += game.total
+            count += 1
+        return 0 if count == 0 else total / count
 
 
