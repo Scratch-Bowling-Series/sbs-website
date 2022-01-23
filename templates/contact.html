@@ -13,7 +13,7 @@
         <form class="standard-form" action="POST">
             {% if request.user.is_authenticated %}
             <div class="contact-preview">
-                <img src="http://scratchbowling.pythonanywhere.com/account/data/profile-pic/{{ request.user.id }}">
+                <img src="http://www.bowl.sbs/account/data/profile-pic/{{ request.user.id }}">
                 <a>{{ request.user.first_name|none_replace:'John' }}&nbsp;{{ request.user.last_name|none_replace:'Smith' }}<span>we'll reply to '<i>{{ request.user.email|none_replace:'youremail@address.com' }}</i>'</span></a>
             </div>
             {% else %}

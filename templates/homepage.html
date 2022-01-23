@@ -1,36 +1,51 @@
 {% extends 'base_layout.html' %}
-
 {% load static %}
 {% load basic-tags %}
-
 {% block content %}
 
-    <!-- Left Column : ( Last10Winners, Top10Rankings )-->
-    <div class="col col-20 col-m-max-width m-order-2">
-        {% basic_recent_winners %}
-        {% basic_top_ranks %}
-        {% basic_goal_support %}
-    </div>
-
-    <!-- Center Column : ( TopNotify, LivePrev, RecentPrev, DesktopGoal, DesktopAppPrev, LiveHighlights )-->
-    <section class="col col-60 col-m-max-width m-order-1" >
-        {% basic_top_notify request %}
-        {% basic_featured_live %}
-        {% basic_featured_tournament %}
-        {% basic_featured_series %}
-        {% basic_play_steps %}
-        {% basic_stream_highlights %}
-        <section class="sec feed">
-            <h2>FEED</h2>
+        <!-- Left Column : ( Last10Winners, Top10Rankings )-->
+        <div class="col col-20 hm-col-1">
+            {% basic_recent_winners %}
+            {% basic_top_ranks %}
+            {% basic_goal_support %}
+        </div>
+        <!-- Center Column : ( TopNotify, LivePrev, RecentPrev, DesktopGoal, DesktopAppPrev, LiveHighlights )-->
+        <section class="col col-60 hm-col-2" >
+            {% basic_top_notify request %}
+            {% basic_featured_live %}
+            {% basic_featured_tournament %}
+            {% basic_featured_series %}
+            {% basic_play_steps %}
+            {% basic_stream_highlights %}
+    {#        <section class="sec feed bkg-white">#}
+    {#            <h2 class="text-darkgreen">FEED</h2>#}
+    {#        </section>#}
         </section>
-    </section>
+        <!-- Right Column : ( UpcomingTournaments, BowlerOfMonth, SiteStat )-->
+        <section class="col col-20 hm-col-3">
+            {% basic_upcoming_tournaments %}
+            {% basic_bowler_of_month %}
+            {% basic_app_info %}
+            {% basic_site_stats %}
+        </section>
 
-    <!-- Right Column : ( UpcomingTournaments, BowlerOfMonth, SiteStat )-->
-    <section class="col col-20 col-m-max-width m-order-3">
-        {% basic_upcoming_tournaments %}
-        {% basic_bowler_of_month %}
-        {% basic_app_info %}
-        {% basic_site_stats %}
-    </section>
 
+        <script>
+            const fixColumns = () => {
+                if($(window).width() > 993 && $(window).width() < 1600){
+                    const col1Bottom = $('.hm-col-1').offset().top + $('.hm-col-1').innerHeight();
+                    const col3Top = $('.hm-col-2').offset().top + $('.hm-col-2').innerHeight();
+                    let offset = col3Top - col1Bottom;
+                    $('.hm-col-3').css('margin-top', (offset * -1) + 'px');
+                }
+                else{
+                    $('.hm-col-3').css('margin-top', 0);
+                }
+            }
+            $(document).ready(()=>{
+                fixColumns()
+                $(window).resize(()=>{ setTimeout(()=>{fixColumns()}, 250); });
+            });
+
+        </script>
 {% endblock %}

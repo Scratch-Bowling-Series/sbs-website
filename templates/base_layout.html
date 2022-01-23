@@ -6,7 +6,7 @@
   <head>
       <!-- Page -->
       <meta charset="utf-8">
-      <title>{% if page_title != '' %}{{ page_title }} | {% endif %}Scratch Bowling Series</title>
+      <title>{% if page_title %}{{ page_title }} | {% endif %}Scratch Bowling Series</title>
 
       <meta name="identifier-url" content="https://scratchbowling.com" />
       <meta name="author" content="Scratch Bowling Series" />
@@ -40,6 +40,7 @@
       <link rel="stylesheet" href="{% static 'css/reset.css' %}">
       <!-- ICONS -->
       <link rel="stylesheet" href="{% static 'css/sbs-icons.css' %}">
+      <script src="https://kit.fontawesome.com/892442ba34.js" crossorigin="anonymous"></script>
       <!-- Master CSS -->
       <link rel="stylesheet" href="{% static 'css/master.css' %}">
 
@@ -60,17 +61,7 @@
 
 
   </head>
-  <script>
-    $(document).ready(function(){
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        //$('body').addClass('dark-mode');
-        console.log('dark-mode');
-      }
-      else{
-        $('body').removeClass('dark-mode');
-      }
-    });
-  </script>
+
   <body class="bkg-lightgrey">
     <!-- Facebook SDK -->
     <div id="fb-root"></div>
@@ -231,69 +222,156 @@
                         <a class="name">SBS BOWLER</a>
                         <p>Bowler Companion App</p>
                     </div>
-                    <a class="btn">OPEN</a>
+                    <a class="btn open-sbs-bowler">OPEN</a>
                 </div>
                 <div class="option">
                     <img src="{% static 'img/sbs_mobile_icon.png' %}" alt="">
                     <div>
-                        <a class="name">SBS MOBILE</a>
+                        <a class="name" href="exps://bowler.scratchbowling.com">SBS MOBILE</a>
                         <p>This website, in an app.</p>
                     </div>
-                    <a class="btn">OPEN</a>
+                    <a class="btn open-sbs-mobile">OPEN</a>
                 </div>
                 <div class="option">
-                    <img src="{% static 'img/chrome_icon.png' %}" alt="">
+                    <img class="browser-icon" src="{% static 'img/chrome_icon.png' %}" alt="">
                     <div>
                         <a class="name">BROWSER</a>
                         <p>Your current browser.</p>
                     </div>
-                    <a class="btn">VIEW</a>
+                    <a class="btn continue">VIEW</a>
                 </div>
             </div>
         </div>
     </div>
+    <script src="{% static 'js/appAvailable.js' %}"></script>
 
-    <!-- Messenger -->
-    {% if request.user.is_authenticated and settings.allow_messenger %}
-    <div class="messenger-wrap">
-        <div class="messenger">
-          <i class=" msg-icon icon-paper-plane"></i>
-          <div class="msg-notify">
-              <i class="msg-notify-icon">5</i>
-          </div>
-          <div class="expand-container">
-            <div class="topbar">
-                <a class="title">MESSENGER</a>
-            </div>
-              <div class="scroll-content">
-                  {% if online_friends != None %}
-                  {% endif %}
-                  {% if offline_friends != None %}
-                  {% endif %}
-                  {% if offline_friends == None and online_friends == None %}
-                    <a class="no-friends">WE'RE SORRY...<br><br>YOU DON'T HAVE ANY FRIENDS</a>
-                  <a class="btn add-friend close-messenger" href="{% url 'bowlers:bowlers' %}">FIND FRIENDS</a>
-                  {% endif %}
-              </div>
-        </div>
-        <i id="msg-close" class="icon-times"></i>
-        </div>
-    </div>
-    {% endif %}
 
-    <script src="{% static 'js/messenger.js' %}"></script>
+
+{#    <!-- Messenger -->#}
+{#    {% if request.user.is_authenticated and settings.allow_messenger %}#}
+{#    <div class="messenger-wrap">#}
+{#        <div class="messenger">#}
+{#          <i class=" msg-icon icon-paper-plane"></i>#}
+{#          <div class="msg-notify">#}
+{#              <i class="msg-notify-icon">5</i>#}
+{#          </div>#}
+{#          <div class="expand-container">#}
+{#            <div class="topbar">#}
+{#                <a class="title">MESSENGER</a>#}
+{#            </div>#}
+{#              <div class="scroll-content">#}
+{#                  {% if online_friends != None %}#}
+{#                  {% endif %}#}
+{#                  {% if offline_friends != None %}#}
+{#                  {% endif %}#}
+{#                  {% if offline_friends == None and online_friends == None %}#}
+{#                    <a class="no-friends">WE'RE SORRY...<br><br>YOU DON'T HAVE ANY FRIENDS</a>#}
+{#                  <a class="btn add-friend close-messenger" href="{% url 'bowlers:bowlers' %}">FIND FRIENDS</a>#}
+{#                  {% endif %}#}
+{#              </div>#}
+{#        </div>#}
+{#        <i id="msg-close" class="icon-times"></i>#}
+{#        </div>#}
+{#    </div>#}
+{#    {% endif %}#}
+
+{#    <script src="{% static 'js/messenger.js' %}"></script>#}
     <script src="{% static 'js/share.js' %}"></script>
+    <script src="{% static 'js/jquery.cookie.js' %}"></script>
 
     <!-- Footer -->
     <footer>
-        <img src="{% static 'img/SBS_Logo_Beta.png' %}" ref="Scratch Bowling Series">
-        <a class="footer-copy">&copy 2021 ScratchBowling.com | Scratch Bowling Series</a>
-        <div class="btn-bar-center">
-            <a class="footer-terms" href="{% url 'terms' %}">Terms & Conditions</a>
-            <a class="footer-privacy" href="{% url 'privacy' %}">Privacy Policy</a>
+        <div class="inner bkg-darkgreen">
+            <section class="foot-start">
+                <a href="{% url 'index' %}">
+                <img src="{% static 'img/SBS_Logo_Beta.png' %}" ref="Scratch Bowling Series">
+                </a>
+                <h2>THE SCRATCH BOWLING SERIES</h2>
+                <p>Welcome to our Beta! We've been hard at work this past year rebuilding SBS from the ground up. Thank you for coming along the journey. You can learn more in our <a href="{% url 'about' %}">About Us</a>.</p>
+
+                <div class="dark-selector">
+                    <a class="text-white">Dark Mode</a>
+                    <label class="switch">
+                      <input id="dark-mode-selector" type="checkbox">
+                      <span class="slider round"></span>
+                    </label>
+                </div>
+            </section>
+            <section class="foot-sec">
+                <h3>QUICK LINKS</h3>
+                <a href="{% url 'tournaments:upcoming' %}">Tournaments</a>
+                <a href="{% url 'bowlers:bowlers' %}">Bowlers</a>
+                <a href="{% url 'broadcasts:broadcasts' %}">Broadcasts</a>
+                <a href="{% url 'scoreboard:index' %}">Rankings</a>
+            </section>
+            <section class="foot-sec">
+                <h3>PAYMENTS</h3>
+                <a href="">Balances</a>
+                <a href="">Cash Out</a>
+                <a href="">Deposit</a>
+                <a href="">Reports & Tax</a>
+            </section>
+            <section class="foot-sec">
+                <h3>SUPPORT</h3>
+                <a href="{% url 'help-center' %}">Help Center</a>
+                <a href="{% url 'live-chat' %}">Live Chat</a>
+                <a href="{% url 'contact' %}">Contact Us</a>
+                <a href="{% url 'faqs' %}">FAQ's</a>
+            </section>
+            <section class="foot-sec">
+                <h3>OUR COMPANY</h3>
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'support:support' %}">Goals</a>
+                <a href="#">Sponsors</a>
+                <a href="#">Careers</a>
+            </section>
+            <section class="foot-sec">
+                <h3>SOCIAL</h3>
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+                <a href="#">Youtube</a>
+                <a href="#">Reddit</a>
+            </section>
+
         </div>
+        <section class="foot-bottom">
+            <div class="inner">
+                <a class="title text-darkgreen">&copy 2021-2022 Scratch Bowling Series</a>
+                <a class="link text-darkgreen" href="{% url 'terms' %}">Terms & Conditions</a>
+                <a class="link text-darkgreen" href="{% url 'privacy' %}">Privacy Policy</a>
+                <a class="status text-darkgreen"><i class="icon-circle"></i> ALL SYSTEMS OPERATIONAL</a>
+            </div>
+        </section>
     </footer>
   </body>
+  <script>
+      const setDarkMode = (value) => {
+          if (value) {
+              $('body').addClass('dark-mode');
+              sessionStorage.setItem('dark-mode', 'true');
+          } else {
+              $('body').removeClass('dark-mode');
+              sessionStorage.setItem('dark-mode', 'false');
+          }
+      }
+      if (sessionStorage.getItem('dark-mode') === 'true') {
+          setDarkMode(true);
+          $('#dark-mode-selector').prop('checked', true);
+      } else {
+          setDarkMode(false);
+          $('#dark-mode-selector').prop('checked', false);
+      }
+      $(document).ready(() => {
+          $('#dark-mode-selector').change(() => {
+              setDarkMode($('#dark-mode-selector').prop('checked'))
+          });
+      });
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          //$('body').addClass('dark-mode');
+      } else {
+          $('body').removeClass('dark-mode');
+      }
+  </script>
 </html>
 
 

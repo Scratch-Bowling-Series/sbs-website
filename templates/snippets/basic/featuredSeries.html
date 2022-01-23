@@ -1,18 +1,18 @@
-<section class="sec featured-series">
+<section class="sec featured-series bkg-white">
     <a class="featured">FEATURED SERIES</a>
-    <h2>SPRUMMER 2022</h2>
+    <h2 class="text-darkgreen">SPRUMMER 2022</h2>
 
-    <div class="series-wrap">
+    <div class="series-wrap scrollbar-darkgreen">
         {% for tournament in tournaments %}
         <div class="tournament" id="series-tournament-{{ touranment.id }}">
-            <img src="{{ tournament.full_picture_url }}" alt="{{ tournament.name }}">
+            <img src="{{ tournament.picture }}" alt="{{ tournament.name }}">
             <div class="content">
-                <a class="title" href="tournaments/view/{{ tournament.id }}">{{ tournament.name }}</a>
+                <a class="title text-darkgreen" href="tournaments/view/{{ tournament.id }}">{{ tournament.name }}</a>
                 <a class="date"
                    href="tournaments/view/{{ tournament.id }}">{{ tournament.datetime|date:'m/d' }}
                     - {{ tournament.center.name|none_replace:"Center Unknown" }}</a>
-                <a class="winner" href="#">
-                    <i class="icon-trophy"></i>
+                <a class="winner text-darkgreen" href="#">
+                    <i class="icon-trophy text-tan"></i>
                     {{ tournament.winner|none_replace:"Winner Unknown" }}
                 </a>
             </div>

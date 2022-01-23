@@ -2,8 +2,8 @@
 
 {% if bom %}
 
-    <section class="sec pv-bom">
-        <h2 class="pv-bom-title">BOWLER OF THE MONTH</h2>
+    <section class="sec bowler-of-month bkg-white">
+        <h2 class="pv-bom-title text-darkgreen">BOWLER OF THE MONTH</h2>
 
         <div class="pv-bom-main">
             <div class="pv-bom-pic-wrap">
@@ -12,24 +12,24 @@
                 </a>
             </div>
             <div class="pv-bom-info">
-                <a href="account/view/{{ bom.id }}" class="pv-bom-name">{{bom.rank_badge|badge}} {{ bom.name }}</a>
-                <a href="account/view/{{ bom.id }}" class="pv-bom-location">{{ bom.location }}</a>
+                <a href="account/view/{{ bom.id }}" class="pv-bom-name text-darkgreen">{{ bom.name }}</a>
+                <a href="account/view/{{ bom.id }}" class="pv-bom-location text-grey">{{ bom.location }}</a>
             </div>
         </div>
         {% if bom.statistics %}
         <div class="pv-bom-details">
             <div class="pv-bom-details-wrap">
-                 <h2 class="text-lightgreen">SEASON STATS</h2>
+                 <h2 class="text-darkgreen">SEASON STATS</h2>
                 <ul>
-                    <li>AVG SCORE: <span>{{ bom.statistics.0 }}</span></li>
-                    <li>TOTAL GAMES: <span>{{ bom.statistics.1 }}</span></li>
-                    <li>TOTAL WINS: <span>{{ bom.statistics.2 }}</span></li>
+                    <li class="text-darkgreen">AVG SCORE: <span>{{ bom.statistics.season.0 }}</span></li>
+                    <li class="text-darkgreen">TOTAL GAMES: <span>{{ bom.statistics.season.1 }}</span></li>
+                    <li class="text-darkgreen">TOTAL WINS: <span>{{ bom.statistics.season.2 }}</span></li>
                 </ul>
-                <h2 class="text-lightgreen">CAREER STATS</h2>
+                <h2 class="text-darkgreen">CAREER STATS</h2>
                 <ul>
-                    <li>AVG SCORE: <span>{{ bom.statistics.0 }}</span></li>
-                    <li>TOTAL GAMES: <span>{{ bom.statistics.1 }}</span></li>
-                    <li>TOTAL WINS: <span>{{ bom.statistics.2}}</span></li>
+                    <li class="text-darkgreen">AVG SCORE: <span>{{ bom.statistics.career.0 }}</span></li>
+                    <li class="text-darkgreen">TOTAL GAMES: <span>{{ bom.statistics.career.1 }}</span></li>
+                    <li class="text-darkgreen">TOTAL WINS: <span>{{ bom.statistics.career.2}}</span></li>
                 </ul>
             </div>
         </div>

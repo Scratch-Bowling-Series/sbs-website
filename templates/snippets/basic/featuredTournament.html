@@ -2,33 +2,25 @@
 BASIC FEATURED TOURNAMENT SNIPPET
 -->
 {% if tournament %}
-    <section class="sec featured-tournament">
-        <img class="preview" src="{{ tournament.picture }}" alt="{{ tournament.name }}">
+    <section class="sec featured-tournament bkg-white">
+        <div class="preview">
+            <img src="{{ tournament.picture }}" alt="{{ tournament.name }}">
+        </div>
         <section class="content">
             <a class="featured">FEATURED TOURNAMENT</a>
-            <a class="title" href="tournaments/view/{{ tournament.id }}">{{ tournament.name }}</a>
+            <a class="title text-darkgreen" href="tournaments/view/{{ tournament.id }}">{{ tournament.name }}</a>
             <a class="date"
                href="tournaments/view/{{ tournament.id }}">{{ tournament.date|date:'m/d' }}
-                - {{ tournament.center_name|none_replace:"Center Unknown" }}</a>
+                - {{ tournament.name|none_replace:"Center Unknown" }}</a>
             <a class="description text-darkgreen"
                href="tournaments/view/{{ tournament.id }}">{{ tournament.description|truncatechars:120|none_replace:"This is the default placeholder description for a tournament. If you're seeing this, it is because a description has not been set." }}</a>
             <div class="stats">
-                <div class="player">
-                    <a class="rank top-rank">1st</a>
-                    <a class="name" href="/account/view/{{ tournament.winners.0.id }}">{{ tournament.winners.0.name }}</a>
-                </div>
-                <div class="player">
-                    <a class="rank">2nd</a>
-                    <a class="name" href="/account/view/{{ tournament.winners.0.id }}">{{ tournament.winners.1.name }}</a>
-                </div>
-                <div class="player">
-                    <a class="rank">3rd</a>
-                    <a class="name" href="/account/view/{{ tournament.winners.0.id }}">{{ tournament.winners.2.name }}</a>
-                </div>
-                <div class="player">
-                    <a class="rank">4th</a>
-                    <a class="name" href="/account/view/{{ tournament.winners.0.id }}">{{ tournament.winners.3.name }}</a>
-                </div>
+                {% for winner in tournament.winners %}
+                    <div class="player">
+                        <a class="rank {% if winner.place == '1st' %}text-tan border-tan{% else %}text-darkgreen border-darkgreen{% endif %}">{{ winner.place }}</a>
+                        <a class="name text-darkgreen" href="/account/view/{{ winner.id }}">{{ winner.name }}</a>
+                    </div>
+                {% endfor %}
             </div>
             <div class="btn-bar-right more margin-bottom ">
                 <a class="btn btn-medium bkg-darkgreen text-white"

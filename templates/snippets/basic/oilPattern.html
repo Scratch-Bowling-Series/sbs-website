@@ -1,13 +1,13 @@
-<section class="sec">
+<section class="sec oil_pattern">
     <h2>OIL PATTERN</h2>
     <div class="t-oil">
-        <a href="#">2013 EBT 15 - Columbia 300 Vienna Open</a>
+        <a href="#" class="title">{{ oil.pattern_name }}</a>
         <div class="t-oil-stats">
-            <i>Length: 42ft</i>
-            <i>Volume: 25.30 mL</i>
-            <i>Forward: 14.95 mL</i>
-            <i>Backwards: 10.35 mL</i>
-            <i>Ratio: 1:3.33</i><br><br>
+            <i>Length: {{ oil.pattern_length }}ft</i>
+            <i>Volume: {{ oil.pattern_volume }} mL</i>
+            <i>Forward: {{ oil.pattern_forward }} mL</i>
+            <i>Backwards: {{  oil.pattern_backward }} mL</i>
+            <i>Ratio: {{ oil.pattern_ratio }}</i><br><br>
             <span>
                 <a href="" class="btn btn-small t-oil-view">FORWARD</a>
                 <div style="background:{{ oil_colors.3 }};"></div>
@@ -25,10 +25,10 @@
                 <div style="background:{{ oil_colors.1 }};"></div>
             </span>
         </div>
-        <a href="" class="btn btn-small t-oil-view-pdf">VIEW PDF</a>
+        <a href="" class="btn btn-medium view-pdf">VIEW PDF</a>
         <div class="t-oil-display-wrap">
             <div class="t-oil-display">
-                {% for o in oil %}
+                {% for o in pattern_cache %}
                     <span class="t-oil-cell {% if forloop.last %} t-oil-cell-right {% endif %}">
                         <span class="t-oil-row t-oil-row-top" style="background: {{ o.0 }};"></span>
                         <span class="t-oil-row" style="background: {{ o.1 }};"></span>

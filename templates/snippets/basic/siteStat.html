@@ -1,8 +1,8 @@
-<section class="sec site-stat">
+<section class="sec site-stat bkg-white">
     {% for stat in sitestats %}
         <div>
-            <a>{{ stat.title }}</a>
-            <h2>{{ stat.count }}</h2>
+            <a class="text-darkgreen">{{ stat.title }}</a>
+            <h2 class="text-darkgreen">{{ stat.count }}</h2>
         </div>
     {% endfor %}
 </section>
