@@ -177,12 +177,15 @@ class User(AbstractBaseUser):
         base_url = 'https://scratchbowling.com'
         soup_urls = []
 
+
+
         # GET ALL ACCOUNT URLS
+        if logging:
+            print('Getting Urls')
         page = 0
         while True:
-            with urlopen('http://www.scratchbowling.com/bowler-bios?page=' + str(page)) as response:
-                if logging:
-                    print('Scanning Page ' + str(page))
+            with urlopen(base_url + '/bowler-bios?page=' + str(page)) as response:
+
                 soup = BeautifulSoup(response, 'lxml')
                 titles = soup.find_all(class_='views-field views-field-title')
                 if titles:
@@ -197,7 +200,12 @@ class User(AbstractBaseUser):
                     break
 
         if logging:
-            print('Found ' + str(len(soup_urls)) + ' soup urls.')
+            step = 0
+            count = 0
+            incr = 25
+            total_soup = len(soup_urls)
+            print('Found ',total_soup,' soup urls.')
+            print('Will now make and eat soups')
 
         users = []
         for soup_url in soup_urls:
@@ -206,6 +214,12 @@ class User(AbstractBaseUser):
                 continue
             user = cls(soup_url=soup_url, scraped=True, unclaimed=True)
             if user.make_soup() and user.eat_soup():
+                if logging:
+                    count += 1
+                    if count == incr:
+                        count = 0
+                        step += 1
+                        print('Users Gathered (',step*incr,'/',total_soup,')')
                 users.append(user)
 
         if logging:
@@ -235,7 +249,7 @@ class User(AbstractBaseUser):
     # <editor-fold desc="Specific Serializations (For efficient caching)">
     @classmethod
     def ss_bowler_of_month(cls):
-        user = cls.get_bowler_of_month()
+        user = cls.objects.filter(is_bowler_of_month=True).first()
         if user:
             statistics = user.statistics
             if statistics:
@@ -243,7 +257,7 @@ class User(AbstractBaseUser):
                     'season': [
                         statistics.year_avg_score,
                         statistics.year_total_games,
-                        statistics.year_total_wins,
+                        statistics.year_wins,
                     ],
                     'career': [
                         statistics.avg_score,
@@ -256,7 +270,7 @@ class User(AbstractBaseUser):
             return {
                 'id' : user.id,
                 'name' : user.full_name,
-                'picture' : user.picture,
+                'picture' : user.full_picture_url,
                 'location' : user.short_location,
                 'statistics': statistics
             }
@@ -394,13 +408,13 @@ class User(AbstractBaseUser):
         return '<i class="icon-' + icon + ' rank-color" style="color:' + color + ';"></i>'
     @property
     def rank(self):
-        statistics = None
+        statistics = self.statistics
         if statistics:
             return statistics.rank
         return 0
     @property
     def rank_ordinal(self):
-        statistics = None
+        statistics = self.statistics
         if statistics:
             return statistics.rank_ordinal
         return 0
